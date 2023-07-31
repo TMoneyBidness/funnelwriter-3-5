@@ -39,14 +39,14 @@ class Home(HomeTemplate):
     # Get the table for the current user
     user_table = getattr(app_tables, user_table_name)
 
-    # Load the latest company profile
-    row_company_profile_latest = user_table.search(variable='company_profile_latest')
-    if row_company_profile_latest:
-        company_profile_latest = row_company_profile_latest[0]['variable_value']
-        self.company_profile_textbox.text = company_profile_latest
-    else:
-        # Handle case where the row does not exist for the current user
-        print("No row found for 'company_profile_latest'")
+    # # Load the latest company profile
+    # row_company_profile_latest = user_table.search(variable='company_profile_latest')
+    # if row_company_profile_latest:
+    #     company_profile_latest = row_company_profile_latest[0]['variable_value']
+    #     self.company_profile_textbox.text = company_profile_latest
+    # else:
+    #     # Handle case where the row does not exist for the current user
+    #     print("No row found for 'company_profile_latest'")
 
     # Load the latest company name  
     row_company_name = user_table.search(variable='company_name')
@@ -71,7 +71,7 @@ class Home(HomeTemplate):
   
   def form_show(self, **event_args):
     # Load the company profile on form show
-    self.company_profile_textbox.load_data()
+    # self.company_profile_textbox.load_data()
     self.company_name_input.load_data()
     self.company_url_input.load_data()
 
