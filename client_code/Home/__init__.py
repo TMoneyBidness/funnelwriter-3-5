@@ -31,6 +31,7 @@ class Home(HomeTemplate):
     self.free_navigate_label.visible = False
     self.status.text = 'Idle'
     self.youtube_intro_video.visible = False
+    self.nav_button_company_to_products.visible = False
     
     # Get the current user
     current_user = anvil.users.get_user()

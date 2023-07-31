@@ -188,7 +188,7 @@ components:
         border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
         font: '', spacing_above: small, type: text, spacing_below: small, italic: true,
         background: '', bold: false, underline: false}
-      name: avatar_1_name_input_copy
+      name: avatar_1_name_input
       layout_properties:
         col_widths: {}
         grid_position: JOAWHT,OPNWXN
@@ -210,14 +210,10 @@ components:
       layout_properties:
         col_widths: {}
         grid_position: WCPIEZ,QZZEOE
-    - type: Button
-      properties: {role: outlined-button, align: right, tooltip: '', border: '', enabled: true,
-        foreground: '', visible: true, text: GO GET MY ASSETS, font_size: 22, font: '',
-        spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-        background: 'theme:Secondary Container', bold: false, underline: false, icon: 'fa:android'}
-      name: company_research_button_component
-      layout_properties: {grid_position: 'JRKIEX,GLSVTB'}
-      event_bindings: {click: company_research_button_click}
+    - type: Spacer
+      properties: {height: 32}
+      name: spacer_1
+      layout_properties: {grid_position: 'XBXIGS,XSONWK'}
   - type: Label
     properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
       visible: false, text: You may navigate to other pages while building your profile... Check back in two minutes!,
@@ -242,6 +238,14 @@ components:
       underline: false, icon: ''}
     name: status
     layout_properties: {grid_position: 'PIYSTN,YLVUPX'}
+  - type: Button
+    properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: true,
+      foreground: 'theme:Secondary Container', visible: true, text: GO GET MY ASSETS,
+      font_size: 26, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+      italic: false, background: 'theme:Primary', bold: true, underline: false, icon: 'fa:android'}
+    name: company_research_button_component
+    layout_properties: {grid_position: 'LNPKUC,AQUBCI'}
+    event_bindings: {click: company_research_button_click}
   - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
     properties: {}
     name: indeterminate_company_research
