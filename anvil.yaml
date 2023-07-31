@@ -25,7 +25,7 @@ services:
 startup: {type: form, module: Home}
 package_name: FunnelWriter_2_0
 allow_embedding: false
-name: Clone of FunnelWriter (2)
+name: FunnelWriter 2.0
 runtime_options:
   version: 2
   client_version: '3'
