@@ -1,0 +1,192 @@
+container:
+  type: ColumnPanel
+  properties: {col_widths: '{}'}
+components:
+- type: Label
+  properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+    visible: true, text: GENERATE YOUR SCRIPT, font_size: 42, font: '', spacing_above: small,
+    icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+    underline: false, icon: ''}
+  name: label_1_copy_4
+  layout_properties:
+    col_widths: {}
+    grid_position: FVTMCT,HSVLRI
+- type: ColumnPanel
+  properties: {col_widths: '{}'}
+  name: secondary_headline_5_copy
+  layout_properties:
+    col_widths: {}
+    grid_position: QSNEVI,XVHIXE
+  components:
+  - type: ColumnPanel
+    properties: {col_widths: '{}'}
+    name: content_panel_copy_4
+    layout_properties:
+      col_widths: {}
+      grid_position: HXGTEX,GUYSSA
+    components:
+    - type: Button
+      properties: {role: outlined-button, align: center, tooltip: '', border: '',
+        enabled: true, foreground: '', visible: true, text: GENERATE MY SCRIPT!, font_size: 26,
+        font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+        background: 'theme:Secondary Container', bold: false, underline: false, icon: 'fa:microphone'}
+      name: generate_vsl_script_button_component
+      layout_properties: {grid_position: 'JRKIEX,WZUDWE'}
+      event_bindings: {click: generate_vsl_script_button_click}
+    - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
+      properties: {}
+      name: indeterminate_progress_vsl
+      layout_properties: {grid_position: 'EBXJBP,GXFGQK'}
+    - type: TextArea
+      properties: {role: null, align: left, height: 405, tooltip: '', placeholder: '',
+        border: '', enabled: true, foreground: '', visible: true, text: VIDEO SALES SCRIPT INCOMING,
+        font_size: 16, auto_expand: true, font: '', spacing_above: small, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false}
+      name: video_sales_script_textbox
+      layout_properties:
+        col_widths: {}
+        grid_position: VJERYB,GUOZVM
+  - type: ColumnPanel
+    properties: {col_widths: '{}'}
+    name: content_panel_copy_5
+    layout_properties:
+      col_widths: {}
+      grid_position: PSTABY,GIBSIH
+    components:
+    - type: ColumnPanel
+      properties: {col_widths: '{}'}
+      name: content_panel_copy_6
+      layout_properties:
+        col_widths: {}
+        grid_position: HXGTEX,GUYSSA
+      components:
+      - type: Button
+        properties: {role: outlined-button, align: center, tooltip: '', border: '',
+          enabled: true, foreground: '', visible: true, text: LOAD VIDEO SALES SCRIPT,
+          font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+          italic: false, background: '', bold: false, underline: false, icon: 'fa:file-o'}
+        name: load_vsl_script_component
+        layout_properties:
+          col_widths: {}
+          grid_position: RPFILT,LWWTGE
+        event_bindings: {click: load_vsl_script_component_click}
+      - type: Button
+        properties: {role: outlined-button, align: center, tooltip: '', border: '',
+          enabled: true, foreground: '', visible: true, text: SAVE VIDEO SALES SCRIPT,
+          font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+          italic: false, background: '', bold: false, underline: false, icon: 'fa:file-text'}
+        name: save_vsl_script_component
+        layout_properties: {grid_position: 'RPFILT,WORFHA'}
+        event_bindings: {click: save_vsl_script_component_click}
+- type: Label
+  properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+    visible: true, text: 'Lastly, Generate 4 Teaser Themes', font_size: 42, font: '',
+    spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '',
+    bold: true, underline: false, icon: ''}
+  name: label_1_copy_10
+  layout_properties:
+    col_widths: {}
+    grid_position: CDSQEF,RPFPJW
+- type: Button
+  properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: true,
+    foreground: '', visible: true, text: GENERATE MY 4 THEME EXCERPTS, font_size: 26,
+    font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+    background: 'theme:Secondary Container', bold: false, underline: false, icon: 'fa:microphone'}
+  name: generate_vsl_themes_button_component
+  layout_properties:
+    col_widths: {}
+    grid_position: NSVESX,SWOCLQ
+  event_bindings: {click: generate_vsl_themes_button_click}
+- type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
+  properties: {}
+  name: indeterminate_progress_vsl_themes
+  layout_properties:
+    col_widths: {}
+    grid_position: LTITXE,JITEUV
+- type: TextArea
+  properties: {role: null, align: left, height: 210, tooltip: '', placeholder: '',
+    border: '', enabled: true, foreground: '', visible: true, text: VIDEO SALES SCRIPT INCOMING,
+    font_size: 16, auto_expand: true, font: '', spacing_above: small, spacing_below: small,
+    italic: false, background: '', bold: false, underline: false}
+  name: vsl_theme_1
+  layout_properties:
+    col_widths: {}
+    grid_position: MLIANX,HYEUJV
+- type: TextArea
+  properties: {role: null, align: left, height: 210, tooltip: '', placeholder: '',
+    border: '', enabled: true, foreground: '', visible: true, text: VIDEO SALES SCRIPT INCOMING,
+    font_size: 16, auto_expand: true, font: '', spacing_above: small, spacing_below: small,
+    italic: false, background: '', bold: false, underline: false}
+  name: vsl_theme_2
+  layout_properties:
+    col_widths: {}
+    grid_position: MLIANX,GCLMJL
+- type: TextArea
+  properties: {role: null, align: left, height: 210, tooltip: '', placeholder: '',
+    border: '', enabled: true, foreground: '', visible: true, text: VIDEO SALES SCRIPT INCOMING,
+    font_size: 16, auto_expand: true, font: '', spacing_above: small, spacing_below: small,
+    italic: false, background: '', bold: false, underline: false}
+  name: vsl_theme_3
+  layout_properties:
+    col_widths: {}
+    grid_position: SXGHWS,TYBLGX
+- type: TextArea
+  properties: {role: null, align: left, height: 210, tooltip: '', placeholder: '',
+    border: '', enabled: true, foreground: '', visible: true, text: VIDEO SALES SCRIPT INCOMING,
+    font_size: 16, auto_expand: true, font: '', spacing_above: small, spacing_below: small,
+    italic: false, background: '', bold: false, underline: false}
+  name: vsl_theme_4
+  layout_properties:
+    col_widths: {}
+    grid_position: SXGHWS,JYAHXM
+- type: Button
+  properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: true,
+    foreground: '', visible: true, text: LOAD PREVIOUS THEMES, font_size: null, font: '',
+    spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '',
+    bold: false, underline: false, icon: 'fa:file-o'}
+  name: save_vsl_themes_component
+  layout_properties:
+    col_widths: {}
+    grid_position: DPNLPJ,OKXNYJ
+  event_bindings: {click: load_vsl_themes_component_click}
+- type: Button
+  properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: true,
+    foreground: '', visible: true, text: SAVE THEMES EXCERPTS, font_size: null, font: '',
+    spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '',
+    bold: false, underline: false, icon: 'fa:file-text'}
+  name: save_vsl_script_component_copy
+  layout_properties:
+    col_widths: {}
+    grid_position: DPNLPJ,QGMPUT
+  event_bindings: {click: save_vsl_themes_component_click}
+- type: Button
+  properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: true,
+    foreground: 'theme:Secondary Container', visible: true, text: SHOW ME THE FINAL PRODUCT,
+    font_size: 26, font: '', spacing_above: small, icon_align: right, spacing_below: small,
+    italic: false, background: 'theme:Primary', bold: true, underline: false, icon: 'fa:arrow-circle-right'}
+  name: nav_button_vsl_to_final_product
+  layout_properties:
+    col_widths: {}
+    grid_position: MKHGQK,HSTOJO
+  event_bindings: {click: nav_button_vsl_to_final_product_click}
+- type: Button
+  properties: {role: outlined-button, align: left, tooltip: '', border: '', enabled: true,
+    foreground: '', visible: true, text: BACK TO ELEMENTS, font_size: null, font: '',
+    spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: 'theme:Disabled
+      Container', bold: false, underline: false, icon: 'fa:backward'}
+  name: outlined_button_1
+  layout_properties:
+    col_widths: {}
+    grid_position: AKUAJX,DAKAUH
+  event_bindings: {click: nav_back_to_headlines}
+- type: Button
+  properties: {role: outlined-button, align: right, tooltip: '', border: '', enabled: true,
+    foreground: '', visible: true, text: TO FINAL PRODUCT, font_size: null, font: '',
+    spacing_above: small, icon_align: right, spacing_below: small, italic: false,
+    background: 'theme:Disabled Container', bold: false, underline: false, icon: 'fa:forward'}
+  name: outlined_button_1_copy
+  layout_properties:
+    col_widths: {}
+    grid_position: AKUAJX,PDPLDK
+  event_bindings: {click: nav_button_vsl_to_final_product_click}
+is_package: true

@@ -1,0 +1,129 @@
+dependencies:
+- app_id: C6ZZPAPN4YYF5NVJ
+  version: {dev: false}
+services:
+- source: /runtime/services/tables.yml
+  client_config: {}
+  server_config: {}
+- source: /runtime/services/anvil/secrets.yml
+  client_config: {}
+  server_config: {}
+- source: /runtime/services/anvil/files.yml
+  client_config: {}
+  server_config: {}
+- source: /runtime/services/anvil/users.yml
+  client_config: {allow_signup: false, enable_automatically: true, use_email: true,
+    confirm_email: false, use_google: false, use_facebook: false, allow_remember_me: false,
+    remember_me_days: 30}
+  server_config: {user_table: users}
+- source: /runtime/services/google.yml
+  client_config: {}
+  server_config: {}
+- source: /runtime/services/facebook.yml
+  client_config: {}
+  server_config: {}
+startup: {type: form, module: Home}
+package_name: FunnelWriter_2_0
+allow_embedding: false
+name: Clone of FunnelWriter (2)
+runtime_options:
+  version: 2
+  client_version: '3'
+  server_version: python3-sandbox
+  server_spec: {base: python310-machine-learning}
+metadata: {logo_img: 'asset:Funnelwriter.AI.png', title: Funnelwriter.AI, description: The Automated Marketing Funnel Generator}
+startup_form: null
+db_schema:
+  files:
+    client: none
+    server: full
+    columns:
+    - name: path
+      type: string
+      admin_ui: {order: 0, width: 200}
+    - name: file
+      type: media
+      admin_ui: {order: 1, width: 200}
+    - name: file_version
+      type: string
+      admin_ui: {order: 2, width: 200}
+    title: Files
+  variable_table:
+    client: full
+    server: full
+    columns:
+    - name: company_name
+      admin_ui: {order: 0, width: 200}
+      type: string
+    - name: company_profile
+      admin_ui: {order: 1, width: 200}
+      type: string
+    - name: owner
+      admin_ui: {order: 2, width: 200}
+      type: string
+    - name: company_url
+      admin_ui: {order: 3, width: 200}
+      type: string
+    - name: product_profile
+      admin_ui: {order: 4, width: 200}
+      type: string
+    - name: brand_tone
+      admin_ui: {order: 5, width: 200}
+      type: string
+    title: variable_table
+  users:
+    client: full
+    server: full
+    columns:
+    - name: email
+      type: string
+      admin_ui: {order: 0, width: 200}
+    - name: enabled
+      type: bool
+      admin_ui: {order: 1, width: 200}
+    - name: last_login
+      type: datetime
+      admin_ui: {order: 2, width: 200}
+    - name: password_hash
+      type: string
+      admin_ui: {order: 3, width: 200}
+    - name: n_password_failures
+      type: number
+      admin_ui: {order: 4, width: 200}
+    - name: confirmed_email
+      type: bool
+      admin_ui: {order: 5, width: 200}
+    - name: remembered_logins
+      type: simpleObject
+      admin_ui: {order: 6, width: 200}
+    title: Users
+  categories:
+    client: none
+    server: full
+    columns: []
+    title: Table 4
+  stock_tones:
+    client: search
+    server: full
+    columns:
+    - name: tone
+      admin_ui: {order: 0, width: 200}
+      type: string
+    - name: value
+      admin_ui: {order: 1, width: 200}
+      type: string
+    title: stock_variables
+secrets:
+  OPENAI_API_KEY:
+    value: {? '' : 6ikCDnU+bVblvJSHLSEHBCzTQ5p3dNNst7HHxoLceyQDcCWAo2de+X9CneynZnWKrl4zODEylCmGiL5wixmhyyHvbVeoAQq2G6MaVmnaEUTWFNN49201W/GawCxNPCwn+6lbknrP/AzaezKNGKwZ1Aaw64HWQIKBqRQfAGVtsuvDsDh0fbjEpMA8ObOMhsLZogU=}
+    type: secret
+  SERPAPI_API_KEY:
+    value: {? '' : FsigtG3ZqwdyLxpJHX1TOpOFY0lwP5S7zy9ySeNep2ypat1L9Tf92D5bhTTxRQiLOQF1e9OKHlKqBptoQTYDLcmdySGCxcWL8rvhaDhqYDZEEcPDXWtXSVH5b6NyCXCwa6sXW2avIWmI5tUPJXjVYltCIbrXJKZ0dnIDkoYjB8QHQwoXM3EhoZT4r2UCFdTaSEZl6Ig32ZXc6MdtwTwq}
+    type: secret
+  GOOGLE_CSE_ID:
+    value: {? '' : TTO2aSnor8SUfiIbA/aa8/MmmjXhTHnwYVoD0mOqLFycJZn8JKolysedQSe9I60/vfTI1L2MnFOe0c3ZxiuZjdN9uKz7MS972LdOOa7Q5vZaw2qUeVYiriZrLM7O5oKkAKaZa11jZ4C0F0sI7PrB0A==}
+    type: secret
+  GOOGLE_API_KEY:
+    value: {? '' : pGvCi5P5s8891bAuo1/ndiXNW0Xy2BenXuRpYLW+9lW5pk25pVDPNeIIMMClomWAp06D2+X8nwIf+qTl9wDF9L6LU/Wb9ypGoztftpKpV3QUiV1Q53xC1QqG10l5zI2Pj5CeyPM64s0slhz+DfOhz44UwRl/iAf8d0cru60cmh1wQ0V0WJc=}
+    type: secret
+renamed: true

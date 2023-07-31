@@ -1,0 +1,381 @@
+container:
+  type: ColumnPanel
+  properties: {col_widths: '{}'}
+  event_bindings: {show: form_show}
+components:
+- type: ColumnPanel
+  properties: {col_widths: '{"HMUAQW":50,"UCBBTZ":22,"TJHNDR":25,"TFVZCR":10,"QRVTNE":10,"FSVDMF":25,"OMOIIC":10,"BLYXNK":10,"RXSAID":25,"XNVOWS":10,"SZPFOL":10,"UIOSDG":25,"NXLHRY":10,"GZBANM":10,"IYYHWZ":35,"KOIZIR":25,"KYWZRE":35,"HBQKSG":25,"ZMCALN":35,"KUCGDI":25,"YPETBX":35,"SQPPHU":25,"LNJEST":35,"VQHJAQ":25,"OHTSLP":40,"XUVWGG":20,"AKLDDI":30,"OBJIFI":20,"MBRZLK":10}'}
+  name: content_panel
+  layout_properties:
+    col_widths: {}
+    grid_position: PYDGZH,PFRMXP
+  components:
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: 'Now, let''s generate your ideal Avatars!', font_size: 42,
+      font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: '', bold: true, underline: false, icon: ''}
+    name: label_1
+    layout_properties: {grid_position: 'PFSHDG,DYFNVO'}
+  - type: Label
+    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: "Instructions: \n1 - Click 'Generate 5 Avatar Description\
+        \ Previews'\n2 - Once populated, edit the high-level summary before generating\
+        \ the deep dive avatar\n3 - Save the final name and comprehensive avatar summary\
+        \ by hitting 'SAVE'", font_size: 16, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: label_3
+    layout_properties: {grid_position: 'UZWHPU,OHTSLP'}
+  - type: Label
+    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: 'Note: Takes 2mins per avatar', font_size: null, font: '',
+      spacing_above: small, icon_align: left, spacing_below: small, italic: true,
+      background: '', bold: false, underline: false, icon: 'fa:clock-o'}
+    name: label_2
+    layout_properties: {grid_position: 'UZWHPU,XUVWGG'}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: Generate Custom Avatars Based on Your Company, font_size: 18,
+      font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: '', bold: true, underline: false, icon: ''}
+    name: label_2_copy_2
+    layout_properties:
+      col_widths: {}
+      grid_position: HJEJSQ,QLSWNA
+  - type: Button
+    properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: GENERATE 5 AVATAR PREVIEWS, font_size: 26,
+      font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: 'theme:Secondary Container', bold: false, underline: false, icon: 'fa:android'}
+    name: all_avatars_button_component
+    layout_properties:
+      col_widths: {}
+      grid_position: ZAIGRX,AHPBUW
+    event_bindings: {click: all_avatars_button_click}
+  - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
+    properties: {}
+    name: indeterminate_all_avatars
+    layout_properties: {grid_position: 'DFCDET,FGGKKA'}
+  - type: Label
+    properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
+      visible: true, text: 'Avatar Name:', font_size: 16, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+      underline: false, icon: ''}
+    name: label_2_copy_4
+    layout_properties:
+      col_widths: {}
+      grid_position: EELUFS,IYYHWZ
+  - type: TextBox
+    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: 'ie.
+        The Fitness Enthusiast ', border: '', enabled: true, foreground: '', visible: true,
+      text: '', font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
+      italic: false, background: '', bold: false, underline: false}
+    name: avatar_1_name_input
+    layout_properties: {grid_position: 'EELUFS,KOIZIR'}
+  - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
+    properties: {}
+    name: indeterminate_1
+    layout_properties: {grid_position: 'SIRTIC,HQZFRT'}
+  - type: TextArea
+    properties: {role: null, align: left, height: 110, tooltip: '', placeholder: '',
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      auto_expand: true, font: '', spacing_above: small, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
+    name: avatar1_textbox
+    layout_properties:
+      col_widths: {}
+      grid_position: JLMIIT,HMUAQW
+  - type: Button
+    properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: GENERATE FULL AVATAR, font_size: null,
+      font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: 'theme:Secondary Container', bold: false, underline: false, icon: 'fa:android'}
+    name: generate_avatar1_button_component
+    layout_properties:
+      col_widths: {}
+      grid_position: IJRFRK,TJHNDR
+    event_bindings: {click: generate_avatar1_button_click}
+  - type: Button
+    properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: LOAD, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: 'fa:file-o'}
+    name: load_avatar1_component
+    layout_properties:
+      col_widths: {}
+      grid_position: IJRFRK,TFVZCR
+    event_bindings: {click: load_avatar1_button_click}
+  - type: Button
+    properties: {role: outlined-button, align: right, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: 'SAVE ', font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: 'fa:file-text'}
+    name: save_avatar1_component
+    layout_properties:
+      col_widths: {}
+      grid_position: IJRFRK,QRVTNE
+    event_bindings: {click: save_avatar1_button_click}
+  - type: Label
+    properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
+      visible: true, text: 'Avatar Name:', font_size: 16, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+      underline: false, icon: ''}
+    name: label_2_copy_7
+    layout_properties:
+      col_widths: {}
+      grid_position: PZKKWG,KYWZRE
+  - type: TextBox
+    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
+    name: avatar_2_name_input
+    layout_properties:
+      col_widths: {}
+      grid_position: PZKKWG,HBQKSG
+  - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
+    properties: {}
+    name: indeterminate_2
+    layout_properties:
+      col_widths: {}
+      grid_position: KKHDIY,YKHPHI
+  - type: TextArea
+    properties: {role: null, align: left, height: 102, tooltip: '', placeholder: '',
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      auto_expand: true, font: '', spacing_above: small, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
+    name: avatar2_textbox
+    layout_properties:
+      col_widths: {}
+      grid_position: MGXYPM,UCBBTZ
+  - type: Button
+    properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: GENERATE FULL AVATAR, font_size: null,
+      font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: 'theme:Secondary Container', bold: false, underline: false, icon: 'fa:android'}
+    name: generate_avatar2_button_component
+    layout_properties:
+      col_widths: {}
+      grid_position: KFBKTU,FSVDMF
+    event_bindings: {click: generate_avatar2_button_click}
+  - type: Button
+    properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: LOAD, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: 'fa:file-o'}
+    name: load_avatar1_componen2
+    layout_properties:
+      col_widths: {}
+      grid_position: KFBKTU,OMOIIC
+    event_bindings: {click: load_avatar2_button_click}
+  - type: Button
+    properties: {role: outlined-button, align: right, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: 'SAVE ', font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: 'fa:file-text'}
+    name: save_avatar2_component
+    layout_properties:
+      col_widths: {}
+      grid_position: KFBKTU,BLYXNK
+    event_bindings: {click: save_avatar2_button_click}
+  - type: Label
+    properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
+      visible: true, text: 'Avatar Name:', font_size: 16, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+      underline: false, icon: ''}
+    name: label_2_copy_9
+    layout_properties:
+      col_widths: {}
+      grid_position: QOVPYC,ZMCALN
+  - type: TextBox
+    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
+    name: avatar_3_name_input
+    layout_properties:
+      col_widths: {}
+      grid_position: QOVPYC,KUCGDI
+  - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
+    properties: {}
+    name: indeterminate_3
+    layout_properties:
+      col_widths: {}
+      grid_position: GZRNZL,YKSGEY
+  - type: TextArea
+    properties: {role: null, align: left, height: 119, tooltip: '', placeholder: '',
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      auto_expand: true, font: '', spacing_above: small, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
+    name: avatar3_textbox
+    layout_properties:
+      col_widths: {}
+      grid_position: TCJAMH,TWSRIK
+  - type: Button
+    properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: GENERATE FULL AVATAR, font_size: null,
+      font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: 'theme:Secondary Container', bold: false, underline: false, icon: 'fa:android'}
+    name: generate_avatar3_button_component
+    layout_properties:
+      col_widths: {}
+      grid_position: UNSGTD,RXSAID
+    event_bindings: {click: generate_avatar3_button_click}
+  - type: Button
+    properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: LOAD, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: 'fa:file-o'}
+    name: load_avatar3_component
+    layout_properties:
+      col_widths: {}
+      grid_position: UNSGTD,XNVOWS
+    event_bindings: {click: load_avatar3_button_click}
+  - type: Button
+    properties: {role: outlined-button, align: right, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: 'SAVE ', font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: 'fa:file-text'}
+    name: save_avatar3_component
+    layout_properties:
+      col_widths: {}
+      grid_position: UNSGTD,SZPFOL
+    event_bindings: {click: save_avatar3_button_click}
+  - type: Label
+    properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
+      visible: true, text: 'Avatar Name:', font_size: 16, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+      underline: false, icon: ''}
+    name: label_2_copy_10
+    layout_properties:
+      col_widths: {}
+      grid_position: WGDWPX,YPETBX
+  - type: TextBox
+    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
+    name: avatar_4_name_input
+    layout_properties:
+      col_widths: {}
+      grid_position: WGDWPX,SQPPHU
+  - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
+    properties: {}
+    name: indeterminate_4
+    layout_properties:
+      col_widths: {}
+      grid_position: UWIEZH,ODXDLN
+  - type: TextArea
+    properties: {role: null, align: left, height: 108, tooltip: '', placeholder: '',
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      auto_expand: true, font: '', spacing_above: small, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
+    name: avatar4_textbox
+    layout_properties:
+      col_widths: {}
+      grid_position: DNHFKB,ABQOYM
+  - type: Button
+    properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: GENERATE FULL AVATAR, font_size: null,
+      font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: 'theme:Secondary Container', bold: false, underline: false, icon: 'fa:android'}
+    name: generate_avatar4_button_component
+    layout_properties:
+      col_widths: {}
+      grid_position: REXJLX,UIOSDG
+    event_bindings: {click: generate_avatar4_button_click}
+  - type: Button
+    properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: LOAD, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: 'fa:file-o'}
+    name: load_avatar4_component
+    layout_properties:
+      col_widths: {}
+      grid_position: REXJLX,NXLHRY
+    event_bindings: {click: load_avatar4_button_click}
+  - type: Button
+    properties: {role: outlined-button, align: right, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: 'SAVE ', font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: 'fa:file-text'}
+    name: save_avatar4_component
+    layout_properties:
+      col_widths: {}
+      grid_position: REXJLX,GZBANM
+    event_bindings: {click: save_avatar4_button_click}
+  - type: Label
+    properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
+      visible: true, text: 'Avatar Name:', font_size: 16, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+      underline: false, icon: ''}
+    name: label_2_copy_11
+    layout_properties:
+      col_widths: {}
+      grid_position: GDFJIL,LNJEST
+  - type: TextBox
+    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
+    name: avatar_5_name_input
+    layout_properties:
+      col_widths: {}
+      grid_position: GDFJIL,VQHJAQ
+  - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
+    properties: {}
+    name: indeterminate_5
+    layout_properties:
+      col_widths: {}
+      grid_position: LTWJVI,QFGKYV
+  - type: TextArea
+    properties: {role: null, align: left, height: 106, tooltip: '', placeholder: '',
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      auto_expand: true, font: '', spacing_above: small, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
+    name: avatar5_textbox
+    layout_properties:
+      col_widths: {}
+      grid_position: WCOZAR,NYAACQ
+  - type: Button
+    properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: GENERATE FULL AVATAR, font_size: null,
+      font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: 'theme:Secondary Container', bold: false, underline: false, icon: 'fa:android'}
+    name: generate_avatar5_button_component
+    layout_properties:
+      col_widths: {}
+      grid_position: IOVXNO,AKLDDI
+    event_bindings: {click: generate_avatar5_button_click}
+  - type: Button
+    properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: LOAD, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: 'fa:file-o'}
+    name: load_avatar5_component
+    layout_properties:
+      col_widths: {}
+      grid_position: IOVXNO,OBJIFI
+    event_bindings: {click: load_avatar5_button_click}
+  - type: Button
+    properties: {role: outlined-button, align: right, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: 'SAVE ', font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: 'fa:file-text'}
+    name: save_avatar5_component
+    layout_properties:
+      col_widths: {}
+      grid_position: IOVXNO,MBRZLK
+    event_bindings: {click: save_avatar5_button_click}
+  - type: Button
+    properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: false,
+      foreground: 'theme:Secondary Container', visible: true, text: CONTINUE TO BRAND TONE,
+      font_size: 26, font: '', spacing_above: small, icon_align: right, spacing_below: small,
+      italic: false, background: 'theme:Primary', bold: true, underline: false, icon: 'fa:arrow-circle-right'}
+    name: nav_button_avatars_to_brand_tone
+    layout_properties:
+      col_widths: {}
+      grid_position: CIKCMM,CIRTDH
+    event_bindings: {click: nav_button_avatars_to_brand_tone_click}
+is_package: true
