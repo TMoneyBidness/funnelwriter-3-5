@@ -173,7 +173,7 @@ class Product(ProductTemplate):
         company_profile_row = user_table.search(variable='company_profile')[0]
         company_profile = company_profile_row['variable_value']
     
-        # PRODUCT PROFILE
+        # COMPANY URL
         # Retrieve the row with 'variable' column containing 'company_profile'
         company_url_row = user_table.search(variable='company_url')[0]
         company_url = company_url_row['variable_value']

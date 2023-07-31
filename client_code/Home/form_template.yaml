@@ -249,7 +249,7 @@ components:
       italic: false, background: 'theme:Primary', bold: true, underline: false, icon: 'fa:android'}
     name: company_research_button_component
     layout_properties: {grid_position: 'LNPKUC,AQUBCI'}
-    event_bindings: {click: company_research_button_click}
+    event_bindings: {click: company_research_button_component_click}
   - type: YouTubeVideo
     properties: {role: null, loop: false, height: 300, autoplay: false, mute: false,
       border: '', foreground: '', visible: false, youtube_id: rtgHlD7cW98, spacing_above: small,

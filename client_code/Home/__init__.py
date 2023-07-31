@@ -40,7 +40,85 @@ class Home(HomeTemplate):
     # Get the table for the current user
     user_table = getattr(app_tables, user_table_name)
 
+  def company_research_button_component_clicl(self, **event_args):
+    with anvil.server.no_loading_indicator:
+      # This method should handle the UI logic
+      print("Go Get Company Assets")
+    
+      # Stop the function if any of the fields are empty
+      if not self.company_name_input.text or not self.company_url_input.text or not self.product_1_name_input.text:
+          anvil.js.window.alert("Please fill in all the required fields before generating the full description.")
+          return
 
+      else:
+        self.indeterminate_1.visible = True
+        # Load stuff        
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+    
+        # COMPANY PROFILE
+        # Save company name
+        company_name = self.company_name_input.text
+        company_name_row = user_table.get(variable='company_name')
+        company_name_row['variable_value'] = company_name
+        company_name_row.update()
+        
+        # COMPANY URL
+        company_url = self.company_url_input.text
+        company_url_row = user_table.get(variable='company_url')
+        company_url_row['variable_value'] = company_url
+        company_url_row.update()
+
+        # PRODUCT 1 NAME
+        product_name_1 = self.product_1_name_input.text
+        product_1_row = user_table.get(variable='product_1')
+        product_1_row['variable_title'] = product_name_1
+        product_1_row.update()
+
+        # PRODUCT 1 URL
+        product_url_1 = self.product_1_url_input.text
+        product_url_1_row = user_table.get(variable='product_url_1')
+        product_url_1_row['variable_value'] = product_url_1
+        product_url_1_row.update()
+
+        # Launch the background task and store the task ID
+        self.task_id = anvil.server.call('launch_company_summary', company_name, company_url)
+        print("Task ID:", self.task_id)
+        # Save it it as the latest as well
+        product_1_latest_row = user_table.search(variable='product_1_latest')[0]
+        product_1_latest_row['variable_value'] = product_1_latest
+        product_1_latest_row.update()
+        
+        # COMPANY PROFILE
+        # Retrieve the row with 'variable' column containing 'company_profile'
+        company_profile_row = user_table.search(variable='company_profile')[0]
+        company_profile = company_profile_row['variable_value']
+    
+        # COMPANY URL
+        # Retrieve the row with 'variable' column containing 'company_profile'
+        company_url_row = user_table.search(variable='company_url')[0]
+        company_url = company_url_row['variable_value']
+    
+        # PRODUCT NAME
+        product_1_name = self.product_1_name_input.text
+        product_1_name_row = user_table.search(variable='product_1_name_latest')[0]
+        product_1_name_row['variable_value'] = product_1_name
+    
+        # PRODUCT EXCERPT / PREVIEW
+        product_1_preview = self.product_profile_1_textbox.text
+        product_1_latest = self.product_profile_1_textbox.text
+        product_1_preview_row = user_table.search(variable='product_1_preview')[0]
+        product_1_preview_row['variable_value'] = product_1_preview
+        product_1_preview_row.update()
+        # Save it it as the latest as well
+        product_1_latest_row = user_table.search(variable='product_1_latest')[0]
+        product_1_latest_row['variable_value'] = product_1_latest
+        product_1_latest_row.update()
+              
+        self.task_id = anvil.server.call('launch_deepdive_product_1_generator', company_name,company_profile,company_url,product_1_name,product_1_preview)
+        print("Task ID:", self.task_id)
 
 
 
