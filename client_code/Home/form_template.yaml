@@ -67,7 +67,7 @@ components:
     name: label_2
     layout_properties: {grid_position: 'TVDGMC,WBZYIA'}
   - type: TextBox
-    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: ie. Apple,
+    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: (Required)....ie.      Apple,
       border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
       font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
       background: '', bold: false, underline: false}
@@ -89,7 +89,7 @@ components:
       name: label_2_copy_2
       layout_properties: {grid_position: 'TVDGMC,WBZYIA'}
     - type: TextBox
-      properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: www.apple.com,
+      properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: (Required)....ie.      www.apple.com,
         border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
         font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
         background: '', bold: false, underline: false}
@@ -238,6 +238,10 @@ components:
       underline: false, icon: ''}
     name: status
     layout_properties: {grid_position: 'PIYSTN,YLVUPX'}
+  - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
+    properties: {}
+    name: indeterminate_company_research
+    layout_properties: {grid_position: 'CWLLUO,ANFDTC'}
   - type: Button
     properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: true,
       foreground: 'theme:Secondary Container', visible: true, text: GO GET MY ASSETS,
@@ -246,10 +250,6 @@ components:
     name: company_research_button_component
     layout_properties: {grid_position: 'LNPKUC,AQUBCI'}
     event_bindings: {click: company_research_button_click}
-  - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
-    properties: {}
-    name: indeterminate_company_research
-    layout_properties: {grid_position: 'JAGXJH,SKABYJ'}
   - type: YouTubeVideo
     properties: {role: null, loop: false, height: 300, autoplay: false, mute: false,
       border: '', foreground: '', visible: false, youtube_id: rtgHlD7cW98, spacing_above: small,

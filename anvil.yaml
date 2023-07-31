@@ -115,15 +115,15 @@ db_schema:
     title: stock_variables
 secrets:
   OPENAI_API_KEY:
-    value: {? '' : 6ikCDnU+bVblvJSHLSEHBCzTQ5p3dNNst7HHxoLceyQDcCWAo2de+X9CneynZnWKrl4zODEylCmGiL5wixmhyyHvbVeoAQq2G6MaVmnaEUTWFNN49201W/GawCxNPCwn+6lbknrP/AzaezKNGKwZ1Aaw64HWQIKBqRQfAGVtsuvDsDh0fbjEpMA8ObOMhsLZogU=}
+    value: {VKXR2HUVBG47AKJ6: 2j/XPdsDyAsnuIZlmRorjhavc55KyOJ1QEAg7qE03UdhCsMWs90fDxZOR+xW+ivj0x+xZsWEvVL3a4w0whzbL4oJAyAOsfWo3+SrnYeD0pHp/Douir+llynlV/V7CFMGytAX5+xhkbRwLnNdDhOpeBworSAYgS1eov0Jej3S9yqvbc5X+ognu42tGGkZ0y3rGy0=}
     type: secret
   SERPAPI_API_KEY:
-    value: {? '' : FsigtG3ZqwdyLxpJHX1TOpOFY0lwP5S7zy9ySeNep2ypat1L9Tf92D5bhTTxRQiLOQF1e9OKHlKqBptoQTYDLcmdySGCxcWL8rvhaDhqYDZEEcPDXWtXSVH5b6NyCXCwa6sXW2avIWmI5tUPJXjVYltCIbrXJKZ0dnIDkoYjB8QHQwoXM3EhoZT4r2UCFdTaSEZl6Ig32ZXc6MdtwTwq}
+    value: {VKXR2HUVBG47AKJ6: HOZyQRftLTWMy/4E3DbhhPxMckVvH1m0tAO2SHeodnCUm+WPagVIkfwhRWEviU1+kcOGeW6zxomQCAlB6oEonm0Q2l77wccV39s+GMYsa9mj4hZHPI3SGGPMI/V5Fn/2/l4Ark1UPbF8VhrG0Sr8rppwad6L+hd/916qS456Sfx02Yp3XH79kLITnyUAb7YePV7XRZerFhCPx3dl/AVM}
     type: secret
   GOOGLE_CSE_ID:
-    value: {? '' : TTO2aSnor8SUfiIbA/aa8/MmmjXhTHnwYVoD0mOqLFycJZn8JKolysedQSe9I60/vfTI1L2MnFOe0c3ZxiuZjdN9uKz7MS972LdOOa7Q5vZaw2qUeVYiriZrLM7O5oKkAKaZa11jZ4C0F0sI7PrB0A==}
+    value: {VKXR2HUVBG47AKJ6: RbyDqx8NWKIgqaz8WpjjZKE9Ldh4Zidl4AeiT0wU9sxfidRl6+C7Ycacg+86IP0NFYQHeo/vF1k0XvQ7sVsCfpAjeFGLWRHeqxlW04Zs7sUxFliqJNylVt4WS6+dm/N/AfbYlrUrSEbEHJK31eXg2w==}
     type: secret
   GOOGLE_API_KEY:
-    value: {? '' : pGvCi5P5s8891bAuo1/ndiXNW0Xy2BenXuRpYLW+9lW5pk25pVDPNeIIMMClomWAp06D2+X8nwIf+qTl9wDF9L6LU/Wb9ypGoztftpKpV3QUiV1Q53xC1QqG10l5zI2Pj5CeyPM64s0slhz+DfOhz44UwRl/iAf8d0cru60cmh1wQ0V0WJc=}
+    value: {VKXR2HUVBG47AKJ6: te1QvwNcyqsUAkbhGFBd4kua7tepKrdrkktvlduod27uYZAzEV+mo9JBoOyRPUj+X3pWG6TDkdtj/hyxXYpBETms4n4wRfTq4ITByCYBNLiJl2TJROUvkC4qvbkFR3Fh+HxS2RiGlUpoTdBpUROTGgKlrdI+41Ik74Y5liYDA7g/0Fj7fmQ=}
     type: secret
 renamed: true
