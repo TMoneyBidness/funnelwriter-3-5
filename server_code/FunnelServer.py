@@ -50,6 +50,27 @@ tools = Tool(
 
 ############################################################################################################################
 # FUNCTIONS
+#### LAUNCH ALL FUNCTIONS
+@anvil.server.callable
+def launch_go_get_all_assets(company_name, company_url, product_1_name, product_1_url):
+    # Launch the background tasks
+    print("Launched 'Go Get All Assets' background function")
+
+    # LAUNCH COMPANY SUMMARY
+    task_id_company = anvil.server.call('launch_company_summary', company_name, company_url)
+
+    # # LAUNCH DEEP DIVE PRODUCT 1 GENERATOR
+    # task_id_product = anvil.server.call('launch_deepdive_product_1_generator', company_name, product_1_name, product_1_url)
+
+    # # LAUNCH BRAND TONE RESEARCH
+    # task_id_brand_tone = anvil.server.call('launch_brand_tone_research', company_url)
+
+    # LAUNCH AVATAR (Add the corresponding function to call for launching the avatar)
+
+    # Return the task IDs (or any other information you want to return)
+    return task_id_company
+    # return task_id_company, task_id_product, task_id_brand_tone
+
 
 ####### -------- COMPANY --------###########
 @anvil.server.callable
@@ -205,22 +226,21 @@ def all_products_generator(company_profile, company_url):
 
 # PRODUCT 1
 @anvil.server.callable
-def launch_deepdive_product_1_generator(company_name,company_profile,company_url,product_1_name,product_1_preview):
+def launch_deepdive_product_1_generator(company_name,product_1_name,product_1_url):
     # Launch the background task
-    task = anvil.server.launch_background_task('deepdive_product_1_generator',company_name, company_profile,company_url,product_1_name,product_1_preview)
+    task = anvil.server.launch_background_task('deepdive_product_1_generator',company_name,product_1_name,product_1_url)
     # Return the task ID
     return task.get_id()
   
 @anvil.server.background_task
-def deepdive_product_1_generator(company_name,company_profile,company_url,product_1_name,product_1_preview):
-  
+def deepdive_product_1_generator(company_name,product_1_name,product_1_url):
     print("Background task started for the Deep Dive of Researching the Product:", product_1_name)
 
     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     agent_product_research = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
   
     product_research_context = agent_product_research({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_1_name} \
-                  Leverage all necessary resources such as {company_name}'s' website, {company_url}, web pages, and any other relevant sources \
+                  Leverage all necessary resources such as {company_name}'s' main product website {product_1_url}, web pages, and any other relevant sources \
                   to gather the following details about company's product, {product_1_name}. Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful, actionable insights. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
                   \n \
                   Overview: Provide a comprehensive introduction to the product. What is its purpose, and what does the company aim to achieve with it? \n \
@@ -355,7 +375,6 @@ def deepdive_product_3_generator(company_name,company_profile,company_url,produc
     # if "I couldn't find more information" in product_research_context:
     #       product_research_1= "Insufficient information. Please write the product description yourself."
     anvil.server.task_state['result'] = product_research_3
-
 
 # PRODUCT 4
 @anvil.server.callable

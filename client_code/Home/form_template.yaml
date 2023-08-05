@@ -176,7 +176,7 @@ components:
         grid_position: TVYOUO,ABETJV
     - type: Label
       properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'Avatar of Product 1 Primary Buyer:', font_size: 16,
+        visible: true, text: 'Avatar of Product 1 - Primary Buyer:', font_size: 16,
         font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
         background: '', bold: true, underline: false, icon: ''}
       name: label_2_copy_5
@@ -206,10 +206,71 @@ components:
         foreground: '', visible: true, text: ADD ANOTHER PRODUCT, font_size: null,
         font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
         background: '', bold: true, underline: false, icon: 'fa:plus'}
-      name: add_another_avatar_copy
+      name: add_another_product
       layout_properties:
         col_widths: {}
         grid_position: WCPIEZ,QZZEOE
+      event_bindings: {click: add_another_product_panel_1_click}
+    - type: ColumnPanel
+      properties: {col_widths: '{"QQGLML":20,"DQSWXP":40,"PCAQVH":20,"STGMYH":40,"JDKYLZ":20,"AEBXTK":40}'}
+      name: add_another_product_panel_1
+      layout_properties: {grid_position: 'VLTISO,VUKVAQ'}
+      event_bindings: {show: add_another_product_panel_1_show}
+      components:
+      - type: Label
+        properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
+          visible: true, text: 'Product 2 Name:', font_size: 16, font: '', spacing_above: small,
+          icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+          underline: false, icon: ''}
+        name: label_2_copy_6
+        layout_properties:
+          col_widths: {}
+          grid_position: BFSHLN,QQGLML
+      - type: TextBox
+        properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: (Required)....ie.      iPhone 14 Plus,
+          border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+          font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
+          background: '', bold: false, underline: false}
+        name: product_2_name_input
+        layout_properties:
+          col_widths: {}
+          grid_position: BFSHLN,DQSWXP
+      - type: Label
+        properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
+          visible: true, text: 'Product 2 URL:', font_size: 16, font: '', spacing_above: small,
+          icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+          underline: false, icon: ''}
+        name: label_2_copy_7
+        layout_properties:
+          col_widths: {}
+          grid_position: MSJVAJ,PCAQVH
+      - type: TextBox
+        properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: (Optional)....ie.       www.apple.com/iphone-14/,
+          border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+          font: '', spacing_above: small, type: text, spacing_below: small, italic: true,
+          background: '', bold: false, underline: false}
+        name: product_2_url_input
+        layout_properties:
+          col_widths: {}
+          grid_position: MSJVAJ,STGMYH
+      - type: Label
+        properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
+          visible: true, text: 'Avatar of Product 2 - Primary Buyer:', font_size: 16,
+          font: '', spacing_above: small, icon_align: left, spacing_below: small,
+          italic: false, background: '', bold: true, underline: false, icon: ''}
+        name: label_2_copy_8
+        layout_properties:
+          col_widths: {}
+          grid_position: UGVSDG,JDKYLZ
+      - type: TextBox
+        properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: (Optional)...ie..       A marketing guru looking to optimize ad spend,
+          border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+          font: '', spacing_above: small, type: text, spacing_below: small, italic: true,
+          background: '', bold: false, underline: false}
+        name: avatar_2_name_input
+        layout_properties:
+          col_widths: {}
+          grid_position: UGVSDG,AEBXTK
     - type: Spacer
       properties: {height: 32}
       name: spacer_1
@@ -240,7 +301,7 @@ components:
     layout_properties: {grid_position: 'PIYSTN,YLVUPX'}
   - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
     properties: {}
-    name: indeterminate_company_research
+    name: indeterminate_1
     layout_properties: {grid_position: 'CWLLUO,ANFDTC'}
   - type: Button
     properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: true,
@@ -249,7 +310,7 @@ components:
       italic: false, background: 'theme:Primary', bold: true, underline: false, icon: 'fa:android'}
     name: company_research_button_component
     layout_properties: {grid_position: 'LNPKUC,AQUBCI'}
-    event_bindings: {click: company_research_button_component_click}
+    event_bindings: {click: go_get_all_assets_click}
   - type: YouTubeVideo
     properties: {role: null, loop: false, height: 300, autoplay: false, mute: false,
       border: '', foreground: '', visible: false, youtube_id: rtgHlD7cW98, spacing_above: small,
