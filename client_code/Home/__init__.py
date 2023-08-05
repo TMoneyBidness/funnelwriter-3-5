@@ -62,47 +62,45 @@ class Home(HomeTemplate):
         # Get the table for the current user
         user_table = getattr(app_tables, user_table_name)
     
-        # COMPANY PROFILE
-        # Save company name
+        # COMPANY NAME
         company_name = self.company_name_input.text
+        # Save company name
         company_name_row = user_table.get(variable='company_name')
         company_name_row['variable_value'] = company_name
         company_name_row.update()
         
         # COMPANY URL
         company_url = self.company_url_input.text
+        # Save company url
         company_url_row = user_table.get(variable='company_url')
         company_url_row['variable_value'] = company_url
         company_url_row.update()
 
         # PRODUCT 1 NAME
         product_1_name = self.product_1_name_input.text
+        # Save product 1 name
         product_1_row = user_table.get(variable='product_1')
         product_1_row['variable_title'] = product_1_name
         product_1_row.update()
 
         # PRODUCT 1 URL
         product_1_url = self.product_1_url_input.text
+        # Save product 1 url
         product_1_url_row = user_table.get(variable='product_1_url')
         product_1_url_row['variable_value'] = product_1_url
         product_1_url_row.update()
 
        # Launch the background task for company summary
-        self.company_research(company_name,company_url)
+        anvil.server.call('launch_company_summary', company_name, company_url)
+        print("Company Research Started")
        # Launch the background task for product research
-        self.product_1_research(company_name, product_1_name, product_1_url)
-       # Launch the background task for brand tone
-        self.brand_tone(company_url)
-        
- 
-  
-  def form_show(self, **event_args):
-    # Load the company profile on form show
-    # self.company_profile_textbox.load_data()
-    self.company_name_input.load_data()
-    self.company_url_input.load_data()
+        anvil.server.call('launch_deepdive_product_1_generator',company_name,product_1_name,product_1_url)
+        print("Deep Dive Product Research Started") 
+      # Launch the background task for brand tone
+        anvil.server.call('launch_brand_tone_research', company_url)
+        print("Brand Tone Research Started")
 
-  def company_research(company_name,company_url):
+  def company_research(self, company_name,company_url):
     with anvil.server.no_loading_indicator:
         # This method should handle the UI logic
         print("Company Research Started")
@@ -130,24 +128,18 @@ class Home(HomeTemplate):
             if task_status is not None and task_status == "completed":
                 # Get the result of the background task
                 company_context = anvil.server.call('get_task_result', self.task_id)
-                # Update the textbox with the result
-                print("Company Context:", company_context)
-                self.company_profile_textbox.text = company_context
-
+                
                 # Save this generated version as the latest version
                 row_company_profile_latest = user_table.search(variable='company_profile_latest')
                 row_company_profile_latest[0]['variable_value'] = company_context
                 row_company_profile_latest[0].update()
-
-                self.status.text = 'Complete'
-                self.indeterminate_1.visible = False
-                self.free_navigate_label.visible = False
+                print("Company Research Complete")
                 break  # Exit the loop
             
             # Sleep for 1 second before checking again
             time.sleep(2)
   
-  def brand_tone(company_url):
+  def brand_tone(self,company_url):
     with anvil.server.no_loading_indicator:
       # This method should handle the UI logic
       print("Brand Tone Research Started")
@@ -184,21 +176,20 @@ class Home(HomeTemplate):
             # Get the result of the background task
             brand_tone_research = anvil.server.call('get_task_result', self.task_id)
             # Update the textbox with the result
-            print("Brand Tone:", brand_tone_research  )
-            self.brand_tone_textbox.text = brand_tone_research 
-            self.indeterminate_brand_tone.visible = False
+            print("Brand Tone Research Complete")
             break  # Exit the loop
+            
           elif task_status == "failed":
             # Get the error message
             task_error = anvil.server.call('get_task_result', self.task_id)
             print("Task error:", task_error)
-            self.indeterminate_brand_tone.visible = False
+            print("Brand Tone Research Error")
             break  # Exit the loop
   
         # Sleep for 1 second before checking again
         time.sleep(2)
 
-  def product_1_research(self, **event_args):
+  def product_1_research(self,company_name, product_1_name, product_1_url):
     with anvil.server.no_loading_indicator:
       # This method should handle the UI logic
       print("Deep Product Researcher Initiated")
@@ -216,38 +207,8 @@ class Home(HomeTemplate):
         user_table_name = current_user['user_id']
         # Get the table for the current user
         user_table = getattr(app_tables, user_table_name)
-    
-          # COMPANY PROFILE
-        company_name_row = user_table.search(variable='company_name')[0]
-        company_name= company_name_row['variable_value']
-        
-        # COMPANY PROFILE
-        # Retrieve the row with 'variable' column containing 'company_profile'
-        company_profile_row = user_table.search(variable='company_profile')[0]
-        company_profile = company_profile_row['variable_value']
-    
-        # COMPANY URL
-        # Retrieve the row with 'variable' column containing 'company_profile'
-        company_url_row = user_table.search(variable='company_url')[0]
-        company_url = company_url_row['variable_value']
-    
-        # PRODUCT NAME
-        product_1_name = self.product_1_name_input.text
-        product_1_name_row = user_table.search(variable='product_1_name_latest')[0]
-        product_1_name_row['variable_value'] = product_1_name
-    
-        # PRODUCT EXCERPT / PREVIEW
-        product_1_preview = self.product_profile_1_textbox.text
-        product_1_latest = self.product_profile_1_textbox.text
-        product_1_preview_row = user_table.search(variable='product_1_preview')[0]
-        product_1_preview_row['variable_value'] = product_1_preview
-        product_1_preview_row.update()
-        # Save it it as the latest as well
-        product_1_latest_row = user_table.search(variable='product_1_latest')[0]
-        product_1_latest_row['variable_value'] = product_1_latest
-        product_1_latest_row.update()
-              
-        self.task_id = anvil.server.call('launch_deepdive_product_1_generator', company_name,company_profile,company_url,product_1_name,product_1_preview)
+                  
+        self.task_id = anvil.server.call('launch_deepdive_product_1_generator', company_name, product_1_name, product_1_url)
         print("Task ID:", self.task_id)
     
         # Loop to check the status of the background task
@@ -263,30 +224,33 @@ class Home(HomeTemplate):
           # Get the result of the background task
               product_1_generation = anvil.server.call('get_task_result', self.task_id)
               
-              # Update the textbox with the result
-              print("Product:", product_1_generation)
-              self.product_profile_1_textbox.text = product_1_generation
+              # # Update the textbox with the result
+              # print("Product:", product_1_generation)
+              # self.product_profile_1_textbox.text = product_1_generation
     
               # Save it in the table:
               product_1_latest_row = user_table.search(variable='product_1_latest')[0]
               product_1_latest_row['variable_value'] = product_1_generation
         
-              self.indeterminate_1.visible = False
               break  # Exit the loop
               
             elif task_status == "failed":
               # Get the error message
               task_error = anvil.server.call('get_task_result', self.task_id)
               print("Task error:", task_error)
-              self.indeterminate_1.visible = False
+              # self.indeterminate_1.visible = False
               break  # Exit the loop
     
           # Sleep for 1 second before checking again
           time.sleep(2)
 
 
-
-  
+  def form_show(self, **event_args):
+    # Load the company profile on form show
+    # self.company_profile_textbox.load_data()
+    self.company_name_input.load_data()
+    self.company_url_input.load_data()
+    
   def edit_company_profile_component_click(self, **event_args):
     self.company_profile_textbox.read_only = False
   
