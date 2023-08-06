@@ -90,237 +90,240 @@ class Home(HomeTemplate):
         product_1_url_row['variable_value'] = product_1_url
         product_1_url_row.update()
 
+      # LAUNCH THE BACKGROUND TASKS
        # Launch the background task for company summary
-        anvil.server.call('launch_company_summary', company_name, company_url)
+        anvil.server.call('launch_company_summary',user_table, company_name, company_url)
         print("Company Research Started")
        # Launch the background task for product research
-        anvil.server.call('launch_deepdive_product_1_generator',company_name,product_1_name,product_1_url)
+        anvil.server.call('launch_deepdive_product_1_generator',user_table,company_name,product_1_name,product_1_url)
         print("Deep Dive Product Research Started") 
       # Launch the background task for brand tone
-        anvil.server.call('launch_brand_tone_research', company_url)
+        anvil.server.call('launch_brand_tone_research', user_table,company_url)
         print("Brand Tone Research Started")
 
-  def company_research(self, company_name,company_url):
-    with anvil.server.no_loading_indicator:
-        # This method should handle the UI logic
-        print("Company Research Started")
-        # Start the progress bar with a small value
-        count_timer = 0
-        self.youtube_intro_video.visible = True
-        # print("Before setting status:", self.status.text)
-        # self.status.text = 'Researching'
-        # print("After setting status:", self.status.text)
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        user_table = getattr(app_tables, user_table_name)
-          
-        # Launch the background task and store the task ID
-        self.task_id = anvil.server.call('launch_company_summary', company_name, company_url)
-        print("Task ID:", self.task_id)
-      
-        # Loop to check the status of the background task
-        while True:
-                    
-            # Check if the background task is complete
-            task_status = anvil.server.call('get_task_status', self.task_id)
-            print("Task status:", task_status)
-            
-            if task_status is not None and task_status == "completed":
-                # Get the result of the background task
-                company_context = anvil.server.call('get_task_result', self.task_id)
-                
-                # Save this generated version as the latest version
-                row_company_profile_latest = user_table.search(variable='company_profile_latest')
-                row_company_profile_latest[0]['variable_value'] = company_context
-                row_company_profile_latest[0].update()
-                print("Company Research Complete")
-                break  # Exit the loop
-            
-            # Sleep for 1 second before checking again
-            time.sleep(2)
-  
-  def brand_tone(self,company_url):
-    with anvil.server.no_loading_indicator:
-      # This method should handle the UI logic
-      print("Brand Tone Research Started")
-      # Start the progress bar
-      self.indeterminate_brand_tone.visible = True
-      brand_tone_url = company_url
-      
-      # Get the current user 
-      current_user = anvil.users.get_user() 
-      user_table_name = current_user['user_id']
-      user_table = getattr(app_tables, user_table_name)
-     
-      # Save the brand tone URL
-      brand_tone_url_latest_row = list(user_table.search(variable='brand_tone_url'))
-      
-      # Check if the row exists before updating it
-      if brand_tone_url_latest_row:
-          brand_tone_url_latest_row[0]['variable_value'] = brand_tone_url
-          brand_tone_url_latest_row[0].update()
-      
-      self.task_id = anvil.server.call('launch_brand_tone_research', brand_tone_url)
-      print("Task ID:", self.task_id)
-
-     # Loop to check the status of the background task
-    while True:
-      with anvil.server.no_loading_indicator:
-     
-        # Check if the background task is complete
-        task_status = anvil.server.call('get_task_status', self.task_id)
-        print("Task status:", task_status)
-  
-        if task_status is not None:
-          if task_status == "completed":
-            # Get the result of the background task
-            brand_tone_research = anvil.server.call('get_task_result', self.task_id)
-            # Update the textbox with the result
-            print("Brand Tone Research Complete")
-            break  # Exit the loop
-            
-          elif task_status == "failed":
-            # Get the error message
-            task_error = anvil.server.call('get_task_result', self.task_id)
-            print("Task error:", task_error)
-            print("Brand Tone Research Error")
-            break  # Exit the loop
-  
-        # Sleep for 1 second before checking again
-        time.sleep(2)
-
-  def product_1_research(self,company_name, product_1_name, product_1_url):
-    with anvil.server.no_loading_indicator:
-      # This method should handle the UI logic
-      print("Deep Product Researcher Initiated")
-    
-      # self.nav_button_products_to_avatars.enabled = False
-
-      # Stop the Function if there's no product name
-      if not self.product_1_name_input.text:
-        anvil.js.window.alert("Please name your product before generating the full description.")
-        return
-      else:
-        self.indeterminate_1.visible = True
-        # Load stuff        
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-                  
-        self.task_id = anvil.server.call('launch_deepdive_product_1_generator', company_name, product_1_name, product_1_url)
-        print("Task ID:", self.task_id)
-    
-        # Loop to check the status of the background task
-      while True:
-        with anvil.server.no_loading_indicator:
-    
-        # Check if the background task is complete
-          task_status = anvil.server.call('get_task_status', self.task_id)
-          print("Task status:", task_status)
-    
-          if task_status is not None:
-            if task_status == "completed":
-          # Get the result of the background task
-              product_1_generation = anvil.server.call('get_task_result', self.task_id)
-              
-              # # Update the textbox with the result
-              # print("Product:", product_1_generation)
-              # self.product_profile_1_textbox.text = product_1_generation
-    
-              # Save it in the table:
-              product_1_latest_row = user_table.search(variable='product_1_latest')[0]
-              product_1_latest_row['variable_value'] = product_1_generation
-        
-              break  # Exit the loop
-              
-            elif task_status == "failed":
-              # Get the error message
-              task_error = anvil.server.call('get_task_result', self.task_id)
-              print("Task error:", task_error)
-              # self.indeterminate_1.visible = False
-              break  # Exit the loop
-    
-          # Sleep for 1 second before checking again
-          time.sleep(2)
-
-
-  def form_show(self, **event_args):
-    # Load the company profile on form show
-    # self.company_profile_textbox.load_data()
-    self.company_name_input.load_data()
-    self.company_url_input.load_data()
-    
-  def edit_company_profile_component_click(self, **event_args):
-    self.company_profile_textbox.read_only = False
-  
-  def save_company_profile_component_click(self, **event_args):
-    # Get the current user
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
-
-    # Check if the company profile textbox is not empty and doesn't have the placeholder text
-    if self.company_profile_textbox.text.strip() and self.company_profile_textbox.text.strip() != "AI agents will populate your company profile here!":
-        company_profile_row = user_table.get(variable='company_profile')
-        company_profile_row['variable_value'] = self.company_profile_textbox.text
-        company_profile_row.update()
-        self.nav_button_company_to_products.enabled = True
-        self.nav_button_company_to_products.background = "#6750A4"  # Set the background color to green
-        self.nav_button_company_to_products.foreground = "#1E192B"
-
-        # Save this generated version as the latest version
-        # Save company name
-        company_name_row = user_table.get(variable='company_name')
-        company_name_row['variable_value'] = self.company_name_input.text
-        company_name_row.update()
-        company_name = self.company_name_input.text
-        
-        # Save company URL
-        company_url_row = user_table.get(variable='company_url')
-        company_url_row['variable_value'] = self.company_url_input.text
-        company_url_row.update()
-        company_url = self.company_url_input.text
-      
-        row_company_profile_latest = user_table.search(variable='company_profile_latest')
-        row_company_profile_latest[0]['variable_value'] = self.company_profile_textbox.text
-        row_company_profile_latest[0].update()
-        self.nav_button_company_to_products.enabled = True
-    else:
-        # Handle case where no profile name is selected
-        anvil.js.window.alert("Please build your company profile before proceeding")
-        self.nav_button_company_to_products.enabled = False
-        self.nav_button_company_to_products.background = "#EADDFF"
-
-  def load_company_profile_component_click(self, **event_args):
-    # Get the current user
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
-
-    company_profile_row = user_table.get(variable='company_profile')
-
-    # Load the Company Profile from the profile row
-    self.company_profile_textbox.text = company_profile_row['variable_value']
-
-    # Load the Company Name and URL from the user_table
-    company_name_row = user_table.get(variable='company_name')
-    company_url_row = user_table.get(variable='company_url')
-
-  ### NAVIGATION
+    ### NAVIGATION
   def navigate_to_product(self, **event_args):
-    product = Product()
-    self.content_panel.clear()
-    self.content_panel.add_component(product)
+   product = Product()
+   self.content_panel.clear()
+   self.content_panel.add_component(product)
     # anvil.open_form('Product')
 
  ### Show Other Panels
   def add_another_product_panel_1_click(self, **event_args):
     self.add_another_product_panel_1.visible = True
+    
+  # def company_research(self, company_name,company_url):
+  #   with anvil.server.no_loading_indicator:
+  #       # This method should handle the UI logic
+  #       print("Company Research Started")
+  #       # Start the progress bar with a small value
+  #       count_timer = 0
+  #       self.youtube_intro_video.visible = True
+  #       # print("Before setting status:", self.status.text)
+  #       # self.status.text = 'Researching'
+  #       # print("After setting status:", self.status.text)
+  #       current_user = anvil.users.get_user()
+  #       user_table_name = current_user['user_id']
+  #       user_table = getattr(app_tables, user_table_name)
+          
+  #       # Launch the background task and store the task ID
+  #       self.task_id = anvil.server.call('launch_company_summary', company_name, company_url)
+  #       print("Task ID:", self.task_id)
+      
+  #       # Loop to check the status of the background task
+  #       while True:
+                    
+  #           # Check if the background task is complete
+  #           task_status = anvil.server.call('get_task_status', self.task_id)
+  #           print("Task status:", task_status)
+            
+  #           if task_status is not None and task_status == "completed":
+  #               # Get the result of the background task
+  #               company_context = anvil.server.call('get_task_result', self.task_id)
+                
+  #               # Save this generated version as the latest version
+  #               row_company_profile_latest = user_table.search(variable='company_profile_latest')
+  #               row_company_profile_latest[0]['variable_value'] = company_context
+  #               row_company_profile_latest[0].update()
+  #               print("Company Research Complete")
+  #               break  # Exit the loop
+            
+  #           # Sleep for 1 second before checking again
+  #           time.sleep(2)
+  
+  # def brand_tone(self,company_url):
+  #   with anvil.server.no_loading_indicator:
+  #     # This method should handle the UI logic
+  #     print("Brand Tone Research Started")
+  #     # Start the progress bar
+  #     self.indeterminate_brand_tone.visible = True
+  #     brand_tone_url = company_url
+      
+  #     # Get the current user 
+  #     current_user = anvil.users.get_user() 
+  #     user_table_name = current_user['user_id']
+  #     user_table = getattr(app_tables, user_table_name)
+     
+  #     # Save the brand tone URL
+  #     brand_tone_url_latest_row = list(user_table.search(variable='brand_tone_url'))
+      
+  #     # Check if the row exists before updating it
+  #     if brand_tone_url_latest_row:
+  #         brand_tone_url_latest_row[0]['variable_value'] = brand_tone_url
+  #         brand_tone_url_latest_row[0].update()
+      
+  #     self.task_id = anvil.server.call('launch_brand_tone_research', brand_tone_url)
+  #     print("Task ID:", self.task_id)
+
+  #    # Loop to check the status of the background task
+  #   while True:
+  #     with anvil.server.no_loading_indicator:
+     
+  #       # Check if the background task is complete
+  #       task_status = anvil.server.call('get_task_status', self.task_id)
+  #       print("Task status:", task_status)
+  
+  #       if task_status is not None:
+  #         if task_status == "completed":
+  #           # Get the result of the background task
+  #           brand_tone_research = anvil.server.call('get_task_result', self.task_id)
+  #           # Update the textbox with the result
+  #           print("Brand Tone Research Complete")
+  #           break  # Exit the loop
+            
+  #         elif task_status == "failed":
+  #           # Get the error message
+  #           task_error = anvil.server.call('get_task_result', self.task_id)
+  #           print("Task error:", task_error)
+  #           print("Brand Tone Research Error")
+  #           break  # Exit the loop
+  
+  #       # Sleep for 1 second before checking again
+  #       time.sleep(2)
+
+  # def product_1_research(self,company_name, product_1_name, product_1_url):
+  #   with anvil.server.no_loading_indicator:
+  #     # This method should handle the UI logic
+  #     print("Deep Product Researcher Initiated")
+    
+  #     # self.nav_button_products_to_avatars.enabled = False
+
+  #     # Stop the Function if there's no product name
+  #     if not self.product_1_name_input.text:
+  #       anvil.js.window.alert("Please name your product before generating the full description.")
+  #       return
+  #     else:
+  #       self.indeterminate_1.visible = True
+  #       # Load stuff        
+  #       current_user = anvil.users.get_user()
+  #       user_table_name = current_user['user_id']
+  #       # Get the table for the current user
+  #       user_table = getattr(app_tables, user_table_name)
+                  
+  #       self.task_id = anvil.server.call('launch_deepdive_product_1_generator', company_name, product_1_name, product_1_url)
+  #       print("Task ID:", self.task_id)
+    
+  #       # Loop to check the status of the background task
+  #     while True:
+  #       with anvil.server.no_loading_indicator:
+    
+  #       # Check if the background task is complete
+  #         task_status = anvil.server.call('get_task_status', self.task_id)
+  #         print("Task status:", task_status)
+    
+  #         if task_status is not None:
+  #           if task_status == "completed":
+  #         # Get the result of the background task
+  #             product_1_generation = anvil.server.call('get_task_result', self.task_id)
+              
+  #             # # Update the textbox with the result
+  #             # print("Product:", product_1_generation)
+  #             # self.product_profile_1_textbox.text = product_1_generation
+    
+  #             # Save it in the table:
+  #             product_1_latest_row = user_table.search(variable='product_1_latest')[0]
+  #             product_1_latest_row['variable_value'] = product_1_generation
+        
+  #             break  # Exit the loop
+              
+  #           elif task_status == "failed":
+  #             # Get the error message
+  #             task_error = anvil.server.call('get_task_result', self.task_id)
+  #             print("Task error:", task_error)
+  #             # self.indeterminate_1.visible = False
+  #             break  # Exit the loop
+    
+  #         # Sleep for 1 second before checking again
+  #         time.sleep(2)
+
+
+  # def form_show(self, **event_args):
+  #   # Load the company profile on form show
+  #   # self.company_profile_textbox.load_data()
+  #   self.company_name_input.load_data()
+  #   self.company_url_input.load_data()
+    
+  # def edit_company_profile_component_click(self, **event_args):
+  #   self.company_profile_textbox.read_only = False
+  
+  # def save_company_profile_component_click(self, **event_args):
+  #   # Get the current user
+  #   current_user = anvil.users.get_user()
+  #   user_table_name = current_user['user_id']
+
+  #   # Get the table for the current user
+  #   user_table = getattr(app_tables, user_table_name)
+
+  #   # Check if the company profile textbox is not empty and doesn't have the placeholder text
+  #   if self.company_profile_textbox.text.strip() and self.company_profile_textbox.text.strip() != "AI agents will populate your company profile here!":
+  #       company_profile_row = user_table.get(variable='company_profile')
+  #       company_profile_row['variable_value'] = self.company_profile_textbox.text
+  #       company_profile_row.update()
+  #       self.nav_button_company_to_products.enabled = True
+  #       self.nav_button_company_to_products.background = "#6750A4"  # Set the background color to green
+  #       self.nav_button_company_to_products.foreground = "#1E192B"
+
+  #       # Save this generated version as the latest version
+  #       # Save company name
+  #       company_name_row = user_table.get(variable='company_name')
+  #       company_name_row['variable_value'] = self.company_name_input.text
+  #       company_name_row.update()
+  #       company_name = self.company_name_input.text
+        
+  #       # Save company URL
+  #       company_url_row = user_table.get(variable='company_url')
+  #       company_url_row['variable_value'] = self.company_url_input.text
+  #       company_url_row.update()
+  #       company_url = self.company_url_input.text
+      
+  #       row_company_profile_latest = user_table.search(variable='company_profile_latest')
+  #       row_company_profile_latest[0]['variable_value'] = self.company_profile_textbox.text
+  #       row_company_profile_latest[0].update()
+  #       self.nav_button_company_to_products.enabled = True
+  #   else:
+  #       # Handle case where no profile name is selected
+  #       anvil.js.window.alert("Please build your company profile before proceeding")
+  #       self.nav_button_company_to_products.enabled = False
+  #       self.nav_button_company_to_products.background = "#EADDFF"
+
+  # def load_company_profile_component_click(self, **event_args):
+  #   # Get the current user
+  #   current_user = anvil.users.get_user()
+  #   user_table_name = current_user['user_id']
+
+  #   # Get the table for the current user
+  #   user_table = getattr(app_tables, user_table_name)
+
+  #   company_profile_row = user_table.get(variable='company_profile')
+
+  #   # Load the Company Profile from the profile row
+  #   self.company_profile_textbox.text = company_profile_row['variable_value']
+
+  #   # Load the Company Name and URL from the user_table
+  #   company_name_row = user_table.get(variable='company_name')
+  #   company_url_row = user_table.get(variable='company_url')
+
+
   
 
 # THIS IS THE CODE IF WE CONTINUED TO DO LOAD / SAVE SLOTS:

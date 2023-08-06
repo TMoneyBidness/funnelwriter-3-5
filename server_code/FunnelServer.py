@@ -49,34 +49,195 @@ tools = Tool(
     description="Search Google for recent results")
 
 ############################################################################################################################
-# FUNCTIONS
-#### LAUNCH ALL FUNCTIONS
+
+####### -------- PRELIMINARY / FIRST DRAFTS--------###########
+
+# COMPANY 1st DRAFT
 @anvil.server.callable
-def launch_go_get_all_assets(company_name, company_url, product_1_name, product_1_url):
-    # Launch the background tasks
-    print("Launched 'Go Get All Assets' background function")
+def launch_draft_company_summary(user_table,company_name, company_url):
+    # Launch the background task
+    print("Launch task started for researching company:",user_table, company_name,company_url)
+    task = anvil.server.launch_background_task('draft_company_summary', user_table,company_name, company_url)
+    # Return the task ID
+    return task.get_id()
+  
+@anvil.server.background_task
+def draft_company_summary(user_table,company_name, company_url):
+    print("Background task started for researching company:", user_table,company_name,company_url)
+    # Here, you should write the code that uses the company_name and company_url
+    # to research the company and generate a context. For example:
+  
+    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-4', openai_api_key=openai_api_key)
+    agent_company_context = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
+    company_research = agent_company_context({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive analysis to build an informational company profile of {company_name}. \
+                    Leverage all necessary resources, primarily the company's website {company_url}, but also news articles, and any other relevant sources.  \
+                    to gather the following details about {company_name}.  Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful research and findings. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
+                    \n \
+                    Overview: Provide a comprehensive introduction to the company. What are the unique features or value propositions of the company's offerings? What does the company aim to achieve? \n \
+                    \n \
+                     Unique Value Proposition: What is the company unique value proposition? What are they uniquely positioned to do? How does their main offer differ from their competitors? \n \
+                    \n \
+                    Founding Story: What inspired the founders to start the company? Are there any unique or interesting anecdotes about the early days of the company? How has the company evolved since its founding? \n \
+                    \n \
+                    Competitors: Who are the likely competitors of this company? What are their strengths and weaknesses? How does your company compare to its competitors in terms of offerings, market share, or other relevant factors?  \n \
+                    \n \                
+                    Mission & Vision: What is the company's mission statement or core purpose? What are the long-term goals and aspirations of the company? \n \
+                    Values: What does the company value? What do they emphasize in their mission? What do they care about or prioritize? \n \
+                    \n \
+                  
+                    NOTES ON FORMAT:
+                    This should be at least 800 words. Be confident, do not say there is incomplete information, or there is not information. If you can't answer elements from the above, ignore it! Speak as if you are the authority of the subject. If you don't know the answer, don't talk about it. Do not say "I was unable to find information on XYZ". 
+                    Ensure you keep the headers with the '--': 
+                    -- Overview
+                    (your overview)
+                   
+                    --Unique Value Proposition
+                    (your response)
+                    
+                    --Competitors
+                    (your response)
+                    
+                    -- Founding Story
+                    (your response)
+                    
+                    --Mission & Vision
+                    (your response)
 
-    # LAUNCH COMPANY SUMMARY
-    task_id_company = anvil.server.call('launch_company_summary', company_name, company_url)
+                   --Values
+                    (your response)
+                    """})
 
-    # # LAUNCH DEEP DIVE PRODUCT 1 GENERATOR
-    # task_id_product = anvil.server.call('launch_deepdive_product_1_generator', company_name, product_1_name, product_1_url)
+    draft_company_context = company_research['output']
+    # Check if the output indicates insufficient information
+    if "I couldn't find more information" in draft_company_context:
+        draft_company_context = "Insufficient information. Please write the company description yourself."
+    # Store the result in the task's state instead of returning it
+    anvil.server.task_state['result'] = draft_company_context
+    
+    # Save this generated version as the latest version
+    row_company_profile_latest = user_table.search(variable='company_profile_latest')
+    row_company_profile_latest[0]['variable_value'] = draft_company_context
+    row_company_profile_latest[0].update()
+    print("Company Research Complete")
+  
+# PRODUCT 1st DRAFT
+@anvil.server.callable
+def launch_draft_deepdive_product_1_generator(user_table,company_name,product_1_name,product_1_url):
+    # Launch the background task
+    task = anvil.server.launch_background_task('deepdive_draft_product_1_generator',user_table,company_name,product_1_name,product_1_url)
+    # Return the task ID
+    return task.get_id()
+  
+@anvil.server.background_task
+def deepdive_draft_product_1_generator(user_table,company_name,product_1_name,product_1_url):
+    print("Background task started for the Deep Dive of Researching the Product:", product_1_name)
 
-    # # LAUNCH BRAND TONE RESEARCH
-    # task_id_brand_tone = anvil.server.call('launch_brand_tone_research', company_url)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
+    agent_product_research = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
+  
+    product_research_context = agent_product_research({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_1_name} \
+                  Leverage all necessary resources such as {company_name}'s' main product website {product_1_url}, web pages, and any other relevant sources \
+                  to gather the following details about company's product, {product_1_name}. Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful, actionable insights. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
+                  \n \
+                  Overview: Provide a comprehensive introduction to the product. What is its purpose, and what does the company aim to achieve with it? \n \
+                  \n \
+                  Description: Deeply describe the product. What does it look like, feel like, and what experience does it offer? \n \
+                  \n \
+                  Price: Detail the pricing structure. What is the cost, and are there any variations or tiers in pricing? \n \
+                  \n \
+                  Features: Elucidate the key features of the product. What distinguishes this product from others in the market? I would like around 15 differences between the product offers, if possible. \n \
+                  \n \
+                  Benefits: Explicate on how the product will benefit the customer. How can it change their life or improve their situation? \n \
+                  \n \
+                  Why people buy it: Analyze the consumer's pain points and desires before purchasing this product. Why might someone be drawn to this product, and what needs does it fulfill? \n \
+                  \n \
+                  Expected results: What are the anticipated outcomes or gains after using this product? How will the customer's situation improve or change? \n \
+                  \n \
+                  Guarantees: Discuss any guarantees the company offers with this product. Are there any assurances of product performance, or return policies in place? \n \
+                  \n \
+                  Bonuses: List any additional bonuses or incentives that come along with the product. What additional value does the company provide to sweeten the deal? \n \
+                  \n \
+                  Possible objections: Predict potential objections or concerns a customer may have about the product. How might the company address these? \n \
+                  \n \
+                  Ensure to provide an in-depth report with approximately 800-1000 words on the product, making it as detailed and specific as possible. Your aim is to capture the full essence of the product.
+                  \n \
+                  NOTES ON FORMAT:
+                  Be confident, do not say there is incomplete information, or there is not information. If you can't answer elements from the above, ignore it! Speak as if you are the authority of the subject. If you don't know the answer, don't talk about it. Do not say "I was unable to find information on XYZ". 
+                  """})
 
-    # LAUNCH AVATAR (Add the corresponding function to call for launching the avatar)
+    product_research_1 = product_research_context['output']
+    # if "I couldn't find more information" in product_research_context:
+    #       product_research_1= "Insufficient information. Please write the product description yourself."
+    anvil.server.task_state['result'] = product_research_1
+   # Save it in the table:
+    product_1_latest_row = user_table.search(variable='product_1_latest')[0]
+    product_1_latest_row['variable_value'] = product_research_1
+    product_1_latest_row[0].update()
 
-    # Return the task IDs (or any other information you want to return)
-    return task_id_company
-    # return task_id_company, task_id_product, task_id_brand_tone
+# BRAND TONE 1st DRAFT 
+@anvil.server.callable
+def launch_brand_tone_research(user_table,brand_tone_url):
+    # Launch the background task
+    task = anvil.server.launch_background_task('brand_tone_research',user_table,brand_tone_url)
+    # Return the task ID
+    return task.get_id()
 
+@anvil.server.background_task
+def brand_tone_research(user_table,brand_tone_url):
+    print("Background task started for extracting brand tone:", user_table,brand_tone_url)
+ 
+    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-4', openai_api_key=openai_api_key)
+    agent_tone_extraction = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
+ 
+    tone_research = agent_tone_extraction({
+      "input":f"""You are CopywriterAI, the best copywriter on the planet. We are looking to generate a description 
+      of the tone that best describes the copywriting style and tone of an existing web page. Go and research this URL 
+      {brand_tone_url}, and provide your analysis.
+
+      For example, for PROFESSIONAL / ENTERPRISE, it would be described as:
+        - 'Formal and Polished': (sophisticated language and complex sentence structures).
+        - 'Objective and Analytical': (incorporates data and facts, prioritizing logical arguments).
+        - 'Business-like': Efficient, frequently employs industry-specific jargon and business terminology).
+        - 'Trustworthy and Reliable': Underscoring credibility, reliability, and accuracy.
+        - 'Instructional and Informative': (providing clear, direct instructions or information).
+        - 'Respectful and Considerate': (acknowledging the audience's needs and viewpoints while avoiding excessive casualness).
+        - 'Controlled and Consistent': (providing coherence, ensuring careful, consistent writing).
+
+        For Russell Brunson, sales page style, it would be described as:
+        - 'Conversational': (friendly, casual, and approachable).
+        - 'Storytelling': (using compelling stories to illustrate his points).
+        - 'Educational': (being informative, teaching something new).
+        - 'Persuasive': (being compelling and enticing, using ideas of scarcity (limited time offers), social proof (testimonials), and authority (expertise and success).
+        - 'Inspiring': (motivating and inspiring, encouraging the reader to take action).
+        - 'Clear and Direct': (providing clarity and simplicity, avoiding jargon).
+
+        However, it is up to you to go and review the website, think about the tone of the existing copy, and return 5-6 descriptors, in the similar format as above. They don't have to be listed above- they can be new!
+        
+        OUTPUT TEMPLATE: AN EXAMPLE OUTPUT SHOULD BE AS BELOW:
+        'The businesstone can be described as': 
+        - 'Conversational': (friendly, casual, and approachable).
+        - 'Storytelling': (using compelling stories to illustrate his points).
+        - 'Educational': (being informative, teaching something new).
+        - 'Persuasive': (being compelling and enticing, using ideas of scarcity (limited time offers), social proof (testimonials), and authority (expertise and success).
+        - 'Inspiring': (motivating and inspiring, encouraging the reader to take action).
+        - 'Clear and Direct': (providing clarity and simplicity, avoiding jargon).Conversational, Storytelling, Educational, Persuasive, Inspiring, Clear and Direct'
+        
+        FINAL RULES: Don't mention the business name, or source. Just say "the business" and refer to it as 'company tone' or 'the business tone'
+        """})
+
+    extracted_tone = tone_research['output']
+    anvil.server.task_state['result'] = extracted_tone
+  
+    # Save the brand tone 
+    brand_tone_latest_row = list(user_table.search(variable='brand_tone'))
+    brand_tone_latest_row[0]['variable_value'] = extracted_tone
+    brand_tone_latest_row[0].update()
 
 ####### -------- COMPANY --------###########
 @anvil.server.callable
 def launch_company_summary(company_name, company_url):
     # Launch the background task
-    print("Launch task started for researching company:", company_name,company_url)
+    print("Launch task started for researching company:",company_name,company_url)
     task = anvil.server.launch_background_task('company_summary', company_name, company_url)
     # Return the task ID
     return task.get_id()
@@ -133,6 +294,7 @@ def company_summary(company_name, company_url):
         company_context = "Insufficient information. Please write the company description yourself."
     # Store the result in the task's state instead of returning it
     anvil.server.task_state['result'] = company_context
+    
 
 ####### -------- PRODUCT --------###################################################
 
@@ -228,7 +390,7 @@ def all_products_generator(company_profile, company_url):
 @anvil.server.callable
 def launch_deepdive_product_1_generator(company_name,product_1_name,product_1_url):
     # Launch the background task
-    task = anvil.server.launch_background_task('deepdive_product_1_generator',company_name,product_1_name,product_1_url)
+    task = anvil.server.launch_background_task('deepdive_product_1_generator',ucompany_name,product_1_name,product_1_url)
     # Return the task ID
     return task.get_id()
   
@@ -273,7 +435,7 @@ def deepdive_product_1_generator(company_name,product_1_name,product_1_url):
     # if "I couldn't find more information" in product_research_context:
     #       product_research_1= "Insufficient information. Please write the product description yourself."
     anvil.server.task_state['result'] = product_research_1
-
+  
 # PRODUCT 2
 @anvil.server.callable
 def launch_deepdive_product_2_generator(company_name,company_profile,company_url,product_2_name,product_2_preview):
@@ -533,6 +695,7 @@ def brand_tone_research(brand_tone_url):
 
     extracted_tone = tone_research['output']
     anvil.server.task_state['result'] = extracted_tone
+  
 
 @anvil.server.callable
 def save_brand_tone_component_click(self, **event_args):
