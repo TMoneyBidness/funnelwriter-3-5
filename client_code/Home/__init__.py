@@ -92,25 +92,28 @@ class Home(HomeTemplate):
         product_1_url_row['variable_value'] = product_1_url
         product_1_url_row.update()
 
-        # AVATAR 1 NAME
-        product_1_name = self.product_1_name_input.text
-        # Save product 1 name
-        product_1_row = user_table.get(variable='product_1')
-        product_1_row['variable_title'] = product_1_name
-        product_1_row.update()
+        # AVATAR 1 DESCRIPTION
+        avatar_1_preview = self.avatar_1_name_input.text
+        avatar_1_preview_row = user_table.search(variable='avatar_1_preview')[0]
+        avatar_1_preview_row['variable_value'] = avatar_1_preview
+        avatar_1_preview_row.update()
 
-      # LAUNCH THE BACKGROUND TASKS
+        # LAUNCH THE BACKGROUND TASKS
        # Launch the background task for company summary
         anvil.server.call('launch_draft_company_summary',user_table, company_name, company_url)
         print("Company Research Started")
-
-        # Launch the background task for brand tone
-        anvil.server.call('launch_draft_brand_tone_research', user_table,company_url)
-        print("Brand Tone Research Started")
-       
-        # Launch the background task for product research
+        
+       # Launch the background task for product research
         anvil.server.call('launch_draft_deepdive_product_1_generator',user_table,company_name,product_1_name,product_1_url)
         print("Deep Dive Product Research Started") 
+        
+        # Launch the background task for Avatar
+        anvil.server.call('launch_draft_deepdive_avatar_1_generator', user_table,company_name,product_1_name,avatar_1_preview)
+        print("Deep Dive Draft Avatar Research Started") 
+        
+      # Launch the background task for brand tone
+        anvil.server.call('launch_draft_brand_tone_research', user_table,company_url)
+        print("Brand Tone Research Started")
       
      
 

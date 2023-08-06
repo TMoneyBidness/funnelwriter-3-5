@@ -176,6 +176,69 @@ def deepdive_draft_product_1_generator(user_table,company_name,product_1_name,pr
     first_row_product_1_latest.update()
     print("Product Research Complete")
 
+# AVATAR 1st DRAFT
+@anvil.server.callable
+def launch_draft_deepdive_avatar_1_generator(user_table,company_name,product_1_name,avatar_1_preview):
+    print("Launch Deep Dive Avatar function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('draft_deepdive_avatar_1_generator', user_table,company_name,product_1_name,avatar_1_preview)
+    # Return the task ID
+    return task.get_id()
+
+@anvil.server.background_task
+def draft_deepdive_avatar_1_generator(user_table,company_name,product_1_name,avatar_1_preview):
+    print("Background task started for generating the avatar:", avatar_1_preview)
+ 
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
+
+    Company Context: The company, {company_name}, is selling {product_1_name}.
+    Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_1_preview}
+    Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
+    ----
+    FORMAT: 
+    - Overview
+    Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
+
+    - Demographic
+    Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
+
+    - Psychographic
+    Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
+
+    - Goals & Aspirations
+    Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
+
+    - Pain Points
+    Identify the specific problems, challenges, and frustrations the avatar is facing.
+
+    - Personal Experience
+    Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
+
+    RULES: 
+    - Do not say "the target customer", instead, provide a fictional name, age, location.  
+    - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
+    - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
+    -----
+   
+    Chatbot:"""
+
+    prompt_avatar = PromptTemplate(
+        input_variables=["company_name","product_1_name", "avatar_1_preview"],
+        template=template_avatar
+    )
+
+    chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
+    draft_avatar = chain_avatar.run(company_name=company_name, product_1_name=product_1_name, avatar_1_preview=avatar_1_preview)  # Pass in the combined context
+    anvil.server.task_state['result']  = draft_avatar
+
+    # Save this generated version as the latest version
+    row_avatar_1_latest = user_table.search(variable='avatar_1_latest')
+    first_row_avatar_1_latest = row_avatar_1_latest[0]
+    first_row_avatar_1_latest['variable_value'] = draft_avatar
+    first_row_avatar_1_latest.update()
+    print("Avatar Draft Research Complete")
+  
 # BRAND TONE 1st DRAFT 
 @anvil.server.callable
 def launch_draft_brand_tone_research(user_table,brand_tone_url):
