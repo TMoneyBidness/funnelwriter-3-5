@@ -44,7 +44,7 @@ class Home(HomeTemplate):
   def go_get_all_assets_click(self, **event_args):
     with anvil.server.no_loading_indicator:
       # This method should handle the UI logic
-      print("Go Get ALL  Assets")
+      print("Go Get All 1st Draft Assets")
     
       # Stop the function if any of the fields are empty
       if not self.company_name_input.text or not self.company_url_input.text or not self.product_1_name_input.text:
@@ -92,13 +92,13 @@ class Home(HomeTemplate):
 
       # LAUNCH THE BACKGROUND TASKS
        # Launch the background task for company summary
-        anvil.server.call('launch_company_summary',user_table, company_name, company_url)
+        anvil.server.call('launch_draft_company_summary',user_table, company_name, company_url)
         print("Company Research Started")
        # Launch the background task for product research
-        anvil.server.call('launch_deepdive_product_1_generator',user_table,company_name,product_1_name,product_1_url)
+        anvil.server.call('launch_draft_deepdive_product_1_generator',user_table,company_name,product_1_name,product_1_url)
         print("Deep Dive Product Research Started") 
       # Launch the background task for brand tone
-        anvil.server.call('launch_brand_tone_research', user_table,company_url)
+        anvil.server.call('launch_draft_brand_tone_research', user_table,company_url)
         print("Brand Tone Research Started")
 
     ### NAVIGATION

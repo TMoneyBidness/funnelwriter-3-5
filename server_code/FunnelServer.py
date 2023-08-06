@@ -116,8 +116,9 @@ def draft_company_summary(user_table,company_name, company_url):
     
     # Save this generated version as the latest version
     row_company_profile_latest = user_table.search(variable='company_profile_latest')
-    row_company_profile_latest[0]['variable_value'] = draft_company_context
-    row_company_profile_latest[0].update()
+    first_row_company_profile_latest = row_company_profile_latest[0]
+    first_row_company_profile_latest['variable_value'] = draft_company_context
+    first_row_company_profile_latest.update()
     print("Company Research Complete")
   
 # PRODUCT 1st DRAFT
@@ -171,19 +172,20 @@ def deepdive_draft_product_1_generator(user_table,company_name,product_1_name,pr
     anvil.server.task_state['result'] = product_research_1
    # Save it in the table:
     product_1_latest_row = user_table.search(variable='product_1_latest')[0]
-    product_1_latest_row['variable_value'] = product_research_1
-    product_1_latest_row[0].update()
+    first_row_product_1_latest['variable_value'] = product_research_1
+    first_row_product_1_latest.update()
+    print("Product Research Complete")
 
 # BRAND TONE 1st DRAFT 
 @anvil.server.callable
-def launch_brand_tone_research(user_table,brand_tone_url):
+def launch_draft_brand_tone_research(user_table,brand_tone_url):
     # Launch the background task
-    task = anvil.server.launch_background_task('brand_tone_research',user_table,brand_tone_url)
+    task = anvil.server.launch_background_task('draft_brand_tone_research',user_table,brand_tone_url)
     # Return the task ID
     return task.get_id()
 
 @anvil.server.background_task
-def brand_tone_research(user_table,brand_tone_url):
+def draft_brand_tone_research(user_table,brand_tone_url):
     print("Background task started for extracting brand tone:", user_table,brand_tone_url)
  
     llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-4', openai_api_key=openai_api_key)
@@ -230,8 +232,10 @@ def brand_tone_research(user_table,brand_tone_url):
   
     # Save the brand tone 
     brand_tone_latest_row = list(user_table.search(variable='brand_tone'))
-    brand_tone_latest_row[0]['variable_value'] = extracted_tone
-    brand_tone_latest_row[0].update()
+    first_row_brand_tone_latest =  brand_tone_latest_row[0]
+    first_row_brand_tone_latest['variable_value'] = extracted_tone
+    first_row_brand_tone_latest.update()
+    print("Brand Tone Research Complete")
 
 ####### -------- COMPANY --------###########
 @anvil.server.callable
