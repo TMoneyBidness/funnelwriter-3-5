@@ -101,6 +101,11 @@ class Home(HomeTemplate):
         anvil.server.call('launch_draft_brand_tone_research', user_table,company_url)
         print("Brand Tone Research Started")
 
+  
+ ### Show Other Panels
+  def add_another_product_panel_1_click(self, **event_args):
+    self.add_another_product_panel_1.visible = True
+    
     ### NAVIGATION
   def navigate_to_product(self, **event_args):
    product = Product()

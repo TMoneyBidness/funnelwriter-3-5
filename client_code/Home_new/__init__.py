@@ -19,13 +19,111 @@ from ..VSL_Elements import VSL_Elements
 from ..VideoSalesLetter import VideoSalesLetter
 from ..FinalProduct import FinalProduct
 ####################
-# NAVIGATION
+
+
 class Home_new(Home_newTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     anvil.users.login_with_form()
+    self.indeterminate_1.visible = False
+    self.free_navigate_label.visible = False
+    self.status.text = 'Idle'
+    self.youtube_intro_video.visible = False
+    self.nav_button_company_to_products.visible = False
+    self.add_another_product_panel_1.visible = False
+    self.add_another_product_panel_2.visible = False
+    self.add_another_product_panel_3.visible = False
+    self.add_another_product_panel_4.visible = False
+    
+    # Get the current user
+    current_user = anvil.users.get_user()
+    user_table_name = current_user['user_id']
+    
+    # Get the table for the current user
+    user_table = getattr(app_tables, user_table_name)
 
+  def go_get_all_assets_click(self, **event_args):
+    with anvil.server.no_loading_indicator:
+      # This method should handle the UI logic
+      print("Go Get All 1st Draft Assets")
+    
+      # Stop the function if any of the fields are empty
+      if not self.company_name_input.text or not self.company_url_input.text or not self.product_1_name_input.text:
+          anvil.js.window.alert("Please fill in all the required fields before generating the full description.")
+          return
+
+      else:
+        self.indeterminate_1.visible = True
+        self.free_navigate_label.visible = True
+        self.status.text = 'Researching'
+
+        # Load stuff        
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+    
+        # COMPANY NAME
+        company_name = self.company_name_input.text
+        # Save company name
+        company_name_row = user_table.get(variable='company_name')
+        company_name_row['variable_value'] = company_name
+        company_name_row.update()
+        
+        # COMPANY URL
+        company_url = self.company_url_input.text
+        # Save company url
+        company_url_row = user_table.get(variable='company_url')
+        company_url_row['variable_value'] = company_url
+        company_url_row.update()
+
+        # PRODUCT 1 NAME
+        product_1_name = self.product_1_name_input.text
+        # Save product 1 name
+        product_1_row = user_table.get(variable='product_1')
+        product_1_row['variable_title'] = product_1_name
+        product_1_row.update()
+
+        # PRODUCT 1 URL
+        product_1_url = self.product_1_url_input.text
+        # Save product 1 url
+        product_1_url_row = user_table.get(variable='product_1_url')
+        product_1_url_row['variable_value'] = product_1_url
+        product_1_url_row.update()
+
+      # LAUNCH THE BACKGROUND TASKS
+       # Launch the background task for company summary
+        anvil.server.call('launch_draft_company_summary',user_table, company_name, company_url)
+        print("Company Research Started")
+
+        # Launch the background task for brand tone
+        anvil.server.call('launch_draft_brand_tone_research', user_table,company_url)
+        print("Brand Tone Research Started")
+       
+        # Launch the background task for product research
+        anvil.server.call('launch_draft_deepdive_product_1_generator',user_table,company_name,product_1_name,product_1_url)
+        print("Deep Dive Product Research Started") 
+      
+     
+
+  # NAVIGATION
+  
+ ### Show Other Panels
+  def add_another_product_panel_1_click(self, **event_args):
+    self.add_another_product_panel_1.visible = True
+
+  def add_another_product_panel_2_click(self, **event_args):
+    self.add_another_product_panel_2.visible = True
+
+  def add_another_product_panel_3_click(self, **event_args):
+    self.add_another_product_panel_3.visible = True
+
+  def add_another_product_panel_4_click(self, **event_args):
+    self.add_another_product_panel_4.visible = True
+
+  # NAVIGATION
+  
   def home_asset_link_copy_click(self, **event_args):
     open_form("Home")
 
@@ -66,41 +164,4 @@ class Home_new(Home_newTemplate):
     self.content_panel.clear()
     self.content_panel.add_component(vsl_elements)
 
-  def save_company_info_component_click(self, **event_args):
-    # Get the current user
-    current_user = anvil.users.get_user()
-    # Get the email of the current user
-    owner = current_user['email']
-    # Get the row for the current user from the variable_table
-    row = app_tables.variable_table.get(owner=owner)  # Replace user_email with owner
-    # Update the company_profile column for the current user
-    if row:
-      company_name = self.company_name_input.text
-      company_url = self.company_url_input.text  # Get the company URL from the appropriate input field
-      row.update(company_name=company_name, company_url=company_url)  # Update both columns at once
-
-  def load_company_info_component_click(self, **event_args):
-    # Get the current user
-    current_user = anvil.users.get_user()
-
-    # Get the email or username of the current user
-    user_email = current_user['email']  # Change 'email' to 'username' if you are using usernames
-
-  # Get the row for the current user from the variable_table
-    row = app_tables.variable_table.get(owner=user_email)  # Change 'owner' to the appropriate column name if different
-
-  # Get the company profile text for the current user
-    if row:
-      home_page_name = row['company_name']
-      home_page_url = row['company_url']
-      home_page_product = row['product_profile']
-      home_page_avatar = row['avatar1']
-      print("Contents:", home_page_name, home_page_url, home_page_product, home_page_avatar)
-      # Set the contents as the text of the rich text box
-      self.company_name_input.text = home_page_name
-      self.company_url_input.text = home_page_url
-      self.product_profile_input.text = home_page_product
-      self.main_avatar_input.text = home_page_avatar
-    else:
-      # Handle case where the row does not exist for the current user
-      print("No row found for the current user")
+ 

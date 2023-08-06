@@ -1,4 +1,4 @@
-from ._anvil_designer import Home_oldTemplate
+from ._anvil_designer import Home_originalTemplate
 from anvil import *
 import anvil.server
 import anvil.facebook.auth
@@ -20,7 +20,7 @@ from ..VideoSalesLetter import VideoSalesLetter
 from ..FinalProduct import FinalProduct
 ####################
 # NAVIGATION
-class Home_old(Home_oldTemplate):
+class Home_original(Home_originalTemplate):
     def __init__(self, **properties):
       # Set Form properties and Data Bindings.
       self.init_components(**properties)
