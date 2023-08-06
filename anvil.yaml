@@ -22,7 +22,7 @@ services:
 - source: /runtime/services/facebook.yml
   client_config: {}
   server_config: {}
-startup: {type: form, module: Home}
+startup: {type: form, module: Home_new}
 package_name: FunnelWriter_2_0
 allow_embedding: false
 name: FunnelWriter 2.0
