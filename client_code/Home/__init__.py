@@ -43,6 +43,23 @@ class Home(HomeTemplate):
     # Hide Product 1, Avatars 2 and 3
     self.avatar_2_product_1_input_section.visible = False 
     self.avatar_3_product_1_input_section.visible = False
+    
+    # Hide Product 2, Avatars 2 and 3
+    self.avatar_2_product_2_input_section.visible = False 
+    self.avatar_3_product_2_input_section.visible = False
+    
+    # Hide Product 3, Avatars 2 and 3
+    self.avatar_2_product_3_input_section.visible = False 
+    self.avatar_3_product_3_input_section.visible = False
+    
+    # Hide Product 5, Avatars 2 and 3
+    self.avatar_2_product_5_input_section.visible = False 
+    self.avatar_3_product_5_input_section.visible = False
+
+    # Hide Product 4, Avatars 2 and 3
+    self.avatar_2_product_4_input_section.visible = False 
+    self.avatar_3_product_4_input_section.visible = False
+    
     # Hide Panels of Products 2-5
     self.product_2_panel.visible = False 
     self.product_3_panel.visible = False 
@@ -55,18 +72,66 @@ class Home(HomeTemplate):
 # Base Panel
   def add_avatar_2_product_1_click(self, **event_args):
     self.avatar_2_product_1_input_section.visible = True
+    self.add_avatar_2_product_1.visible = False
  
   def add_avatar_3_product_1_click(self, **event_args):
     self.avatar_3_product_1_input_section.visible = True
     self.add_avatar_2_product_1.visible = False
+    self.add_avatar_3_product_1.visible = False 
 
-  def add_product_2_click(self, **event_args):
+  def add_product_2_panel_click(self, **event_args):
     self.product_2_panel.visible = True
 
-# Panel 2
+# Panel 2 / Product 2
+  def add_avatar_2_product_2_click(self, **event_args):
+    self.avatar_2_product_2_input_section.visible = True
+    self.add_avatar_2_product_2.visible = False
+ 
+  def add_avatar_3_product_2_click(self, **event_args):
+    self.avatar_3_product_2_input_section.visible = True
+    self.add_avatar_2_product_2.visible = False
+    self.add_avatar_3_product_2.visible = False 
 
+  def add_product_3_panel_click(self, **event_args):
+    self.product_3_panel.visible = True
 
-  
+# Panel 3 / Product 3
+  def add_avatar_2_product_3_click(self, **event_args):
+    self.avatar_2_product_3_input_section.visible = True
+    self.add_avatar_2_product_3.visible = False
+ 
+  def add_avatar_3_product_3_click(self, **event_args):
+    self.avatar_3_product_3_input_section.visible = True
+    self.add_avatar_2_product_3.visible = False
+    self.add_avatar_3_product_3.visible = False 
+
+  def add_product_4_panel_click(self, **event_args):
+    self.product_4_panel.visible = True
+
+# Panel 4 / Product 4
+  def add_avatar_2_product_4_click(self, **event_args):
+    self.avatar_2_product_4_input_section.visible = True
+    self.add_avatar_2_product_4.visible = False
+ 
+  def add_avatar_3_product_4_click(self, **event_args):
+    self.avatar_3_product_34_input_section.visible = True
+    self.add_avatar_2_product_4.visible = False
+    self.add_avatar_3_product_4.visible = False 
+
+  def add_product_3_panel_click(self, **event_args):
+    self.product_3_panel.visible = True
+
+# Panel 5 / Product 5
+  def add_avatar_2_product_5_click(self, **event_args):
+    self.avatar_2_product_5_input_section.visible = True
+    self.add_avatar_2_product_5.visible = False
+ 
+  def add_avatar_3_product_3_click(self, **event_args):
+    self.avatar_3_product_5_input_section.visible = True
+    self.add_avatar_2_product_5.visible = False
+    self.add_avatar_3_product_5.visible = False 
+
+###-----------GO GET ALL ASSETS--------------##
   
   def go_get_all_assets_click(self, **event_args):
     with anvil.server.no_loading_indicator:
