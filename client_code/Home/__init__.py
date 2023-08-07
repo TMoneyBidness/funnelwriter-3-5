@@ -168,69 +168,34 @@ class Home(HomeTemplate):
         company_url_row['variable_value'] = company_url
         company_url_row.update()
 
-        # SAVE PRODUCT 1
-        # PRODUCT 1 NAME
-        product_1_name = self.product_1_name_input.text
-        # Save product 1 name
-        product_1_row = user_table.get(variable='product_1')
-        product_1_row['variable_title'] = product_1_name
-        product_1_row.update()
-
-        # PRODUCT 1 URL
-        product_1_url = self.product_1_url_input.text
-        # Save product 1 url
-        product_1_url_row = user_table.get(variable='product_1_url')
-        product_1_url_row['variable_value'] = product_1_url
-        product_1_url_row.update()
-
-        # PRODUCT 1, AVATAR 1 DESCRIPTION
-        # Save it as the preview
-        avatar_1_product_1_preview = self.avatar_1_product_1_input.text
-        avatar_1_product_1_preview_row = user_table.search(variable='avatar_1_product_1_preview')[0]
-        avatar_1_product_1_preview_row['variable_value'] = avatar_1_product_1_preview
-        avatar_1_product_1_preview_row.update()
-        # Save it as the latest
-        avatar_1_product_1_latest = self.avatar_1_product_1_input.text
-        avatar_1_product_1_latest_row = user_table.search(variable='avatar_1_product_1_latest')[0]
-        avatar_1_product_1_latest_row['variable_value'] = avatar_1_product_1_latest
-        avatar_1_product_1_latest_row.update()
-
-        # LAUNCH THE BACKGROUND TASKS
-        # Launch the background task for company summary
+        ## LAUNCH THE TASKS
+        
+        # Launch the background task for COMPANY SUMMARY
         task_id_company_summary = anvil.server.call('launch_draft_company_summary', user_table, company_name, company_url)
         print("Company Research Started")
-        
-        # Launch the background task for product research
-        task_id_product_research = anvil.server.call('launch_draft_deepdive_product_1_generator', user_table, company_name, product_1_name, product_1_url)
-        print("Deep Dive Product Research Started")
-        
-        # Launch the background task for Avatar
-        task_id_avatar = anvil.server.call('launch_draft_deepdive_avatar_1_generator', user_table, company_name, product_1_name, avatar_1_preview)
-        print("Deep Dive Draft Avatar Research Started") 
-        
-        # Launch the background task for brand tone
-        task_id_brand_tone = anvil.server.call('launch_draft_brand_tone_research', user_table, company_url)
-        print("Brand Tone Research Started")
-        
-        # Check the status of the background task for Avatar
+        # Check the status of the background task for company summary
         while True:
-            task_status_avatar = anvil.server.call('get_task_status', task_id_avatar)
-            print("Avatar Task Status:", task_status_avatar)
-            if task_status_avatar == "completed":
+            task_status_company_summary = anvil.server.call('get_task_status', task_id_company_summary)
+            print("Company Summary Task Status:", task_status_company_summary)
+            if task_status_company_summary == "completed":
                 # Background task completed successfully
-                avatar_result = anvil.server.call('get_task_result', task_id_avatar)
-                print("Avatar Research Result:", avatar_result)
+                company_summary_result = anvil.server.call('get_task_result', task_id_company_summary)
+                print("Company Summary Result:", company_summary_result)
                 # Update the user table with the result
-                avatar_row = user_table.get(variable='avatar_1_latest')
-                avatar_row['variable_value'] = avatar_result
-                avatar_row.update()
+                company_profile_row = user_table.get(variable='company_profile')
+                company_profile_row['variable_value'] = company_summary_result
+                company_profile_row.update()
                 break
-            elif task_status_avatar == "failed":
+            elif task_status_company_summary == "failed":
                 # Background task encountered an error
-                print("Avatar Research Failed")
+                print("Company Profile Failed")
                 break
             # Sleep for a few seconds before checking again
             time.sleep(2)
+              
+        # Launch the background task for BRAND TONE
+        task_id_brand_tone = anvil.server.call('launch_draft_brand_tone_research', user_table, company_url)
+        print("Brand Tone Research Started")
         
         # Check the status of the background task for brand tone
         while True:
@@ -251,46 +216,198 @@ class Home(HomeTemplate):
                 break
             # Sleep for a few seconds before checking again
             time.sleep(2)
-          
-        # Check the status of the background task for company summary
-        while True:
-            task_status_company_summary = anvil.server.call('get_task_status', task_id_company_summary)
-            print("Company Summary Task Status:", task_status_company_summary)
-            if task_status_company_summary == "completed":
-                # Background task completed successfully
-                company_summary_result = anvil.server.call('get_task_result', task_id_company_summary)
-                print("Company Summary Result:", company_summary_result)
-                # Update the user table with the result
-                company_profile_row = user_table.get(variable='company_profile')
-                company_profile_row['variable_value'] = company_summary_result
-                company_profile_row.update()
-                break
-            elif task_status_company_summary == "failed":
-                # Background task encountered an error
-                print("Company Profile Failed")
-                break
-            # Sleep for a few seconds before checking again
-            time.sleep(2)
+
+        # Loop through products 1 to 5
+        for i in range(1, 6):
+            # Get the product name and url from the textboxes
+            product_name_input = getattr(self, f"product_{i}_name_input").text
+            product_url_input = getattr(self, f"product_{i}_url_input").text
+            
+            # Check if the product name is not empty and save it to the user table
+            if product_name_input:
+                product_name_row = user_table.get(variable=f"product_{i}")
+                product_name_row['variable_title'] = product_name_input
+                product_name_row.update()
         
-        # Check the status of the background task for product research
-        while True:
-            task_status_product_research = anvil.server.call('get_task_status', task_id_product_research)
-            print("Product Research Task Status:", task_status_product_research)
-            if task_status_product_research == "completed":
-                # Background task completed successfully
-                product_research_result = anvil.server.call('get_task_result', task_id_product_research)
-                print("Product Research Result:", product_research_result)
-                # Update the user table with the result
-                product_research_row = user_table.get(variable='product_research')
-                product_research_row['variable_value'] = product_research_result
-                product_research_row.update()
-                break
-            elif task_status_product_research == "failed":
-                # Background task encountered an error
-                print("Product Research Failed")
-                break
-            # Sleep for a few seconds before checking again
-            time.sleep(2)
+                # Launch the background task for product research
+                task_id_product_research = anvil.server.call(f'launch_draft_deepdive_product_{i}_generator', user_table, company_name, product_name_input, product_url_input)
+                print(f"Deep Dive Product {i} Research Called")
+            
+                # Check the status of the background task for product research
+                while True:
+                    task_status_product_research = anvil.server.call('get_task_status', task_id_product_research)
+                    print("Product Research Task Status:", task_status_product_research)
+                    if task_status_product_research == "completed":
+                        # Background task completed successfully
+                        product_research_result = anvil.server.call('get_task_result', task_id_product_research)
+                        print("Product Research Result:", product_research_result)
+                        # Update the user table with the result
+                        product_research_row = user_table.get(variable=f"product_{i}_research")
+                        product_research_row['variable_value'] = product_research_result
+                        product_research_row.update()
+                        break
+                    elif task_status_product_research == "failed":
+                        # Background task encountered an error
+                        print("Product Research Failed")
+                        break
+                    # Sleep for a few seconds before checking again
+                    time.sleep(2)
+        
+            # Check if the product url is not empty and save it to the user table
+            if product_url_input:
+                product_url_row = user_table.get(variable=f"product_{i}_url")
+                product_url_row['variable_value'] = product_url_input
+                product_url_row.update()
+  
+        # CHECK THE AVATARS FOR EACH PRODUCT
+        # Loop through products 1 to 5
+        for i in range(1, 6):
+            # Loop through avatars 1 to 3 for each product
+            for j in range(1, 4):
+                # Get the avatar description from the textbox
+                avatar_input = getattr(self, f"avatar_{j}_product_{i}_input").text
+                    
+                # Check if the avatar description is not empty and save it to the user table
+                if avatar_input:
+                    # Launch the background task for Avatar
+                    task_id_avatar = anvil.server.call(f'launch_draft_deepdive_avatar_{j}_generator', user_table, company_name, getattr(self, f"product_{i}_name_input").text, avatar_input)
+                    print("Deep Dive Draft Avatar Research Started")   
+                    
+                  # Save it as the preview
+                    avatar_preview_row = user_table.search(variable=f"avatar_{j}_product_{i}_preview")[0]
+                    avatar_preview_row['variable_value'] = avatar_input
+                    avatar_preview_row.update()
+                    
+                    # Save it as the latest
+                    avatar_latest_row = user_table.search(variable=f"avatar_{j}_product_{i}_latest")[0]
+                    avatar_latest_row['variable_value'] = avatar_input
+                    avatar_latest_row.update()
+  
+                  # Check the status of the background task for Avatar
+                    while True:
+                        task_status_avatar = anvil.server.call('get_task_status', task_id_avatar)
+                        print("Avatar Task Status:", task_status_avatar)
+                        if task_status_avatar == "completed":
+                            # Background task completed successfully
+                            avatar_result = anvil.server.call('get_task_result', task_id_avatar)
+                            print("Avatar Research Result:", avatar_result)
+                          # Update the user table with the result
+                            avatar_row = user_table.get(variable=f"avatar_{j}_latest")
+                            avatar_row['variable_value'] = avatar_result
+                            avatar_row.update()
+                            break
+                        elif task_status_avatar == "failed":
+                            # Background task encountered an error
+                            print("Avatar Research Failed")
+                            break
+                        # Sleep for a few seconds before checking again
+                        time.sleep(2)
+
+      # # Loop through products 1 to 5
+        # for i in range(1, 6):
+        #     # Get the product name and url from the textboxes
+        #     product_name_input = getattr(self, f"product_{i}_name_input").text
+        #     product_url_input = getattr(self, f"product_{i}_url_input").text
+            
+        #     # Check if the product name is not empty and save it to the user table
+        #     if product_name_input:
+        #         product_name_row = user_table.get(variable=f"product_{i}")
+        #         product_name_row['variable_title'] = product_name_input
+        #         product_name_row.update()
+        
+        #         # Launch the background task for product research
+        #         task_id_product_research = anvil.server.call(f'launch_draft_deepdive_product_{i}_generator', user_table, company_name, product_name_input, product_url_input)
+        #         print(f"Deep Dive Product {i} Research Called")
+        
+        #     # Check if the product url is not empty and save it to the user table
+        #     if product_url_input:
+        #         product_url_row = user_table.get(variable=f"product_{i}_url")
+        #         product_url_row['variable_value'] = product_url_input
+        #         product_url_row.update()
+
+        #    # Check the status of the background task for product research
+        # while True:
+        #     task_status_product_research = anvil.server.call('get_task_status', task_id_product_research)
+        #     print("Product Research Task Status:", task_status_product_research)
+        #     if task_status_product_research == "completed":
+        #         # Background task completed successfully
+        #         product_research_result = anvil.server.call('get_task_result', task_id_product_research)
+        #         print("Product Research Result:", product_research_result)
+        #         # Update the user table with the result
+        #         product_research_row = user_table.get(variable='product_research')
+        #         product_research_row['variable_value'] = product_research_result
+        #         product_research_row.update()
+        #         break
+        #     elif task_status_product_research == "failed":
+        #         # Background task encountered an error
+        #         print("Product Research Failed")
+        #         break
+        #     # Sleep for a few seconds before checking again
+        #     time.sleep(2)
+
+   
+        # # SAVE PRODUCT 1
+        # # PRODUCT 1 NAME
+        # product_1_name = self.product_1_name_input.text
+        # # Save product 1 name
+        # product_1_row = user_table.get(variable='product_1')
+        # product_1_row['variable_title'] = product_1_name
+        # product_1_row.update()
+
+        # # PRODUCT 1 URL
+        # product_1_url = self.product_1_url_input.text
+        # # Save product 1 url
+        # product_1_url_row = user_table.get(variable='product_1_url')
+        # product_1_url_row['variable_value'] = product_1_url
+        # product_1_url_row.update()
+      
+        # # PRODUCT 1, AVATAR 1 DESCRIPTION
+        # # Save it as the preview
+        # avatar_1_product_1_preview = self.avatar_1_product_1_input.text
+        # avatar_1_product_1_preview_row = user_table.search(variable='avatar_1_product_1_preview')[0]
+        # avatar_1_product_1_preview_row['variable_value'] = avatar_1_product_1_preview
+        # avatar_1_product_1_preview_row.update()
+        # # Save it as the latest
+        # avatar_1_product_1_latest = self.avatar_1_product_1_input.text
+        # avatar_1_product_1_latest_row = user_table.search(variable='avatar_1_product_1_latest')[0]
+        # avatar_1_product_1_latest_row['variable_value'] = avatar_1_product_1_latest
+        # avatar_1_product_1_latest_row.update()
+
+        
+        # # Launch the background task for product research
+        # task_id_product_research = anvil.server.call('launch_draft_deepdive_product_1_generator', user_table, company_name, product_1_name, product_1_url)
+        # print("Deep Dive Product Research Started")
+        
+        # # Launch the background task for Avatar
+        # task_id_avatar = anvil.server.call('launch_draft_deepdive_avatar_1_generator', user_table, company_name, product_1_name, avatar_1_preview)
+        # print("Deep Dive Draft Avatar Research Started") 
+
+        
+        # # Check the status of the background task for Avatar
+        # while True:
+        #     task_status_avatar = anvil.server.call('get_task_status', task_id_avatar)
+        #     print("Avatar Task Status:", task_status_avatar)
+        #     if task_status_avatar == "completed":
+        #         # Background task completed successfully
+        #         avatar_result = anvil.server.call('get_task_result', task_id_avatar)
+        #         print("Avatar Research Result:", avatar_result)
+        #         # Update the user table with the result
+        #         avatar_row = user_table.get(variable='avatar_1_latest')
+        #         avatar_row['variable_value'] = avatar_result
+        #         avatar_row.update()
+        #         break
+        #     elif task_status_avatar == "failed":
+        #         # Background task encountered an error
+        #         print("Avatar Research Failed")
+        #         break
+        #     # Sleep for a few seconds before checking again
+        #     time.sleep(2)
+        
+        
+          
+        
+        
+       
         
   # NAVIGATION
   

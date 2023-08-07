@@ -176,6 +176,62 @@ def deepdive_draft_product_1_generator(user_table,company_name,product_1_name,pr
     product_1_latest_row.update()
     print("Product Research Complete")
 
+# PRODUCT 2, 1st DRAFT
+@anvil.server.callable
+def launch_draft_deepdive_product_2_generator(user_table,company_name,product_2_name,product_2_url):
+    # Launch the background task
+    task = anvil.server.launch_background_task('deepdive_draft_product_2_generator',user_table,company_name,product_2_name,product_2_url)
+    # Return the task ID
+    return task.get_id()
+  
+@anvil.server.background_task
+def deepdive_draft_product_2_generator(user_table,company_name,product_2_name,product_2_url):
+    print("Background task started for the Deep Dive of Researching the Product:", product_2_name)
+
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
+    agent_product_research = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
+  
+    product_research_context = agent_product_research({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_2_name} \
+                  Leverage all necessary resources such as {company_name}'s' main product website {product_2_url}, web pages, and any other relevant sources \
+                  to gather the following details about company's product, {product_2_name}. Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful, actionable insights. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
+                  \n \
+                  Overview: Provide a comprehensive introduction to the product. What is its purpose, and what does the company aim to achieve with it? \n \
+                  \n \
+                  Description: Deeply describe the product. What does it look like, feel like, and what experience does it offer? \n \
+                  \n \
+                  Price: Detail the pricing structure. What is the cost, and are there any variations or tiers in pricing? \n \
+                  \n \
+                  Features: Elucidate the key features of the product. What distinguishes this product from others in the market? I would like around 15 differences between the product offers, if possible. \n \
+                  \n \
+                  Benefits: Explicate on how the product will benefit the customer. How can it change their life or improve their situation? \n \
+                  \n \
+                  Why people buy it: Analyze the consumer's pain points and desires before purchasing this product. Why might someone be drawn to this product, and what needs does it fulfill? \n \
+                  \n \
+                  Expected results: What are the anticipated outcomes or gains after using this product? How will the customer's situation improve or change? \n \
+                  \n \
+                  Guarantees: Discuss any guarantees the company offers with this product. Are there any assurances of product performance, or return policies in place? \n \
+                  \n \
+                  Bonuses: List any additional bonuses or incentives that come along with the product. What additional value does the company provide to sweeten the deal? \n \
+                  \n \
+                  Possible objections: Predict potential objections or concerns a customer may have about the product. How might the company address these? \n \
+                  \n \
+                  Ensure to provide an in-depth report with approximately 800-1000 words on the product, making it as detailed and specific as possible. Your aim is to capture the full essence of the product.
+                  \n \
+                  NOTES ON FORMAT:
+                  Be confident, do not say there is incomplete information, or there is not information. If you can't answer elements from the above, ignore it! Speak as if you are the authority of the subject. If you don't know the answer, don't talk about it. Do not say "I was unable to find information on XYZ". 
+                  """})
+
+    product_research_2 = product_research_context['output']
+    # if "I couldn't find more information" in product_research_context:
+    #       product_research_1= "Insufficient information. Please write the product description yourself."
+    anvil.server.task_state['result'] = product_research_2
+   # Save it in the table:
+    product_2_latest_row = user_table.search(variable='product_1_latest')[0]
+    product_2_latest_row['variable_value'] = product_research_2
+    product_2_latest_row.update()
+    print("Product Research Complete")
+  
+
 # AVATAR 1st DRAFT
 @anvil.server.callable
 def launch_draft_deepdive_avatar_1_generator(user_table,company_name,product_1_name,avatar_1_preview):
@@ -238,6 +294,71 @@ def draft_deepdive_avatar_1_generator(user_table,company_name,product_1_name,ava
     first_row_avatar_1_latest['variable_value'] = draft_avatar
     first_row_avatar_1_latest.update()
     print("Avatar Draft Research Complete")
+
+# AVATAR 2, 1st DRAFT
+@anvil.server.callable
+def launch_draft_deepdive_avatar_2_generator(user_table,company_name,product_2_name,avatar_2_preview):
+    print("Launch Deep Dive Avatar function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('draft_deepdive_avatar_2_generator', user_table,company_name,product_2_name,avatar_2_preview)
+    # Return the task ID
+    return task.get_id()
+
+@anvil.server.background_task
+def draft_deepdive_avatar_2_generator(user_table,company_name,product_2_name,avatar_2_preview):
+    print("Background task started for generating the avatar:", avatar_2_preview)
+ 
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
+
+    Company Context: The company, {company_name}, is selling {product_2_name}.
+    Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_2_preview}
+    Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
+    ----
+    FORMAT: 
+    - Overview
+    Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
+
+    - Demographic
+    Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
+
+    - Psychographic
+    Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
+
+    - Goals & Aspirations
+    Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
+
+    - Pain Points
+    Identify the specific problems, challenges, and frustrations the avatar is facing.
+
+    - Personal Experience
+    Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
+
+    RULES: 
+    - Do not say "the target customer", instead, provide a fictional name, age, location.  
+    - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
+    - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
+    -----
+   
+    Chatbot:"""
+
+    prompt_avatar = PromptTemplate(
+        input_variables=["company_name","product_2_name", "avatar_2_preview"],
+        template=template_avatar
+    )
+
+    chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
+    draft_avatar = chain_avatar.run(company_name=company_name, product_2_name=product_2_name, avatar_2_preview=avatar_2_preview)  # Pass in the combined context
+    anvil.server.task_state['result']  = draft_avatar
+
+    # Save this generated version as the latest version
+    row_avatar_2_latest = user_table.search(variable='avatar_2_latest')
+    first_row_avatar_2_latest = row_avatar_1_latest[0]
+    first_row_avatar_2_latest['variable_value'] = draft_avatar
+    first_row_avatar_2_latest.update()
+    print("Avatar Draft Research Complete")
+
+
   
 # BRAND TONE 1st DRAFT 
 @anvil.server.callable
