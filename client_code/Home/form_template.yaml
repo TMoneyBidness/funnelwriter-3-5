@@ -649,7 +649,7 @@ components:
           grid_position: SNEHKX,NCIVYN
         event_bindings: {click: add_avatar_3_product_3_click}
     - type: ColumnPanel
-      properties: {col_widths: '{"FGXNBI":20,"LPXMBI":40}'}
+      properties: {col_widths: '{"YAJYCL":20,"PIMOUT":40}'}
       name: avatar_3_product_3_input_section
       layout_properties: {grid_position: 'QTWPUD,XLZIAP'}
       components:
@@ -661,14 +661,14 @@ components:
         name: label_2_copy_22
         layout_properties:
           col_widths: {}
-          grid_position: XZEMTO,FGXNBI
+          grid_position: JUECSI,YAJYCL
       - type: TextArea
         properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
           border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
           auto_expand: true, font: '', spacing_above: small, spacing_below: small,
           italic: false, background: '', bold: false, underline: false}
         name: avatar_3_product_3_input
-        layout_properties: {grid_position: 'XZEMTO,LPXMBI'}
+        layout_properties: {grid_position: 'JUECSI,PIMOUT'}
     - type: Button
       properties: {role: tonal-button, align: center, tooltip: '', border: '', enabled: true,
         foreground: '', visible: true, text: ADD ANOTHER PRODUCT, font_size: null,
