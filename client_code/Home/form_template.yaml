@@ -405,7 +405,7 @@ components:
       layout_properties:
         col_widths: {}
         grid_position: WCPIEZ,QZZEOE
-      event_bindings: {click: add_another_product_panel_1_click}
+      event_bindings: {click: add_product_2_panel_click}
     - type: Spacer
       properties: {height: 32}
       name: spacer_3
@@ -548,7 +548,7 @@ components:
       layout_properties: {grid_position: 'LYPEGN,GPPXZG'}
   - type: ColumnPanel
     properties: {col_widths: '{"QQGLML":20,"DQSWXP":40,"PCAQVH":20,"STGMYH":40,"JDKYLZ":17,"XXFKWG":35}'}
-    name: add_another_product_panel_2
+    name: product_3_panel
     layout_properties:
       col_widths: {}
       grid_position: DURKNH,KZCQYP
@@ -685,7 +685,7 @@ components:
       layout_properties: {grid_position: 'EHSYTO,OPULZT'}
   - type: ColumnPanel
     properties: {col_widths: '{"QQGLML":20,"DQSWXP":40,"PCAQVH":20,"STGMYH":40,"JDKYLZ":17,"XXFKWG":35}'}
-    name: product_3_panel
+    name: product_4_panel
     layout_properties:
       col_widths: {}
       grid_position: QSWQGS,QZGOCG

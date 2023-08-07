@@ -31,41 +31,42 @@ class Home(HomeTemplate):
     self.free_navigate_label.visible = False
     self.status.text = 'Idle'
     self.youtube_intro_video.visible = False
-
-    # HIDE ALL PANELS OFF THE TOP
     self.nav_button_company_to_products.visible = False
-    self.add_another_product_panel_1.visible = False
-    self.add_another_product_panel_2.visible = False
-    self.add_another_product_panel_3.visible = False
-    self.add_another_product_panel_4.visible = False
-    
+
     # Get the current user
     current_user = anvil.users.get_user()
     user_table_name = current_user['user_id']
-    
     # Get the table for the current user
     user_table = getattr(app_tables, user_table_name)
+    
+    # HIDE ALL PANELS OFF THE TOP
+    # Hide Product 1, Avatars 2 and 3
+    self.avatar_2_product_1_input_section.visible = False 
+    self.avatar_3_product_1_input_section.visible = False
+    # Hide Panels of Products 2-5
+    self.product_2_panel.visible = False 
+    self.product_3_panel.visible = False 
+    self.product_4_panel.visible = False 
+    self.product_5_panel.visible = False 
+       
 
 # ADDING PRODUCTS / AVATAR PANELS
+
+# Base Panel
+  def add_avatar_2_product_1_click(self, **event_args):
+    self.avatar_2_product_1_input_section.visible = True
+ 
+  def add_avatar_2_product_1_click(self, **event_args):
+    self.avatar_3_product_1_input_section.visible = True
+    self.add_avatar_2_product_1.visible = False
+
+  def add_product_2_click(self, **event_args):
+    self.product_2_panel.visible = True
+
+# Panel 2
+
+
   
-
-# BASE PANEL
-
-# ADD PRODUCT 2 PANEL 1
-
-# ADD PANEL 2
-  def add_another_product_panel_1_click(self, **event_args):
-    self.add_another_product_panel_1.visible = True
-
-  def add_another_product_panel_2_click(self, **event_args):
-    self.add_another_product_panel_2.visible = True
-
-  def add_another_product_panel_3_click(self, **event_args):
-    self.add_another_product_panel_3.visible = True
-
-  def add_another_product_panel_4_click(self, **event_args):
-    self.add_another_product_panel_4.visible = True
-
   
   def go_get_all_assets_click(self, **event_args):
     with anvil.server.no_loading_indicator:
