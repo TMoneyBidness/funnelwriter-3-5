@@ -107,19 +107,19 @@ class Home(HomeTemplate):
 
   def add_product_4_panel_click(self, **event_args):
     self.product_4_panel.visible = True
-
+    
 # Panel 4 / Product 4
   def add_avatar_2_product_4_click(self, **event_args):
     self.avatar_2_product_4_input_section.visible = True
     self.add_avatar_2_product_4.visible = False
  
   def add_avatar_3_product_4_click(self, **event_args):
-    self.avatar_3_product_34_input_section.visible = True
+    self.avatar_3_product_4_input_section.visible = True
     self.add_avatar_2_product_4.visible = False
     self.add_avatar_3_product_4.visible = False 
 
-  def add_product_3_panel_click(self, **event_args):
-    self.product_3_panel.visible = True
+  def add_product_5_panel_click(self, **event_args):
+    self.product_5_panel.visible = True
 
 # Panel 5 / Product 5
   def add_avatar_2_product_5_click(self, **event_args):
