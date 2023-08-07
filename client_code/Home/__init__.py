@@ -205,7 +205,7 @@ class Home(HomeTemplate):
                     # Check if the avatar description is not empty and save it to the user table
                     if avatar_input:
                         # Launch the background task for Avatar
-                        task_id_avatar = anvil.server.call(f"launch_draft_deepdive_avatar_{j}_generator", user_table, company_name, getattr(self, f"product_{i}_name_input").text, avatar_input)
+                        task_id_avatar = anvil.server.call(f"launch_draft_deepdive_avatar_{j}_product_{i}_generator", user_table, company_name, getattr(self, f"product_{i}_name_input").text, avatar_input)
                         print("Deep Dive Draft Avatar Research Started")
 
                         # Save it as the preview
