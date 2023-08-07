@@ -8,6 +8,7 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
+import time
 
 #############################################
 
@@ -99,24 +100,102 @@ class Home(HomeTemplate):
         avatar_1_preview_row.update()
 
         # LAUNCH THE BACKGROUND TASKS
-       # Launch the background task for company summary
-        anvil.server.call('launch_draft_company_summary',user_table, company_name, company_url)
+        # Launch the background task for company summary
+        task_id_company_summary = anvil.server.call('launch_draft_company_summary', user_table, company_name, company_url)
         print("Company Research Started")
         
-       # Launch the background task for product research
-        anvil.server.call('launch_draft_deepdive_product_1_generator',user_table,company_name,product_1_name,product_1_url)
-        print("Deep Dive Product Research Started") 
+        # Launch the background task for product research
+        task_id_product_research = anvil.server.call('launch_draft_deepdive_product_1_generator', user_table, company_name, product_1_name, product_1_url)
+        print("Deep Dive Product Research Started")
         
         # Launch the background task for Avatar
-        anvil.server.call('launch_draft_deepdive_avatar_1_generator', user_table,company_name,product_1_name,avatar_1_preview)
+        task_id_avatar = anvil.server.call('launch_draft_deepdive_avatar_1_generator', user_table, company_name, product_1_name, avatar_1_preview)
         print("Deep Dive Draft Avatar Research Started") 
         
-      # Launch the background task for brand tone
-        anvil.server.call('launch_draft_brand_tone_research', user_table,company_url)
+        # Launch the background task for brand tone
+        task_id_brand_tone = anvil.server.call('launch_draft_brand_tone_research', user_table, company_url)
         print("Brand Tone Research Started")
-      
-     
-
+        
+        # Check the status of the background task for Avatar
+        while True:
+            task_status_avatar = anvil.server.call('get_task_status', task_id_avatar)
+            print("Avatar Task Status:", task_status_avatar)
+            if task_status_avatar == "completed":
+                # Background task completed successfully
+                avatar_result = anvil.server.call('get_task_result', task_id_avatar)
+                print("Avatar Research Result:", avatar_result)
+                # Update the user table with the result
+                avatar_row = user_table.get(variable='avatar_1_latest')
+                avatar_row['variable_value'] = avatar_result
+                avatar_row.update()
+                break
+            elif task_status_avatar == "failed":
+                # Background task encountered an error
+                print("Avatar Research Failed")
+                break
+            # Sleep for a few seconds before checking again
+            time.sleep(2)
+        
+        # Check the status of the background task for brand tone
+        while True:
+            task_status_brand_tone = anvil.server.call('get_task_status', task_id_brand_tone)
+            print("Brand Tone Task Status:", task_status_brand_tone)
+            if task_status_brand_tone == "completed":
+                # Background task completed successfully
+                brand_tone_result = anvil.server.call('get_task_result', task_id_brand_tone)
+                print("Brand Tone Research Result:", brand_tone_result)
+                # Update the user table with the result
+                brand_tone_row = user_table.get(variable='brand_tone')
+                brand_tone_row['variable_value'] = brand_tone_result
+                brand_tone_row.update()
+                break
+            elif task_status_brand_tone == "failed":
+                # Background task encountered an error
+                print("Brand Tone Research Failed")
+                break
+            # Sleep for a few seconds before checking again
+            time.sleep(2)
+          
+        # Check the status of the background task for company summary
+        while True:
+            task_status_company_summary = anvil.server.call('get_task_status', task_id_company_summary)
+            print("Company Summary Task Status:", task_status_company_summary)
+            if task_status_company_summary == "completed":
+                # Background task completed successfully
+                company_summary_result = anvil.server.call('get_task_result', task_id_company_summary)
+                print("Company Summary Result:", company_summary_result)
+                # Update the user table with the result
+                company_profile_row = user_table.get(variable='company_profile')
+                company_profile_row['variable_value'] = company_summary_result
+                company_profile_row.update()
+                break
+            elif task_status_company_summary == "failed":
+                # Background task encountered an error
+                print("Company Profile Failed")
+                break
+            # Sleep for a few seconds before checking again
+            time.sleep(2)
+        
+        # Check the status of the background task for product research
+        while True:
+            task_status_product_research = anvil.server.call('get_task_status', task_id_product_research)
+            print("Product Research Task Status:", task_status_product_research)
+            if task_status_product_research == "completed":
+                # Background task completed successfully
+                product_research_result = anvil.server.call('get_task_result', task_id_product_research)
+                print("Product Research Result:", product_research_result)
+                # Update the user table with the result
+                product_research_row = user_table.get(variable='product_research')
+                product_research_row['variable_value'] = product_research_result
+                product_research_row.update()
+                break
+            elif task_status_product_research == "failed":
+                # Background task encountered an error
+                print("Product Research Failed")
+                break
+            # Sleep for a few seconds before checking again
+            time.sleep(2)
+        
   # NAVIGATION
   
  ### Show Other Panels
