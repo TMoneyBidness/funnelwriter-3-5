@@ -47,6 +47,12 @@ class Home(HomeTemplate):
 # ADDING PRODUCTS / AVATAR NAVIGATIONS
   
  ### Show Other Panels
+
+# BASE PANEL
+
+# ADD PRODUCT 2 PANEL 1
+
+# ADD PANEL 2
   def add_another_product_panel_1_click(self, **event_args):
     self.add_another_product_panel_1.visible = True
 
