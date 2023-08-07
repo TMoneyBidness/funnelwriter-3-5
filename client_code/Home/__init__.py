@@ -31,6 +31,8 @@ class Home(HomeTemplate):
     self.free_navigate_label.visible = False
     self.status.text = 'Idle'
     self.youtube_intro_video.visible = False
+
+    # HIDE ALL PANELS OFF THE TOP
     self.nav_button_company_to_products.visible = False
     self.add_another_product_panel_1.visible = False
     self.add_another_product_panel_2.visible = False
@@ -44,9 +46,8 @@ class Home(HomeTemplate):
     # Get the table for the current user
     user_table = getattr(app_tables, user_table_name)
 
-# ADDING PRODUCTS / AVATAR NAVIGATIONS
+# ADDING PRODUCTS / AVATAR PANELS
   
- ### Show Other Panels
 
 # BASE PANEL
 
