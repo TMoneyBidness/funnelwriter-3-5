@@ -96,7 +96,7 @@ components:
       visible: true, text: Company, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
       spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
       italic: false, background: '', bold: false, underline: false, icon: ''}
-    name: company_asset_link_copy
+    name: company_asset_link_sidebar
     layout_properties: {grid_position: 'GZAAGB,YWZWZZ'}
     event_bindings: {click: company_asset_link_click}
   - type: Link
@@ -104,7 +104,7 @@ components:
       visible: true, text: Product, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
       spacing_above: small, icon_align: left, col_widths: '{}', spacing_below: small,
       italic: false, background: '', bold: false, underline: false, icon: ''}
-    name: product_asset_link_copy
+    name: product_asset_link_sidebar
     layout_properties: {grid_position: 'WJLJQD,ERZJPN'}
     event_bindings: {click: product_asset_link_click}
     components: []
@@ -113,7 +113,7 @@ components:
       visible: true, text: Avatars, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
       spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
       italic: false, background: '', bold: false, underline: false, icon: ''}
-    name: avatars_asset_link
+    name: avatars_asset_link_sidebar
     layout_properties: {grid_position: 'YELEWE,WYTWFS'}
     event_bindings: {click: avatars_asset_link_click}
   - type: Link
@@ -122,7 +122,7 @@ components:
       col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '',
       spacing_below: small, italic: false, background: '', bold: false, underline: false,
       icon: ''}
-    name: brand_tone_asset_link
+    name: brand_tone_asset_link_sidebar
     layout_properties: {grid_position: 'AQHFLR,DZOVMR'}
     event_bindings: {click: brand_tone_asset_link_click}
   - type: Label
@@ -140,7 +140,7 @@ components:
       col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '',
       spacing_below: small, italic: false, background: '', bold: false, underline: false,
       icon: ''}
-    name: vsl_page_link
+    name: vsl_page_link_sidebar
     layout_properties:
       col_widths: {}
       grid_position: BXDVZV,GQCKOO

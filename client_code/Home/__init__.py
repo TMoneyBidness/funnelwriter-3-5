@@ -168,6 +168,7 @@ class Home(HomeTemplate):
         company_url_row['variable_value'] = company_url
         company_url_row.update()
 
+        # SAVE PRODUCT 1
         # PRODUCT 1 NAME
         product_1_name = self.product_1_name_input.text
         # Save product 1 name
@@ -182,11 +183,17 @@ class Home(HomeTemplate):
         product_1_url_row['variable_value'] = product_1_url
         product_1_url_row.update()
 
-        # AVATAR 1 DESCRIPTION
-        avatar_1_preview = self.avatar_1_name_input.text
-        avatar_1_preview_row = user_table.search(variable='avatar_1_preview')[0]
-        avatar_1_preview_row['variable_value'] = avatar_1_preview
-        avatar_1_preview_row.update()
+        # PRODUCT 1, AVATAR 1 DESCRIPTION
+        # Save it as the preview
+        avatar_1_product_1_preview = self.avatar_1_product_1_input.text
+        avatar_1_product_1_preview_row = user_table.search(variable='avatar_1_product_1_preview')[0]
+        avatar_1_product_1_preview_row['variable_value'] = avatar_1_product_1_preview
+        avatar_1_product_1_preview_row.update()
+        # Save it as the latest
+        avatar_1_product_1_latest = self.avatar_1_product_1_input.text
+        avatar_1_product_1_latest_row = user_table.search(variable='avatar_1_product_1_latest')[0]
+        avatar_1_product_1_latest_row['variable_value'] = avatar_1_product_1_latest
+        avatar_1_product_1_latest_row.update()
 
         # LAUNCH THE BACKGROUND TASKS
         # Launch the background task for company summary
