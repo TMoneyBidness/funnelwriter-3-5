@@ -172,8 +172,8 @@ def deepdive_draft_product_1_generator(user_table,company_name,product_1_name,pr
     anvil.server.task_state['result'] = product_research_1
    # Save it in the table:
     product_1_latest_row = user_table.search(variable='product_1_latest')[0]
-    first_row_product_1_latest['variable_value'] = product_research_1
-    first_row_product_1_latest.update()
+    product_1_latest_row['variable_value'] = product_research_1
+    product_1_latest_row.update()
     print("Product Research Complete")
 
 # AVATAR 1st DRAFT
