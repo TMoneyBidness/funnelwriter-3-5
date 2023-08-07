@@ -44,6 +44,22 @@ class Home(HomeTemplate):
     # Get the table for the current user
     user_table = getattr(app_tables, user_table_name)
 
+# ADDING PRODUCTS / AVATAR NAVIGATIONS
+  
+ ### Show Other Panels
+  def add_another_product_panel_1_click(self, **event_args):
+    self.add_another_product_panel_1.visible = True
+
+  def add_another_product_panel_2_click(self, **event_args):
+    self.add_another_product_panel_2.visible = True
+
+  def add_another_product_panel_3_click(self, **event_args):
+    self.add_another_product_panel_3.visible = True
+
+  def add_another_product_panel_4_click(self, **event_args):
+    self.add_another_product_panel_4.visible = True
+
+  
   def go_get_all_assets_click(self, **event_args):
     with anvil.server.no_loading_indicator:
       # This method should handle the UI logic
@@ -196,21 +212,6 @@ class Home(HomeTemplate):
             # Sleep for a few seconds before checking again
             time.sleep(2)
         
-  # NAVIGATION
-  
- ### Show Other Panels
-  def add_another_product_panel_1_click(self, **event_args):
-    self.add_another_product_panel_1.visible = True
-
-  def add_another_product_panel_2_click(self, **event_args):
-    self.add_another_product_panel_2.visible = True
-
-  def add_another_product_panel_3_click(self, **event_args):
-    self.add_another_product_panel_3.visible = True
-
-  def add_another_product_panel_4_click(self, **event_args):
-    self.add_another_product_panel_4.visible = True
-
   # NAVIGATION
   
   def home_asset_link_copy_click(self, **event_args):
