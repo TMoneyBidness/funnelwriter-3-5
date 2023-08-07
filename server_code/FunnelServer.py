@@ -353,7 +353,7 @@ def draft_deepdive_avatar_2_generator(user_table,company_name,product_2_name,ava
 
     # Save this generated version as the latest version
     row_avatar_2_latest = user_table.search(variable='avatar_2_latest')
-    first_row_avatar_2_latest = row_avatar_1_latest[0]
+    first_row_avatar_2_latest = row_avatar_2_latest[0]
     first_row_avatar_2_latest['variable_value'] = draft_avatar
     first_row_avatar_2_latest.update()
     print("Avatar Draft Research Complete")
