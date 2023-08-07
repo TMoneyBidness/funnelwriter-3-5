@@ -253,4 +253,6 @@ class Home(HomeTemplate):
     self.content_panel.clear()
     self.content_panel.add_component(vsl_elements)
 
+
+
  
