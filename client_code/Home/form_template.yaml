@@ -646,7 +646,7 @@ components:
         name: add_avatar_3_product_3
         layout_properties:
           col_widths: {}
-          grid_position: XNMFQZ,XLYZXM
+          grid_position: SNEHKX,NCIVYN
         event_bindings: {click: add_avatar_3_product_3_click}
     - type: ColumnPanel
       properties: {col_widths: '{"FGXNBI":20,"LPXMBI":40}'}
