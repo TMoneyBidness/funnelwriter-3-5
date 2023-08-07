@@ -59,7 +59,7 @@ class Home(HomeTemplate):
     # Hide Product 5, Avatars 2 and 3
     self.avatar_2_product_5_input_section.visible = False 
     self.avatar_3_product_5_input_section.visible = False
-    
+
     # Hide Panels of Products 2-5
     self.product_2_panel.visible = False 
     self.product_3_panel.visible = False 
@@ -103,7 +103,7 @@ class Home(HomeTemplate):
   def add_avatar_3_product_3_click(self, **event_args):
     self.avatar_3_product_3_input_section.visible = True
     self.add_avatar_2_product_3.visible = False
-    # self.add_avatar_3_product_3.visible = False 
+    self.add_avatar_3_product_3.visible = False 
 
   def add_product_4_panel_click(self, **event_args):
     self.product_4_panel.visible = True
@@ -121,12 +121,12 @@ class Home(HomeTemplate):
   def add_product_5_panel_click(self, **event_args):
     self.product_5_panel.visible = True
 
-# Panel 5 / Product 5
+# Panel 5 / Product 25
   def add_avatar_2_product_5_click(self, **event_args):
     self.avatar_2_product_5_input_section.visible = True
     self.add_avatar_2_product_5.visible = False
  
-  def add_avatar_3_product_3_click(self, **event_args):
+  def add_avatar_3_product_5_click(self, **event_args):
     self.avatar_3_product_5_input_section.visible = True
     self.add_avatar_2_product_5.visible = False
     self.add_avatar_3_product_5.visible = False 
