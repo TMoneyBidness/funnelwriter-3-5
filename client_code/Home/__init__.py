@@ -56,7 +56,7 @@ class Home(HomeTemplate):
   def add_avatar_2_product_1_click(self, **event_args):
     self.avatar_2_product_1_input_section.visible = True
  
-  def add_avatar_2_product_1_click(self, **event_args):
+  def add_avatar_3_product_1_click(self, **event_args):
     self.avatar_3_product_1_input_section.visible = True
     self.add_avatar_2_product_1.visible = False
 
