@@ -103,7 +103,7 @@ class Home(HomeTemplate):
   def add_avatar_3_product_3_click(self, **event_args):
     self.avatar_3_product_3_input_section.visible = True
     self.add_avatar_2_product_3.visible = False
-    self.add_avatar_3_product_3.visible = False 
+    # self.add_avatar_3_product_3.visible = False 
 
   def add_product_4_panel_click(self, **event_args):
     self.product_4_panel.visible = True
