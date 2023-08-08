@@ -120,7 +120,7 @@ class Home(HomeTemplate):
   def add_product_5_panel_click(self, **event_args):
     self.product_5_panel.visible = True
 
-# Panel 5 / Product 25
+# Panel 5 / Product 5
   def add_avatar_2_product_5_click(self, **event_args):
     self.avatar_2_product_5_input_section.visible = True
     self.add_avatar_2_product_5.visible = False
@@ -168,8 +168,9 @@ class Home(HomeTemplate):
             company_url_row.update()
 
             # LAUNCH THE TASKS
-
+          
             # Launch the background tasks concurrently
+            # COMPANY SUMMARY // BRAND TONE
             task_id_company_summary = anvil.server.call('launch_draft_company_summary', user_table, company_name, company_url)
             print("Company Summary Launch function called")
             task_id_brand_tone = anvil.server.call('launch_draft_brand_tone_research', user_table, company_url)
@@ -185,7 +186,7 @@ class Home(HomeTemplate):
 
                 # Check if the product name is not empty and save it to the user table
                 if product_name_input:
-                    product_name_row = user_table.get(variable=f"product_{i}")
+                    product_name_row = user_table.get(variable=f"product_{i}_latest")
                     product_name_row['variable_title'] = product_name_input
                     product_name_row.update()
 
