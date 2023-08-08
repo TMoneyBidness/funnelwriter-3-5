@@ -63,63 +63,72 @@ def launch_draft_company_summary(user_table,company_name, company_url):
 @anvil.server.background_task
 def draft_company_summary(user_table,company_name, company_url):
     print("Background task started for researching company:", user_table,company_name,company_url)
+    task_id = anvil.server.current_request['task_id']
     # Here, you should write the code that uses the company_name and company_url
     # to research the company and generate a context. For example:
+    try:
+      llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-4', openai_api_key=openai_api_key)
+      agent_company_context = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
+      company_research = agent_company_context({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive analysis to build an informational company profile of {company_name}. \
+                      Leverage all necessary resources, primarily the company's website {company_url}, but also news articles, and any other relevant sources.  \
+                      to gather the following details about {company_name}.  Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful research and findings. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
+                      \n \
+                      Overview: Provide a comprehensive introduction to the company. What are the unique features or value propositions of the company's offerings? What does the company aim to achieve? \n \
+                      \n \
+                      Unique Value Proposition: What is the company unique value proposition? What are they uniquely positioned to do? How does their main offer differ from their competitors? \n \
+                      \n \
+                      Founding Story: What inspired the founders to start the company? Are there any unique or interesting anecdotes about the early days of the company? How has the company evolved since its founding? \n \
+                      \n \
+                      Competitors: Who are the likely competitors of this company? What are their strengths and weaknesses? How does your company compare to its competitors in terms of offerings, market share, or other relevant factors?  \n \
+                      \n \                
+                      Mission & Vision: What is the company's mission statement or core purpose? What are the long-term goals and aspirations of the company? \n \
+                      Values: What does the company value? What do they emphasize in their mission? What do they care about or prioritize? \n \
+                      \n \
+                    
+                      NOTES ON FORMAT:
+                      This should be at least 800 words. Be confident, do not say there is incomplete information, or there is not information. If you can't answer elements from the above, ignore it! Speak as if you are the authority of the subject. If you don't know the answer, don't talk about it. Do not say "I was unable to find information on XYZ". 
+                      Ensure you keep the headers with the '--': 
+                      -- Overview
+                      (your overview)
+                    
+                      --Unique Value Proposition
+                      (your response)
+                      
+                      --Competitors
+                      (your response)
+                      
+                      -- Founding Story
+                      (your response)
+                      
+                      --Mission & Vision
+                      (your response)
   
-    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-4', openai_api_key=openai_api_key)
-    agent_company_context = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
-    company_research = agent_company_context({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive analysis to build an informational company profile of {company_name}. \
-                    Leverage all necessary resources, primarily the company's website {company_url}, but also news articles, and any other relevant sources.  \
-                    to gather the following details about {company_name}.  Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful research and findings. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
-                    \n \
-                    Overview: Provide a comprehensive introduction to the company. What are the unique features or value propositions of the company's offerings? What does the company aim to achieve? \n \
-                    \n \
-                     Unique Value Proposition: What is the company unique value proposition? What are they uniquely positioned to do? How does their main offer differ from their competitors? \n \
-                    \n \
-                    Founding Story: What inspired the founders to start the company? Are there any unique or interesting anecdotes about the early days of the company? How has the company evolved since its founding? \n \
-                    \n \
-                    Competitors: Who are the likely competitors of this company? What are their strengths and weaknesses? How does your company compare to its competitors in terms of offerings, market share, or other relevant factors?  \n \
-                    \n \                
-                    Mission & Vision: What is the company's mission statement or core purpose? What are the long-term goals and aspirations of the company? \n \
-                    Values: What does the company value? What do they emphasize in their mission? What do they care about or prioritize? \n \
-                    \n \
-                  
-                    NOTES ON FORMAT:
-                    This should be at least 800 words. Be confident, do not say there is incomplete information, or there is not information. If you can't answer elements from the above, ignore it! Speak as if you are the authority of the subject. If you don't know the answer, don't talk about it. Do not say "I was unable to find information on XYZ". 
-                    Ensure you keep the headers with the '--': 
-                    -- Overview
-                    (your overview)
-                   
-                    --Unique Value Proposition
-                    (your response)
-                    
-                    --Competitors
-                    (your response)
-                    
-                    -- Founding Story
-                    (your response)
-                    
-                    --Mission & Vision
-                    (your response)
-
-                   --Values
-                    (your response)
-                    """})
-
-    draft_company_context = company_research['output']
-    # Check if the output indicates insufficient information
-    if "I couldn't find more information" in draft_company_context:
-        draft_company_context = "Insufficient information. Please write the company description yourself."
-    # Store the result in the task's state instead of returning it
-    anvil.server.task_state['result'] = draft_company_context
-    
-    # Save this generated version as the latest version
-    row_company_profile_latest = user_table.search(variable='company_profile_latest')
-    first_row_company_profile_latest = row_company_profile_latest[0]
-    first_row_company_profile_latest['variable_value'] = draft_company_context
-    first_row_company_profile_latest.update()
-    print("Company Research Complete")
+                    --Values
+                      (your response)
+                      """})
   
+      draft_company_context = company_research['output']
+      # Check if the output indicates insufficient information
+      if "I couldn't find more information" in draft_company_context:
+          draft_company_context = "Insufficient information. Please write the company description yourself."
+      # Store the result in the task's state instead of returning it
+      anvil.server.task_state['result'] = draft_company_context
+      
+      # Save this generated version as the latest version
+      row_company_profile_latest = user_table.search(variable='company_profile_latest')
+      first_row_company_profile_latest = row_company_profile_latest[0]
+      first_row_company_profile_latest['variable_value'] = draft_company_context
+      first_row_company_profile_latest.update()
+      print("Company Research Complete")
+  
+    # Task completed successfully
+      update_task_status(task_id, "completed")
+    except Exception as e:
+      # Handle any exceptions or errors that may occur during the background task
+      
+      # Task failed
+      update_task_status(task_id, "failed")
+        
 # PRODUCT 1st DRAFT
 @anvil.server.callable
 def launch_draft_deepdive_product_1_generator(user_table,company_name,product_1_name,product_1_url):
@@ -1391,6 +1400,15 @@ def draft_brand_tone_research(user_table,brand_tone_url):
     first_row_brand_tone_latest.update()
     print("Brand Tone Research Complete")
 
+# Function to get the status of a background task
+@anvil.server.callable
+def get_status_function(task_id):
+    # Retrieve the task status from the Data Table (assuming you have a Data Table named 'tasks')
+    task_table = app_tables.tasks  # Replace 'tasks' with your actual Data Table name
+    task_row = task_table.get(task_id=task_id)
+    status = task_row['status']
+    return status
+  
 ####### -------------------------------- COMPANY ----------------------------------------------------###########
 @anvil.server.callable
 def launch_company_summary(company_name, company_url):

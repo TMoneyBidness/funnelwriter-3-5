@@ -65,7 +65,8 @@ class Home(HomeTemplate):
     self.product_3_panel.visible = False 
     self.product_4_panel.visible = False 
     self.product_5_panel.visible = False 
-
+          
+    
 # ADDING PRODUCTS / AVATAR PANELS
 
 # Base Panel
@@ -136,7 +137,7 @@ class Home(HomeTemplate):
     with anvil.server.no_loading_indicator:
         # This method should handle the UI logic
         print("Go Get All 1st Draft Assets")
-
+        
         # Stop the function if any of the fields are empty
         if not self.company_name_input.text or not self.company_url_input.text or not self.product_1_name_input.text:
             anvil.js.window.alert("Please fill in all the required fields before generating the full description.")
@@ -145,6 +146,7 @@ class Home(HomeTemplate):
         else:
             self.indeterminate_1.visible = True
             self.free_navigate_label.visible = True
+            self.youtube_intro_video.visible = True
             self.status.text = 'Researching'
 
             # Load stuff
@@ -168,17 +170,20 @@ class Home(HomeTemplate):
             company_url_row.update()
 
             # LAUNCH THE TASKS
-          
+            task_ids = []  # List to store all task IDs
+                      
             # Launch the background tasks concurrently
             # COMPANY SUMMARY // BRAND TONE
             task_id_company_summary = anvil.server.call('launch_draft_company_summary', user_table, company_name, company_url)
             print("Company Summary Launch function called")
+            task_ids.append(task_id_company_summary)
             task_id_brand_tone = anvil.server.call('launch_draft_brand_tone_research', user_table, company_url)
             print("Brand Tone Launch function called")
+            task_ids.append(task_id_brand_tone)
 
             tasks_product_research = []
             tasks_avatar = []
-
+                      
             for i in range(1, 6):
                 # Get the product name and url from the textboxes
                 product_name_input = getattr(self, f"product_{i}_name_input").text
@@ -199,6 +204,7 @@ class Home(HomeTemplate):
                         task_product_research = anvil.server.call(f"launch_draft_deepdive_product_{i}_generator", user_table, company_name, product_name_input, product_url_input)
                         print(f"product_{i} analysis initiated")
                         tasks_product_research.append((i, task_product_research))
+                        task_ids.append(task_product_research)
 
             # CHECK THE AVATARS FOR EACH PRODUCT
             for i in range(1, 6):
@@ -222,6 +228,37 @@ class Home(HomeTemplate):
                         avatar_latest_row = user_table.search(variable=f"avatar_{j}_product_{i}_latest")[0]
                         avatar_latest_row['variable_value'] = avatar_input
                         avatar_latest_row.update()
+                       # CHECK THE STATUS OF THE TASKS
+            # self.check_all_task_status(task_ids)
+
+ # # CHECK THE STATUS OF THE TASKS
+ #  def check_all_task_status(self, task_ids):
+ #      all_tasks_completed = False
+ #      while not all_tasks_completed:
+ #          # Check the status of each task
+ #          completed_tasks = 0
+ #          for task_id in task_ids:
+ #              task_status = anvil.server.call('get_status_function', task_id)
+ #              if task_status == 'completed':
+ #                  completed_tasks += 1
+ #              elif task_status == 'failed':
+ #                  print(f"Task {task_id} failed.")
+ #                  # Handle the failure gracefully, e.g., inform the user or retry the task
+  
+ #          # Check if all tasks are completed
+ #          if completed_tasks == len(task_ids):
+ #              all_tasks_completed = True
+ #               # All tasks are completed
+ #              print("All tasks are completed!")
+ #          else:
+ #              # Wait for a short interval before checking again
+ #              time.sleep(1)  # Adjust the interval as needed
+
+   
+
+
+
+    
 
   
               # # Wait for product research tasks to complete

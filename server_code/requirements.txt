@@ -3,3 +3,4 @@ langchain
 openai
 tqdm
 google-api-python-client
+anvil-uplink
