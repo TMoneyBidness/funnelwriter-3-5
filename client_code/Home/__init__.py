@@ -190,6 +190,10 @@ class Home(HomeTemplate):
                     product_name_row['variable_title'] = product_name_input
                     product_name_row.update()
 
+                    product_url_row = user_table.get(variable=f"product_{i}_url")
+                    product_url_row['variable_title'] = product_url_input
+                    product_url_row.update()
+
                     # Launch the background task for product research
                     if product_name_input:
                         task_product_research = anvil.server.call(f"launch_draft_deepdive_product_{i}_generator", user_table, company_name, product_name_input, product_url_input)
