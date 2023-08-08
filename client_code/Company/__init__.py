@@ -80,8 +80,7 @@ class Company(CompanyTemplate):
       # This method should handle the UI logic
       print("Research button clicked")
       # Start the progress bar with a small value
-      count_timer = 0
-      self.youtube_intro_video.visible = True
+
       # print("Before setting status:", self.status.text)
       # self.status.text = 'Researching'
       # print("After setting status:", self.status.text)
@@ -118,7 +117,6 @@ class Company(CompanyTemplate):
 
         # Loop to check the status of the background task
         while True:
-
           # Check if the background task is complete
           task_status = anvil.server.call('get_task_status', self.task_id)
           print("Task status:", task_status)
@@ -142,63 +140,6 @@ class Company(CompanyTemplate):
 
           # Sleep for 1 second before checking again
           time.sleep(2)
-
-# Launch the Brand Tone and Save it!
-
-  # def extract_my_brand_tone(self, **event_args):
-  #   with anvil.server.no_loading_indicator:
-
-  #     brand_tone_url = self.company_url_input.text
-  #     brand_tone_title = self.company_name_input.text
-
-  #     # Get the current user
-  #     current_user = anvil.users.get_user()
-  #     user_table_name = current_user['user_id']
-  #     user_table = getattr(app_tables, user_table_name)
-
-  #     brand_tone_url_latest_row = list(user_table.search(variable='brand_tone_url'))
-  #     brand_tone_title_row = user_table.get(variable='brand_tone')
-
-  #     # Check if the row exists before updating it
-  #     if brand_tone_url_latest_row:
-  #         brand_tone_url_latest_row[0]['variable_value'] = brand_tone_url
-  #         brand_tone_url_latest_row[0].update()
-
-  #     if brand_tone_title_row is not None:
-  #         brand_tone_title_row['variable_title'] = brand_tone_title
-  #         brand_tone_title_row.update()
-
-
-  #     self.task_id = anvil.server.call('launch_brand_tone_research', brand_tone_url)
-  #     print("Task ID:", self.task_id)
-
-  #    # Loop to check the status of the background task
-  #   while True:
-  #     with anvil.server.no_loading_indicator:
-
-  #       # Check if the background task is complete
-  #       task_status = anvil.server.call('get_task_status', self.task_id)
-  #       print("Task status:", task_status)
-
-  #       if task_status is not None:
-  #         if task_status == "completed":
-  #           # Get the result of the background task
-  #           brand_tone_research = anvil.server.call('get_task_result', self.task_id)
-  #           # Update the textbox with the result
-  #           print("Brand Tone:", brand_tone_research  )
-  #           brand_tone_title_row[0]['variable_value'] = brand_tone_research
-  #           brand_tone_title_row.update()
-  #           break  # Exit the loop
-  #         elif task_status == "failed":
-  #           # Get the error message
-  #           task_error = anvil.server.call('get_task_result', self.task_id)
-  #           print("Task error:", task_error)
-
-  #           break  # Exit the loop
-
-  #       # Sleep for 1 second before checking again
-  #       time.sleep(2)
-
 
 
   def edit_company_profile_component_click(self, **event_args):
@@ -268,6 +209,63 @@ class Company(CompanyTemplate):
     self.content_panel.clear()
     self.content_panel.add_component(product)
     # anvil.open_form('Product')
+
+# Launch the Brand Tone and Save it!
+
+  # def extract_my_brand_tone(self, **event_args):
+  #   with anvil.server.no_loading_indicator:
+
+  #     brand_tone_url = self.company_url_input.text
+  #     brand_tone_title = self.company_name_input.text
+
+  #     # Get the current user
+  #     current_user = anvil.users.get_user()
+  #     user_table_name = current_user['user_id']
+  #     user_table = getattr(app_tables, user_table_name)
+
+  #     brand_tone_url_latest_row = list(user_table.search(variable='brand_tone_url'))
+  #     brand_tone_title_row = user_table.get(variable='brand_tone')
+
+  #     # Check if the row exists before updating it
+  #     if brand_tone_url_latest_row:
+  #         brand_tone_url_latest_row[0]['variable_value'] = brand_tone_url
+  #         brand_tone_url_latest_row[0].update()
+
+  #     if brand_tone_title_row is not None:
+  #         brand_tone_title_row['variable_title'] = brand_tone_title
+  #         brand_tone_title_row.update()
+
+
+  #     self.task_id = anvil.server.call('launch_brand_tone_research', brand_tone_url)
+  #     print("Task ID:", self.task_id)
+
+  #    # Loop to check the status of the background task
+  #   while True:
+  #     with anvil.server.no_loading_indicator:
+
+  #       # Check if the background task is complete
+  #       task_status = anvil.server.call('get_task_status', self.task_id)
+  #       print("Task status:", task_status)
+
+  #       if task_status is not None:
+  #         if task_status == "completed":
+  #           # Get the result of the background task
+  #           brand_tone_research = anvil.server.call('get_task_result', self.task_id)
+  #           # Update the textbox with the result
+  #           print("Brand Tone:", brand_tone_research  )
+  #           brand_tone_title_row[0]['variable_value'] = brand_tone_research
+  #           brand_tone_title_row.update()
+  #           break  # Exit the loop
+  #         elif task_status == "failed":
+  #           # Get the error message
+  #           task_error = anvil.server.call('get_task_result', self.task_id)
+  #           print("Task error:", task_error)
+
+  #           break  # Exit the loop
+
+  #       # Sleep for 1 second before checking again
+  #       time.sleep(2)
+
 
 # THIS IS THE CODE IF WE CONTINUED TO DO LOAD / SAVE SLOTS:
 

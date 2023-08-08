@@ -1424,7 +1424,7 @@ def company_summary(company_name, company_url):
     # Here, you should write the code that uses the company_name and company_url
     # to research the company and generate a context. For example:
   
-    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-4', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
     agent_company_context = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
     company_research = agent_company_context({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive analysis to build an informational company profile of {company_name}. \
                     Leverage all necessary resources, primarily the company's website {company_url}, but also news articles, and any other relevant sources.  \

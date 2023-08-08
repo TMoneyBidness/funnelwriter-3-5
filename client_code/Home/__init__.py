@@ -253,11 +253,12 @@ class Home(HomeTemplate):
  #              # Wait for a short interval before checking again
  #              time.sleep(1)  # Adjust the interval as needed
 
-     
   # NAVIGATION
   
-  def home_asset_link_copy_click(self, **event_args):
-    open_form("Home")
+  def home_asset_link_click(self, **event_args):
+    home = Home()
+    self.content_panel.clear()
+    self.content_panel.add_component(home)
 
   def product_asset_link_click(self, **event_args):
     product=Product()
@@ -265,12 +266,9 @@ class Home(HomeTemplate):
     self.content_panel.add_component(product)
 
   def company_asset_link_click(self, **event_args):
-      try:
-          company_form = Company()
-          self.content_panel.clear()  # Clear the content panel
-          self.content_panel.add_component(company_form)  # Add the new component
-      except Exception as e:
-          print("Error:", e)
+    company_form = Company()
+    self.content_panel.clear()  # Clear the content panel
+    self.content_panel.add_component(company_form)  # Add the new component
 
 
   def brand_tone_asset_link_click(self, **event_args):

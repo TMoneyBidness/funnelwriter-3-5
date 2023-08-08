@@ -82,7 +82,7 @@ components:
     layout_properties:
       col_widths: {}
       grid_position: UIRBPL,BZCOAV
-    event_bindings: {click: home_asset_link_copy_click}
+    event_bindings: {click: home_asset_link_click}
     components: []
   - type: Label
     properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
