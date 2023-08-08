@@ -69,7 +69,7 @@ components:
       grid_position: WNAOPT,JBUDGH
 - type: ColumnPanel
   properties: {col_widths: '{}'}
-  name: sidebar_nav_menu
+  name: column_panel_1_copy
   layout_properties: {slot: left-nav}
   components:
   - type: Link
@@ -154,7 +154,7 @@ components:
   layout_properties: {slot: title}
 - type: ColumnPanel
   properties: {col_widths: '{"AMHTWA":65,"YLVUPX":10,"FSLSUV":5,"WBZYIA":20,"RSPOOJ":40,"JAIOGK":5,"IMLKTM":55}'}
-  name: content_panel
+  name: content_panel_copy
   layout_properties:
     col_widths: {}
     grid_position: KDJVKN,JDMHDS

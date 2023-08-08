@@ -11,7 +11,8 @@ from anvil.tables import app_tables
 import time
 
 #############################################
-
+from ..Company import Company
+from ..Company_new import Company_new
 from ..Product import Product
 from ..BrandTone import BrandTone
 from ..Avatars import Avatars
@@ -264,10 +265,13 @@ class Home(HomeTemplate):
     self.content_panel.add_component(product)
 
   def company_asset_link_click(self, **event_args):
-    from ..Company_new import Company_new
-    company_form = Company_new()
-    self.content_panel.clear()
-    self.content_panel.add_component(company_form)
+      try:
+          company_form = Company()
+          self.content_panel.clear()  # Clear the content panel
+          self.content_panel.add_component(company_form)  # Add the new component
+      except Exception as e:
+          print("Error:", e)
+
 
   def brand_tone_asset_link_click(self, **event_args):
     brandtone=BrandTone()
