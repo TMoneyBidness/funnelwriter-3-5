@@ -451,7 +451,7 @@ def draft_deepdive_avatar_1_product_1_generator(user_table,company_name,product_
     anvil.server.task_state['result']  = draft_avatar
 
     # Save this generated version as the latest version
-    row_avatar_1_latest = user_table.search(variable='avatar_1_latest')
+    row_avatar_1_latest = user_table.search(variable='avatar_1_product_1_latest')
     first_row_avatar_1_latest = row_avatar_1_latest[0]
     first_row_avatar_1_latest['variable_value'] = draft_avatar
     first_row_avatar_1_latest.update()
@@ -513,7 +513,7 @@ def draft_deepdive_avatar_2_product_1_generator(user_table,company_name,product_
     anvil.server.task_state['result']  = draft_avatar
 
     # Save this generated version as the latest version
-    row_avatar_2_latest = user_table.search(variable='avatar_2_latest')
+    row_avatar_2_latest = user_table.search(variable='avatar_2_product_1_latest')
     first_row_avatar_2_latest = row_avatar_2_latest[0]
     first_row_avatar_2_latest['variable_value'] = draft_avatar
     first_row_avatar_2_latest.update()
@@ -576,7 +576,7 @@ def draft_deepdive_avatar_3_product_1_generator(user_table,company_name,product_
     anvil.server.task_state['result']  = draft_avatar
 
     # Save this generated version as the latest version
-    row_avatar_3_latest = user_table.search(variable='avatar_3_latest')
+    row_avatar_3_latest = user_table.search(variable='avatar_3_product_1_latest')
     first_row_avatar_3_latest = row_avatar_3_latest[0]
     first_row_avatar_3_latest['variable_value'] = draft_avatar
     first_row_avatar_3_latest.update()
@@ -638,7 +638,7 @@ def draft_deepdive_avatar_1_product_2_generator(user_table,company_name,product_
     anvil.server.task_state['result']  = draft_avatar
 
     # Save this generated version as the latest version
-    row_avatar_1_latest = user_table.search(variable='avatar_1_latest')
+    row_avatar_1_latest = user_table.search(variable='avatar_1_product_2_latest')
     first_row_avatar_1_latest = row_avatar_1_latest[0]
     first_row_avatar_1_latest['variable_value'] = draft_avatar
     first_row_avatar_1_latest.update()
@@ -700,7 +700,7 @@ def draft_deepdive_avatar_2_product_2_generator(user_table,company_name,product_
     anvil.server.task_state['result']  = draft_avatar
 
     # Save this generated version as the latest version
-    row_avatar_2_latest = user_table.search(variable='avatar_2_latest')
+    row_avatar_2_latest = user_table.search(variable='avatar_2_product_2_latest')
     first_row_avatar_2_latest = row_avatar_2_latest[0]
     first_row_avatar_2_latest['variable_value'] = draft_avatar
     first_row_avatar_2_latest.update()
@@ -763,7 +763,7 @@ def draft_deepdive_avatar_3_product_2_generator(user_table,company_name,product_
     anvil.server.task_state['result']  = draft_avatar
 
     # Save this generated version as the latest version
-    row_avatar_3_latest = user_table.search(variable='avatar_3_latest')
+    row_avatar_3_latest = user_table.search(variable='avatar_3_product_2_latest')
     first_row_avatar_3_latest = row_avatar_3_latest[0]
     first_row_avatar_3_latest['variable_value'] = draft_avatar
     first_row_avatar_3_latest.update()
@@ -825,7 +825,7 @@ def draft_deepdive_avatar_1_product_3_generator(user_table,company_name,product_
     anvil.server.task_state['result']  = draft_avatar
 
     # Save this generated version as the latest version
-    row_avatar_1_latest = user_table.search(variable='avatar_1_latest')
+    row_avatar_1_latest = user_table.search(variable='avatar_1_product_3_latest')
     first_row_avatar_1_latest = row_avatar_1_latest[0]
     first_row_avatar_1_latest['variable_value'] = draft_avatar
     first_row_avatar_1_latest.update()
@@ -887,7 +887,7 @@ def draft_deepdive_avatar_2_product_3_generator(user_table,company_name,product_
     anvil.server.task_state['result']  = draft_avatar
 
     # Save this generated version as the latest version
-    row_avatar_2_latest = user_table.search(variable='avatar_2_latest')
+    row_avatar_2_latest = user_table.search(variable='avatar_2_product_3_latest')
     first_row_avatar_2_latest = row_avatar_2_latest[0]
     first_row_avatar_2_latest['variable_value'] = draft_avatar
     first_row_avatar_2_latest.update()
@@ -950,7 +950,7 @@ def draft_deepdive_avatar_3_product_3_generator(user_table,company_name,product_
     anvil.server.task_state['result']  = draft_avatar
 
     # Save this generated version as the latest version
-    row_avatar_3_latest = user_table.search(variable='avatar_3_latest')
+    row_avatar_3_latest = user_table.search(variable='avatar_3_product_3_latest')
     first_row_avatar_3_latest = row_avatar_3_latest[0]
     first_row_avatar_3_latest['variable_value'] = draft_avatar
     first_row_avatar_3_latest.update()
@@ -1012,7 +1012,7 @@ def draft_deepdive_avatar_1_product_4_generator(user_table,company_name,product_
     anvil.server.task_state['result']  = draft_avatar
 
     # Save this generated version as the latest version
-    row_avatar_1_latest = user_table.search(variable='avatar_1_latest')
+    row_avatar_1_latest = user_table.search(variable='avatar_1_product_4_latest')
     first_row_avatar_1_latest = row_avatar_1_latest[0]
     first_row_avatar_1_latest['variable_value'] = draft_avatar
     first_row_avatar_1_latest.update()
@@ -1074,7 +1074,7 @@ def draft_deepdive_avatar_2_product_4_generator(user_table,company_name,product_
     anvil.server.task_state['result']  = draft_avatar
 
     # Save this generated version as the latest version
-    row_avatar_2_latest = user_table.search(variable='avatar_2_latest')
+    row_avatar_2_latest = user_table.search(variable='avatar_2_product_4_latest')
     first_row_avatar_2_latest = row_avatar_2_latest[0]
     first_row_avatar_2_latest['variable_value'] = draft_avatar
     first_row_avatar_2_latest.update()
@@ -1137,7 +1137,7 @@ def draft_deepdive_avatar_3_product_4_generator(user_table,company_name,product_
     anvil.server.task_state['result']  = draft_avatar
 
     # Save this generated version as the latest version
-    row_avatar_3_latest = user_table.search(variable='avatar_3_latest')
+    row_avatar_3_latest = user_table.search(variable='avatar_3_product_4_latest')
     first_row_avatar_3_latest = row_avatar_3_latest[0]
     first_row_avatar_3_latest['variable_value'] = draft_avatar
     first_row_avatar_3_latest.update()
@@ -1199,7 +1199,7 @@ def draft_deepdive_avatar_1_product_5_generator(user_table,company_name,product_
     anvil.server.task_state['result']  = draft_avatar
 
     # Save this generated version as the latest version
-    row_avatar_1_latest = user_table.search(variable='avatar_1_latest')
+    row_avatar_1_latest = user_table.search(variable='avatar_1_product_5_latest')
     first_row_avatar_1_latest = row_avatar_1_latest[0]
     first_row_avatar_1_latest['variable_value'] = draft_avatar
     first_row_avatar_1_latest.update()
@@ -1261,7 +1261,7 @@ def draft_deepdive_avatar_2_product_5_generator(user_table,company_name,product_
     anvil.server.task_state['result']  = draft_avatar
 
     # Save this generated version as the latest version
-    row_avatar_2_latest = user_table.search(variable='avatar_2_latest')
+    row_avatar_2_latest = user_table.search(variable='avatar_2_product_5_latest')
     first_row_avatar_2_latest = row_avatar_2_latest[0]
     first_row_avatar_2_latest['variable_value'] = draft_avatar
     first_row_avatar_2_latest.update()
@@ -1324,7 +1324,7 @@ def draft_deepdive_avatar_3_product_5_generator(user_table,company_name,product_
     anvil.server.task_state['result']  = draft_avatar
 
     # Save this generated version as the latest version
-    row_avatar_3_latest = user_table.search(variable='avatar_3_latest')
+    row_avatar_3_latest = user_table.search(variable='avatar_3_product_5_latest')
     first_row_avatar_3_latest = row_avatar_3_latest[0]
     first_row_avatar_3_latest['variable_value'] = draft_avatar
     first_row_avatar_3_latest.update()
