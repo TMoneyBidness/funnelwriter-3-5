@@ -12,7 +12,6 @@ import time
 
 #############################################
 
-from ..Company import Company
 from ..Product import Product
 from ..BrandTone import BrandTone
 from ..Avatars import Avatars
@@ -20,7 +19,6 @@ from ..VSL_Elements import VSL_Elements
 from ..VideoSalesLetter import VideoSalesLetter
 from ..FinalProduct import FinalProduct
 ####################
-
 
 class Home(HomeTemplate):
   def __init__(self, **properties):
@@ -254,8 +252,53 @@ class Home(HomeTemplate):
  #              # Wait for a short interval before checking again
  #              time.sleep(1)  # Adjust the interval as needed
 
-   
+     
+  # NAVIGATION
+  
+  def home_asset_link_copy_click(self, **event_args):
+    open_form("Home")
 
+  def product_asset_link_click(self, **event_args):
+    product=Product()
+    self.content_panel.clear()
+    self.content_panel.add_component(product)
+
+  def company_asset_link_click(self, **event_args):
+    from ..Company_new import Company_new
+    company_form = Company_new()
+    self.content_panel.clear()
+    self.content_panel.add_component(company_form)
+
+  def brand_tone_asset_link_click(self, **event_args):
+    brandtone=BrandTone()
+    self.content_panel.clear()
+    self.content_panel.add_component(brandtone)
+
+  def avatars_asset_link_click(self, **event_args):
+    avatars=Avatars()
+    self.content_panel.clear()
+    self.content_panel.add_component(avatars)
+
+  def finalproduct_page_link_click(self, **event_args):
+    finalproduct=FinalProduct()
+    self.content_panel.clear()
+    self.content_panel.add_component(finalproduct)
+
+  def nav_button_to_company_click(self, **event_args):
+    company = Company()
+    self.content_panel.clear()
+    self.content_panel.add_component(company)
+
+
+## FUNNELS
+  def VSL_page_link_click(self, **event_args):
+    vsl_elements = VSL_Elements()
+    self.content_panel.clear()
+    self.content_panel.add_component(vsl_elements)
+
+
+
+ 
 
 
     
@@ -538,51 +581,4 @@ class Home(HomeTemplate):
         
           
         
-        
        
-        
-  # NAVIGATION
-  
-  def home_asset_link_copy_click(self, **event_args):
-    open_form("Home")
-
-  def product_asset_link_click(self, **event_args):
-    product=Product()
-    self.content_panel.clear()
-    self.content_panel.add_component(product)
-
-  def company_asset_link_click(self, **event_args):
-    company=Company()
-    self.content_panel.clear()
-    self.content_panel.add_component(company)
-
-  def brand_tone_asset_link_click(self, **event_args):
-    brandtone=BrandTone()
-    self.content_panel.clear()
-    self.content_panel.add_component(brandtone)
-
-  def avatars_asset_link_click(self, **event_args):
-    avatars=Avatars()
-    self.content_panel.clear()
-    self.content_panel.add_component(avatars)
-
-  def finalproduct_page_link_click(self, **event_args):
-    finalproduct=FinalProduct()
-    self.content_panel.clear()
-    self.content_panel.add_component(finalproduct)
-
-  def nav_button_to_company_click(self, **event_args):
-    company = Company()
-    self.content_panel.clear()
-    self.content_panel.add_component(company)
-
-
-## FUNNELS
-  def VSL_page_link_click(self, **event_args):
-    vsl_elements = VSL_Elements()
-    self.content_panel.clear()
-    self.content_panel.add_component(vsl_elements)
-
-
-
- 
