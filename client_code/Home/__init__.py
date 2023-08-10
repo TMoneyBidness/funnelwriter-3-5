@@ -64,7 +64,60 @@ class Home(HomeTemplate):
     self.product_3_panel.visible = False 
     self.product_4_panel.visible = False 
     self.product_5_panel.visible = False 
+
+## LOAD THE LATEST
+    # Load the latest company name
+    row_company_name = user_table.search(variable='company_name')
+    if row_company_name:
+      company_name = row_company_name[0]['variable_value']
+      self.company_name_input.text = company_name
+
+    # Load the latest company url
+    row_company_url = user_table.search(variable='company_url')
+    if row_company_url:
+      company_url = row_company_url[0]['variable_value']
+      self.company_url_input.text = company_url
+      
+   # Load the latest info for products 1 to 5
+    for i in range(1, 6):
+      row_product_latest = user_table.search(variable=f'product_{i}_latest')
+      row_product_url_latest = user_table.search(variable=f'product_{i}_url')
+        
+      if row_product_latest:
+          # Update the text box for the current product
+          product_latest_name = row_product_latest[0]['variable_title']
+          product_latest_url = row_product_url_latest[0]['variable_value']
           
+          getattr(self, f'product_{i}_name_input').text = product_latest_name
+          getattr(self, f'product_{i}_url_input').text = product_latest_url
+        
+          # Now, load the avatars associated with that product. There may be 1 avatar only, or there are 3. The cells might be empty!
+          for j in range(1, 4):
+              row_avatar_product_latest = user_table.get(variable=f'avatar_{j}_product_{i}_latest')
+              
+              if row_avatar_product_latest:  # Check if it's not None
+                  avatar_product_latest = row_avatar_product_latest['variable_value']
+                  getattr(self, f'avatar_{j}_product_{i}_input').text = avatar_product_latest
+  
+          else:
+              # Handle case where the row does not exist for the current user
+              print(f"No row found for 'product_{i}_latest'")
+
+          
+         
+        # # CHECK THE AVATARS FOR EACH PRODUCT
+        #   for j in range(1, 4):             
+          
+        #     row_avatar_product_latest = user_table.search(variable=f'avatar_{j}_product_{i}_latest')
+                       
+                
+        #         avatar_product_latest  = row_avatar_product_latest[0]['variable_value']
+                
+        #         getattr(self, f'avatar_{i}_product_{j}_input').text = avatar_product_latest 
+        
+        #     else:
+        #         # Handle case where the row does not exist for the current user
+        #         print(f"No row found for 'product_{i}_latest'")
     
 # ADDING PRODUCTS / AVATAR PANELS
 
@@ -195,7 +248,7 @@ class Home(HomeTemplate):
                     product_name_row.update()
 
                     product_url_row = user_table.get(variable=f"product_{i}_url")
-                    product_url_row['variable_title'] = product_url_input
+                    product_url_row['variable_value'] = product_url_input
                     product_url_row.update()
 
                     # Launch the background task for product research
