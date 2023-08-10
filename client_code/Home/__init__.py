@@ -37,6 +37,7 @@ class Home(HomeTemplate):
     user_table_name = current_user['user_id']
     # Get the table for the current user
     user_table = getattr(app_tables, user_table_name)
+
     
     # HIDE ALL PANELS OFF THE TOP
     # Hide Product 1, Avatars 2 and 3
@@ -64,16 +65,68 @@ class Home(HomeTemplate):
     self.product_3_panel.visible = False 
     self.product_4_panel.visible = False 
     self.product_5_panel.visible = False 
+    
+    # Try to retrieve company name or set to None if not available
+    try:
+        row_company_name = user_table.search(variable='company_name')
+        company_name = row_company_name[0]['variable_value']
+        print(f"Retrieved COMPANY NAME: {company_name}")
+        
+        # Check if company_name is an empty string and set to None if so
+        if company_name == "":
+            company_name = None
+            print(f"Empty COMPANY NAME cell")
+        
+    except IndexError:
+        company_name = None
+        print(f"No COMPANY NAME row")
+    
+    # Try to retrieve company URL or set to None if not available
+    try:
+        row_company_url = user_table.search(variable='company_url')
+        company_url = row_company_url[0]['variable_value']
+        
+        # Check if company_url is an empty string and set to None if so
+        if company_url == "":
+            company_url = None
+            print(f"Empty COMPANY URL cell")
+    
+    except IndexError:
+        company_url = None
+        print(f"No COMPANY URL row")
+    
+    # Try to retrieve product latest name or set to None if not available
+    try:
+        row_product_latest = user_table.search(variable=f'product_1_latest')
+        product_latest_name = row_product_latest[0]['variable_title']
+        
+        # Check if product_latest_name is an empty string and set to None if so
+        if product_latest_name == "":
+            product_latest_name = None
+            print(f"Empty PRODUCT LATEST cell")
+    
+    except IndexError:
+        product_latest_name = None
+        print(f"No PRODUCT LATEST row")
+    
+    # Check if all variables are either None or empty strings
+    if not company_name or not company_url or not product_latest_name:
+      self.company_assets_label.visible = False
+      self.company_asset_link_sidebar.visible = False
+      self.product_asset_link_sidebar.visible = False
+      self.brand_tone_asset_link_sidebar.visible = False
+      self.avatars_asset_link_sidebar.visible = False
+      self.funnels_label.visible = False
+      self.vsl_page_link_sidebar.visible = False
+      print(f"SOME CELLS ARE EMPTY")
 
-## LOAD THE LATEST
+    ## LOAD THE LATEST
     # Load the latest company name
-    row_company_name = user_table.search(variable='company_name')
     if row_company_name:
       company_name = row_company_name[0]['variable_value']
       self.company_name_input.text = company_name
-
+   
     # Load the latest company url
-    row_company_url = user_table.search(variable='company_url')
     if row_company_url:
       company_url = row_company_url[0]['variable_value']
       self.company_url_input.text = company_url
@@ -98,26 +151,13 @@ class Home(HomeTemplate):
               if row_avatar_product_latest:  # Check if it's not None
                   avatar_product_latest = row_avatar_product_latest['variable_value']
                   getattr(self, f'avatar_{j}_product_{i}_input').text = avatar_product_latest
-  
+
           else:
               # Handle case where the row does not exist for the current user
-              print(f"No row found for 'product_{i}_latest'")
+              print(f"No row found for 'avatar_{j}_product_{i}_latest'")
 
           
-         
-        # # CHECK THE AVATARS FOR EACH PRODUCT
-        #   for j in range(1, 4):             
-          
-        #     row_avatar_product_latest = user_table.search(variable=f'avatar_{j}_product_{i}_latest')
-                       
-                
-        #         avatar_product_latest  = row_avatar_product_latest[0]['variable_value']
-                
-        #         getattr(self, f'avatar_{i}_product_{j}_input').text = avatar_product_latest 
         
-        #     else:
-        #         # Handle case where the row does not exist for the current user
-        #         print(f"No row found for 'product_{i}_latest'")
     
 # ADDING PRODUCTS / AVATAR PANELS
 
@@ -200,6 +240,7 @@ class Home(HomeTemplate):
             self.free_navigate_label.visible = True
             self.youtube_intro_video.visible = True
             self.status.text = 'Researching'
+            self.product_1_panel.visible = False
 
             # Load stuff
             current_user = anvil.users.get_user()
