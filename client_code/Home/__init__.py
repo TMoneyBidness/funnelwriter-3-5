@@ -37,7 +37,6 @@ class Home(HomeTemplate):
     user_table_name = current_user['user_id']
     # Get the table for the current user
     user_table = getattr(app_tables, user_table_name)
-
     
     # HIDE ALL PANELS OFF THE TOP
     # Hide Product 1, Avatars 2 and 3
@@ -247,6 +246,10 @@ class Home(HomeTemplate):
             user_table_name = current_user['user_id']
             # Get the table for the current user
             user_table = getattr(app_tables, user_table_name)
+
+            first_run_complete_row = user_table.get(variable='first_run_complete')
+            first_run_complete_row['variable_value'] = 'yes'
+            first_run_complete_row.update()
 
             # COMPANY NAME
             company_name = self.company_name_input.text

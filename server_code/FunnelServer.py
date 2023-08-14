@@ -1566,7 +1566,7 @@ def all_products_generator(company_profile, company_url):
 @anvil.server.callable
 def launch_deepdive_product_1_generator(company_name,product_1_name,product_1_url):
     # Launch the background task
-    task = anvil.server.launch_background_task('deepdive_product_1_generator',ucompany_name,product_1_name,product_1_url)
+    task = anvil.server.launch_background_task('deepdive_product_1_generator',company_name,product_1_name,product_1_url,product_1_preview)
     # Return the task ID
     return task.get_id()
   

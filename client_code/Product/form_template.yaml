@@ -26,32 +26,37 @@ components:
       font_size: 18, font: '', spacing_above: small, icon_align: left, spacing_below: small,
       italic: false, background: '', bold: false, underline: false, icon: ''}
     name: label_4
-    layout_properties: {grid_position: 'GYGUPG,SYLKPD'}
-  - type: Button
-    properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: true,
-      foreground: '', visible: true, text: GENERATE 5 PRODUCT DESCRIPTION  PREVIEWS,
-      font_size: 26, font: '', spacing_above: small, icon_align: left, spacing_below: small,
-      italic: false, background: 'theme:Secondary Container', bold: false, underline: false,
-      icon: 'fa:android'}
-    name: all_avatars_button_component
-    layout_properties:
-      col_widths: {}
-      grid_position: ZAIGRX,AHPBUW
-    event_bindings: {click: all_products_button_click}
-  - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
-    properties: {}
-    name: indeterminate_all_products
-    layout_properties: {grid_position: 'DFCDET,FGGKKA'}
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: "Instructions: \n1 - Click 'Generate 5 Product Description\
-        \ Previews'\n2 - Once populated, edit the high-level summary before generating\
-        \ the deep dive product description\n3 - Save the final name and comprehensive\
-        \ summary by hitting 'SAVE'", font_size: 16, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
-    name: label_3
-    layout_properties: {grid_position: 'MFYAVW,ICTRCD'}
+    layout_properties: {grid_position: 'NNMMYX,KBGFVN'}
+  - type: ColumnPanel
+    properties: {col_widths: '{}'}
+    name: column_panel_5_products
+    layout_properties: {grid_position: 'BCGZRW,XDGDVA'}
+    components:
+    - type: Button
+      properties: {role: outlined-button, align: center, tooltip: '', border: '',
+        enabled: true, foreground: '', visible: true, text: GENERATE 5 PRODUCT DESCRIPTION  PREVIEWS,
+        font_size: 26, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+        italic: false, background: 'theme:Secondary Container', bold: false, underline: false,
+        icon: 'fa:android'}
+      name: all_avatars_button_component
+      layout_properties:
+        col_widths: {}
+        grid_position: GMTWVX,PGRRKT
+      event_bindings: {click: all_products_button_click}
+    - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
+      properties: {}
+      name: indeterminate_all_products
+      layout_properties: {grid_position: 'NPQFLE,XZOTSJ'}
+    - type: Label
+      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: "Instructions: \n1 - Click 'Generate 5 Product Description\
+          \ Previews'\n2 - Once populated, edit the high-level summary before generating\
+          \ the deep dive product description\n3 - Save the final name and comprehensive\
+          \ summary by hitting 'SAVE'", font_size: 16, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3
+      layout_properties: {grid_position: 'HXDSPH,LMPVJZ'}
   - type: Label
     properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
       visible: true, text: 'Product 1 Name:', font_size: 16, font: '', spacing_above: small,
@@ -70,6 +75,24 @@ components:
     layout_properties:
       col_widths: {}
       grid_position: RZBVZJ,DYQRKT
+  - type: Label
+    properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
+      visible: true, text: 'Product 1 URL:', font_size: 16, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+      underline: false, icon: ''}
+    name: label_2_copy_10
+    layout_properties:
+      col_widths: {}
+      grid_position: BUQCQU,QGJAYI
+  - type: TextBox
+    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: (Optional)....ie.       www.apple.com/iphone-14/,
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: text, spacing_below: small, italic: true,
+      background: '', bold: false, underline: false}
+    name: product_1_url_input
+    layout_properties:
+      col_widths: {}
+      grid_position: BUQCQU,QLYOTS
   - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
     properties: {}
     name: indeterminate_1
@@ -128,6 +151,24 @@ components:
     layout_properties:
       col_widths: {}
       grid_position: PVSJMX,MHEFON
+  - type: Label
+    properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
+      visible: true, text: 'Product 2 URL:', font_size: 16, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+      underline: false, icon: ''}
+    name: label_2_copy_11
+    layout_properties:
+      col_widths: {}
+      grid_position: PKWDLB,QSGOZK
+  - type: TextBox
+    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: (Optional)....ie.       www.apple.com/iphone-14/,
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: text, spacing_below: small, italic: true,
+      background: '', bold: false, underline: false}
+    name: product_2_url_input
+    layout_properties:
+      col_widths: {}
+      grid_position: PKWDLB,NBFXYB
   - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
     properties: {}
     name: indeterminate_2
@@ -188,6 +229,24 @@ components:
     layout_properties:
       col_widths: {}
       grid_position: QANQHL,WUIIRW
+  - type: Label
+    properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
+      visible: true, text: 'Product 3 URL:', font_size: 16, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+      underline: false, icon: ''}
+    name: label_2_copy_12
+    layout_properties:
+      col_widths: {}
+      grid_position: ELBLZC,PBLNVA
+  - type: TextBox
+    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: (Optional)....ie.       www.apple.com/iphone-14/,
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: text, spacing_below: small, italic: true,
+      background: '', bold: false, underline: false}
+    name: product_3_url_input
+    layout_properties:
+      col_widths: {}
+      grid_position: ELBLZC,REYHPB
   - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
     properties: {}
     name: indeterminate_3
@@ -248,6 +307,24 @@ components:
     layout_properties:
       col_widths: {}
       grid_position: IPHMZI,FQZQKY
+  - type: Label
+    properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
+      visible: true, text: 'Product 4 URL:', font_size: 16, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+      underline: false, icon: ''}
+    name: label_2_copy_13
+    layout_properties:
+      col_widths: {}
+      grid_position: JSYFBO,JSQKCB
+  - type: TextBox
+    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: (Optional)....ie.       www.apple.com/iphone-14/,
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: text, spacing_below: small, italic: true,
+      background: '', bold: false, underline: false}
+    name: product_4_url_input
+    layout_properties:
+      col_widths: {}
+      grid_position: JSYFBO,YVJYXX
   - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
     properties: {}
     name: indeterminate_4
@@ -308,6 +385,24 @@ components:
     layout_properties:
       col_widths: {}
       grid_position: XULHZI,FOJBPZ
+  - type: Label
+    properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
+      visible: true, text: 'Product 5 URL:', font_size: 16, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+      underline: false, icon: ''}
+    name: label_2_copy_14
+    layout_properties:
+      col_widths: {}
+      grid_position: KQXXZA,FXRLXZ
+  - type: TextBox
+    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: (Optional)....ie.       www.apple.com/iphone-14/,
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: text, spacing_below: small, italic: true,
+      background: '', bold: false, underline: false}
+    name: product_5_url_input
+    layout_properties:
+      col_widths: {}
+      grid_position: KQXXZA,LIPUMA
   - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
     properties: {}
     name: indeterminate_5
