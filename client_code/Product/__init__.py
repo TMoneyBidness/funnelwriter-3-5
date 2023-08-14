@@ -43,13 +43,16 @@ class Product(ProductTemplate):
     # Load the latest info for products 1 to 5
     for i in range(1, 6):
         row_product_latest = user_table.search(variable=f'product_{i}_latest')
+        row_product_url = user_table.search(variable=f'product_{i}_url')
     
         if row_product_latest:
             product_latest_description = row_product_latest[0]['variable_value']
             product_latest_title = row_product_latest[0]['variable_title']
+            product_url = row_product_url[0]['variable_value']
             # Update the text box for the current product
             getattr(self, f'product_profile_{i}_textbox').text = product_latest_description
             getattr(self, f'product_{i}_name_input').text = product_latest_title
+            getattr(self, f'product_{i}_url_input').text = product_url 
     
         else:
             # Handle case where the row does not exist for the current user
@@ -187,10 +190,10 @@ class Product(ProductTemplate):
         product_1_name_row['variable_value'] = product_1_name
 
         # PRODUCT URL
-        product_url = self.product_1_name_input.text
+        product_1_url = self.product_1_url_input.text
         product_1_url_row = user_table.get(variable=f"product_1_url")
-        product_1_url_row['variable_value'] = product_url_input
-        product_url_row.update()
+        product_1_url_row['variable_value'] = product_1_url
+        product_1_url_row.update()
             
         # PRODUCT EXCERPT / PREVIEW
         product_1_preview = self.product_profile_1_textbox.text
@@ -276,6 +279,12 @@ class Product(ProductTemplate):
           product_2_name = self.product_2_name_input.text
           product_2_name_row = user_table.search(variable='product_2_name_latest')[0]
           product_2_name_row['variable_value'] = product_2_name
+
+          # PRODUCT URL
+          product_2_url = self.product_2_url_input.text
+          product_2_url_row = user_table.get(variable=f"product_2_url")
+          product_2_url_row['variable_value'] = product_2_url
+          product_2_url_row.update()
   
           # PRODUCT EXCERPT / PREVIEW
           product_2_preview = self.product_profile_2_textbox.text
@@ -288,7 +297,7 @@ class Product(ProductTemplate):
           product_2_latest_row['variable_value'] = product_2_preview
           product_2_latest_row.update()
   
-          self.task_id = anvil.server.call('launch_deepdive_product_2_generator', company_name, company_profile, company_url, product_2_name, product_2_preview)
+          self.task_id = anvil.server.call('launch_deepdive_product_2_generator', company_name,product_1_name,product_1_url,product_1_preview)
           print("Task ID:", self.task_id)
   
           # Loop to check the status of the background task
@@ -362,6 +371,13 @@ class Product(ProductTemplate):
           product_3_name = self.product_3_name_input.text
           product_3_name_row = user_table.search(variable='product_3_name_latest')[0]
           product_3_name_row['variable_value'] = product_3_name
+
+         # PRODUCT URL
+          product_3_url = self.product_3_url_input.text
+          product_3_url_row = user_table.get(variable=f"product_3_url")
+          product_3_url_row['variable_value'] = product_3_url
+          product_3_url_row.update()
+          
   
           # PRODUCT EXCERPT / PREVIEW
           product_3_preview = self.product_profile_3_textbox.text
@@ -374,7 +390,7 @@ class Product(ProductTemplate):
           product_3_latest_row['variable_value'] = product_3_preview
           product_3_latest_row.update()
   
-          self.task_id = anvil.server.call('launch_deepdive_product_3_generator', company_name, company_profile, company_url, product_3_name, product_3_preview)
+          self.task_id = anvil.server.call('launch_deepdive_product_3_generator',  company_name,product_3_name,product_3_url,product_3_preview)
           print("Task ID:", self.task_id)
   
           # Loop to check the status of the background task
@@ -447,6 +463,12 @@ class Product(ProductTemplate):
           product_4_name = self.product_4_name_input.text
           product_4_name_row = user_table.search(variable='product_4_name_latest')[0]
           product_4_name_row['variable_value'] = product_4_name
+
+             # PRODUCT URL
+          product_4_url = self.product_4_url_input.text
+          product_4_url_row = user_table.get(variable=f"product_4_url")
+          product_4_url_row['variable_value'] = product_4_url
+          product_4_url_row.update()
   
           # PRODUCT EXCERPT / PREVIEW
           product_4_preview = self.product_profile_4_textbox.text
@@ -459,7 +481,7 @@ class Product(ProductTemplate):
           product_4_latest_row['variable_value'] = product_4_preview
           product_4_latest_row.update()
   
-          self.task_id = anvil.server.call('launch_deepdive_product_4_generator', company_name, company_profile, company_url, product_4_name, product_4_preview)
+          self.task_id = anvil.server.call('launch_deepdive_product_4_generator', company_name,product_4_name,product_4_url,product_4_preview)
           print("Task ID:", self.task_id)
   
           # Loop to check the status of the background task
@@ -532,6 +554,12 @@ class Product(ProductTemplate):
           product_5_name = self.product_5_name_input.text
           product_5_name_row = user_table.search(variable='product_5_name_latest')[0]
           product_5_name_row['variable_value'] = product_5_name
+
+          # PRODUCT URL
+          product_5_url = self.product_5_url_input.text
+          product_5_url_row = user_table.get(variable=f"product_5_url")
+          product_5_url_row['variable_value'] = product_5_url
+          product_5_url_row.update()
   
           # PRODUCT EXCERPT / PREVIEW
           product_5_preview = self.product_profile_5_textbox.text
@@ -544,7 +572,7 @@ class Product(ProductTemplate):
           product_5_latest_row['variable_value'] = product_5_preview
           product_5_latest_row.update()
   
-          self.task_id = anvil.server.call('launch_deepdive_product_5_generator', company_name, company_profile, company_url, product_5_name, product_5_preview)
+          self.task_id = anvil.server.call('launch_deepdive_product_5_generator',  company_name,product_5_name,product_5_url,product_5_preview)
           print("Task ID:", self.task_id)
   
           # Loop to check the status of the background task
