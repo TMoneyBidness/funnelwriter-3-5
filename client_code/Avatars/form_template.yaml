@@ -44,8 +44,8 @@ components:
       layout_properties: {grid_position: 'FXZADJ,KYHNOE'}
       components:
       - type: ColumnPanel
-        properties: {col_widths: '{"QQGLML":20,"DQSWXP":40,"PCAQVH":20,"STGMYH":40,"JDKYLZ":17,"WXYRKE":35}'}
-        name: product_1_panel
+        properties: {col_widths: '{"QQGLML":9,"PCAQVH":10,"STGMYH":50,"JDKYLZ":10,"WXYRKE":50,"HSRUMZ":41}'}
+        name: avatar_1_product_1_input_section
         layout_properties:
           col_widths: {}
           grid_position: LSYGLE,MPYIIT
@@ -67,7 +67,7 @@ components:
           name: product_1_name_input
           layout_properties:
             col_widths: {}
-            grid_position: BFSHLN,DQSWXP
+            grid_position: BFSHLN,HSRUMZ
         - type: Label
           properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
             visible: true, text: 'Product 1 URL:', font_size: 16, font: '', spacing_above: small,
@@ -113,8 +113,8 @@ components:
             grid_position: XFTMZZ,WOZPUB
           event_bindings: {click: add_avatar_2_product_1_click}
         - type: ColumnPanel
-          properties: {col_widths: '{"FGXNBI":20,"LPXMBI":40}'}
-          name: avatar_2_product_5_input_section_copy
+          properties: {col_widths: '{"FGXNBI":10,"LPXMBI":50}'}
+          name: avatar_2_product_1_input_section
           layout_properties: {grid_position: 'JSBBWB,VQXZMZ'}
           components:
           - type: Label
@@ -144,8 +144,8 @@ components:
               grid_position: TINESQ,OYUXBO
             event_bindings: {click: add_avatar_3_product_1_click}
         - type: ColumnPanel
-          properties: {col_widths: '{"FGXNBI":20,"LPXMBI":40}'}
-          name: avatar_3_product_5_input_section_copy
+          properties: {col_widths: '{"FGXNBI":10,"LPXMBI":50}'}
+          name: avatar_3_product_1_input_section
           layout_properties:
             col_widths: {}
             grid_position: ETSXZP,TGPTDA
@@ -181,8 +181,8 @@ components:
           name: spacer_3_copy_10
           layout_properties: {grid_position: 'LYPEGN,GPPXZG'}
       - type: ColumnPanel
-        properties: {col_widths: '{"QQGLML":20,"DQSWXP":40,"PCAQVH":20,"STGMYH":40,"JDKYLZ":17,"WXYRKE":35}'}
-        name: product_2_panel
+        properties: {col_widths: '{"QQGLML":10,"DQSWXP":50,"PCAQVH":10,"STGMYH":50,"JDKYLZ":10,"WXYRKE":50}'}
+        name: avatar_1_product_2_input_section
         layout_properties:
           col_widths: {}
           grid_position: FADUCX,ZKZCKG
@@ -250,7 +250,7 @@ components:
             grid_position: XFTMZZ,WOZPUB
           event_bindings: {click: add_avatar_2_product_2_click}
         - type: ColumnPanel
-          properties: {col_widths: '{"FGXNBI":20,"LPXMBI":40}'}
+          properties: {col_widths: '{"FGXNBI":10,"LPXMBI":50}'}
           name: avatar_2_product_2_input_section
           layout_properties: {grid_position: 'JSBBWB,VQXZMZ'}
           components:
@@ -281,7 +281,7 @@ components:
               grid_position: TINESQ,OYUXBO
             event_bindings: {click: add_avatar_3_product_2_click}
         - type: ColumnPanel
-          properties: {col_widths: '{"FGXNBI":20,"LPXMBI":40}'}
+          properties: {col_widths: '{"FGXNBI":10,"LPXMBI":50}'}
           name: avatar_3_product_2_input_section
           layout_properties:
             col_widths: {}
@@ -318,11 +318,11 @@ components:
           name: spacer_3_copy_7
           layout_properties: {grid_position: 'LYPEGN,GPPXZG'}
       - type: ColumnPanel
-        properties: {col_widths: '{"QQGLML":20,"DQSWXP":40,"PCAQVH":20,"STGMYH":40,"JDKYLZ":17,"WXYRKE":35}'}
-        name: product_3_panel
+        properties: {col_widths: '{"QQGLML":10,"DQSWXP":50,"PCAQVH":10,"STGMYH":50,"JDKYLZ":9,"WXYRKE":47}'}
+        name: avatar_1_product_3_input_section
         layout_properties:
           col_widths: {}
-          grid_position: AWRLTG,CHQBMJ
+          grid_position: AWRLTG,BBOXPV
         components:
         - type: Label
           properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
@@ -387,7 +387,7 @@ components:
             grid_position: XFTMZZ,WOZPUB
           event_bindings: {click: add_avatar_2_product_3_click}
         - type: ColumnPanel
-          properties: {col_widths: '{"FGXNBI":20,"LPXMBI":40}'}
+          properties: {col_widths: '{"FGXNBI":10,"LPXMBI":50}'}
           name: avatar_2_product_3_input_section
           layout_properties: {grid_position: 'JSBBWB,VQXZMZ'}
           components:
@@ -418,7 +418,7 @@ components:
               grid_position: TINESQ,OYUXBO
             event_bindings: {click: add_avatar_3_product_3_click}
         - type: ColumnPanel
-          properties: {col_widths: '{"FGXNBI":20,"LPXMBI":40}'}
+          properties: {col_widths: '{"FGXNBI":10,"LPXMBI":50}'}
           name: avatar_3_product_3_input_section
           layout_properties:
             col_widths: {}
@@ -455,8 +455,8 @@ components:
           name: spacer_3_copy_8
           layout_properties: {grid_position: 'LYPEGN,GPPXZG'}
       - type: ColumnPanel
-        properties: {col_widths: '{"QQGLML":20,"DQSWXP":40,"PCAQVH":20,"STGMYH":40,"JDKYLZ":17,"XXFKWG":35}'}
-        name: product_4_panel
+        properties: {col_widths: '{"QQGLML":12,"DQSWXP":48,"PCAQVH":12,"STGMYH":48,"JDKYLZ":11,"XXFKWG":45}'}
+        name: avatar_1_product_4_input_section
         layout_properties:
           col_widths: {}
           grid_position: GKAHMV,FIKAVJ
@@ -524,7 +524,7 @@ components:
             grid_position: BDNZAB,TJAIQC
           event_bindings: {click: add_avatar_2_product_4_click}
         - type: ColumnPanel
-          properties: {col_widths: '{"FGXNBI":20,"LPXMBI":40}'}
+          properties: {col_widths: '{"FGXNBI":12,"LPXMBI":48}'}
           name: avatar_2_product_4_input_section
           layout_properties:
             col_widths: {}
@@ -557,7 +557,7 @@ components:
               grid_position: LFLVQW,KGNEDG
             event_bindings: {click: add_avatar_3_product_4_click}
         - type: ColumnPanel
-          properties: {col_widths: '{"FGXNBI":20,"LPXMBI":40}'}
+          properties: {col_widths: '{"FGXNBI":12,"LPXMBI":48}'}
           name: avatar_3_product_4_input_section
           layout_properties: {grid_position: 'QTWPUD,XLZIAP'}
           components:
@@ -592,8 +592,8 @@ components:
           name: spacer_3_copy_5
           layout_properties: {grid_position: 'EHSYTO,OPULZT'}
       - type: ColumnPanel
-        properties: {col_widths: '{"QQGLML":20,"DQSWXP":40,"PCAQVH":20,"STGMYH":40,"JDKYLZ":17,"WXYRKE":35}'}
-        name: product_5_panel
+        properties: {col_widths: '{"QQGLML":12,"DQSWXP":48,"PCAQVH":12,"STGMYH":48,"JDKYLZ":10,"WXYRKE":44}'}
+        name: avatar_1_product_5_input_section
         layout_properties:
           col_widths: {}
           grid_position: XPXHWN,CILRVR
@@ -661,7 +661,7 @@ components:
             grid_position: XFTMZZ,WOZPUB
           event_bindings: {click: add_avatar_2_product_5_click}
         - type: ColumnPanel
-          properties: {col_widths: '{"FGXNBI":20,"LPXMBI":40}'}
+          properties: {col_widths: '{"FGXNBI":12,"LPXMBI":48}'}
           name: avatar_2_product_5_input_section
           layout_properties: {grid_position: 'JSBBWB,VQXZMZ'}
           components:
@@ -692,7 +692,7 @@ components:
               grid_position: TINESQ,OYUXBO
             event_bindings: {click: add_avatar_3_product_5_click}
         - type: ColumnPanel
-          properties: {col_widths: '{"FGXNBI":20,"LPXMBI":40}'}
+          properties: {col_widths: '{"FGXNBI":12,"LPXMBI":48}'}
           name: avatar_3_product_5_input_section
           layout_properties:
             col_widths: {}

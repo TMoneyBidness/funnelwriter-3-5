@@ -41,11 +41,16 @@ class Avatars(AvatarsTemplate):
     user_table = getattr(app_tables, user_table_name)
 
     # Hide Panels of Products 2-5
+    self.avatar_1_product_1_input_section.visible = False
+    self.avatar_1_product_2_input_section.visible = False
+    self.avatar_1_product_3_input_section.visible = False
+    self.avatar_1_product_4_input_section.visible = False
+    self.avatar_1_product_5_input_section.visible = False
     
-    self.product_2_panel.visible = False 
-    self.product_3_panel.visible = False 
-    self.product_4_panel.visible = False 
-    self.product_5_panel.visible = False 
+  
+    # self.product_3_panel.visible = False 
+    # self.product_4_panel.visible = False 
+    # self.product_5_panel.visible = False 
     
     for i in range(1, 6):
       row_product_latest = user_table.search(variable=f'product_{i}_latest')
@@ -55,40 +60,54 @@ class Avatars(AvatarsTemplate):
           # Update the text box for the current product
           product_latest_name = row_product_latest[0]['variable_title']
           product_latest_url = row_product_url_latest[0]['variable_value']
-          
+
           getattr(self, f'product_{i}_name_input').text = product_latest_name
           getattr(self, f'product_{i}_url_input').text = product_latest_url
-        
+
+          if product_latest_name:
+            getattr(self, f'avatar_1_product_{i}_input_section').visible = True
+
+          else:
+            getattr(self, f'avatar_1_product_{i}_input_section').visible = False
+                  
           # Now, load the avatars associated with that product. There may be 1 avatar only, or there are 3. The cells might be empty!
+          # Load the avatars associated with that product
           for j in range(1, 4):
               row_avatar_product_latest = user_table.get(variable=f'avatar_{j}_product_{i}_latest')
               
-              if row_avatar_product_latest:  # Check if it's not None
+              # If the avatar cell exists
+              if row_avatar_product_latest:
                   avatar_product_latest = row_avatar_product_latest['variable_value']
-                  getattr(self, f'avatar_{j}_product_{i}_input').text = avatar_product_latest
+          
+                  # Check if the avatar cell is not empty
+                  if avatar_product_latest and avatar_product_latest.strip():
+                      getattr(self, f'avatar_{j}_product_{i}_input').text = avatar_product_latest
+                      getattr(self, f'avatar_{j}_product_{i}_input_section').visible = True
+                  else:
+                      # Make the section invisible if the avatar cell is empty
+                      getattr(self, f'avatar_{j}_product_{i}_input_section').visible = False
+          
+              else:
+                  # Make the section invisible if the avatar cell doesn't exist
+                  getattr(self, f'avatar_{j}_product_{i}_input_section').visible = False
+                  print(f"No row found for 'avatar_{j}_product_{i}_latest'")
 
-          else:
-              # Handle case where the row does not exist for the current user
-              print(f"No row found for 'avatar_{j}_product_{i}_latest'")
             
     # Load the latest info for Avatars 1 to 5
     for i in range(1, 6):
         row_avatar_latest = user_table.search(variable=f'avatar_{i}_latest')
         row_avatar_name = user_table.search(variable=f'avatar{i}')
-
+    
         if row_avatar_latest:
             avatar_latest = row_avatar_latest[0]['variable_value']
-            # Update the text box for the current avatar
             getattr(self, f'avatar{i}_textbox').text = avatar_latest
-
+    
         if row_avatar_name:
             avatar_name = row_avatar_name[0]['variable_title']
-            # Update the input field for the current avatar
             getattr(self, f'avatar_{i}_name_input').text = avatar_name
         else:
-            # Handle case where the row does not exist for the current user
             print(f"No row found for 'avatar_{i}_latest'")
-    
+
     # Check if any of the final avatars are empty
     final_avatar_rows = [
         user_table.search(variable='avatar1')[0],

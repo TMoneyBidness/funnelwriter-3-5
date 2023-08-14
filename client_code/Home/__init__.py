@@ -40,6 +40,7 @@ class Home(HomeTemplate):
     
     # HIDE ALL PANELS OFF THE TOP
     # Hide Product 1, Avatars 2 and 3
+    
     self.avatar_2_product_1_input_section.visible = False 
     self.avatar_3_product_1_input_section.visible = False
     
