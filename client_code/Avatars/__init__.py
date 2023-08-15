@@ -20,6 +20,9 @@ class Avatars(AvatarsTemplate):
     super().__init__(**properties)
     # Initialize task_id attribute
     self.task_id = None
+    self.task_ids = []
+    self.task_info = []
+    task_info = []
     anvil.users.login_with_form()
 
     # Get the table for the current user
@@ -51,6 +54,11 @@ class Avatars(AvatarsTemplate):
     self.avatar_1_product_3_input_section.visible = False
     self.avatar_1_product_4_input_section.visible = False
     self.avatar_1_product_5_input_section.visible = False
+
+    # HIDE BUTTONS:
+    self.avatar_1_product_1_button.visible = False
+    self.avatar_2_product_1_button.visible = False
+    self.avatar_3_product_1_button.visible = False
         
     for i in range(1, 6):
       row_product_latest = user_table.search(variable=f'product_{i}_latest')
@@ -188,7 +196,7 @@ class Avatars(AvatarsTemplate):
     self.add_avatar_3_product_5.visible = False 
 
 #-- GENERATE THE AVATAR DEEP DIVES FOR EACH PRODUCT ------------#######################################################
-  def generate_avatar_1_product_1_button_click(self, **event_args):
+  def all_avatars_product_1_button_click(self, **event_args):
     with anvil.server.no_loading_indicator:
       # This method should handle the UI logic
       print("Deep Dive Avatar Generator Initiated")
@@ -215,93 +223,106 @@ class Avatars(AvatarsTemplate):
 
        # START THE LOOPS
       task_ids = []
+      self.task_info.clear() 
       
       for i in range(1, 4):
-        # Retrieve the avatar input text
-        avatar_input_text = getattr(self, f'avatar_{i}_product_1_input').text
-        
-        print(f"Avatar {i} input:", avatar_input_text)  # Debug line
-    
-        # Check if the input contains text, if not, skip to the next iteration
-        if not avatar_input_text or not avatar_input_text.strip():
-            print(f"Skipping avatar {i} due to empty input.")  # Debug line
-            continue
-        
-        # AVATAR PREVIEW
-        avatar_preview = avatar_input_text
-        avatar_preview_rows = user_table.search(variable=f'avatar_{i}_product_1_preview')
-        
-        if not avatar_preview_rows:
-            print(f"No database entry for avatar_{i}_product_1_preview")  # Debug line
-            continue
-    
-        avatar_preview_row = avatar_preview_rows[0]
-        avatar_preview_row['variable_value'] = avatar_preview
-    
-        # AVATAR NAME
-        avatar_name_preview = getattr(self, f'avatar_{i}_product_1_name').text
-        avatar_preview_row['variable_title'] = avatar_name_preview
-        avatar_preview_row.update()
-        
-        # Save it as the latest as well
-        avatar_latest_rows = user_table.search(variable=f'avatar_{i}_product_1_latest')
-        if not avatar_latest_rows:
-            print(f"No database entry for avatar_{i}_product_1_latest")  # Debug line
-            continue
-    
-        avatar_latest_row = avatar_latest_rows[0]
-        avatar_latest_row['variable_value'] = avatar_preview
-        avatar_latest_row['variable_title'] = avatar_name_preview
-        avatar_latest_row.update()
-        
-        # Call to the server
-        task_id = None
-      # Call to the server to start the background task
-        task_id = anvil.server.call(f'launch_deepdive_avatar_{i}_product_1_generator', product_1_name, product_1_profile, avatar_name_preview, avatar_preview)
-        print(f"Task ID for avatar_{i}_product_1:", task_id)  
-        task_ids.append(task_id)
+            avatar_input_text = getattr(self, f'avatar_{i}_product_1_input').text
 
-      # Set the timer interval and enable it to start checking tasks
-      self.task_ids = task_ids
+            # Check input and skip if empty
+            if not avatar_input_text or not avatar_input_text.strip():
+                print(f"Skipping avatar {i} due to empty input.")
+                continue
+
+            # Update rows in the database
+            for variable_name in [f'avatar_{i}_product_1_preview', f'avatar_{i}_product_1_latest']:
+                rows = user_table.search(variable=variable_name)
+                if rows:
+                    row = rows[0]
+                    row['variable_value'] = avatar_input_text
+                    row['variable_title'] = getattr(self, f'avatar_{i}_product_1_name').text
+                    row.update()
+                else:
+                    print(f"No database entry for {variable_name}")
+
+            # Launch the background task
+            task_id = anvil.server.call(f'launch_deepdive_avatar_{i}_product_1_generator', product_1_name, product_1_profile, getattr(self, f'avatar_{i}_product_1_name').text, avatar_input_text)
+            print(f"Task ID for avatar_{i}_product_1:", task_id)
+            self.task_info.append((task_id, i))
+
+      self.avatar_timer.enabled = True
+      print(f"avatar_timer started")
 
   
   def avatar_timer_tick(self, **event_args):
-    # This method is called every time the avatar_timer ticks
-    all_tasks_complete = True  
-    tasks_to_remove = []
+    with anvil.server.no_loading_indicator:
+        all_tasks_complete = True  
+        tasks_to_remove = []
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+      
+        for task_id, avatar_num in self.task_info:
+            status = anvil.server.call('get_task_status', task_id)
+            
+            if status == 'completed':
+                print(f"Task {task_id} for avatar_{avatar_num}_product_1 completed!")
+                
+                # Get the result of the background task
+                avatar_generation = anvil.server.call('get_task_result', task_id)
+                
+                # Update the textbox with the result
+                getattr(self, f'avatar_{avatar_num}_product_1_input').text = avatar_generation
+                
+                if avatar_num == 1:  # Only for avatar_1; adjust as needed
+                    self.indeterminate_10.visible = False
+
+                    # Update the latest as well
+                    avatar_latest_row = user_table.search(variable=f'avatar_{avatar_num}_product_1_latest')[0]
+                    avatar_latest_row['variable_value'] = avatar_generation
+                    avatar_latest_row['variable_title'] = getattr(self, f'avatar_{avatar_num}_product_1_name').text
+                    avatar_latest_row.update()
+
+                if avatar_num == 2:  # Only for avatar_1; adjust as needed
+                    self.indeterminate_10.visible = False
+
+                    # Update the latest as well
+                    avatar_latest_row = user_table.search(variable=f'avatar_{avatar_num}_product_1_latest')[0]
+                    avatar_latest_row['variable_value'] = avatar_generation
+                    avatar_latest_row['variable_title'] = getattr(self, f'avatar_{avatar_num}_product_1_name').text
+                    avatar_latest_row.update()
+
+                if avatar_num == 3:  # Only for avatar_1; adjust as needed
+                    self.indeterminate_10.visible = False
+
+                    # Update the latest as well
+                    avatar_latest_row = user_table.search(variable=f'avatar_{avatar_num}_product_1_latest')[0]
+                    avatar_latest_row['variable_value'] = avatar_generation
+                    avatar_latest_row['variable_title'] = getattr(self, f'avatar_{avatar_num}_product_1_name').text
+                    avatar_latest_row.update()
+                
+                tasks_to_remove.append((task_id, avatar_num))
+                
+            elif status == 'failed':
+                print(f"Task {task_id} for avatar_{avatar_num}_product_1 failed!")
+                tasks_to_remove.append((task_id, avatar_num))
+                
+            elif status == 'not_found':
+                print(f"Task {task_id} for avatar_{avatar_num}_product_1 not found!")
+                tasks_to_remove.append((task_id, avatar_num))
+                
+            else:
+                print(f"Task {task_id} for avatar_{avatar_num}_product_1 still running...")
+                all_tasks_complete = False
     
-    for task_id in self.task_ids:
-        status = anvil.server.call('get_task_status', task_id)
-        
-        if status == 'complete':
-            print(f"Task {task_id} completed!")
-            # Get the result of the background task
-            avatar_generation = anvil.server.call('get_task_result', task_id)
-            # Update the textbox with the result
-            print("Avatars:", avatar_generation)
-            self.avatar_1_product_1_input.text = avatar_generation
-            self.indeterminate_10.visible = False
-            tasks_to_remove.append(task_id)
-            
-        elif status == 'failed':
-            print(f"Task {task_id} failed!")
-            tasks_to_remove.append(task_id)
-            
-        elif status == 'not_found':
-            print(f"Task {task_id} not found!")
-            tasks_to_remove.append(task_id)
-            
-        else:
-            print(f"Task {task_id} still running...")
-            all_tasks_complete = False
+        # Remove tasks that are completed, failed, or not found
+        for task in tasks_to_remove:
+            self.task_info.remove(task)
+    
+        # If all tasks are complete, you can stop the timer
+        if all_tasks_complete:
+            self.avatar_timer.enabled = False
 
-    # Remove tasks that are completed, failed, or not found
-    for task in tasks_to_remove:
-        self.task_ids.remove(task)
-
-    # If all tasks are complete, you can stop the timer
-    if all_tasks_complete:
-        self.avatar_timer.enabled = False
 
 
 

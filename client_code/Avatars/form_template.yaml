@@ -44,7 +44,7 @@ components:
       layout_properties: {grid_position: 'FXZADJ,KYHNOE'}
       components:
       - type: ColumnPanel
-        properties: {col_widths: '{"QQGLML":7,"JDKYLZ":10,"WXYRKE":50,"UWBUSG":35,"WOZPUB":25,"CEPQWZ":33}'}
+        properties: {col_widths: '{"QQGLML":7,"JDKYLZ":10,"WXYRKE":50,"WOZPUB":25,"CEPQWZ":33,"XOIGNB":35}'}
         name: avatar_1_product_1_input_section
         layout_properties:
           col_widths: {}
@@ -107,15 +107,14 @@ components:
           layout_properties: {grid_position: 'UGVSDG,WXYRKE'}
         - type: Button
           properties: {role: outlined-button, align: center, tooltip: '', border: '',
-            enabled: true, foreground: '', visible: true, text: GENERATE FULL AVATAR,
+            enabled: true, foreground: '', visible: true, text: REGENERATE AVATAR,
             font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
             italic: false, background: 'theme:Secondary Container', bold: false, underline: false,
             icon: 'fa:android'}
           name: avatar_1_product_1_button
           layout_properties:
             col_widths: {}
-            grid_position: XFTMZZ,UWBUSG
-          event_bindings: {click: generate_avatar_1_product_1_button_click}
+            grid_position: XFTMZZ,XOIGNB
         - type: Button
           properties: {role: elevated-button, align: center, tooltip: '', border: '',
             enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
@@ -168,7 +167,7 @@ components:
             layout_properties: {grid_position: 'XZEMTO,LPXMBI'}
           - type: Button
             properties: {role: outlined-button, align: center, tooltip: '', border: '',
-              enabled: true, foreground: '', visible: true, text: GENERATE FULL AVATAR,
+              enabled: true, foreground: '', visible: true, text: REGENERATE AVATAR,
               font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
               italic: false, background: 'theme:Secondary Container', bold: false,
               underline: false, icon: 'fa:android'}
@@ -231,7 +230,7 @@ components:
             layout_properties: {grid_position: 'XZEMTO,LPXMBI'}
           - type: Button
             properties: {role: outlined-button, align: center, tooltip: '', border: '',
-              enabled: true, foreground: '', visible: true, text: GENERATE FULL AVATAR,
+              enabled: true, foreground: '', visible: true, text: REGENERATE AVATAR,
               font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
               italic: false, background: 'theme:Secondary Container', bold: false,
               underline: false, icon: 'fa:android'}
@@ -254,6 +253,17 @@ components:
             col_widths: {}
             grid_position: EDRWYY,PIYGOZ
           event_bindings: {click: add_product_2_panel_click}
+        - type: Button
+          properties: {role: outlined-button, align: center, tooltip: '', border: '',
+            enabled: true, foreground: '', visible: true, text: GENERATE PRODUCT 1 AVATARS,
+            font_size: 26, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+            italic: false, background: 'theme:Secondary Container', bold: true, underline: false,
+            icon: 'fa:android'}
+          name: all_avatars_product_1_button
+          layout_properties:
+            col_widths: {}
+            grid_position: KUFSHJ,HLECPO
+          event_bindings: {click: all_avatars_product_1_button_click}
         - type: Spacer
           properties: {height: 32}
           name: spacer_3_copy_10
@@ -1118,6 +1128,7 @@ components:
       grid_position: CIKCMM,CIRTDH
     event_bindings: {click: nav_button_avatars_to_brand_tone_click}
 - type: Timer
-  properties: {interval: 1}
+  properties: {interval: 2}
   name: avatar_timer
+  event_bindings: {tick: avatar_timer_tick}
 is_package: true
