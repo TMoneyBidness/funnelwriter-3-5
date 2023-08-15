@@ -1887,7 +1887,6 @@ def brand_tone_research(brand_tone_url):
 
     extracted_tone = tone_research['output']
     anvil.server.task_state['result'] = extracted_tone
-  
 
 @anvil.server.callable
 def save_brand_tone_component_click(self, **event_args):

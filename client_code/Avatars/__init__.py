@@ -170,12 +170,10 @@ class Avatars(AvatarsTemplate):
   def add_avatar_2_product_4_click(self, **event_args):
     self.avatar_2_product_4_input_section.visible = True
     self.add_avatar_2_product_4.visible = False
- 
   def add_avatar_3_product_4_click(self, **event_args):
     self.avatar_3_product_4_input_section.visible = True
     self.add_avatar_2_product_4.visible = False
     self.add_avatar_3_product_4.visible = False 
-
   def add_product_5_panel_click(self, **event_args):
     self.product_5_panel.visible = True
 
@@ -188,7 +186,89 @@ class Avatars(AvatarsTemplate):
     self.avatar_3_product_5_input_section.visible = True
     self.add_avatar_2_product_5.visible = False
     self.add_avatar_3_product_5.visible = False 
-    
+
+#-- GENERATE THE AVATAR DEEP DIVES FOR EACH PRODUCT ------------#######################################################
+  def generate_avatar_1_product_1_button_click(self, **event_args):
+    with anvil.server.no_loading_indicator:
+      # This method should handle the UI logic
+      print("Deep Dive Avatar Generator Initiated")
+      # Start the progress bar with a small value
+      self.indeterminate_10.visible = True
+      
+      current_user = anvil.users.get_user()
+      user_table_name = current_user['user_id']
+      # Get the table for the current user
+      user_table = getattr(app_tables, user_table_name)
+      
+      # COMPANY PROFILE
+      # Retrieve the row with 'variable' column containing 'company_profile'
+      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile = company_profile_row['variable_value']
+      
+      row_product_latest = user_table.search(variable=f'product_1_latest')
+
+      # PRODUCT NAME 
+      product_1_name = self.product_1_name_input.text
+      product_1_name_row = user_table.search(variable='product_1_name_latest')[0]
+      product_1_name_row['variable_value'] = product_1_name
+      product_1_name_row.update()
+
+      # PRODUCT DESCRIPTION
+      product_1_name = self.product_1_name_input.text
+      product_1_name_row = user_table.search(variable='product_1_name_latest')[0]
+      product_1_name_row['variable_value'] = product_1_name
+      product_1_name_row.update()
+  
+
+      # AVATARS
+      avatar_1_preview = self.avatar1_textbox.text
+      avatar_1_preview_row = user_table.search(variable='avatar_1_preview')[0]
+      avatar_1_preview_row['variable_value'] = avatar_1_preview
+      avatar_1_preview_row.update()
+      
+      # Save it it as the latest as well
+      avatar_1_latest = self.avatar1_textbox.text
+      avatar_1_latest_row = user_table.search(variable='avatar_1_latest')[0]
+      avatar_1_latest_row['variable_value'] = avatar_1_latest
+      avatar_1_latest_row.update()
+                                
+      self.task_id = anvil.server.call('launch_deepdive_avatar_1_generator', owner_company_profile,avatar_1_preview)
+      print("Task ID:", self.task_id)
+  
+      # Loop to check the status of the background task
+    while True:
+      with anvil.server.no_loading_indicator:
+         
+        # Check if the background task is complete
+        task_status = anvil.server.call('get_task_status', self.task_id)
+        print("Task status:", task_status)
+  
+        if task_status is not None:
+          if task_status == "completed":
+            # Get the result of the background task
+            avatar_generation = anvil.server.call('get_task_result', self.task_id)
+            # Update the textbox with the result
+            print("Avatars:", avatar_generation)
+            self.avatar1_textbox.text = avatar_generation
+            self.indeterminate_1.visible = False
+            
+          # Save it it as the latest as well
+            avatar_1_latest_row = user_table.search(variable='avatar_1_latest')[0]
+            avatar_1_latest_row['variable_value'] = avatar_generation
+            avatar_1_latest_row.update()
+            
+            break  # Exit the loop
+          elif task_status == "failed":
+            # Get the error message
+            task_error = anvil.server.call('get_task_result', self.task_id)
+            print("Task error:", task_error)
+            self.indeterminate_1.visible = False
+            break  # Exit the loop
+  
+        # Sleep for 1 second before checking again
+        time.sleep(2) 
+
+  
 #-- GENERATE THE 5 PREVIEWS ------------#######################################################################
 
   def all_avatars_button_click(self, **event_args):
@@ -269,8 +349,8 @@ class Avatars(AvatarsTemplate):
 
                 # Sleep for 1 second before checking again
                 time.sleep(1)
-
-#-- FUNCTION TO GENERATE EACH AVATAR ------------#######################################################################
+              
+#-- FUNCTION TO GENERATE EACH GENERAL AVATAR ------------#######################################################################
   def generate_avatar1_button_click(self, **event_args):
     with anvil.server.no_loading_indicator:
       # This method should handle the UI logic

@@ -188,6 +188,7 @@ class Product(ProductTemplate):
         product_1_name = self.product_1_name_input.text
         product_1_name_row = user_table.search(variable='product_1_name_latest')[0]
         product_1_name_row['variable_value'] = product_1_name
+        product_1_name_row.update()
 
         # PRODUCT URL
         product_1_url = self.product_1_url_input.text
