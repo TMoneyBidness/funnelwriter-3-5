@@ -38,9 +38,18 @@ class Avatars(AvatarsTemplate):
     self.indeterminate_4.visible = False
     self.indeterminate_5.visible = False
 
-    self.avatar_timer.interval = 5  # Check every 5 seconds
-    self.avatar_timer.enabled = True
-    
+    # Start Timers
+    self.avatar_product_1_timer.enabled = True
+    self.avatar_product_1_timer.interval = 5  # Check every 5 seconds
+    self.avatar_product_2_timer.enabled = True
+    self.avatar_product_2_timer.interval = 5  # Check every 5 seconds
+    self.avatar_product_3_timer.enabled = True
+    self.avatar_product_3_timer.interval = 5  # Check every 5 seconds
+    self.avatar_product_4_timer.enabled = True
+    self.avatar_product_4_timer.interval = 5  # Check every 5 seconds
+    self.avatar_product_5_timer.enabled = True
+    self.avatar_product_5_timer.interval = 5  # Check every 5 seconds
+
 
     # Get the current user
     current_user = anvil.users.get_user()
@@ -86,10 +95,12 @@ class Avatars(AvatarsTemplate):
               # If the avatar cell exists
               if row_avatar_product_latest:
                   avatar_product_latest = row_avatar_product_latest['variable_value']
+                  avatar_product_latest_name = row_avatar_product_latest['variable_title']
           
                   # Check if the avatar cell is not empty
                   if avatar_product_latest and avatar_product_latest.strip():
                       getattr(self, f'avatar_{j}_product_{i}_input').text = avatar_product_latest
+                      getattr(self, f'avatar_{j}_product_{i}_name').text = avatar_product_latest_name
                       getattr(self, f'avatar_{j}_product_{i}_input_section').visible = True
                   else:
                       # Make the section invisible if the avatar cell is empty
@@ -249,11 +260,11 @@ class Avatars(AvatarsTemplate):
             print(f"Task ID for avatar_{i}_product_1:", task_id)
             self.task_info.append((task_id, i))
 
-      self.avatar_timer.enabled = True
-      print(f"avatar_timer started")
+      self.avatar_product_1_timer.enabled = True
+      print(f"self.avatar_product_1_timer started")
 
   
-  def avatar_timer_tick(self, **event_args):
+  def avatar_product_1_timer_tick(self, **event_args):
     with anvil.server.no_loading_indicator:
         all_tasks_complete = True  
         tasks_to_remove = []
@@ -321,7 +332,7 @@ class Avatars(AvatarsTemplate):
     
         # If all tasks are complete, you can stop the timer
         if all_tasks_complete:
-            self.avatar_timer.enabled = False
+          self.avatar_product_1_timer.enabled = False
 
 
 
