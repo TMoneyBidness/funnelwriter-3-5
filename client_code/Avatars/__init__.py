@@ -26,13 +26,18 @@ class Avatars(AvatarsTemplate):
     current_user = anvil.users.get_user()
     user_table_name = current_user['user_id']
     user_table = getattr(app_tables, user_table_name)
-  
+
+    self.indeterminate_10.visible = False
     self.indeterminate_all_avatars.visible = False
     self.indeterminate_1.visible = False
     self.indeterminate_2.visible = False
     self.indeterminate_3.visible = False
     self.indeterminate_4.visible = False
-    self.indeterminate_5.visible = False  
+    self.indeterminate_5.visible = False
+
+    self.avatar_timer.interval = 5  # Check every 5 seconds
+    self.avatar_timer.enabled = True
+    
 
     # Get the current user
     current_user = anvil.users.get_user()
@@ -46,23 +51,18 @@ class Avatars(AvatarsTemplate):
     self.avatar_1_product_3_input_section.visible = False
     self.avatar_1_product_4_input_section.visible = False
     self.avatar_1_product_5_input_section.visible = False
-    
-  
-    # self.product_3_panel.visible = False 
-    # self.product_4_panel.visible = False 
-    # self.product_5_panel.visible = False 
-    
+        
     for i in range(1, 6):
       row_product_latest = user_table.search(variable=f'product_{i}_latest')
-      row_product_url_latest = user_table.search(variable=f'product_{i}_url')
+      # row_product_url_latest = user_table.search(variable=f'product_{i}_url')
         
       if row_product_latest:
           # Update the text box for the current product
           product_latest_name = row_product_latest[0]['variable_title']
-          product_latest_url = row_product_url_latest[0]['variable_value']
+          # product_latest_url = row_product_url_latest[0]['variable_value']
 
           getattr(self, f'product_{i}_name_input').text = product_latest_name
-          getattr(self, f'product_{i}_url_input').text = product_latest_url
+          # getattr(self, f'product_{i}_url').text = product_latest_url
 
           if product_latest_name:
             getattr(self, f'avatar_1_product_{i}_input_section').visible = True
@@ -194,7 +194,7 @@ class Avatars(AvatarsTemplate):
       print("Deep Dive Avatar Generator Initiated")
       # Start the progress bar with a small value
       self.indeterminate_10.visible = True
-      
+         
       current_user = anvil.users.get_user()
       user_table_name = current_user['user_id']
       # Get the table for the current user
@@ -204,69 +204,159 @@ class Avatars(AvatarsTemplate):
       # Retrieve the row with 'variable' column containing 'company_profile'
       company_profile_row = user_table.search(variable='company_profile')[0]
       company_profile = company_profile_row['variable_value']
-      
-      row_product_latest = user_table.search(variable=f'product_1_latest')
-
+            
       # PRODUCT NAME 
-      product_1_name = self.product_1_name_input.text
-      product_1_name_row = user_table.search(variable='product_1_name_latest')[0]
-      product_1_name_row['variable_value'] = product_1_name
-      product_1_name_row.update()
-
-      # PRODUCT DESCRIPTION
-      product_1_name = self.product_1_name_input.text
-      product_1_name_row = user_table.search(variable='product_1_name_latest')[0]
-      product_1_name_row['variable_value'] = product_1_name
-      product_1_name_row.update()
-  
-
-      # AVATARS
-      avatar_1_preview = self.avatar1_textbox.text
-      avatar_1_preview_row = user_table.search(variable='avatar_1_preview')[0]
-      avatar_1_preview_row['variable_value'] = avatar_1_preview
-      avatar_1_preview_row.update()
+      product_1_name_row = user_table.search(variable='product_1')[0]
+      product_1_name = product_1_name_row['variable_title']
       
-      # Save it it as the latest as well
-      avatar_1_latest = self.avatar1_textbox.text
-      avatar_1_latest_row = user_table.search(variable='avatar_1_latest')[0]
-      avatar_1_latest_row['variable_value'] = avatar_1_latest
-      avatar_1_latest_row.update()
-                                
-      self.task_id = anvil.server.call('launch_deepdive_avatar_1_generator', owner_company_profile,avatar_1_preview)
-      print("Task ID:", self.task_id)
+      # PRODUCT DESCRIPTION
+      product_1_profile_row = user_table.search(variable='product_1')[0]
+      product_1_profile = product_1_profile_row['variable_title']
+
+       # START THE LOOPS
+      task_ids = []
+      
+      for i in range(1, 4):
+        # Retrieve the avatar input text
+        avatar_input_text = getattr(self, f'avatar_{i}_product_1_input').text
+        
+        print(f"Avatar {i} input:", avatar_input_text)  # Debug line
+    
+        # Check if the input contains text, if not, skip to the next iteration
+        if not avatar_input_text or not avatar_input_text.strip():
+            print(f"Skipping avatar {i} due to empty input.")  # Debug line
+            continue
+        
+        # AVATAR PREVIEW
+        avatar_preview = avatar_input_text
+        avatar_preview_rows = user_table.search(variable=f'avatar_{i}_product_1_preview')
+        
+        if not avatar_preview_rows:
+            print(f"No database entry for avatar_{i}_product_1_preview")  # Debug line
+            continue
+    
+        avatar_preview_row = avatar_preview_rows[0]
+        avatar_preview_row['variable_value'] = avatar_preview
+    
+        # AVATAR NAME
+        avatar_name_preview = getattr(self, f'avatar_{i}_product_1_name').text
+        avatar_preview_row['variable_title'] = avatar_name_preview
+        avatar_preview_row.update()
+        
+        # Save it as the latest as well
+        avatar_latest_rows = user_table.search(variable=f'avatar_{i}_product_1_latest')
+        if not avatar_latest_rows:
+            print(f"No database entry for avatar_{i}_product_1_latest")  # Debug line
+            continue
+    
+        avatar_latest_row = avatar_latest_rows[0]
+        avatar_latest_row['variable_value'] = avatar_preview
+        avatar_latest_row['variable_title'] = avatar_name_preview
+        avatar_latest_row.update()
+        
+        # Call to the server
+        task_id = None
+      # Call to the server to start the background task
+        task_id = anvil.server.call(f'launch_deepdive_avatar_{i}_product_1_generator', product_1_name, product_1_profile, avatar_name_preview, avatar_preview)
+        print(f"Task ID for avatar_{i}_product_1:", task_id)  
+        task_ids.append(task_id)
+
+      # Set the timer interval and enable it to start checking tasks
+      self.task_ids = task_ids
+
   
-      # Loop to check the status of the background task
-    while True:
-      with anvil.server.no_loading_indicator:
-         
-        # Check if the background task is complete
-        task_status = anvil.server.call('get_task_status', self.task_id)
-        print("Task status:", task_status)
-  
-        if task_status is not None:
-          if task_status == "completed":
+  def avatar_timer_tick(self, **event_args):
+    # This method is called every time the avatar_timer ticks
+    all_tasks_complete = True  
+    tasks_to_remove = []
+    
+    for task_id in self.task_ids:
+        status = anvil.server.call('get_task_status', task_id)
+        
+        if status == 'complete':
+            print(f"Task {task_id} completed!")
             # Get the result of the background task
-            avatar_generation = anvil.server.call('get_task_result', self.task_id)
+            avatar_generation = anvil.server.call('get_task_result', task_id)
             # Update the textbox with the result
             print("Avatars:", avatar_generation)
-            self.avatar1_textbox.text = avatar_generation
-            self.indeterminate_1.visible = False
+            self.avatar_1_product_1_input.text = avatar_generation
+            self.indeterminate_10.visible = False
+            tasks_to_remove.append(task_id)
             
-          # Save it it as the latest as well
-            avatar_1_latest_row = user_table.search(variable='avatar_1_latest')[0]
-            avatar_1_latest_row['variable_value'] = avatar_generation
-            avatar_1_latest_row.update()
+        elif status == 'failed':
+            print(f"Task {task_id} failed!")
+            tasks_to_remove.append(task_id)
             
-            break  # Exit the loop
-          elif task_status == "failed":
-            # Get the error message
-            task_error = anvil.server.call('get_task_result', self.task_id)
-            print("Task error:", task_error)
-            self.indeterminate_1.visible = False
-            break  # Exit the loop
+        elif status == 'not_found':
+            print(f"Task {task_id} not found!")
+            tasks_to_remove.append(task_id)
+            
+        else:
+            print(f"Task {task_id} still running...")
+            all_tasks_complete = False
+
+    # Remove tasks that are completed, failed, or not found
+    for task in tasks_to_remove:
+        self.task_ids.remove(task)
+
+    # If all tasks are complete, you can stop the timer
+    if all_tasks_complete:
+        self.avatar_timer.enabled = False
+
+
+
   
-        # Sleep for 1 second before checking again
-        time.sleep(2) 
+      # # AVATAR PREVIEW
+      # avatar_1_product_1_preview = self.avatar_1_product_1_input.text
+      # avatar_1_product_1_preview_row = user_table.search(variable='avatar_1_product_1_preview')[0]
+      # avatar_1_product_1_preview_row['variable_value'] = avatar_1_product_1_preview
+      # # AVATAR NAME
+      # avatar_1_product_1_name_preview = self.avatar_1_product_1_name.text
+      # avatar_1_product_1_preview_row['variable_title'] = avatar_1_product_1_name_preview
+      # avatar_1_product_1_preview_row.update()
+      
+      # # Save it it as the latest as well
+      # avatar_1_product_1_latest_row = user_table.search(variable='avatar_1_product_1_latest')[0]
+      # avatar_1_product_1_latest_row['variable_value'] = avatar_1_product_1_preview
+      # avatar_1_product_1_latest_row['variable_title'] = avatar_1_product_1_name_preview
+      # avatar_1_product_1_latest_row.update()
+                                
+      # self.task_id = anvil.server.call('launch_deepdive_avatar_1_product_1_generator', product_1_name,product_1_profile,avatar_1_product_1_name_preview,avatar_1_product_1_preview)
+      # print("Task ID:", self.task_id)
+  
+      # Loop to check the status of the background task
+      #       while True:
+      #         with anvil.server.no_loading_indicator:
+                
+      #           # Check if the background task is complete
+      #           task_status = anvil.server.call('get_task_status', self.task_id)
+      #           print("Task status:", task_status)
+          
+      #           if task_status is not None:
+      #             if task_status == "completed":
+      #               # Get the result of the background task
+      #               avatar_generation = anvil.server.call('get_task_result', self.task_id)
+      #               # Update the textbox with the result
+      #               print("Avatars:", avatar_generation)
+      #               self.avatar_1_product_1_input.text = avatar_generation
+      #               self.indeterminate_10.visible = False
+                    
+      #             # Save it it as the latest as well
+      #               avatar_1_product_1_latest_row = user_table.search(variable='avatar_1_product_1_latest')[0]
+      #               avatar_1_product_1_latest_row['variable_value'] = avatar_1_product_1_preview
+      #               avatar_1_product_1_latest_row['variable_title'] = avatar_1_product_1_name_preview
+      #               avatar_1_product_1_latest_row.update()
+                    
+      #               break  # Exit the loop
+      #             elif task_status == "failed":
+      #               # Get the error message
+      #               task_error = anvil.server.call('get_task_result', self.task_id)
+      #               print("Task error:", task_error)
+      #               self.indeterminate_10.visible = False
+      #               break  # Exit the loop
+          
+      #           # Sleep for 1 second before checking again
+      #           time.sleep(2) 
 
   
 #-- GENERATE THE 5 PREVIEWS ------------#######################################################################
