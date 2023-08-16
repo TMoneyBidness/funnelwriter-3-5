@@ -36,7 +36,6 @@ class VSL_Elements(VSL_ElementsTemplate):
     # Initialize task_id attribute
     self.task_id = None
 
-
     # Load stuff
     current_user = anvil.users.get_user()
     user_table_name = current_user['user_id']
@@ -50,11 +49,11 @@ class VSL_Elements(VSL_ElementsTemplate):
 
     # PRODUCT NAME
     product_name_rows = [
-    user_table.search(variable='product_1')[0],
-    user_table.search(variable='product_2')[0],
-    user_table.search(variable='product_3')[0],
-    user_table.search(variable='product_4')[0],
-    user_table.search(variable='product_5')[0]
+    user_table.search(variable='product_1_latest')[0],
+    user_table.search(variable='product_2_latest')[0],
+    user_table.search(variable='product_3_latest')[0],
+    user_table.search(variable='product_4_latest')[0],
+    user_table.search(variable='product_5_latest')[0]
     ]
     # Filter out rows where 'variable_value' (product profile) is not empty
     non_empty_rows = [row for row in product_name_rows if row['variable_value']]
@@ -65,14 +64,24 @@ class VSL_Elements(VSL_ElementsTemplate):
    
     # AVATARS
     avatar_rows_custom = [
-    user_table.search(variable='avatar1')[0],
-    user_table.search(variable='avatar2')[0],
-    user_table.search(variable='avatar3')[0],
-    user_table.search(variable='avatar4')[0],
-    user_table.search(variable='avatar5')[0]
+    user_table.search(variable='avatar_1_product_1')[0],
+    user_table.search(variable='avatar_2_product_1')[0],
+    user_table.search(variable='avatar_3_product_1')[0],
+    user_table.search(variable='avatar_1_product_2')[0],
+    user_table.search(variable='avatar_2_product_2')[0],
+    user_table.search(variable='avatar_3_product_2')[0],
+    user_table.search(variable='avatar_1_product_3')[0],
+    user_table.search(variable='avatar_2_product_3')[0],
+    user_table.search(variable='avatar_3_product_3')[0],
+    user_table.search(variable='avatar_1_product_4')[0],
+    user_table.search(variable='avatar_2_product_4')[0],
+    user_table.search(variable='avatar_3_product_4')[0],
+    user_table.search(variable='avatar_1_product_5')[0],
+    user_table.search(variable='avatar_2_product_5')[0],
+    user_table.search(variable='avatar_3_product_5')[0],
     ]
     # Filter out rows where 'variable_value' (avatar) is not empty
-    non_empty_rows = [row for row in avatar_rows_custom if row['variable_value']]
+    non_empty_rows = [row for row in avatar_rows_custom if row['variable_title']]
     # Extract the values from the non-empty rows
     avatars_custom = [row['variable_title'] for row in non_empty_rows]
     # Create a list of tuples for the avatar_dropdown items
@@ -231,3 +240,6 @@ class VSL_Elements(VSL_ElementsTemplate):
 
   def nav_button_VSL_Elements_to_headline(self, **event_args):
     anvil.open_form('Headlines')
+    # headlines = Headlines()
+    # self.whole_content_panel.clear()
+    # self.whole_content_panel.add_component(headlines)

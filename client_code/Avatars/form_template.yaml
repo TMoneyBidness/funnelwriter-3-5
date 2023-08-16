@@ -44,7 +44,10 @@ components:
       layout_properties: {grid_position: 'FXZADJ,KYHNOE'}
       components:
       - type: ColumnPanel
-        properties: {col_widths: '{"QQGLML":14,"JDKYLZ":10,"WXYRKE":50,"WOZPUB":25,"CEPQWZ":36,"XOIGNB":35,"PIYGOZ":40,"ATNXQA":20}'}
+        properties: {role: elevated-card, tooltip: '', border: '', foreground: '',
+          visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small,
+          col_widths: '{"QQGLML":14,"JDKYLZ":10,"WXYRKE":50,"WOZPUB":25,"CEPQWZ":36,"XOIGNB":35,"PIYGOZ":40,"ATNXQA":20}',
+          spacing_below: small, background: 'theme:On Primary'}
         name: avatar_1_product_1_input_section
         layout_properties:
           col_widths: {}
@@ -280,7 +283,10 @@ components:
           name: spacer_3_copy_10
           layout_properties: {grid_position: 'LYPEGN,GPPXZG'}
       - type: ColumnPanel
-        properties: {col_widths: '{"QQGLML":10,"JDKYLZ":10,"WXYRKE":50,"KJDRWI":26,"WOZPUB":24,"QFCJCW":35,"MRYQOF":40,"MVITBE":20}'}
+        properties: {role: elevated-card, tooltip: '', border: '', foreground: '',
+          visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small,
+          col_widths: '{"QQGLML":10,"JDKYLZ":10,"WXYRKE":50,"KJDRWI":26,"WOZPUB":24,"QFCJCW":35,"MRYQOF":40,"MVITBE":20}',
+          spacing_below: small, background: ''}
         name: avatar_1_product_2_input_section
         layout_properties:
           col_widths: {}
@@ -500,7 +506,7 @@ components:
           layout_properties:
             col_widths: {}
             grid_position: PNGOIS,MVITBE
-          event_bindings: {click: save_avatar2_button_click}
+          event_bindings: {click: save_product_1_avatars_button_click}
         - type: Button
           properties: {role: outlined-button, align: center, tooltip: '', border: '',
             enabled: true, foreground: '', visible: true, text: GENERATE PRODUCT 2 AVATARS,
@@ -517,7 +523,10 @@ components:
           name: spacer_3_copy_7
           layout_properties: {grid_position: 'LYPEGN,GPPXZG'}
       - type: ColumnPanel
-        properties: {col_widths: '{"QQGLML":10,"JDKYLZ":9,"WXYRKE":47,"MDMKUW":26,"JKQLJP":35,"WOZPUB":25,"OXLYNN":40,"UCCFEJ":20}'}
+        properties: {role: elevated-card, tooltip: '', border: black, foreground: '',
+          visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small,
+          col_widths: '{"QQGLML":10,"JDKYLZ":9,"WXYRKE":47,"MDMKUW":26,"JKQLJP":35,"WOZPUB":25,"OXLYNN":40,"UCCFEJ":20}',
+          spacing_below: small, background: 'theme:On Primary'}
         name: avatar_1_product_3_input_section
         layout_properties:
           col_widths: {}
@@ -737,7 +746,7 @@ components:
           layout_properties:
             col_widths: {}
             grid_position: WUYKQV,UCCFEJ
-          event_bindings: {click: save_avatar3_button_click}
+          event_bindings: {click: save_product_3_avatars_button_click}
         - type: Button
           properties: {role: outlined-button, align: center, tooltip: '', border: '',
             enabled: true, foreground: '', visible: true, text: GENERATE PRODUCT 3 AVATARS,
@@ -754,8 +763,9 @@ components:
           name: spacer_3_copy_8
           layout_properties: {grid_position: 'LYPEGN,GPPXZG'}
       - type: ColumnPanel
-        properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
-          wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{"QQGLML":10,"JDKYLZ":10,"XXFKWG":50,"BAPQNB":26,"TENWBL":35,"TJAIQC":25,"TURVEQ":40,"XDHHKV":20}',
+        properties: {role: elevated-card, tooltip: '', border: '', foreground: '',
+          visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small,
+          col_widths: '{"QQGLML":10,"JDKYLZ":10,"XXFKWG":50,"BAPQNB":26,"TENWBL":35,"TJAIQC":25,"TURVEQ":40,"XDHHKV":20}',
           spacing_below: small, background: ''}
         name: avatar_1_product_4_input_section
         layout_properties:
@@ -975,7 +985,7 @@ components:
           layout_properties:
             col_widths: {}
             grid_position: THAXUL,XDHHKV
-          event_bindings: {click: save_avatar4_button_click}
+          event_bindings: {click: save_product_4_avatars_button_click}
         - type: Button
           properties: {role: outlined-button, align: center, tooltip: '', border: '',
             enabled: true, foreground: '', visible: true, text: GENERATE PRODUCT 4 AVATARS,
@@ -999,7 +1009,10 @@ components:
             name: spacer_1
             layout_properties: {grid_position: 'GJHUKF,ILEXCW'}
       - type: ColumnPanel
-        properties: {col_widths: '{"QQGLML":10,"JDKYLZ":9,"WXYRKE":49,"FWARSN":27}'}
+        properties: {role: elevated-card, tooltip: '', border: '', foreground: '',
+          visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small,
+          col_widths: '{"QQGLML":10,"JDKYLZ":9,"WXYRKE":49,"FWARSN":27}', spacing_below: small,
+          background: 'theme:On Primary'}
         name: avatar_1_product_5_input_section
         layout_properties:
           col_widths: {}
@@ -1174,7 +1187,7 @@ components:
             layout_properties:
               col_widths: {}
               grid_position: ZLDHUP,VAGZHE
-            event_bindings: {click: save_avatar5_button_click}
+            event_bindings: {click: save_product_5_avatars_button_click}
           - type: Button
             properties: {role: outlined-button, align: center, tooltip: '', border: '',
               enabled: true, foreground: '', visible: true, text: GENERATE PRODUCT 5 AVATARS,
@@ -1190,17 +1203,16 @@ components:
           properties: {height: 32}
           name: spacer_3_copy_9
           layout_properties: {grid_position: 'LYPEGN,GPPXZG'}
-        - type: Button
-          properties: {role: outlined-button, align: center, tooltip: '', border: '',
-            enabled: false, foreground: 'theme:Secondary Container', visible: true,
-            text: CONTINUE TO BRAND TONE, font_size: 26, font: '', spacing_above: small,
-            icon_align: right, spacing_below: small, italic: false, background: 'theme:Primary',
-            bold: true, underline: false, icon: 'fa:arrow-circle-right'}
-          name: nav_button_avatars_to_brand_tone
-          layout_properties:
-            col_widths: {}
-            grid_position: JOSCHP,NSTVXY
-          event_bindings: {click: nav_button_avatars_to_brand_tone_click}
+- type: Button
+  properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: false,
+    foreground: 'theme:Secondary Container', visible: true, text: CONTINUE TO BRAND TONE,
+    font_size: 26, font: '', spacing_above: small, icon_align: right, spacing_below: small,
+    italic: false, background: 'theme:Primary', bold: true, underline: false, icon: 'fa:arrow-circle-right'}
+  name: nav_button_avatars_to_brand_tone
+  layout_properties:
+    col_widths: {}
+    grid_position: XLZQVU,IWOUCP
+  event_bindings: {click: nav_button_avatars_to_brand_tone_click}
 - type: Timer
   properties: {interval: 2}
   name: avatar_product_1_timer

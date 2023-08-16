@@ -389,7 +389,6 @@ class Home(HomeTemplate):
     self.content_panel.clear()
     self.content_panel.add_component(company)
 
-
 ## FUNNELS
   def VSL_page_link_click(self, **event_args):
     vsl_elements = VSL_Elements()

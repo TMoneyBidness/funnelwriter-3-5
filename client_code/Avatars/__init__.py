@@ -846,7 +846,137 @@ class Avatars(AvatarsTemplate):
         # This means that all avatar names and descriptions were empty. Do nothing or perform any operation if needed.
         pass
 
+  def save_product_2_avatars_button_click(self, **event_args):
+    print("SAVE BUTTON PRODUCT 2 CLICKED")
+    current_user = anvil.users.get_user()
+    user_table_name = current_user['user_id']
+    user_table = getattr(app_tables, user_table_name)
+
+    all_empty = True
+  
+    for j in range(1, 4):
+        avatar_description = getattr(self, f'avatar_{j}_product_2_input').text
+        avatar_name = getattr(self, f'avatar_{j}_product_2_name').text
+      
+        # Check if both are empty for this iteration
+        if not avatar_description.strip() and not avatar_name.strip():
+            continue  # Skip this iteration
+        # If either is empty, show alert and break
+        if not avatar_description.strip() or not avatar_name.strip():
+            anvil.js.window.alert("Avatar Name and Description cannot be empty.")
+            break
+      
+        avatar_description_row = user_table.get(variable=f'avatar_{j}_product_2_latest')
+        avatar_description_row['variable_value'] = avatar_description
+        avatar_description_row['variable_title'] = avatar_name
+        avatar_description_row.update()
+          
+        self.nav_button_avatars_to_brand_tone.enabled = True
+        all_empty = False
+
+    # Check if all are empty
+    if all_empty:
+        # This means that all avatar names and descriptions were empty. Do nothing or perform any operation if needed.
+        pass
+
+  def save_product_3_avatars_button_click(self, **event_args):
+      print("SAVE BUTTON PRODUCT 3 CLICKED")
+      current_user = anvil.users.get_user()
+      user_table_name = current_user['user_id']
+      user_table = getattr(app_tables, user_table_name)
+  
+      all_empty = True
     
+      for j in range(1, 4):
+          avatar_description = getattr(self, f'avatar_{j}_product_3_input').text
+          avatar_name = getattr(self, f'avatar_{j}_product_3_name').text
+        
+          # Check if both are empty for this iteration
+          if not avatar_description.strip() and not avatar_name.strip():
+              continue  # Skip this iteration
+          # If either is empty, show alert and break
+          if not avatar_description.strip() or not avatar_name.strip():
+              anvil.js.window.alert("Avatar Name and Description cannot be empty.")
+              break
+        
+          avatar_description_row = user_table.get(variable=f'avatar_{j}_product_3_latest')
+          avatar_description_row['variable_value'] = avatar_description
+          avatar_description_row['variable_title'] = avatar_name
+          avatar_description_row.update()
+            
+          self.nav_button_avatars_to_brand_tone.enabled = True
+          all_empty = False
+  
+      # Check if all are empty
+      if all_empty:
+          # This means that all avatar names and descriptions were empty. Do nothing or perform any operation if needed.
+          pass
+
+  def save_product_4_avatars_button_click(self, **event_args):
+      print("SAVE BUTTON PRODUCT 4 CLICKED")
+      current_user = anvil.users.get_user()
+      user_table_name = current_user['user_id']
+      user_table = getattr(app_tables, user_table_name)
+  
+      all_empty = True
+    
+      for j in range(1, 4):
+          avatar_description = getattr(self, f'avatar_{j}_product_4_input').text
+          avatar_name = getattr(self, f'avatar_{j}_product_4_name').text
+        
+          # Check if both are empty for this iteration
+          if not avatar_description.strip() and not avatar_name.strip():
+              continue  # Skip this iteration
+          # If either is empty, show alert and break
+          if not avatar_description.strip() or not avatar_name.strip():
+              anvil.js.window.alert("Avatar Name and Description cannot be empty.")
+              break
+        
+          avatar_description_row = user_table.get(variable=f'avatar_{j}_product_4_latest')
+          avatar_description_row['variable_value'] = avatar_description
+          avatar_description_row['variable_title'] = avatar_name
+          avatar_description_row.update()
+            
+          self.nav_button_avatars_to_brand_tone.enabled = True
+          all_empty = False
+  
+      # Check if all are empty
+      if all_empty:
+          # This means that all avatar names and descriptions were empty. Do nothing or perform any operation if needed.
+          pass
+
+  def save_product_5_avatars_button_click(self, **event_args):
+      print("SAVE BUTTON PRODUCT 5 CLICKED")
+      current_user = anvil.users.get_user()
+      user_table_name = current_user['user_id']
+      user_table = getattr(app_tables, user_table_name)
+  
+      all_empty = True
+    
+      for j in range(1, 4):
+          avatar_description = getattr(self, f'avatar_{j}_product_5_input').text
+          avatar_name = getattr(self, f'avatar_{j}_product_5_name').text
+        
+          # Check if both are empty for this iteration
+          if not avatar_description.strip() and not avatar_name.strip():
+              continue  # Skip this iteration
+          # If either is empty, show alert and break
+          if not avatar_description.strip() or not avatar_name.strip():
+              anvil.js.window.alert("Avatar Name and Description cannot be empty.")
+              break
+        
+          avatar_description_row = user_table.get(variable=f'avatar_{j}_product_5_latest')
+          avatar_description_row['variable_value'] = avatar_description
+          avatar_description_row['variable_title'] = avatar_name
+          avatar_description_row.update()
+            
+          self.nav_button_avatars_to_brand_tone.enabled = True
+          all_empty = False
+  
+      # Check if all are empty
+      if all_empty:
+          # This means that all avatar names and descriptions were empty. Do nothing or perform any operation if needed.
+          pass
 
 ###----------NAVIGATION---------------####
 
