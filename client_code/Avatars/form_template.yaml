@@ -44,7 +44,7 @@ components:
       layout_properties: {grid_position: 'FXZADJ,KYHNOE'}
       components:
       - type: ColumnPanel
-        properties: {col_widths: '{"QQGLML":7,"JDKYLZ":10,"WXYRKE":50,"WOZPUB":25,"CEPQWZ":35,"XOIGNB":35,"PIYGOZ":38,"ATNXQA":22}'}
+        properties: {col_widths: '{"QQGLML":14,"JDKYLZ":10,"WXYRKE":50,"WOZPUB":25,"CEPQWZ":36,"XOIGNB":35,"PIYGOZ":40,"ATNXQA":20}'}
         name: avatar_1_product_1_input_section
         layout_properties:
           col_widths: {}
@@ -52,7 +52,7 @@ components:
         components:
         - type: Label
           properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
-            visible: true, text: 'Product 1 Name:', font_size: 18, font: '', spacing_above: small,
+            visible: true, text: 'Product 1 Name:', font_size: 22, font: '', spacing_above: small,
             icon_align: left, spacing_below: small, italic: false, background: '',
             bold: true, underline: false, icon: ''}
           name: label_2_copy_35
@@ -61,7 +61,7 @@ components:
             grid_position: BFSHLN,QQGLML
         - type: Label
           properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-            visible: true, text: '', font_size: 18, font: '', spacing_above: small,
+            visible: true, text: '', font_size: 22, font: '', spacing_above: small,
             icon_align: left, spacing_below: small, italic: false, background: 'theme:Disabled
               Container', bold: true, underline: false, icon: ''}
           name: product_1_name_input
@@ -244,9 +244,9 @@ components:
             name: column_panel_3
             layout_properties: {grid_position: 'KNXUQX,MCAKHV'}
         - type: Button
-          properties: {role: tonal-button, align: right, tooltip: '', border: '',
+          properties: {role: elevated-button, align: right, tooltip: '', border: '',
             enabled: true, foreground: '', visible: true, text: ADD ANOTHER PRODUCT,
-            font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+            font_size: 18, font: '', spacing_above: small, icon_align: left, spacing_below: small,
             italic: false, background: '', bold: true, underline: false, icon: 'fa:plus'}
           name: add_product_2
           layout_properties:
@@ -263,7 +263,7 @@ components:
           layout_properties:
             col_widths: {}
             grid_position: EDRWYY,ATNXQA
-          event_bindings: {click: save_avatar1_button_click}
+          event_bindings: {click: save_product_1_avatars_button_click}
         - type: Button
           properties: {role: outlined-button, align: center, tooltip: '', border: '',
             enabled: true, foreground: '', visible: true, text: GENERATE PRODUCT 1 AVATARS,
@@ -280,7 +280,7 @@ components:
           name: spacer_3_copy_10
           layout_properties: {grid_position: 'LYPEGN,GPPXZG'}
       - type: ColumnPanel
-        properties: {col_widths: '{"QQGLML":5,"JDKYLZ":10,"WXYRKE":50,"KJDRWI":29,"WOZPUB":24,"QFCJCW":35,"MRYQOF":38,"MVITBE":22}'}
+        properties: {col_widths: '{"QQGLML":10,"JDKYLZ":10,"WXYRKE":50,"KJDRWI":26,"WOZPUB":24,"QFCJCW":35,"MRYQOF":40,"MVITBE":20}'}
         name: avatar_1_product_2_input_section
         layout_properties:
           col_widths: {}
@@ -288,7 +288,7 @@ components:
         components:
         - type: Label
           properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
-            visible: true, text: 'Product 2 Name:', font_size: 18, font: '', spacing_above: small,
+            visible: true, text: 'Product 2 Name:', font_size: 22, font: '', spacing_above: small,
             icon_align: left, spacing_below: small, italic: false, background: '',
             bold: true, underline: false, icon: ''}
           name: label_2_copy_15
@@ -297,7 +297,7 @@ components:
             grid_position: BFSHLN,QQGLML
         - type: Label
           properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-            visible: true, text: '', font_size: 18, font: '', spacing_above: small,
+            visible: true, text: '', font_size: 22, font: '', spacing_above: small,
             icon_align: left, spacing_below: small, italic: false, background: 'theme:Disabled
               Container', bold: true, underline: false, icon: ''}
           name: product_2_name_input
@@ -481,9 +481,9 @@ components:
             layout_properties: {grid_position: 'KANWWO,WWTCNL'}
             components: []
         - type: Button
-          properties: {role: tonal-button, align: right, tooltip: '', border: '',
+          properties: {role: elevated-button, align: right, tooltip: '', border: '',
             enabled: true, foreground: '', visible: true, text: ADD ANOTHER PRODUCT,
-            font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+            font_size: 18, font: '', spacing_above: small, icon_align: left, spacing_below: small,
             italic: false, background: '', bold: true, underline: false, icon: 'fa:plus'}
           name: add_product_3
           layout_properties:
@@ -517,7 +517,7 @@ components:
           name: spacer_3_copy_7
           layout_properties: {grid_position: 'LYPEGN,GPPXZG'}
       - type: ColumnPanel
-        properties: {col_widths: '{"QQGLML":5,"JDKYLZ":9,"WXYRKE":47,"MDMKUW":29,"JKQLJP":35,"WOZPUB":25,"HDKBWQ":35,"HEGSAT":25,"OXLYNN":38,"UCCFEJ":22}'}
+        properties: {col_widths: '{"QQGLML":10,"JDKYLZ":9,"WXYRKE":47,"MDMKUW":26,"JKQLJP":35,"WOZPUB":25,"OXLYNN":40,"UCCFEJ":20}'}
         name: avatar_1_product_3_input_section
         layout_properties:
           col_widths: {}
@@ -525,7 +525,7 @@ components:
         components:
         - type: Label
           properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
-            visible: true, text: 'Product 3 Name:', font_size: 18, font: '', spacing_above: small,
+            visible: true, text: 'Product 3 Name:', font_size: 22, font: '', spacing_above: small,
             icon_align: left, spacing_below: small, italic: false, background: '',
             bold: true, underline: false, icon: ''}
           name: label_2_copy_18
@@ -534,7 +534,7 @@ components:
             grid_position: BFSHLN,QQGLML
         - type: Label
           properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-            visible: true, text: '', font_size: 18, font: '', spacing_above: small,
+            visible: true, text: '', font_size: 22, font: '', spacing_above: small,
             icon_align: left, spacing_below: small, italic: false, background: 'theme:Disabled
               Container', bold: true, underline: false, icon: ''}
           name: product_3_name_input
@@ -661,7 +661,7 @@ components:
               grid_position: TINESQ,OYUXBO
             event_bindings: {click: add_avatar_3_product_3_click}
         - type: ColumnPanel
-          properties: {col_widths: '{"FGXNBI":10,"LPXMBI":50}'}
+          properties: {col_widths: '{"FGXNBI":10,"LPXMBI":50,"YZKTZR":35,"FRPLSQ":25}'}
           name: avatar_3_product_3_input_section
           layout_properties:
             col_widths: {}
@@ -702,25 +702,25 @@ components:
               spacing_below: small, italic: false, background: '', bold: false, underline: false}
             name: avatar_3_product_3_input
             layout_properties: {grid_position: 'XZEMTO,LPXMBI'}
+          - type: Button
+            properties: {role: outlined-button, align: center, tooltip: '', border: '',
+              enabled: true, foreground: '', visible: true, text: REGENERATE AVATAR,
+              font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+              italic: false, background: 'theme:Secondary Container', bold: false,
+              underline: false, icon: 'fa:android'}
+            name: avatar_3_product_3_button
+            layout_properties:
+              col_widths: {}
+              grid_position: RFYHQZ,YZKTZR
+          - type: ColumnPanel
+            properties: {col_widths: '{}'}
+            name: column_panel_5
+            layout_properties: {grid_position: 'RFYHQZ,FRPLSQ'}
+            components: []
         - type: Button
-          properties: {role: outlined-button, align: center, tooltip: '', border: '',
-            enabled: true, foreground: '', visible: true, text: REGENERATE AVATAR,
-            font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
-            italic: false, background: 'theme:Secondary Container', bold: false, underline: false,
-            icon: 'fa:android'}
-          name: avatar_3_product_3_button
-          layout_properties:
-            col_widths: {}
-            grid_position: IJUWQP,HDKBWQ
-        - type: ColumnPanel
-          properties: {col_widths: '{}'}
-          name: column_panel_5
-          layout_properties: {grid_position: 'IJUWQP,HEGSAT'}
-          components: []
-        - type: Button
-          properties: {role: tonal-button, align: right, tooltip: '', border: '',
+          properties: {role: elevated-button, align: right, tooltip: '', border: '',
             enabled: true, foreground: '', visible: true, text: ADD ANOTHER PRODUCT,
-            font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+            font_size: 18, font: '', spacing_above: small, icon_align: left, spacing_below: small,
             italic: false, background: '', bold: true, underline: false, icon: 'fa:plus'}
           name: add_product_4
           layout_properties:
@@ -748,13 +748,14 @@ components:
           layout_properties:
             col_widths: {}
             grid_position: IHKQDV,VPQWTL
+          event_bindings: {click: all_avatars_product_3_button_click}
         - type: Spacer
           properties: {height: 32}
           name: spacer_3_copy_8
           layout_properties: {grid_position: 'LYPEGN,GPPXZG'}
       - type: ColumnPanel
         properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
-          wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{"QQGLML":5,"JDKYLZ":10,"XXFKWG":50,"BAPQNB":29,"TENWBL":35,"TJAIQC":25,"TURVEQ":38,"XDHHKV":22}',
+          wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{"QQGLML":10,"JDKYLZ":10,"XXFKWG":50,"BAPQNB":26,"TENWBL":35,"TJAIQC":25,"TURVEQ":40,"XDHHKV":20}',
           spacing_below: small, background: ''}
         name: avatar_1_product_4_input_section
         layout_properties:
@@ -763,7 +764,7 @@ components:
         components:
         - type: Label
           properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
-            visible: true, text: 'Product 4 Name:', font_size: 18, font: '', spacing_above: small,
+            visible: true, text: 'Product 4 Name:', font_size: 22, font: '', spacing_above: small,
             icon_align: left, spacing_below: small, italic: false, background: '',
             bold: true, underline: false, icon: ''}
           name: label_2_copy_25
@@ -772,7 +773,7 @@ components:
             grid_position: BFSHLN,QQGLML
         - type: Label
           properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-            visible: true, text: '', font_size: 18, font: '', spacing_above: small,
+            visible: true, text: '', font_size: 22, font: '', spacing_above: small,
             icon_align: left, spacing_below: small, italic: false, background: 'theme:Disabled
               Container', bold: true, underline: false, icon: ''}
           name: product_4_name_input
@@ -955,9 +956,9 @@ components:
             name: spacer_3_copy_5
             layout_properties: {grid_position: 'ONLPCW,OAFMOK'}
         - type: Button
-          properties: {role: tonal-button, align: right, tooltip: '', border: '',
+          properties: {role: elevated-button, align: right, tooltip: '', border: '',
             enabled: true, foreground: '', visible: true, text: ADD ANOTHER PRODUCT,
-            font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+            font_size: 18, font: '', spacing_above: small, icon_align: left, spacing_below: small,
             italic: false, background: '', bold: true, underline: false, icon: 'fa:plus'}
           name: add_product_5
           layout_properties:
@@ -985,14 +986,20 @@ components:
           layout_properties:
             col_widths: {}
             grid_position: NIMYDR,FXQOUF
+          event_bindings: {click: all_avatars_product_4_button_click}
         - type: ColumnPanel
-          properties: {}
+          properties: {col_widths: '{}'}
           name: column_panel_5_copy
           layout_properties:
             col_widths: {}
             grid_position: GGFIFV,WZAYII
+          components:
+          - type: Spacer
+            properties: {height: 32}
+            name: spacer_1
+            layout_properties: {grid_position: 'GJHUKF,ILEXCW'}
       - type: ColumnPanel
-        properties: {col_widths: '{"QQGLML":5,"JDKYLZ":9,"WXYRKE":49,"FWARSN":28}'}
+        properties: {col_widths: '{"QQGLML":10,"JDKYLZ":9,"WXYRKE":49,"FWARSN":27}'}
         name: avatar_1_product_5_input_section
         layout_properties:
           col_widths: {}
@@ -1000,7 +1007,7 @@ components:
         components:
         - type: Label
           properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
-            visible: true, text: 'Product 5 Name:', font_size: 18, font: '', spacing_above: small,
+            visible: true, text: 'Product 5 Name:', font_size: 22, font: '', spacing_above: small,
             icon_align: left, spacing_below: small, italic: false, background: '',
             bold: true, underline: false, icon: ''}
           name: label_2_copy_30
@@ -1009,7 +1016,7 @@ components:
             grid_position: BFSHLN,QQGLML
         - type: Label
           properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-            visible: true, text: '', font_size: 18, font: '', spacing_above: small,
+            visible: true, text: '', font_size: 22, font: '', spacing_above: small,
             icon_align: left, spacing_below: small, italic: false, background: 'theme:Disabled
               Container', bold: true, underline: false, icon: ''}
           name: product_5_name_input
@@ -1178,6 +1185,7 @@ components:
             layout_properties:
               col_widths: {}
               grid_position: JUBFWM,ZAEKEI
+            event_bindings: {click: all_avatars_product_5_button_click}
         - type: Spacer
           properties: {height: 32}
           name: spacer_3_copy_9

@@ -1470,7 +1470,6 @@ def company_summary(company_name, company_url):
         company_context = "Insufficient information. Please write the company description yourself."
     # Store the result in the task's state instead of returning it
     anvil.server.task_state['result'] = company_context
-    
 
 ####### -------- PRODUCT --------###################################################
 
@@ -1832,7 +1831,6 @@ def deepdive_product_5_generator(company_name,product_5_name,product_5_url,produ
     #       product_research_3= "Insufficient information. Please write the product description yourself."
     anvil.server.task_state['result'] = product_research_5
 
-
 ####### -------- BRAND TONE --------###################################################
 
 @anvil.server.callable
@@ -1904,7 +1902,6 @@ def save_brand_tone_component_click(self, **event_args):
     else:
         # Handle case where the row does not exist for the current user
         print("No row found for the current user")
-
 
 ####### -------- AVATARS --------###################################################
 
@@ -1988,10 +1985,9 @@ def all_avatars_generator(owner_company_profile):
     # Return the resulting JSON string
     anvil.server.task_state['result'] = all_avatars_json
 
-
 #------GENERATE SINGLE AVATAR, SPECIFIC TO A PRODUCT: AVATAR X_PRODUCT_Y.....---------#################
 
-# AVATAR 1, PRODUCT 1 -----##
+# AVATAR 1, PRODUCT 1 -----------------------#################
 @anvil.server.callable
 def launch_deepdive_avatar_1_product_1_generator(product_1_name,product_1_profile,avatar_1_product_1_name_preview,avatar_1_product_1_preview):
     print("Launch Deep Dive Avatar function started")  
@@ -2110,7 +2106,7 @@ def deepdive_avatar_2_product_1_generator(product_1_name,product_1_profile,avata
     )
 
     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
-    avatar = chain_avatar.run(product_1_name=product_1_name,product_1_profile=product_1_profile,avatar_2_product_1_name_preview=avatar_1_product_1_name_preview,avatar_2_product_1_preview=avatar_2_product_1_preview)  # Pass in the combined context
+    avatar = chain_avatar.run(product_1_name=product_1_name,product_1_profile=product_1_profile,avatar_2_product_1_name_preview=avatar_2_product_1_name_preview,avatar_2_product_1_preview=avatar_2_product_1_preview)  # Pass in the combined context
     anvil.server.task_state['result']  = avatar
 
 # AVATAR 3, PRODUCT 1 -----##
@@ -2173,6 +2169,748 @@ def deepdive_avatar_3_product_1_generator(product_1_name,product_1_profile,avata
     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
     avatar = chain_avatar.run(product_1_name=product_1_name,product_1_profile=product_1_profile,avatar_3_product_1_name_preview=avatar_3_product_1_name_preview,avatar_3_product_1_preview=avatar_3_product_1_preview)  # Pass in the combined context
     anvil.server.task_state['result']  = avatar
+
+#------PRODUCT 2------------------------#################
+
+# AVATAR 1, PRODUCT 2 -----##
+@anvil.server.callable
+def launch_deepdive_avatar_1_product_2_generator(product_2_name,product_2_profile,avatar_1_product_2_name_preview,avatar_1_product_2_preview):
+    print("Launch Deep Dive Avatar function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('deepdive_avatar_1_product_2_generator', product_2_name,product_2_profile,avatar_1_product_2_name_preview,avatar_1_product_2_preview)
+    # Return the task ID
+    return task.get_id()
+
+@anvil.server.background_task
+def deepdive_avatar_1_product_2_generator(product_2_name,product_2_profile,avatar_1_product_2_name_preview,avatar_1_product_2_preview):
+    print("Background task started for generating the avatar:", avatar_1_product_2_name_preview)
+ 
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would. We'd like to create the ideal customer avatar for a product. \
+    Below, we'll provide the format of how we'd like the question answered, as well as the contextual information.
+
+    We're looking to create the ideal customer avatar for the following product: {product_2_name}
+    The product is described as: {product_2_profile}
+    The avatar's name is: {avatar_1_product_2_name_preview}
+    A brief description of the avatar to expand on is: {avatar_1_product_2_preview}
+    
+    Your task is to provide the company with a detailed customer avatar based on the short avatar preview details above, as it best relates to their business, broken down as follows:
+
+    ----
+    FORMAT: 
+    - Overview
+    Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
+
+    - Demographic
+    Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
+
+    - Psychographic
+    Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
+
+    - Goals & Aspirations
+    Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
+
+    - Pain Points
+    Identify the specific problems, challenges, and frustrations the avatar is facing.
+
+    - Personal Experience
+    Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
+
+    RULES: 
+    - Do not say "the target customer", instead, provide a fictional name, age, location.  
+    - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
+    - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
+    -----
+    
+    Chatbot:"""
+
+    prompt_avatar = PromptTemplate(
+        input_variables=["product_2_name","product_2_profile","avatar_1_product_2_name_preview","avatar_1_product_2_preview"],
+        template=template_avatar
+    )
+
+    chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
+    avatar = chain_avatar.run(product_2_name=product_2_name,product_2_profile=product_2_profile,avatar_1_product_2_name_preview=avatar_1_product_2_name_preview,avatar_1_product_2_preview=avatar_1_product_2_preview)  # Pass in the combined context
+    anvil.server.task_state['result']  = avatar
+
+# AVATAR 2, PRODUCT 2 -----##
+@anvil.server.callable
+def launch_deepdive_avatar_2_product_2_generator(product_2_name,product_2_profile,avatar_2_product_2_name_preview,avatar_2_product_2_preview):
+    print("Launch Deep Dive Avatar function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('deepdive_avatar_2_product_2_generator', product_2_name,product_2_profile,avatar_2_product_2_name_preview,avatar_2_product_2_preview)
+    # Return the task ID
+    return task.get_id()
+
+@anvil.server.background_task
+def deepdive_avatar_2_product_2_generator(product_2_name,product_2_profile,avatar_2_product_2_name_preview,avatar_2_product_2_preview):
+    print("Background task started for generating the avatar:", avatar_2_product_2_name_preview)
+ 
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would. We'd like to create the ideal customer avatar for a product. \
+    Below, we'll provide the format of how we'd like the question answered, as well as the contextual information.
+
+    We're looking to create the ideal customer avatar for the following product: {product_2_name}
+    The product is described as: {product_2_profile}
+    The avatar's name is: {avatar_2_product_2_name_preview}
+    A brief description of the avatar to expand on is: {avatar_2_product_2_preview}
+    
+    Your task is to provide the company with a detailed customer avatar based on the short avatar preview details above, as it best relates to their business, broken down as follows:
+
+    ----
+    FORMAT: 
+    - Overview
+    Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
+
+    - Demographic
+    Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
+
+    - Psychographic
+    Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
+
+    - Goals & Aspirations
+    Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
+
+    - Pain Points
+    Identify the specific problems, challenges, and frustrations the avatar is facing.
+
+    - Personal Experience
+    Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
+
+    RULES: 
+    - Do not say "the target customer", instead, provide a fictional name, age, location.  
+    - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
+    - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
+    -----
+    
+    Chatbot:"""
+
+    prompt_avatar = PromptTemplate(
+        input_variables=["product_2_name","product_2_profile","avatar_2_product_2_name_preview","avatar_2_product_2_preview"],
+        template=template_avatar
+    )
+
+    chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
+    avatar = chain_avatar.run(product_2_name=product_2_name,product_2_profile=product_2_profile,avatar_2_product_2_name_preview=avatar_2_product_2_name_preview,avatar_2_product_2_preview=avatar_2_product_2_preview)  # Pass in the combined context
+    anvil.server.task_state['result']  = avatar
+
+# AVATAR 3, PRODUCT 2 ---------------##
+@anvil.server.callable
+def launch_deepdive_avatar_3_product_2_generator(product_2_name,product_2_profile,avatar_3_product_2_name_preview,avatar_3_product_2_preview):
+    print("Launch Deep Dive Avatar function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('deepdive_avatar_3_product_2_generator', product_2_name,product_2_profile,avatar_3_product_2_name_preview,avatar_3_product_2_preview)
+    # Return the task ID
+    return task.get_id()
+
+@anvil.server.background_task
+def deepdive_avatar_3_product_2_generator(product_2_name,product_2_profile,avatar_3_product_2_name_preview,avatar_3_product_2_preview):
+    print("Background task started for generating the avatar:", avatar_3_product_2_name_preview)
+ 
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would. We'd like to create the ideal customer avatar for a product. \
+    Below, we'll provide the format of how we'd like the question answered, as well as the contextual information.
+
+    We're looking to create the ideal customer avatar for the following product: {product_2_name}
+    The product is described as: {product_2_profile}
+    The avatar's name is: {avatar_3_product_2_name_preview}
+    A brief description of the avatar to expand on is: {avatar_3_product_2_preview}
+    
+    Your task is to provide the company with a detailed customer avatar based on the short avatar preview details above, as it best relates to their business, broken down as follows:
+
+    ----
+    FORMAT: 
+    - Overview
+    Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
+
+    - Demographic
+    Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
+
+    - Psychographic
+    Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
+
+    - Goals & Aspirations
+    Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
+
+    - Pain Points
+    Identify the specific problems, challenges, and frustrations the avatar is facing.
+
+    - Personal Experience
+    Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
+
+    RULES: 
+    - Do not say "the target customer", instead, provide a fictional name, age, location.  
+    - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
+    - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
+    -----
+    
+    Chatbot:"""
+
+    prompt_avatar = PromptTemplate(
+        input_variables=["product_2_name","product_2_profile","avatar_3_product_2_name_preview","avatar_3_product_2_preview"],
+        template=template_avatar
+    )
+
+    chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
+    avatar = chain_avatar.run(product_2_name=product_2_name,product_2_profile=product_2_profile,avatar_3_product_2_name_preview=avatar_3_product_2_name_preview,avatar_3_product_2_preview=avatar_3_product_2_preview)  # Pass in the combined context
+    anvil.server.task_state['result']  = avatar
+
+#------PRODUCT 3------------------------#################
+
+# AVATAR 1, PRODUCT 3 -----##
+@anvil.server.callable
+def launch_deepdive_avatar_1_product_3_generator(product_3_name,product_3_profile,avatar_1_product_3_name_preview,avatar_1_product_3_preview):
+    print("Launch Deep Dive Avatar function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('deepdive_avatar_1_product_3_generator', product_3_name,product_3_profile,avatar_1_product_3_name_preview,avatar_1_product_3_preview)
+    # Return the task ID
+    return task.get_id()
+
+@anvil.server.background_task
+def deepdive_avatar_1_product_3_generator(product_3_name,product_3_profile,avatar_1_product_3_name_preview,avatar_1_product_3_preview):
+    print("Background task started for generating the avatar:", avatar_1_product_3_name_preview)
+ 
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would. We'd like to create the ideal customer avatar for a product. \
+    Below, we'll provide the format of how we'd like the question answered, as well as the contextual information.
+
+    We're looking to create the ideal customer avatar for the following product: {product_3_name}
+    The product is described as: {product_3_profile}
+    The avatar's name is: {avatar_1_product_3_name_preview}
+    A brief description of the avatar to expand on is: {avatar_1_product_3_preview}
+    
+    Your task is to provide the company with a detailed customer avatar based on the short avatar preview details above, as it best relates to their business, broken down as follows:
+
+    ----
+    FORMAT: 
+    - Overview
+    Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
+
+    - Demographic
+    Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
+
+    - Psychographic
+    Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
+
+    - Goals & Aspirations
+    Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
+
+    - Pain Points
+    Identify the specific problems, challenges, and frustrations the avatar is facing.
+
+    - Personal Experience
+    Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
+
+    RULES: 
+    - Do not say "the target customer", instead, provide a fictional name, age, location.  
+    - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
+    - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
+    -----
+    
+    Chatbot:"""
+
+    prompt_avatar = PromptTemplate(
+        input_variables=["product_3_name","product_3_profile","avatar_1_product_3_name_preview","avatar_1_product_3_preview"],
+        template=template_avatar
+    )
+
+    chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
+    avatar = chain_avatar.run(product_3_name=product_3_name,product_3_profile=product_3_profile,avatar_1_product_3_name_preview=avatar_1_product_3_name_preview,avatar_1_product_3_preview=avatar_1_product_3_preview)  # Pass in the combined context
+    anvil.server.task_state['result']  = avatar
+
+# AVATAR 2, PRODUCT 3 -----##
+@anvil.server.callable
+def launch_deepdive_avatar_2_product_3_generator(product_3_name,product_3_profile,avatar_2_product_3_name_preview,avatar_2_product_3_preview):
+    print("Launch Deep Dive Avatar function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('deepdive_avatar_2_product_2_generator', product_2_name,product_3_profile,avatar_2_product_2_name_preview,avatar_2_product_2_preview)
+    # Return the task ID
+    return task.get_id()
+
+@anvil.server.background_task
+def deepdive_avatar_2_product_3_generator(product_3_name,product_3_profile,avatar_2_product_3_name_preview,avatar_2_product_3_preview):
+    print("Background task started for generating the avatar:", avatar_2_product_2_name_preview)
+ 
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would. We'd like to create the ideal customer avatar for a product. \
+    Below, we'll provide the format of how we'd like the question answered, as well as the contextual information.
+
+    We're looking to create the ideal customer avatar for the following product: {product_2_name}
+    The product is described as: {product_2_profile}
+    The avatar's name is: {avatar_2_product_2_name_preview}
+    A brief description of the avatar to expand on is: {avatar_2_product_2_preview}
+    
+    Your task is to provide the company with a detailed customer avatar based on the short avatar preview details above, as it best relates to their business, broken down as follows:
+
+    ----
+    FORMAT: 
+    - Overview
+    Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
+
+    - Demographic
+    Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
+
+    - Psychographic
+    Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
+
+    - Goals & Aspirations
+    Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
+
+    - Pain Points
+    Identify the specific problems, challenges, and frustrations the avatar is facing.
+
+    - Personal Experience
+    Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
+
+    RULES: 
+    - Do not say "the target customer", instead, provide a fictional name, age, location.  
+    - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
+    - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
+    -----
+    
+    Chatbot:"""
+
+    prompt_avatar = PromptTemplate(
+        input_variables=["product_2_name","product_2_profile","avatar_2_product_2_name_preview","avatar_2_product_2_preview"],
+        template=template_avatar
+    )
+
+    chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
+    avatar = chain_avatar.run(product_2_name=product_2_name,product_2_profile=product_2_profile,avatar_2_product_2_name_preview=avatar_2_product_2_name_preview,avatar_2_product_2_preview=avatar_2_product_2_preview)  # Pass in the combined context
+    anvil.server.task_state['result']  = avatar
+
+# AVATAR 3, PRODUCT 3 ---------------##
+@anvil.server.callable
+def launch_deepdive_avatar_3_product_3_generator(product_3_name,product_3_profile,avatar_3_product_3_name_preview,avatar_3_product_3_preview):
+    print("Launch Deep Dive Avatar function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('deepdive_avatar_3_product_2_generator', product_2_name,product_2_profile,avatar_3_product_2_name_preview,avatar_3_product_2_preview)
+    # Return the task ID
+    return task.get_id()
+
+@anvil.server.background_task
+def deepdive_avatar_3_product_3_generator(product_3_name,product_2_profile,avatar_3_product_3_name_preview,avatar_3_product_3_preview):
+    print("Background task started for generating the avatar:", avatar_3_product_3_name_preview)
+ 
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would. We'd like to create the ideal customer avatar for a product. \
+    Below, we'll provide the format of how we'd like the question answered, as well as the contextual information.
+
+    We're looking to create the ideal customer avatar for the following product: {product_3_name}
+    The product is described as: {product_3_profile}
+    The avatar's name is: {avatar_3_product_3_name_preview}
+    A brief description of the avatar to expand on is: {avatar_3_product_3_preview}
+    
+    Your task is to provide the company with a detailed customer avatar based on the short avatar preview details above, as it best relates to their business, broken down as follows:
+
+    ----
+    FORMAT: 
+    - Overview
+    Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
+
+    - Demographic
+    Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
+
+    - Psychographic
+    Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
+
+    - Goals & Aspirations
+    Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
+
+    - Pain Points
+    Identify the specific problems, challenges, and frustrations the avatar is facing.
+
+    - Personal Experience
+    Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
+
+    RULES: 
+    - Do not say "the target customer", instead, provide a fictional name, age, location.  
+    - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
+    - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
+    -----
+    
+    Chatbot:"""
+
+    prompt_avatar = PromptTemplate(
+        input_variables=["product_3_name","product_3_profile","avatar_3_product_3_name_preview","avatar_3_product_3_preview"],
+        template=template_avatar
+    )
+
+    chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
+    avatar = chain_avatar.run(product_3_name=product_3_name,product_3_profile=product_3_profile,avatar_3_product_3_name_preview=avatar_3_product_3_name_preview,avatar_3_product_3_preview=avatar_3_product_3_preview)  # Pass in the combined context
+    anvil.server.task_state['result']  = avatar
+
+#------PRODUCT 4------------------------#################
+
+# AVATAR 1, PRODUCT 4 -----##
+@anvil.server.callable
+def launch_deepdive_avatar_1_product_4_generator(product_4_name,product_4_profile,avatar_1_product_4_name_preview,avatar_1_product_4_preview):
+    print("Launch Deep Dive Avatar function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('deepdive_avatar_1_product_3_generator', product_4_name,product_4_profile,avatar_1_product_4_name_preview,avatar_1_product_4_preview)
+    # Return the task ID
+    return task.get_id()
+
+@anvil.server.background_task
+def deepdive_avatar_1_product_4_generator(product_4_name,product_4_profile,avatar_1_product_4_name_preview,avatar_1_product_4_preview):
+    print("Background task started for generating the avatar:", avatar_1_product_3_name_preview)
+ 
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would. We'd like to create the ideal customer avatar for a product. \
+    Below, we'll provide the format of how we'd like the question answered, as well as the contextual information.
+
+    We're looking to create the ideal customer avatar for the following product: {product_3_name}
+    The product is described as: {product_3_profile}
+    The avatar's name is: {avatar_1_product_3_name_preview}
+    A brief description of the avatar to expand on is: {avatar_1_product_3_preview}
+    
+    Your task is to provide the company with a detailed customer avatar based on the short avatar preview details above, as it best relates to their business, broken down as follows:
+
+    ----
+    FORMAT: 
+    - Overview
+    Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
+
+    - Demographic
+    Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
+
+    - Psychographic
+    Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
+
+    - Goals & Aspirations
+    Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
+
+    - Pain Points
+    Identify the specific problems, challenges, and frustrations the avatar is facing.
+
+    - Personal Experience
+    Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
+
+    RULES: 
+    - Do not say "the target customer", instead, provide a fictional name, age, location.  
+    - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
+    - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
+    -----
+    
+    Chatbot:"""
+
+    prompt_avatar = PromptTemplate(
+        input_variables=["product_3_name","product_3_profile","avatar_1_product_3_name_preview","avatar_1_product_3_preview"],
+        template=template_avatar
+    )
+
+    chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
+    avatar = chain_avatar.run(product_3_name=product_3_name,product_3_profile=product_3_profile,avatar_1_product_3_name_preview=avatar_1_product_3_name_preview,avatar_1_product_3_preview=avatar_1_product_3_preview)  # Pass in the combined context
+    anvil.server.task_state['result']  = avatar
+
+# AVATAR 2, PRODUCT 4 -----##
+@anvil.server.callable
+def launch_deepdive_avatar_2_product_4_generator(product_4_name,product_4_profile,avatar_2_product_4_name_preview,avatar_2_product_4_preview):
+    print("Launch Deep Dive Avatar function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('deepdive_avatar_2_product_4_generator', product_4_name,product_4_profile,avatar_2_product_4_name_preview,avatar_2_product_4_preview)
+    # Return the task ID
+    return task.get_id()
+
+@anvil.server.background_task
+def deepdive_avatar_2_product_4_generator(product_4_name,product_4_profile,avatar_2_product_4_name_preview,avatar_2_product_4_preview):
+    print("Background task started for generating the avatar:", avatar_2_product_4_name_preview)
+ 
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would. We'd like to create the ideal customer avatar for a product. \
+    Below, we'll provide the format of how we'd like the question answered, as well as the contextual information.
+
+    We're looking to create the ideal customer avatar for the following product: {product_2_name}
+    The product is described as: {product_2_profile}
+    The avatar's name is: {avatar_2_product_2_name_preview}
+    A brief description of the avatar to expand on is: {avatar_2_product_2_preview}
+    
+    Your task is to provide the company with a detailed customer avatar based on the short avatar preview details above, as it best relates to their business, broken down as follows:
+
+    ----
+    FORMAT: 
+    - Overview
+    Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
+
+    - Demographic
+    Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
+
+    - Psychographic
+    Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
+
+    - Goals & Aspirations
+    Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
+
+    - Pain Points
+    Identify the specific problems, challenges, and frustrations the avatar is facing.
+
+    - Personal Experience
+    Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
+
+    RULES: 
+    - Do not say "the target customer", instead, provide a fictional name, age, location.  
+    - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
+    - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
+    -----
+    
+    Chatbot:"""
+
+    prompt_avatar = PromptTemplate(
+        input_variables=["product_4_name","product_4_profile","avatar_2_product_4_name_preview","avatar_2_product_4_preview"],
+        template=template_avatar
+    )
+
+    chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
+    avatar = chain_avatar.run(product_4_name=product_4_name,product_4_profile=product_4_profile,avatar_2_product_4_name_preview=avatar_2_product_4_name_preview,avatar_2_product_4_preview=avatar_2_product_4_preview)  # Pass in the combined context
+    anvil.server.task_state['result']  = avatar
+
+# AVATAR 3, PRODUCT 4 ---------------##
+@anvil.server.callable
+def launch_deepdive_avatar_3_product_4_generator(product_4_name,product_4_profile,avatar_3_product_4_name_preview,avatar_3_product_4_preview):
+    print("Launch Deep Dive Avatar function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('deepdive_avatar_4_product_2_generator', product_4_name,product_4_profile,avatar_3_product_4_name_preview,avatar_3_product_4_preview)
+    # Return the task ID
+    return task.get_id()
+
+@anvil.server.background_task
+def deepdive_avatar_3_product_4_generator(product_4_name,product_2_profile,avatar_3_product_4_name_preview,avatar_3_product_4_preview):
+    print("Background task started for generating the avatar:", avatar_3_product_4_name_preview)
+ 
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would. We'd like to create the ideal customer avatar for a product. \
+    Below, we'll provide the format of how we'd like the question answered, as well as the contextual information.
+
+    We're looking to create the ideal customer avatar for the following product: {product_4_name}
+    The product is described as: {product_4_profile}
+    The avatar's name is: {avatar_3_product_4_name_preview}
+    A brief description of the avatar to expand on is: {avatar_3_product_4_preview}
+    
+    Your task is to provide the company with a detailed customer avatar based on the short avatar preview details above, as it best relates to their business, broken down as follows:
+
+    ----
+    FORMAT: 
+    - Overview
+    Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
+
+    - Demographic
+    Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
+
+    - Psychographic
+    Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
+
+    - Goals & Aspirations
+    Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
+
+    - Pain Points
+    Identify the specific problems, challenges, and frustrations the avatar is facing.
+
+    - Personal Experience
+    Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
+
+    RULES: 
+    - Do not say "the target customer", instead, provide a fictional name, age, location.  
+    - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
+    - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
+    -----
+    
+    Chatbot:"""
+
+    prompt_avatar = PromptTemplate(
+        input_variables=["product_4_name","product_4_profile","avatar_3_product_4_name_preview","avatar_3_product_4_preview"],
+        template=template_avatar
+    )
+
+    chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
+    avatar = chain_avatar.run(product_4_name=product_4_name,product_4_profile=product_4_profile,avatar_3_product_4_name_preview=avatar_3_product_4_name_preview,avatar_3_product_4_preview=avatar_3_product_4_preview)  # Pass in the combined context
+    anvil.server.task_state['result']  = avatar
+
+#------PRODUCT 5------------------------#################
+
+# AVATAR 1, PRODUCT 5 -----------------------#################
+@anvil.server.callable
+def launch_deepdive_avatar_1_product_5_generator(product_5_name,product_5_profile,avatar_1_product_5_name_preview,avatar_1_product_5_preview):
+    print("Launch Deep Dive Avatar function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('deepdive_avatar_1_product_5_generator', product_5_name,product_5_profile,avatar_1_product_5_name_preview,avatar_1_product_5_preview)
+    # Return the task ID
+    return task.get_id()
+
+@anvil.server.background_task
+def deepdive_avatar_1_product_5_generator(product_5_name,product_5_profile,avatar_1_product_5_name_preview,avatar_1_product_5_preview):
+    print("Background task started for generating the avatar:", avatar_1_product_5_name_preview)
+ 
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would. We'd like to create the ideal customer avatar for a product. \
+    Below, we'll provide the format of how we'd like the question answered, as well as the contextual information.
+
+    We're looking to create the ideal customer avatar for the following product: {product_5_name}
+    The product is described as: {product_5_profile}
+    The avatar's name is: {avatar_1_product_5_name_preview}
+    A brief description of the avatar to expand on is: {avatar_1_product_5_preview}
+    
+    Your task is to provide the company with a detailed customer avatar based on the short avatar preview details above, as it best relates to their business, broken down as follows:
+
+    ----
+    FORMAT: 
+    - Overview
+    Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
+
+    - Demographic
+    Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
+
+    - Psychographic
+    Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
+
+    - Goals & Aspirations
+    Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
+
+    - Pain Points
+    Identify the specific problems, challenges, and frustrations the avatar is facing.
+
+    - Personal Experience
+    Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
+
+    RULES: 
+    - Do not say "the target customer", instead, provide a fictional name, age, location.  
+    - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
+    - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
+    -----
+    
+    Chatbot:"""
+
+    prompt_avatar = PromptTemplate(
+        input_variables=["product_5_name","product_5_profile","avatar_1_product_5_name_preview","avatar_1_product_5_preview"],
+        template=template_avatar
+    )
+
+    chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
+    avatar = chain_avatar.run(product_5_name=product_5_name,product_5_profile=product_5_profile,avatar_1_product_5_name_preview=avatar_1_product_5_name_preview,avatar_1_product_5_preview=avatar_1_product_5_preview)  # Pass in the combined context
+    anvil.server.task_state['result']  = avatar
+
+# AVATAR 2, PRODUCT 5-----##
+@anvil.server.callable
+def launch_deepdive_avatar_2_product_5_generator(product_5_name,product_5_profile,avatar_2_product_5_name_preview,avatar_2_product_5_preview):
+    print("Launch Deep Dive Avatar function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('deepdive_avatar_2_product_5_generator', product_5_name,product_5_profile,avatar_2_product_5_name_preview,avatar_2_product_5_preview)
+    # Return the task ID
+    return task.get_id()
+
+@anvil.server.background_task
+def deepdive_avatar_2_product_5_generator(product_5_name,product_5_profile,avatar_2_product_5_name_preview,avatar_2_product_5_preview):
+    print("Background task started for generating the avatar:", avatar_2_product_5_name_preview)
+ 
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would. We'd like to create the ideal customer avatar for a product. \
+    Below, we'll provide the format of how we'd like the question answered, as well as the contextual information.
+
+    We're looking to create the ideal customer avatar for the following product: {product_5_name}
+    The product is described as: {product_5_profile}
+    The avatar's name is: {avatar_2_product_5_name_preview}
+    A brief description of the avatar to expand on is: {avatar_2_product_5_preview}
+    
+    Your task is to provide the company with a detailed customer avatar based on the short avatar preview details above, as it best relates to their business, broken down as follows:
+
+    ----
+    FORMAT: 
+    - Overview
+    Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
+
+    - Demographic
+    Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
+
+    - Psychographic
+    Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
+
+    - Goals & Aspirations
+    Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
+
+    - Pain Points
+    Identify the specific problems, challenges, and frustrations the avatar is facing.
+
+    - Personal Experience
+    Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
+
+    RULES: 
+    - Do not say "the target customer", instead, provide a fictional name, age, location.  
+    - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
+    - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
+    -----
+    
+    Chatbot:"""
+
+    prompt_avatar = PromptTemplate(
+        input_variables=["product_5_name","product_5_profile","avatar_2_product_5_name_preview","avatar_2_product_5_preview"],
+        template=template_avatar
+    )
+
+    chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
+    avatar = chain_avatar.run(product_5_name=product_5_name,product_5_profile=product_5_profile,avatar_2_product_5_name_preview=avatar_1_product_5_name_preview,avatar_2_product_5_preview=avatar_2_product_5_preview)  # Pass in the combined context
+    anvil.server.task_state['result']  = avatar
+
+# AVATAR 3, PRODUCT 5 -----##
+@anvil.server.callable
+def launch_deepdive_avatar_3_product_5_generator(product_5_name,product_5_profile,avatar_3_product_5_name_preview,avatar_3_product_5_preview):
+    print("Launch Deep Dive Avatar function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('deepdive_avatar_3_product_5_generator', product_5_name,product_5_profile,avatar_3_product_5_name_preview,avatar_3_product_5_preview)
+    # Return the task ID
+    return task.get_id()
+
+@anvil.server.background_task
+def deepdive_avatar_3_product_5_generator(product_5_name,product_5_profile,avatar_3_product_5_name_preview,avatar_3_product_5_preview):
+    print("Background task started for generating the avatar:", avatar_3_product_5_name_preview)
+ 
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would. We'd like to create the ideal customer avatar for a product. \
+    Below, we'll provide the format of how we'd like the question answered, as well as the contextual information.
+
+    We're looking to create the ideal customer avatar for the following product: {product_5_name}
+    The product is described as: {product_5_profile}
+    The avatar's name is: {avatar_3_product_5_name_preview}
+    A brief description of the avatar to expand on is: {avatar_3_product_5_preview}
+    
+    Your task is to provide the company with a detailed customer avatar based on the short avatar preview details above, as it best relates to their business, broken down as follows:
+
+    ----
+    FORMAT: 
+    - Overview
+    Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
+
+    - Demographic
+    Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
+
+    - Psychographic
+    Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
+
+    - Goals & Aspirations
+    Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
+
+    - Pain Points
+    Identify the specific problems, challenges, and frustrations the avatar is facing.
+
+    - Personal Experience
+    Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
+
+    RULES: 
+    - Do not say "the target customer", instead, provide a fictional name, age, location.  
+    - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
+    - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
+    -----
+    
+    Chatbot:"""
+
+    prompt_avatar = PromptTemplate(
+        input_variables=["product_5_name","product_5_profile","avatar_3_product_5_name_preview","avatar_3_product_5_preview"],
+        template=template_avatar
+    )
+
+    chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
+    avatar = chain_avatar.run(product_5_name=product_5_name,product_5_profile=product_5_profile,avatar_3_product_5_name_preview=avatar_3_product_5_name_preview,avatar_3_product_5_preview=avatar_3_product_5_preview)  # Pass in the combined context
+    anvil.server.task_state['result']  = avatar
+  
+
 #------CREATE GENERIC  AVATARS FOR THE COMPANY---------#################
 
 @anvil.server.callable
