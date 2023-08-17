@@ -28,8 +28,9 @@ class Headlines(HeadlinesTemplate):
     self.counter = 0
     self.indeterminate_progress_main_headlines.visible = False
     self.indeterminate_progress_subheadlines.visible = False
+    self.indeterminate_progress_vsl_themes.visible = False
     self.generate_headlines_vsl_button.enabled = True
-   
+    self.generate_vsl_themes_button.visible = False  
     
     self.chosen_company_name = None
     self.chosen_product_name = None
@@ -95,7 +96,17 @@ class Headlines(HeadlinesTemplate):
     elif self.chosen_script == 'Star, Story, Solution':
         example_sss_row = app_tables.example_scripts.get(script='sss')
         self.example_script = example_sss_row['script_contents']
-    
+
+    # Stop all Timers
+    self.task_check_timer_headlines.enabled = False
+    self.task_check_timer_headlines.interval = 0 0
+  
+    self.task_check_timer_subheadlines.enabled = True
+    self.task_check_timer_subheadlines.interval = 3  # Check every 2seconds
+
+    self.task_check_timer_vsl_script.enabled = True
+    self.task_check_timer_vsl_script.interval = 3  # Check every 2seconds
+      
     self.task_ids = []  # List to store all task IDs
     
   def generate_headlines_vsl_button_click(self, **event_args):
@@ -107,12 +118,19 @@ class Headlines(HeadlinesTemplate):
         user_table_name = current_user['user_id']
         # Get the table for the current user
         user_table = getattr(app_tables, user_table_name)
+        
+      # Delete all the existing boxes and start fresh
         headline_row = user_table.get(variable='main_headlines')
         headline_row['variable_value'] = None
         headline_row.update()
+        
         subheadline_row = user_table.get(variable='subheadlines')
         subheadline_row['variable_value'] = None
         subheadline_row.update()
+        
+        vsl_script_row = user_table.get(variable='vsl_script')
+        vsl_script_row['variable_value'] = None
+        vsl_script_row.update()
         
       #  # Launch the background tasks concurrently
       #   # MAIN HEADLINES 
@@ -137,7 +155,41 @@ class Headlines(HeadlinesTemplate):
 
         self.task_check_timer_vsl_script.enabled = True
         self.task_check_timer_vsl_script.interval = 3  # Check every 2seconds
+
+  def generate_vsl_themes_button_click(self, **event_args):
+    with anvil.server.no_loading_indicator:
+      self.indeterminate_progress_vsl_themes.visible = True
+      # Check if the video sales script textbox is empty
+      if not self.main_headline_textbox.text or self.subheadline_textbox.text or self.video_sales_script_textbox.text:
+          anvil.js.window.alert("Please Create a Video Sales Script Before Generating your themes.")
+          return      
+      else:
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+
+        #Define and save the final headlines and subheadlines
+        self.chosen_final_headline = self.main_headline_textbox.text
+        self.chosen_final_secondary_headline = self.secondary_headline_textbox.text
+        chosen_final_headline_row = user_table.search(variable='chosen_final_headline')[0]
+        chosen_final_secondary_headline_row = user_table.search(variable='chosen_final_secondary_headline')[0]
+        chosen_final_headline_row['variable_value'] = self.chosen_final_headline
+        chosen_final_secondary_headline_row['variable_value'] = self.chosen_final_secondary_headline
+        chosen_final_headline_row.update()
+        chosen_final_secondary_headline_row.update()
+        
+        row = user_table.get(variable='vsl_themes')
+        vsl_theme_1_row = user_table.get(variable='vsl_theme_1')
+        vsl_theme_2_row = user_table.get(variable='vsl_theme_2')
+        vsl_theme_3_row = user_table.get(variable='vsl_theme_3')
+        vsl_theme_4_row = user_table.get(variable='vsl_theme_4')
   
+        self.task_id = anvil.server.call('launch_generate_vsl_themes', self.chosen_final_headline, self.chosen_final_subheadline, self.chosen_product_name, self.chosen_product_research, self.chosen_tone,self.video_sales_script_textbox,row)
+
+        self.task_check_timer_vsl_themes.enabled = True
+        self.task_check_timer_vsl_themes.interval = 3
+        
   def check_task_status_headlines(self, sender=None, **event_args):
     with anvil.server.no_loading_indicator:
         # Check if the background task is complete
@@ -193,8 +245,26 @@ class Headlines(HeadlinesTemplate):
             self.task_check_timer_headlines.enabled = False
             self.task_check_timer_headlines.interval = 0
             self.indeterminate_progress_subheadlines.visible = False
-            
+          
+            # Convert the JSON string back to a list
+            all_subheadlines = json.loads(all_subheadlines_json)
+            # Update the text boxes with the headlines
+            self.subheadline_1.text = all_subheadlines[0]
+            self.subheadline_2.text = all_subheadlines[1]
+            self.subheadline_3.text = all_subheadlines[2]
+            self.subheadline_4.text = all_subheadlines[3]
+            self.subheadline_5.text = all_subheadlines[4]
+            self.subheadline_6.text = all_subheadlines[5]
+            self.subheadline_7.text = all_subheadlines[6]
+            self.subheadline_8.text = all_subheadlines[7]
+            self.subheadline_9.text = all_subheadlines[8]
+            self.subheadline_10.text = all_subheadlines[9]
 
+          # Update the 'variable_value' column of the row
+            row['variable_value'] = all_subheadlines_json
+            row.update()
+   
+            
   def check_task_status_vsl_script(self, sender=None, **event_args):
     with anvil.server.no_loading_indicator:
         # Check if the background task is complete
@@ -218,7 +288,56 @@ class Headlines(HeadlinesTemplate):
             self.video_sales_script_textbox.text = vsl_script
             self.task_check_timer_vsl_script.enabled = False
             self.task_check_timer_vsl_script.interval = 0
-  
+            self.generate_vsl_themes_button.visible = True
+
+  def check_task_status_vsl_themes(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Check if the background task is complete
+
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='vsl_themes')
+
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("VSL Themes Extracted!")
+                                        
+            # Populate the textbox with the generated script
+            self.task_check_timer_vsl_script.enabled = False
+            self.task_check_timer_vsl_script.interval = 0
+            self.generate_vsl_themes_button.visible = False
+            self.indeterminate_progress_vsl_themes.visible = False
+        
+            all_vsl_themes = json.loads(all_vsl_themes_json)
+            # Update the text boxes with the headlines
+            self.vsl_theme_1.text = all_vsl_themes[0]
+            self.vsl_theme_2.text = all_vsl_themes[1]
+            self.vsl_theme_3.text = all_vsl_themes[2]
+            self.vsl_theme_4.text = all_vsl_themes[3]
+
+            # Update the rows in the 'variable' column of the 'mdia' table
+            vsl_theme_1_row['variable_value'] = all_vsl_themes[0]
+            vsl_theme_2_row['variable_value'] = all_vsl_themes[1]
+            vsl_theme_3_row['variable_value'] = all_vsl_themes[2]
+            vsl_theme_4_row['variable_value'] = all_vsl_themes[3]
+
+            vsl_theme_1_row.update()
+            vsl_theme_2_row.update()
+            vsl_theme_3_row.update()
+            vsl_theme_4_row.update()
+
+            # Update the variable_table with the JSON string
+            row['variable_value'] = all_vsl_themes_json
+            row.update()
+
+          
+
+                  
+     
+            
     #       #Define and save the final headlines and subheadlines
       # self.chosen_final_headline = self.main_headline_textbox.text
       # self.chosen_final_secondary_headline = self.secondary_headline_textbox.text
@@ -542,7 +661,7 @@ class Headlines(HeadlinesTemplate):
     self.subheadline_textbox.text = selected_subheadline
 
     # Turn on the button
-    self.nav_button_headlines_to_vsl.enabled = True
+    # self.nav_button_headlines_to_vsl.enabled = True
 
   # Lock everything in, and navigate away
   def nav_button_headlines_to_vsl_click(self, **event_args):

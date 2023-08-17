@@ -3475,13 +3475,10 @@ def generate_vsl_script(chosen_product_name, chosen_company_profile, chosen_prod
 
 ####### --------VIDEO SALES SCRIPT 4 THEMES --------###################################################
 
-@anvil.server.callable
-def launch_generate_vsl_themes(chosen_final_headline, chosen_final_subheadline, chosen_product_name, chosen_product_research, chosen_tone,vsl_script,owner):
+@anvil.server.callable 
+def launch_generate_vsl_themes(chosen_final_headline, chosen_final_subheadline, chosen_product_name, chosen_product_research, chosen_tone,vsl_script,row):
     print("Launch Generate VSL Themes Function") 
-    # current_user = anvil.users.get_user()
-    # owner = current_user['email']
-    # Launch the background task
-    task = anvil.server.launch_background_task('generate_vsl_themes',chosen_final_headline,chosen_final_subheadline,chosen_product_name, chosen_product_research, chosen_tone,vsl_script,owner)
+    task = anvil.server.launch_background_task('generate_vsl_themes',chosen_final_headline,chosen_final_subheadline,chosen_product_name, chosen_product_research, chosen_tone,vsl_script,row)
     # Return the task ID
     return task.get_id()
 

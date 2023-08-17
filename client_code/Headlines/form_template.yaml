@@ -475,10 +475,10 @@ components:
     name: subheadline_textbox
     layout_properties: {grid_position: 'TSJQSD,HGLANS'}
   - type: TextArea
-    properties: {role: null, align: center, height: 355, tooltip: '', placeholder: '',
-      border: '', enabled: true, foreground: '', visible: true, text: VIDEO SALES SCRIPT IS HERE (Next Step...),
-      font_size: 40, auto_expand: true, font: '', spacing_above: small, spacing_below: small,
-      italic: true, background: '', bold: false, underline: false}
+    properties: {role: null, align: left, height: 355, tooltip: '', placeholder: VIDEO SALES SCRIPT IS HERE (Next Step...),
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: 16,
+      auto_expand: true, font: '', spacing_above: small, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
     name: video_sales_script_textbox
     layout_properties: {grid_position: 'LZWTET,KOGWGA'}
   - type: TextArea
@@ -490,6 +490,23 @@ components:
     layout_properties:
       col_widths: {}
       grid_position: ASGQQX,GQBVPQ
+  - type: Button
+    properties: {role: elevated-button, align: center, tooltip: '', border: '', enabled: true,
+      foreground: 'theme:Secondary Container', visible: true, text: 'NEXT, GENERATE
+        4 SALES THEMES', font_size: 26, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: 'theme:Primary', bold: true,
+      underline: false, icon: 'fa:microphone'}
+    name: generate_vsl_themes_button
+    layout_properties:
+      col_widths: {}
+      grid_position: PVCBWL,UVHRNN
+    event_bindings: {click: generate_vsl_themes_button_click}
+  - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
+    properties: {}
+    name: indeterminate_progress_vsl_themes
+    layout_properties:
+      col_widths: {}
+      grid_position: GBOQHQ,HIMZJI
   - type: TextArea
     properties: {role: null, align: left, height: '', tooltip: '', placeholder: '',
       border: '', enabled: true, foreground: '', visible: true, text: EXCERPT 1 - Compelling Reason,
@@ -580,4 +597,8 @@ components:
   type: Timer
   properties: {interval: 3}
   event_bindings: {tick: check_task_status_vsl_script}
+- name: task_check_timer_vsl_themes
+  type: Timer
+  properties: {interval: 3}
+  event_bindings: {tick: check_task_status_vsl_themes}
 is_package: true
