@@ -3326,7 +3326,7 @@ def generate_main_headlines(chosen_product_name, chosen_company_profile, chosen_
 
 # This is the subheadline generator that will return a string of 10 of the best subheadlines
 @anvil.server.callable
-def launch_generate_subheadlines(chosen_final_headline, chosen_product_name, chosen_company_profile, chosen_product_research, chosen_tone):
+def launch_generate_subheadlines(chosen_product_name, chosen_company_profile, chosen_product_research, chosen_tone):
     print("Launch Generate SubHeadlines Function") 
     
     current_user = anvil.users.get_user()
@@ -3334,12 +3334,12 @@ def launch_generate_subheadlines(chosen_final_headline, chosen_product_name, cho
     # Get the table for the current user
     user_table = getattr(app_tables, user_table_name)
     row = user_table.get(variable='subheadlines')
-    task = anvil.server.launch_background_task('generate_subheadlines',chosen_final_headline, chosen_product_name, chosen_company_profile, chosen_product_research, chosen_tone,row)
+    task = anvil.server.launch_background_task('generate_subheadlines', chosen_product_name, chosen_company_profile, chosen_product_research, chosen_tone,row)
     # Return the task ID
     return task.get_id()
 
 @anvil.server.background_task
-def generate_subheadlines(chosen_final_headline, chosen_product_name, chosen_company_profile, chosen_product_research, chosen_tone,row):
+def generate_subheadlines(chosen_product_name, chosen_company_profile, chosen_product_research, chosen_tone,row):
   example_headlines_row = app_tables.example_scripts.get(script='example_headlines')
   example_headlines = example_headlines_row['script_contents']
 
@@ -3359,7 +3359,6 @@ def generate_subheadlines(chosen_final_headline, chosen_product_name, chosen_com
 
     When generating these headlines just remember that people didn’t come looking for our product… instead we are interrupting them in their daily journey. The only way to get them to stop scrolling online is to grab their attention with an irresistible headline!
 
-    HERE IS THE EXISTING MAIN HEADLINE: {chosen_final_headline}
 
     HERE IS SOME CONTEXT ABOUT THE COMPANY: {chosen_company_profile}
 
@@ -3379,12 +3378,12 @@ def generate_subheadlines(chosen_final_headline, chosen_product_name, chosen_com
 
 
   subheadline_prompt = PromptTemplate(
-      input_variables=["chosen_final_headline","chosen_product_name", "chosen_company_profile", "chosen_product_research", "example_headlines", "chosen_tone"], 
+      input_variables=["chosen_product_name", "chosen_company_profile", "chosen_product_research", "example_headlines", "chosen_tone"], 
       template=subheadline_template
   )
 
   chain_subheadlines = LLMChain(llm=llm_subheadline, prompt=subheadline_prompt)
-  subheadline_generator = chain_subheadlines.run(chosen_final_headline=chosen_final_headline, chosen_product_name=chosen_product_name, chosen_company_profile=chosen_company_profile, chosen_product_research=chosen_product_research, example_headlines=example_headlines, chosen_tone=chosen_tone)
+  subheadline_generator = chain_subheadlines.run(chosen_product_name=chosen_product_name, chosen_company_profile=chosen_company_profile, chosen_product_research=chosen_product_research, example_headlines=example_headlines, chosen_tone=chosen_tone)
   print("Here are the subheadlines", subheadline_generator) 
   subheadlines = subheadline_generator.split("\n")
 
@@ -3573,13 +3572,22 @@ def generate_vsl_themes(chosen_final_headline,chosen_final_subheadline, chosen_p
 
 @anvil.server.callable
 def get_task_status(task_id):
-    try:
-        # Get the task object by its ID
-        task = anvil.server.get_background_task(task_id)
-        # Return the termination status of the task
-        return task.get_termination_status()
-    except anvil.server.BackgroundTaskNotFound:
-        return "not_found"
+    # Get the task object by its ID
+    task = anvil.server.get_background_task(task_id)
+    # Return the termination status of the task
+    return task.get_termination_status()
+  
+
+
+# @anvil.server.callable
+# def get_task_status(task_id):
+#     try:
+#         # Get the task object by its ID
+#         task = anvil.server.get_background_task(task_id)
+#         # Return the termination status of the task
+#         return task.get_termination_status()
+#     except anvil.server.BackgroundTaskNotFound:
+#         return "not_found"
       
 
 @anvil.server.callable

@@ -28,7 +28,8 @@ class Headlines(HeadlinesTemplate):
     self.counter = 0
     self.indeterminate_progress_main_headlines.visible = False
     self.indeterminate_progress_subheadlines.visible = False
-    self.nav_button_headlines_to_vsl.enabled = False
+    self.generate_headlines_vsl_button.enabled = True
+   
     
     self.chosen_company_name = None
     self.chosen_product_name = None
@@ -81,136 +82,211 @@ class Headlines(HeadlinesTemplate):
         self.chosen_avatar,
         self.chosen_script
     )
-
-  def set_saved_values(self, chosen_company_name, chosen_company_profile, chosen_product_name, chosen_product_research, chosen_tone, chosen_avatar, chosen_script):
-      self.chosen_company_name = chosen_company_name
-      self.chosen_company_profile = chosen_company_profile
-      self.chosen_product_name = chosen_product_name
-      self.chosen_product_research = chosen_product_research
-      self.chosen_tone = chosen_tone
-      self.chosen_avatar = chosen_avatar
-      self.chosen_script = chosen_script
-
+    
+    self.task_ids = []  # List to store all task IDs
+    
   def generate_headlines_vsl_button_click(self, **event_args):
     with anvil.server.no_loading_indicator:
         self.indeterminate_progress_main_headlines.visible = True
+
+      # Delete whatever is in the table with existing headlines.
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        headline_row = user_table.get(variable='main_headlines')
+        headline_row['variable_value'] = None
+        headline_row.update()
+        subheadline_row = user_table.get(variable='subheadlines')
+        subheadline_row['variable_value'] = None
+        subheadline_row.update()
+      
+       # Launch the background tasks concurrently
+        # MAIN HEADLINES 
+        task_id_main_headlines = anvil.server.call('launch_generate_main_headlines', self.chosen_product_name,self.chosen_company_profile,self.chosen_product_research, self.chosen_tone)
+        print("Main Headlines Launch function called")
+        self.indeterminate_progress_main_headlines.visible = True
+
+      # SUBHEADLINES 
+        task_id_subheadlines = anvil.server.call('launch_generate_subheadlines', self.chosen_product_name,self.chosen_company_profile,self.chosen_product_research, self.chosen_tone)
+        print("Subheadlines Launch function called")
+        self.indeterminate_progress_subheadlines.visible = True
+
+      # Start the timers immediately
+
+        self.task_check_timer_headlines.enabled = True
+        self.task_check_timer_headlines.interval = 3  # Check every 2seconds
+      
+        self.task_check_timer_subheadlines.enabled = True
+        self.task_check_timer_subheadlines.interval = 3  # Check every 2seconds
   
-        self.generate_main_headlines_button_click()
-        self.generate_subheadlines_button_click()
- 
+  def check_task_status_headlines(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Check if the background task is complete
+
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='main_headlines')
+
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Main Headlines Generated!")
+            self.task_check_timer_headlines.enabled = False
+            self.task_check_timer_headlines.interval = 0
+            self.indeterminate_progress_main_headlines.visible = False
+                
+            # Convert the JSON string back to a list
+            all_main_headlines_json = row['variable_value'] 
+          
+            all_headlines = json.loads(all_main_headlines_json)
+            # Update the text boxes with the headlines
+            self.main_headline_1.text = all_headlines[0]
+            self.main_headline_2.text = all_headlines[1]
+            self.main_headline_3.text = all_headlines[2]
+            self.main_headline_4.text = all_headlines[3]
+            self.main_headline_5.text = all_headlines[4]
+            self.main_headline_6.text = all_headlines[5]
+            self.main_headline_7.text = all_headlines[6]
+            self.main_headline_8.text = all_headlines[7]
+            self.main_headline_9.text = all_headlines[8]
+            self.main_headline_10.text = all_headlines[9]
+
+            # Update the 'variable_value' column of the row
+            row['variable_value'] = all_main_headlines_json
+            row.update()
+
+  def check_task_status_subheadlines(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Check if the background task is complete
+
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        subheadlines_row = user_table.get(variable='subheadlines')
+
+        if subheadlines_row['variable_value'] is None or subheadlines_row['variable_value'] == '':
+            print("Still working!")
+        elif subheadlines_row['variable_value'] is not None and subheadlines_row['variable_value'] != '':
+            print("Subheadlines Generated!")
+            self.task_check_timer_subheadlines.enabled = False
+            self.task_check_timer_subheadlines.interval = 0
+            self.indeterminate_progress_subheadlines.visible = False
+                
+            # Convert the JSON string back to a list
+            all_subheadlines_json = subheadlines_row['variable_value'] 
+            # Update the text boxes with the headlines
+            all_subheadlines = json.loads(all_subheadlines_json)
+            # Update the text boxes with the headlines
+            self.subheadline_1.text = all_subheadlines[0]
+            self.subheadline_2.text = all_subheadlines[1]
+            self.subheadline_3.text = all_subheadlines[2]
+            self.subheadline_4.text = all_subheadlines[3]
+            self.subheadline_5.text = all_subheadlines[4]
+            self.subheadline_6.text = all_subheadlines[5]
+            self.subheadline_7.text = all_subheadlines[6]
+            self.subheadline_8.text = all_subheadlines[7]
+            self.subheadline_9.text = all_subheadlines[8]
+            self.subheadline_10.text = all_subheadlines[9]
+
+            # Update the 'variable_value' column of the subheadlines_row
+            subheadlines_row['variable_value'] = all_subheadlines_json
+            subheadlines_row.update()
+      
+    #       #Define and save the final headlines and subheadlines
+      # self.chosen_final_headline = self.main_headline_textbox.text
+      # self.chosen_final_secondary_headline = self.secondary_headline_textbox.text
+      # chosen_final_headline_row = user_table.search(variable='chosen_final_headline')[0]
+    #   chosen_final_secondary_headline_row = user_table.search(variable='chosen_final_secondary_headline')[0]
+
+    #   chosen_final_headline_row['variable_value'] = self.chosen_final_headline
+    #   chosen_final_secondary_headline_row['variable_value'] = self.chosen_final_secondary_headline
+    #   chosen_final_headline_row.update()
+    #   chosen_final_secondary_headline_row.update()
     
 ###---- GENERATE HEADLINES--------#########################################################################################################
   #Use the saved values in other functions
-  def generate_main_headlines_button_click(self,**event_args):
-    with anvil.server.no_loading_indicator:
-      self.indeterminate_progress_main_headlines.visible = True
+  # def generate_main_headlines_button_click(self, **event_args):
+  #   with anvil.server.no_loading_indicator:
+  #       print("Main Headlines Launch function was received!")
 
-    # Use the class-level variables instead of local variables
-      self.task_id = anvil.server.call('launch_generate_main_headlines', self.chosen_product_name,self.chosen_company_profile,self.chosen_product_research, self.chosen_tone)
-      print("Task ID:", self.task_id)
-      # Launch the background task
+  #       current_user = anvil.users.get_user()
+  #       user_table_name = current_user['user_id']
+  #       # Get the table for the current user
+  #       user_table = getattr(app_tables, user_table_name)
+  #       row = user_table.get(variable='main_headlines')
 
-      current_user = anvil.users.get_user()
-      user_table_name = current_user['user_id']
-      # Get the table for the current user
-      user_table = getattr(app_tables, user_table_name)
-      row = user_table.get(variable='main_headlines')
+  #       # Start the timer immediately
+  #       self.task_check_timer_headlines.enabled = True
+  #       self.task_check_timer_headlines.interval = 5  # Check every 5 seconds
 
-      # Loop to check the status of the background task
-      while True:
-        with anvil.server.no_loading_indicator:
-          # Check if the background task is complete
-          task_status = anvil.server.call('get_task_status', self.task_id)
-          print("Task status:", task_status)
+  
+              
+  # def check_task_status(self, sender=None, **event_args):
+  #   with anvil.server.no_loading_indicator:
+  #       # Check if the background task is complete
+  #       task_status = anvil.server.call('get_task_status', self.task_id)
+  #       print("Task status:", task_status)
+      
+  #       current_user = anvil.users.get_user()
+  #       user_table_name = current_user['user_id']
+  #       # Get the table for the current user
+  #       user_table = getattr(app_tables, user_table_name)
+  #       row = user_table.get(variable='main_headlines')
+      
+  #       if task_status is not None:
+  #           if task_status == "completed":
+  #               # Get the result of the background task
+  #               all_main_headlines_json = anvil.server.call('get_task_result', self.task_id)
+  #               self.indeterminate_progress_main_headlines.visible = False
 
-          if task_status is not None:
-            if task_status == "completed":
-              # Get the result of the background task
-              all_main_headlines_json = anvil.server.call('get_task_result', self.task_id)
-              self.indeterminate_progress_main_headlines.visible = False
+  #               if all_main_headlines_json is not None:
+  #                   # Convert the JSON string back to a list
+  #                   all_headlines = json.loads(all_main_headlines_json)
+  #                   # Update the text boxes with the headlines
+  #                   self.main_headline_1.text = all_headlines[0]
+  #                   self.main_headline_2.text = all_headlines[1]
+  #                   self.main_headline_3.text = all_headlines[2]
+  #                   self.main_headline_4.text = all_headlines[3]
+  #                   self.main_headline_5.text = all_headlines[4]
+  #                   self.main_headline_6.text = all_headlines[5]
+  #                   self.main_headline_7.text = all_headlines[6]
+  #                   self.main_headline_8.text = all_headlines[7]
+  #                   self.main_headline_9.text = all_headlines[8]
+  #                   self.main_headline_10.text = all_headlines[9]
 
-              if all_main_headlines_json is not None:
-                # Convert the JSON string back to a list
-                all_headlines = json.loads(all_main_headlines_json)
-                # Update the text boxes with the headlines
-                self.main_headline_1.text = all_headlines[0]
-                self.main_headline_2.text = all_headlines[1]
-                self.main_headline_3.text = all_headlines[2]
-                self.main_headline_4.text = all_headlines[3]
-                self.main_headline_5.text = all_headlines[4]
-                self.main_headline_6.text = all_headlines[5]
-                self.main_headline_7.text = all_headlines[6]
-                self.main_headline_8.text = all_headlines[7]
-                self.main_headline_9.text = all_headlines[8]
-                self.main_headline_10.text = all_headlines[9]
+  #               if row:
+  #                   # Update the 'variable_value' column of the row
+  #                   row['variable_value'] = all_main_headlines_json
+  #                   row.update()
+  #               else:
+  #                   print("Error: Row not found in user_table")
 
-              if row:
-                # Update the 'variable_value' column of the row
-                row['variable_value'] = all_main_headlines_json
-                row.update()
-              else:
-                print("Error: Row not found in user_table")
+  #               # Hide the progress bar
+  #               self.indeterminate_progress_main_headlines.visible = False
 
-              # Hide the progress bar
-              self.indeterminate_progress_main_headlines.visible = False
+  #               # Stop the timer
+  #               self.task_check_timer_headlines.enabled = False
 
-              break  # Exit the loop
+  #           elif task_status == "failed":
+  #               # Handle the case where the background task failed
+  #               print("Task failed")
+  #               # Stop the timer
+  #               self.task_check_timer_headlines.enabled = False
 
-            elif task_status == "failed":
-              # Handle the case where the background task failed
-              print("Task failed")
-              break  # Exit the loop
-
-            #Start the timer
-            self.task_check_timer_headlines.start()
-
-    
-
-  # This is the function that gets called every second by the timer
-  def task_check_timer_headlines(self, **event_args):
-    with anvil.server.no_loading_indicator:
-        task_status = anvil.server.call('get_task_status', self.task_id)
-        print("Task status:", task_status)
-
-        if task_status == "completed":
-            # [your existing logic to handle task completion]
-
-            # Stop the timer
-            self.task_check_timer_headlines.stop()
-
-        elif task_status == "failed":
-            # Handle the case where the background task failed
-            print("Task failed")
-            
-            # Stop the timer
-            self.task_check_timer_headlines.stop()
           
 #### ----- SUB HEADLINES------------#########################################################################################################
   def generate_subheadlines_button_click(self, **event_args):
     with anvil.server.no_loading_indicator:
-      self.indeterminate_progress_subheadlines.visible = True
-
+         
       current_user = anvil.users.get_user()
       user_table_name = current_user['user_id']
       # Get the table for the current user
       user_table = getattr(app_tables, user_table_name)
       row = user_table.get(variable='subheadlines')
-
-      #Define and save the final headlines and subheadlines
-      self.chosen_final_headline = self.main_headline_textbox.text
-      self.chosen_final_secondary_headline = self.secondary_headline_textbox.text
-
-      chosen_final_headline_row = user_table.search(variable='chosen_final_headline')[0]
-      chosen_final_secondary_headline_row = user_table.search(variable='chosen_final_secondary_headline')[0]
-
-      chosen_final_headline_row['variable_value'] = self.chosen_final_headline
-      chosen_final_secondary_headline_row['variable_value'] = self.chosen_final_secondary_headline
-      chosen_final_headline_row.update()
-      chosen_final_secondary_headline_row.update()
-
-      self.task_id = anvil.server.call('launch_generate_subheadlines', self.chosen_product_name, self.chosen_company_profile, self.chosen_product_research, self.chosen_tone)
-      print("Task ID:", self.task_id)
-      # Launch the background task
 
       # Loop to check the status of the background task
       while True:
@@ -255,7 +331,27 @@ class Headlines(HeadlinesTemplate):
               break  # Exit the loop
 
           # Sleep for 1 second before checking again
-          time.sleep(1)
+          self.task_check_timer_subheadlines.enabled = True
+          self.task_check_timer_subheadlines.interval = 5  # Check every 5 seconds
+
+  # This is the function that gets called every second by the timer
+  def task_check_timer_subheadlines(self, **event_args):
+    with anvil.server.no_loading_indicator:
+        task_status = anvil.server.call('get_task_status', self.task_id)
+        print("Task status:", task_status)
+
+        if task_status == "completed":
+            # [your existing logic to handle task completion]
+
+            # Stop the timer
+            self.task_check_timer_subheadlines.stop()
+
+        elif task_status == "failed":
+            # Handle the case where the background task failed
+            print("Task failed")
+            
+            # Stop the timer
+            self.task_check_timer_subheadlines.stop()
           
 # NAVIGATION
 
@@ -263,7 +359,16 @@ class Headlines(HeadlinesTemplate):
   def navigate_to_headlines(self, **event_args):
     anvil.open_form('Company')
 
-
+#### ----- SAVE VARIABLES------------######
+  def set_saved_values(self, chosen_company_name, chosen_company_profile, chosen_product_name, chosen_product_research, chosen_tone, chosen_avatar, chosen_script):
+      self.chosen_company_name = chosen_company_name
+      self.chosen_company_profile = chosen_company_profile
+      self.chosen_product_name = chosen_product_name
+      self.chosen_product_research = chosen_product_research
+      self.chosen_tone = chosen_tone
+      self.chosen_avatar = chosen_avatar
+      self.chosen_script = chosen_script
+    
 #### ----- HEADLINE HANDLERS------------######
   # Event handler for the click event of the radio buttons
   def main_headline_button_click(self, **event_args):
@@ -316,18 +421,18 @@ class Headlines(HeadlinesTemplate):
   # Set the text of radiobutton2 to the text of radiobutton1
     self.secondary_headline_textbox.text = self.main_headline_10.text
 
-  def check_task_status(self, task_id):
-    task_status = anvil.server.call('get_task_status', task_id)
-    if task_status is not None:
-      if task_status == "completed":
-        generated_headlines = anvil.server.call('get_task_result', task_id)
-        self.handle_generated_headlines(generated_headlines)
-      elif task_status == "failed":
-        # Handle the case where the task failed
-        print("Task failed")
+  # def check_task_status(self, task_id):
+  #   task_status = anvil.server.call('get_task_status', task_id)
+  #   if task_status is not None:
+  #     if task_status == "completed":
+  #       generated_headlines = anvil.server.call('get_task_result', task_id)
+  #       self.handle_generated_headlines(generated_headlines)
+  #     elif task_status == "failed":
+  #       # Handle the case where the task failed
+  #       print("Task failed")
 
-      # Repeat the check after a delay
-      anvil.timer.call_after(1, self.check_task_status, task_id)
+  #     # Repeat the check after a delay
+  #     anvil.timer.call_after(1, self.check_task_status, task_id)
 
 #   #### ----- SUB HEADLINES------------#########################################################################################################
   def generate_subheadlines_button_click(self, **event_args):

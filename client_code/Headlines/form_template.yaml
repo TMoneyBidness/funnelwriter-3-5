@@ -16,11 +16,11 @@ components:
     col_widths: {}
     grid_position: DEZIQO,XRDWCV
 - type: Button
-  properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: true,
+  properties: {role: elevated-button, align: center, tooltip: '', border: '', enabled: true,
     foreground: 'theme:Secondary Container', visible: true, text: GENERATE HEADLINES & VIDEO SALES SCRIPT,
     font_size: 26, font: '', spacing_above: small, icon_align: right, spacing_below: small,
     italic: false, background: 'theme:Primary', bold: true, underline: false, icon: 'fa:hand-pointer-o'}
-  name: nav_button_headlines_to_vsl
+  name: generate_headlines_vsl_button
   layout_properties:
     col_widths: {}
     grid_position: CLLRXU,XKSLKG
@@ -46,33 +46,26 @@ components:
       layout_properties:
         col_widths: {}
         grid_position: LFHMAY,OJIIGX
-    - type: ColumnPanel
-      properties: {col_widths: '{}'}
-      name: content_panel_copy
+    - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
+      properties: {}
+      name: indeterminate_progress_main_headlines
+      layout_properties: {grid_position: 'MTIGWS,VJQWIC'}
+    - type: Label
+      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: Select 1st Headline, font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+        underline: false, icon: ''}
+      name: label_2_copy_2
       layout_properties:
         col_widths: {}
-        grid_position: HXGTEX,GUYSSA
-      components:
-      - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
-        properties: {}
-        name: indeterminate_progress_main_headlines
-        layout_properties: {grid_position: 'KWKPDX,IDXDMO'}
-      - type: Label
-        properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-          visible: true, text: Select 1st Headline, font_size: null, font: '', spacing_above: small,
-          icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
-          underline: false, icon: ''}
-        name: label_2_copy_2
-        layout_properties:
-          col_widths: {}
-          grid_position: OZNNOL,HONTDI
-      - type: Label
-        properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
-          visible: true, text: Select 2nd Headline, font_size: null, font: '', spacing_above: small,
-          icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
-          underline: false, icon: ''}
-        name: label_2
-        layout_properties: {grid_position: 'OZNNOL,QQSXSU'}
+        grid_position: VAOTVB,OXKEVK
+    - type: Label
+      properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
+        visible: true, text: Select 2nd Headline, font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+        underline: false, icon: ''}
+      name: label_2
+      layout_properties: {grid_position: 'VAOTVB,VIBYRI'}
     - type: RadioButton
       properties: {role: null, selected: false, align: left, tooltip: '', border: '',
         enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Headlines,
@@ -323,7 +316,7 @@ components:
     name: label_2_copy_9
     layout_properties:
       col_widths: {}
-      grid_position: PNQYJD,GDHBBV
+      grid_position: PNQYJD,THCHXP
   - type: RadioButton
     properties: {role: null, selected: false, align: left, tooltip: '', border: '',
       enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Subheadlines,
@@ -580,4 +573,12 @@ components:
   layout_properties:
     col_widths: {}
     grid_position: WJBDLX,WWISGW
+- type: Timer
+  properties: {interval: 2}
+  name: task_check_timer_headlines
+  event_bindings: {tick: check_task_status_headlines}
+- name: task_check_timer_subheadlines
+  type: Timer
+  properties: {}
+  event_bindings: {tick: check_task_status_subheadlines}
 is_package: true
