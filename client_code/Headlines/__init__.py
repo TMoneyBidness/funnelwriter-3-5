@@ -99,13 +99,13 @@ class Headlines(HeadlinesTemplate):
 
     # Stop all Timers
     self.task_check_timer_headlines.enabled = False
-    self.task_check_timer_headlines.interval = 0 0
+    self.task_check_timer_headlines.interval = 0
   
-    self.task_check_timer_subheadlines.enabled = True
-    self.task_check_timer_subheadlines.interval = 3  # Check every 2seconds
+    self.task_check_timer_subheadlines.enabled = False
+    self.task_check_timer_subheadlines.interval = 0  # Check every 2seconds
 
-    self.task_check_timer_vsl_script.enabled = True
-    self.task_check_timer_vsl_script.interval = 3  # Check every 2seconds
+    self.task_check_timer_vsl_script.enabled = False
+    self.task_check_timer_vsl_script.interval = 0 # Check every 2seconds
       
     self.task_ids = []  # List to store all task IDs
     
