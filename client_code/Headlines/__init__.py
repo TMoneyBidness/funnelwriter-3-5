@@ -82,6 +82,19 @@ class Headlines(HeadlinesTemplate):
         self.chosen_avatar,
         self.chosen_script
     )
+
+    # Find the example script
+    row_chosen_script = user_table.search(variable='chosen_script')
+    
+    if row_chosen_script and row_chosen_script[0]['variable_title'] == 'Who, What, Where, How - 1':
+        example_wwwh_1_row = app_tables.example_scripts.get(script='wwwh_1')
+        self.example_script = example_wwwh_1_row['script_contents']
+    elif row_chosen_script and row_chosen_script[0]['variable_title'] == 'Who, What, Where, How - 2':
+        example_wwwh_2_row = app_tables.example_scripts.get(script='wwwh_2')
+        self.example_script = example_wwwh_2_row['script_contents']
+    elif self.chosen_script == 'Star, Story, Solution':
+        example_sss_row = app_tables.example_scripts.get(script='sss')
+        self.example_script = example_sss_row['script_contents']
     
     self.task_ids = []  # List to store all task IDs
     
@@ -100,25 +113,30 @@ class Headlines(HeadlinesTemplate):
         subheadline_row = user_table.get(variable='subheadlines')
         subheadline_row['variable_value'] = None
         subheadline_row.update()
-      
-       # Launch the background tasks concurrently
-        # MAIN HEADLINES 
-        task_id_main_headlines = anvil.server.call('launch_generate_main_headlines', self.chosen_product_name,self.chosen_company_profile,self.chosen_product_research, self.chosen_tone)
-        print("Main Headlines Launch function called")
+        
+      #  # Launch the background tasks concurrently
+      #   # MAIN HEADLINES 
+      #   task_id_main_headlines = anvil.server.call('launch_generate_main_headlines', self.chosen_product_name,self.chosen_company_profile,self.chosen_product_research, self.chosen_tone)
+      #   print("Main Headlines Launch function called")
+      #   self.indeterminate_progress_main_headlines.visible = True
+
+      # # SUBHEADLINES 
+      #   task_id_subheadlines = anvil.server.call('launch_generate_subheadlines', self.chosen_product_name,self.chosen_company_profile,self.chosen_product_research, self.chosen_tone)
+      #   print("Subheadlines Launch function called")
+      #   self.indeterminate_progress_subheadlines.visible = True
+     
+        self.task_id_vsl_script = anvil.server.call('launch_generate_vsl_script', self.chosen_product_name, self.chosen_company_profile, self.chosen_product_research,self.chosen_avatar, self.chosen_tone, self.example_script)
+        print("Video Sales Script function called")
         self.indeterminate_progress_main_headlines.visible = True
-
-      # SUBHEADLINES 
-        task_id_subheadlines = anvil.server.call('launch_generate_subheadlines', self.chosen_product_name,self.chosen_company_profile,self.chosen_product_research, self.chosen_tone)
-        print("Subheadlines Launch function called")
-        self.indeterminate_progress_subheadlines.visible = True
-
-      # Start the timers immediately
 
         self.task_check_timer_headlines.enabled = True
         self.task_check_timer_headlines.interval = 3  # Check every 2seconds
       
         self.task_check_timer_subheadlines.enabled = True
         self.task_check_timer_subheadlines.interval = 3  # Check every 2seconds
+
+        self.task_check_timer_vsl_script.enabled = True
+        self.task_check_timer_vsl_script.interval = 3  # Check every 2seconds
   
   def check_task_status_headlines(self, sender=None, **event_args):
     with anvil.server.no_loading_indicator:
@@ -172,30 +190,35 @@ class Headlines(HeadlinesTemplate):
             print("Still working!")
         elif subheadlines_row['variable_value'] is not None and subheadlines_row['variable_value'] != '':
             print("Subheadlines Generated!")
-            self.task_check_timer_subheadlines.enabled = False
-            self.task_check_timer_subheadlines.interval = 0
+            self.task_check_timer_headlines.enabled = False
+            self.task_check_timer_headlines.interval = 0
             self.indeterminate_progress_subheadlines.visible = False
-                
-            # Convert the JSON string back to a list
-            all_subheadlines_json = subheadlines_row['variable_value'] 
-            # Update the text boxes with the headlines
-            all_subheadlines = json.loads(all_subheadlines_json)
-            # Update the text boxes with the headlines
-            self.subheadline_1.text = all_subheadlines[0]
-            self.subheadline_2.text = all_subheadlines[1]
-            self.subheadline_3.text = all_subheadlines[2]
-            self.subheadline_4.text = all_subheadlines[3]
-            self.subheadline_5.text = all_subheadlines[4]
-            self.subheadline_6.text = all_subheadlines[5]
-            self.subheadline_7.text = all_subheadlines[6]
-            self.subheadline_8.text = all_subheadlines[7]
-            self.subheadline_9.text = all_subheadlines[8]
-            self.subheadline_10.text = all_subheadlines[9]
+            
 
-            # Update the 'variable_value' column of the subheadlines_row
-            subheadlines_row['variable_value'] = all_subheadlines_json
-            subheadlines_row.update()
-      
+  def check_task_status_vsl_script(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Check if the background task is complete
+
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='vsl_script')
+
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Video Sales Script Generated!")
+                                      
+            # Update the 'variable_value' column of the row
+            vsl_script = row['variable_value']
+            row.update()
+          
+            # Populate the textbox with the generated script
+            self.video_sales_script_textbox.text = vsl_script
+            self.task_check_timer_vsl_script.enabled = False
+            self.task_check_timer_vsl_script.interval = 0
+  
     #       #Define and save the final headlines and subheadlines
       # self.chosen_final_headline = self.main_headline_textbox.text
       # self.chosen_final_secondary_headline = self.secondary_headline_textbox.text

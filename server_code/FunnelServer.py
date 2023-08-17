@@ -3413,7 +3413,7 @@ def generate_subheadlines(chosen_product_name, chosen_company_profile, chosen_pr
 ####### --------VIDEO SALES SCRIPT --------###################################################
 
 @anvil.server.callable
-def launch_generate_vsl_script(chosen_product_name, chosen_final_headline, chosen_final_subheadline, chosen_company_profile, chosen_product_research, chosen_avatar, chosen_tone, example_script):
+def launch_generate_vsl_script(chosen_product_name, chosen_company_profile, chosen_product_research, chosen_avatar, chosen_tone, example_script):
     print("Launch Generate Video Sales Letter Script Function")
     current_user = anvil.users.get_user()
     user_table_name = current_user['user_id']
@@ -3422,12 +3422,12 @@ def launch_generate_vsl_script(chosen_product_name, chosen_final_headline, chose
     row = user_table.get(variable='vsl_script')
   
     # Launch the background task
-    task = anvil.server.launch_background_task('generate_vsl_script', chosen_product_name, chosen_final_headline, chosen_final_subheadline, chosen_company_profile, chosen_product_research, chosen_avatar, chosen_tone,example_script,row)
+    task = anvil.server.launch_background_task('generate_vsl_script', chosen_product_name, chosen_company_profile, chosen_product_research, chosen_avatar, chosen_tone, example_script,row)
     # Return the task ID
     return task.get_id()
 
 @anvil.server.background_task
-def generate_vsl_script(chosen_product_name, chosen_final_headline, chosen_final_subheadline, chosen_company_profile, chosen_product_research, chosen_avatar, chosen_tone,example_script,row):
+def generate_vsl_script(chosen_product_name, chosen_company_profile, chosen_product_research, chosen_avatar, chosen_tone,example_script,row):
     # Return the task ID):
     print("Background task started for generating the Video Sales Letter script")
 
@@ -3438,7 +3438,6 @@ def generate_vsl_script(chosen_product_name, chosen_final_headline, chosen_final
     First, I will provide you with some tips about writing, then I will give you the existing headlines, some context about the company, the ideal customer we're trying to serve, followed by information about the product. Therafter, I will provide you some existing sales scripts (from a parallel industry) that will inform you of style and length. Lastly, I'll request this in an certain order, and provide you with a template to follow.
     TIPS: This script helps build credibility quickly by answering the problems our avatar faces, provides credibility, explains the product, then gives reasons to act now. It's important to remember that people didn’t come looking for our product… instead we are interrupting them in their daily journey. The only way to get them to stop scrolling online is to grab their attention with an irresistible scripts!
 
-    HERE IS THE EXISTING HEADLINE and SUBHEADLINE: '{chosen_final_headline}', and '{chosen_final_subheadline}'
     HERE IS SOME CONTEXT ABOUT THE COMPANY: {chosen_company_profile}
     HERE IS SOME CONTEXT ABOUT THE PRODUCT: {chosen_product_research}
 
@@ -3461,13 +3460,17 @@ def generate_vsl_script(chosen_product_name, chosen_final_headline, chosen_final
     The output should be a script, written in the first person from the perspective of the founder that is trying to sell the audience on why their product is the best choice and will make their life easier. The script should not include any subheadings!"""
 
     vsl_script_prompt = PromptTemplate(
-        input_variables=["chosen_product_name", "chosen_final_headline", "chosen_final_subheadline", "chosen_company_profile", "chosen_product_research", "chosen_avatar", "chosen_tone","example_script"],
+        input_variables=["chosen_product_name", "chosen_company_profile", "chosen_product_research", "chosen_avatar", "chosen_tone","example_script"],
         template=vsl_script_template
     )
 
     chain_vsl_script = LLMChain(llm=llm_vsl_script, prompt=vsl_script_prompt)
-    vsl_script = chain_vsl_script.run(chosen_product_name=chosen_product_name, chosen_company_profile=chosen_company_profile,chosen_product_research=chosen_product_research,chosen_avatar=chosen_avatar, chosen_tone=chosen_tone,example_script=example_script,chosen_final_headline=chosen_final_headline,chosen_final_subheadline=chosen_final_subheadline
-    )
+    vsl_script = chain_vsl_script.run(chosen_product_name=chosen_product_name, chosen_company_profile=chosen_company_profile,chosen_product_research=chosen_product_research,chosen_avatar=chosen_avatar, chosen_tone=chosen_tone,example_script=example_script)
+
+      # Save the generated subheadlines in the 'subheadlines' column of the variable_table
+    
+    row['variable_value'] = vsl_script
+    row.update()
     anvil.server.task_state['result'] = vsl_script
 
 ####### --------VIDEO SALES SCRIPT 4 THEMES --------###################################################
@@ -3652,3 +3655,155 @@ def get_task_result(task_id):
 #     # if "I couldn't find more information" in product_research_context:
 #     #       product_research_1= "Insufficient information. Please write the product description yourself."
 #     anvil.server.task_state['result'] = product_research_3
+
+
+# ####### --------VIDEO SALES SCRIPT --------###################################################
+
+# @anvil.server.callable
+# def launch_generate_vsl_script(chosen_product_name, chosen_final_headline, chosen_final_subheadline, chosen_company_profile, chosen_product_research, chosen_avatar, chosen_tone, example_script):
+#     print("Launch Generate Video Sales Letter Script Function")
+#     current_user = anvil.users.get_user()
+#     user_table_name = current_user['user_id']
+#     # Get the table for the current user
+#     user_table = getattr(app_tables, user_table_name)
+#     row = user_table.get(variable='vsl_script')
+  
+#     # Launch the background task
+#     task = anvil.server.launch_background_task('generate_vsl_script', chosen_product_name, chosen_final_headline, chosen_final_subheadline, chosen_company_profile, chosen_product_research, chosen_avatar, chosen_tone,example_script,row)
+#     # Return the task ID
+#     return task.get_id()
+
+# @anvil.server.background_task
+# def generate_vsl_script(chosen_product_name, chosen_final_headline, chosen_final_subheadline, chosen_company_profile, chosen_product_research, chosen_avatar, chosen_tone,example_script,row):
+#     # Return the task ID):
+#     print("Background task started for generating the Video Sales Letter script")
+
+#     llm_vsl_script = ChatOpenAI(temperature=0.8, model_name='gpt-4', openai_api_key=openai_api_key)
+
+#     vsl_script_template = """You are RussellAI, a highly-evolved version of Russell Brunson, the author and business coach behind "Dotcom Secrets". You are the best scriptwriter on the planet. You are about to launch a brand new video sales letter marketing funnel selling {chosen_product_name}, and you're ready to start write the video sales letter script! This has a very specific format, and requires a lot of context, provided below:
+     
+#     First, I will provide you with some tips about writing, then I will give you the existing headlines, some context about the company, the ideal customer we're trying to serve, followed by information about the product. Therafter, I will provide you some existing sales scripts (from a parallel industry) that will inform you of style and length. Lastly, I'll request this in an certain order, and provide you with a template to follow.
+#     TIPS: This script helps build credibility quickly by answering the problems our avatar faces, provides credibility, explains the product, then gives reasons to act now. It's important to remember that people didn’t come looking for our product… instead we are interrupting them in their daily journey. The only way to get them to stop scrolling online is to grab their attention with an irresistible scripts!
+
+#     HERE IS THE EXISTING HEADLINE and SUBHEADLINE: '{chosen_final_headline}', and '{chosen_final_subheadline}'
+#     HERE IS SOME CONTEXT ABOUT THE COMPANY: {chosen_company_profile}
+#     HERE IS SOME CONTEXT ABOUT THE PRODUCT: {chosen_product_research}
+
+#     HERE IS THE EXISTING CUSTOMER: {chosen_avatar}
+    
+#     HERE ARE SOME EXAMPLES OF EXISTING SCRIPTS FROM PARALELL INDUSTRIES. YOU MUST UPDATE IT ACCORDING TO OUR PRODUCT AND COMPANY CONTEXT: {example_script} 
+
+#     TONE: {chosen_tone}
+
+#     HERE IS THE TEMPLATE TO FOLLOW WHEN CREATING THE SCRIPT:
+#     Explain The Problem — What problem is our avatar and target market facing? How can we empathize with their challenges? (should be between 90-100 words)
+#     Agitate The Problem — What are some examples of that problem? Make that problem visceral for them. Explain why it’s a bigger problem than they think it is and how it’s really going to harm them over the long-run. (should be between 90-100 words)
+#     Introduce The Solution — What is your solution to their problem? It's our product, of course! (should be between 90-100 words)
+#     Build Credibility — Why should they trust our founder to be the provider of this solution? Use their name. What makes you so great? Telling a story about your own journey can help build credibility. (should be between 90-100 words)
+#     Show Proof — How do they know that it’ll actually work? Make up a fictional case-study using ficticious details. This is important to discuss and show proof. (should be between 90-100 words)
+#     Explain Exactly What They Get — Explain exactly what the prospect is going to get if they sign up! (should be between 90-100 words)
+#     Give Reason To Act Now — Why should they buy right now? Use urgency or scarcity to put the prospect’s foot on the gas.(should be between 90-100 words)
+#     Close — Close the sale with a final call-to-action. 
+
+#     The output should be a script, written in the first person from the perspective of the founder that is trying to sell the audience on why their product is the best choice and will make their life easier. The script should not include any subheadings!"""
+
+#     vsl_script_prompt = PromptTemplate(
+#         input_variables=["chosen_product_name", "chosen_final_headline", "chosen_final_subheadline", "chosen_company_profile", "chosen_product_research", "chosen_avatar", "chosen_tone","example_script"],
+#         template=vsl_script_template
+#     )
+
+#     chain_vsl_script = LLMChain(llm=llm_vsl_script, prompt=vsl_script_prompt)
+#     vsl_script = chain_vsl_script.run(chosen_product_name=chosen_product_name, chosen_company_profile=chosen_company_profile,chosen_product_research=chosen_product_research,chosen_avatar=chosen_avatar, chosen_tone=chosen_tone,example_script=example_script,chosen_final_headline=chosen_final_headline,chosen_final_subheadline=chosen_final_subheadline
+#     )
+#     anvil.server.task_state['result'] = vsl_script
+
+# ####### --------VIDEO SALES SCRIPT 4 THEMES --------###################################################
+
+# @anvil.server.callable
+# def launch_generate_vsl_themes(chosen_final_headline, chosen_final_subheadline, chosen_product_name, chosen_product_research, chosen_tone,vsl_script,owner):
+#     print("Launch Generate VSL Themes Function") 
+#     # current_user = anvil.users.get_user()
+#     # owner = current_user['email']
+#     # Launch the background task
+#     task = anvil.server.launch_background_task('generate_vsl_themes',chosen_final_headline,chosen_final_subheadline,chosen_product_name, chosen_product_research, chosen_tone,vsl_script,owner)
+#     # Return the task ID
+#     return task.get_id()
+
+# @anvil.server.background_task
+# def generate_vsl_themes(chosen_final_headline,chosen_final_subheadline, chosen_product_name, chosen_product_research, chosen_tone,vsl_script,row):
+#   llm_vsl_themes = ChatOpenAI(temperature=0.8, model_name='gpt-4', openai_api_key=openai_api_key)
+#   four_vsl_themes_template = """ You are RussellAI, a highly-evolved version of Russell Brunson, the author and business coach behind "Dotcom Secrets". You are the best scriptwriter on the planet. You are about to launch a brand new video sales letter marketing funnel selling {chosen_product_name}, and you've already generated the sales video letter script, but you now need to extract the four themes from the script and promote them as the industry's dirty secret that will make them millions! These will be captions to screenshots from the video.
+
+#     These extractions help build credibility quickly by addressing the pain points of our customer, provides credibility, explains the product, then gives reasons to act now. It's important to remember that people didn’t come looking for our product… instead we are interrupting them in their daily journey. The only way to get them to stop scrolling online is to grab their attention with an irresistible scripts!
+#     First, I will provide you with video's main headline then some context about the product. Therafter, I will provide you with the final script that I need you to summarize and extract themes and reveal the big secrets of our product. Lastly, I'll request this in an certain order, and provide you with a template to follow.
+    
+#     INGEST THE BELOW INFORMATION WITH SQUARE BRACKETS AS CONTEXT:
+#     [
+#     EXISTING HEADLINES: {chosen_final_headline}, plus {chosen_final_subheadline}
+
+#     CONTEXT ABOUT THE PRODUCT: {chosen_product_research}
+
+#     HFINAL SCRIPT OF THE VIDEO I NEED YOU TO EXTRACT THE BIG SECRETS FROM: {vsl_script}
+    
+#     TONE: {chosen_tone}
+
+#     DO NOT INCLUDE ANY SUMMARIZATION OF THE ABOVE POINTS IN THE OUTPUT. I AM ONLY INTERESTED IN THE BELOW OUTPUT:
+    
+#     ----- FINAL OUTPUT IS BELOW-----HERE IS THE TEMPLATE TO FOLLOW WHEN CREATING THE 4 EXCERPTS
+
+#     "SECRET #1:" 5-7 words of the theme or secret reveal, but in the form of a cheeky and confident headline. Then, provide an exciting sentence about how to be successful in that area, then trail off with an ellipses like this ....
+#     "SECRET #2:" 5-7 words of the theme or secret reveal,but in the form of a cheeky and confident headline. Then, provide an exciting sentence about how to be successful in that area, then trail off with an ellipses like this ....
+#     "SECRET #3:" 5-7 words of the theme or secret reveal, but in the form of a cheeky and confident headline. Then, provide an exciting sentence about how to be successful in that area, then trail off with an ellipses like this ....
+#     "SECRET #4:" a mini-headline that is 5-7 words of what, but  can be next in how they apply these themes. Then, provide a sentence about the magic results they could see..
+    
+#     For example, the a potential output could look like below.
+
+#     SECRET #1: 'Attribution Agitation' at its Worst: Fed up with not knowing where your sales are coming from? Discover how Funnelytics Performance can clear up the confusion for good...
+
+#     SECRET #2: 'Ad-Cost Anguish' Annihilated: Struggling with soaring ad costs and sub-par results? Learn how to optimize your campaigns and slash ad spend with our innovative platform...
+
+#     SECRET #3: 'Funnel Failure' Flipped Upside Down: Tired of ineffective marketing funnels that just don't deliver? Watch as Funnelytics Performance revamps your funnel strategies and turns them into massive growth engines...
+
+#     SECRET #4: 'Scaling Struggles' Solved: Wondering how to grow your business without breaking the bank? Witness the magic as Funnelytics Performance helps you unlock unprecedented growth and skyrocket your success...'
+#     ]
+
+#     NOTE: The Final Output will be just Secret 1 through 4. NOT EVEN QUOTE MARKS "". Nothing else!
+#     THAT'S IT...NOW GO AND CREATE THE 4 EXCERPTS!
+#     --
+
+#     SECRET #1:...
+#     SECRET #2:...
+#     SECRET #3:...
+#     SECRET #4:..
+#     """
+
+#   vsl_themes_prompt = PromptTemplate(
+#       input_variables=["chosen_final_headline","chosen_final_subheadline","chosen_product_name", "chosen_product_research", "chosen_tone","vsl_script"], 
+#       template=four_vsl_themes_template
+#   )
+
+#   chain_vsl_themes = LLMChain(llm=llm_vsl_themes, prompt=vsl_themes_prompt)
+#   vsl_themes_generator = chain_vsl_themes.run(chosen_final_headline=chosen_final_headline, chosen_final_subheadline=chosen_final_subheadline,chosen_product_name=chosen_product_name, chosen_product_research=chosen_product_research, chosen_tone=chosen_tone,vsl_script=vsl_script)
+#   print("Here are the 4 excerpts", vsl_themes_generator) 
+#   vsl_themes = vsl_themes_generator.split("\n")
+
+#   # Initialize an empty list
+#   all_vsl_themes = []
+
+#  # Loop over each line
+#   for vsl_theme in vsl_themes:
+#       # Ignore empty lines
+#       if not vsl_theme.strip():
+#           continue
+
+#       # Append the headline to the list
+#       all_vsl_themes.append(vsl_theme.strip())
+
+#   # Convert the list to a JSON string
+#   all_vsl_themes_json = json.dumps(all_vsl_themes)
+
+#   row['variable_value'] = all_vsl_themes_json
+#   row.update()
+
+#   # Return the resulting JSON string
+#   anvil.server.task_state['result'] = all_vsl_themes_json
