@@ -2,35 +2,39 @@ container:
   type: ColumnPanel
   properties: {col_widths: '{}'}
 components:
-- type: Label
-  properties: {}
-  name: label_3
-  layout_properties: {grid_position: 'NXMOZR,PMMKVX'}
-- type: Label
-  properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
-    visible: true, text: FINAL STEP, font_size: 42, font: '', spacing_above: small,
-    icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
-    underline: false, icon: ''}
-  name: label_1_copy_5
-  layout_properties:
-    col_widths: {}
-    grid_position: DEZIQO,XRDWCV
-- type: Button
-  properties: {role: elevated-button, align: center, tooltip: '', border: '', enabled: true,
-    foreground: 'theme:Secondary Container', visible: true, text: GENERATE HEADLINES & VIDEO SALES SCRIPT,
-    font_size: 26, font: '', spacing_above: small, icon_align: right, spacing_below: small,
-    italic: false, background: 'theme:Primary', bold: true, underline: false, icon: 'fa:hand-pointer-o'}
-  name: generate_headlines_vsl_button
-  layout_properties:
-    col_widths: {}
-    grid_position: CLLRXU,XKSLKG
-  event_bindings: {click: generate_headlines_vsl_button_click}
 - type: ColumnPanel
-  properties: {col_widths: '{"ORHBDP":45,"NNUGPQ":15,"OJLEXS":45,"HSQGWR":15,"YLOXGL":45,"NNLTRF":15,"YGVCYX":45,"ODWGPB":15,"FNWHWH":45,"IPHTWK":15,"LIFXIH":45,"QQMQLA":15,"DHLYML":45,"JQPPDD":15,"CBOCZM":45,"MJUDYG":15,"RGYAOD":45,"LKGIWJ":15,"EABSMA":45,"SIBATG":15}'}
-  name: secondary_headline_5
-  layout_properties:
-    col_widths: {}
-    grid_position: LHFZEB,VVDVLG
+  properties: {col_widths: '{}'}
+  name: column_panel_4
+  layout_properties: {grid_position: 'KTOBML,ISOKPJ'}
+  components:
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: FINAL STEP, font_size: 42, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+      underline: false, icon: ''}
+    name: label_1_copy_5
+    layout_properties:
+      col_widths: {}
+      grid_position: LXZVPW,LDDDBI
+- type: ColumnPanel
+  properties: {col_widths: '{}'}
+  name: column_panel_1
+  layout_properties: {grid_position: 'EYIIVQ,VIMQSZ'}
+  components:
+  - type: Button
+    properties: {role: elevated-button, align: center, tooltip: '', border: '', enabled: true,
+      foreground: 'theme:Secondary Container', visible: true, text: GENERATE HEADLINES & VIDEO SALES SCRIPT,
+      font_size: 26, font: '', spacing_above: small, icon_align: right, spacing_below: small,
+      italic: false, background: 'theme:Primary', bold: true, underline: false, icon: 'fa:hand-pointer-o'}
+    name: generate_headlines_vsl_button
+    layout_properties:
+      col_widths: {}
+      grid_position: BVLZEE,FMQSXF
+    event_bindings: {click: generate_headlines_vsl_button_click}
+- type: ColumnPanel
+  properties: {col_widths: '{}'}
+  name: headlines_header
+  layout_properties: {grid_position: 'MNDQQG,GQEELW'}
   components:
   - type: Label
     properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
@@ -40,254 +44,7 @@ components:
     name: label_1_copy
     layout_properties:
       col_widths: {}
-      grid_position: LFHMAY,OJIIGX
-  - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
-    properties: {}
-    name: indeterminate_progress_main_headlines
-    layout_properties: {grid_position: 'MTIGWS,VJQWIC'}
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: Select 1st Headline, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
-      underline: false, icon: ''}
-    name: label_2_copy_2
-    layout_properties:
-      col_widths: {}
-      grid_position: VAOTVB,OXKEVK
-  - type: Label
-    properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
-      visible: true, text: Select 2nd Headline, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
-      underline: false, icon: ''}
-    name: label_2
-    layout_properties: {grid_position: 'VAOTVB,VIBYRI'}
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Headlines,
-        Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
-      italic: false, background: '', bold: false, group_name: main_headline_group,
-      underline: false}
-    name: main_headline_1
-    layout_properties: {grid_position: 'AGESKX,ORHBDP'}
-    event_bindings: {clicked: radio_button_1_clicked}
-    data_bindings: []
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: '', font_size: null,
-      font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
-      bold: false, group_name: secondary_headline_group, underline: false}
-    name: secondary_headline_1
-    layout_properties: {grid_position: 'AGESKX,NNUGPQ'}
-    event_bindings: {clicked: secondary_headline_1_clicked}
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Headlines,
-        Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
-      italic: false, background: '', bold: false, group_name: main_headline_group,
-      underline: false}
-    name: main_headline_2
-    layout_properties: {grid_position: 'XWGDUX,EABSMA'}
-    data_bindings: []
-    event_bindings: {clicked: main_headline_button_click}
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: '', font_size: null,
-      font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
-      bold: false, group_name: secondary_headline_group, underline: false}
-    name: secondary_headline_2
-    layout_properties:
-      col_widths: {}
-      grid_position: XWGDUX,SIBATG
-    event_bindings: {clicked: secondary_headline_2_clicked}
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Headlines,
-        Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
-      italic: false, background: '', bold: false, group_name: main_headline_group,
-      underline: false}
-    name: main_headline_3
-    layout_properties:
-      col_widths: {}
-      grid_position: GLJCXM,RGYAOD
-    data_bindings: []
-    event_bindings: {clicked: main_headline_button_click}
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: '', font_size: null,
-      font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
-      bold: false, group_name: secondary_headline_group, underline: false}
-    name: secondary_headline_3
-    layout_properties:
-      col_widths: {}
-      grid_position: GLJCXM,LKGIWJ
-    event_bindings: {clicked: secondary_headline_3_clicked}
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Headlines,
-        Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
-      italic: false, background: '', bold: false, group_name: main_headline_group,
-      underline: false}
-    name: main_headline_4
-    layout_properties:
-      col_widths: {}
-      grid_position: BWZVDR,CBOCZM
-    data_bindings: []
-    event_bindings: {clicked: main_headline_button_click}
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: '', font_size: null,
-      font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
-      bold: false, group_name: secondary_headline_group, underline: false}
-    name: secondary_headline_4
-    layout_properties:
-      col_widths: {}
-      grid_position: BWZVDR,MJUDYG
-    event_bindings: {clicked: secondary_headline_4_clicked}
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Headlines,
-        Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
-      italic: false, background: '', bold: false, group_name: main_headline_group,
-      underline: false}
-    name: main_headline_5
-    layout_properties:
-      col_widths: {}
-      grid_position: BKMJIA,DHLYML
-    data_bindings: []
-    event_bindings: {clicked: main_headline_button_click}
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: '', font_size: null,
-      font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
-      bold: false, group_name: secondary_headline_group, underline: false}
-    name: secondary_headline_5_
-    layout_properties:
-      col_widths: {}
-      grid_position: BKMJIA,JQPPDD
-    event_bindings: {clicked: secondary_headline_5_clicked}
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Headlines,
-        Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
-      italic: false, background: '', bold: false, group_name: main_headline_group,
-      underline: false}
-    name: main_headline_6
-    layout_properties:
-      col_widths: {}
-      grid_position: VDSWTL,LIFXIH
-    data_bindings: []
-    event_bindings: {clicked: main_headline_button_click}
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: '', font_size: null,
-      font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
-      bold: false, group_name: secondary_headline_group, underline: false}
-    name: secondary_headline_6
-    layout_properties:
-      col_widths: {}
-      grid_position: VDSWTL,QQMQLA
-    event_bindings: {clicked: secondary_headline_6_clicked}
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Headlines,
-        Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
-      italic: false, background: '', bold: false, group_name: main_headline_group,
-      underline: false}
-    name: main_headline_7
-    layout_properties:
-      col_widths: {}
-      grid_position: RDGWWB,FNWHWH
-    data_bindings: []
-    event_bindings: {clicked: main_headline_button_click}
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: '', font_size: null,
-      font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
-      bold: false, group_name: secondary_headline_group, underline: false}
-    name: secondary_headline_7
-    layout_properties:
-      col_widths: {}
-      grid_position: RDGWWB,IPHTWK
-    event_bindings: {clicked: secondary_headline_7_clicked}
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Headlines,
-        Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
-      italic: false, background: '', bold: false, group_name: main_headline_group,
-      underline: false}
-    name: main_headline_8
-    layout_properties:
-      col_widths: {}
-      grid_position: QRHHMM,YGVCYX
-    data_bindings: []
-    event_bindings: {clicked: main_headline_button_click}
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: '', font_size: null,
-      font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
-      bold: false, group_name: secondary_headline_group, underline: false}
-    name: secondary_headline_8
-    layout_properties:
-      col_widths: {}
-      grid_position: QRHHMM,ODWGPB
-    event_bindings: {clicked: secondary_headline_8_clicked}
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Headlines,
-        Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
-      italic: false, background: '', bold: false, group_name: main_headline_group,
-      underline: false}
-    name: main_headline_9
-    layout_properties:
-      col_widths: {}
-      grid_position: NHWGMT,OJLEXS
-    data_bindings: []
-    event_bindings: {clicked: main_headline_button_click}
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: '', font_size: null,
-      font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
-      bold: false, group_name: secondary_headline_group, underline: false}
-    name: secondary_headline_9
-    layout_properties:
-      col_widths: {}
-      grid_position: NHWGMT,HSQGWR
-    event_bindings: {clicked: secondary_headline_9_clicked}
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Headlines,
-        Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
-      italic: false, background: '', bold: false, group_name: main_headline_group,
-      underline: false}
-    name: main_headline_10
-    layout_properties:
-      col_widths: {}
-      grid_position: PIQPKC,YLOXGL
-    data_bindings: []
-    event_bindings: {clicked: main_headline_button_click}
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: '', font_size: null,
-      font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
-      bold: false, group_name: secondary_headline_group, underline: false}
-    name: secondary_headline_10
-    layout_properties:
-      col_widths: {}
-      grid_position: PIQPKC,NNLTRF
-    event_bindings: {clicked: secondary_headline_10_clicked}
-  - type: Button
-    properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: true,
-      foreground: '', visible: true, text: REGENERATE HEADLINES, font_size: null,
-      font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false, icon: 'fa:android'}
-    name: generate_main_headlines_button_component
-    layout_properties: {grid_position: 'QXJKVX,PCVHCY'}
-    event_bindings: {click: generate_main_headlines_button_click}
-- type: ColumnPanel
-  properties: {col_widths: '{}'}
-  name: column_panel_2
-  layout_properties: {grid_position: 'LHFZEB,TWBVXS'}
-  components:
+      grid_position: FLRRRX,DISHHR
   - type: Label
     properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
       visible: true, text: Subheadlines, font_size: 32, font: '', spacing_above: small,
@@ -296,152 +53,416 @@ components:
     name: label_1_copy_2
     layout_properties:
       col_widths: {}
-      grid_position: MCGAVM,EGUEDU
+      grid_position: FLRRRX,LPKWXC
+  - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
+    properties: {}
+    name: indeterminate_progress_main_headlines
+    layout_properties: {grid_position: 'CHJKXK,XNLFYB'}
   - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
     properties: {}
     name: indeterminate_progress_subheadlines
     layout_properties:
       col_widths: {}
-      grid_position: ORTIVP,AJTUSL
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: Select 1st Subheadline, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
-      underline: false, icon: ''}
-    name: label_2_copy_9
-    layout_properties:
-      col_widths: {}
-      grid_position: PNQYJD,THCHXP
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Subheadlines,
-        Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
-      italic: false, background: '', bold: false, group_name: main_headline_group,
-      underline: false}
-    name: subheadline_1
-    layout_properties:
-      col_widths: {}
-      grid_position: ANWMKU,HRXVCU
-    data_bindings: []
-    event_bindings: {clicked: subheadline_button_click}
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Subheadlines,
-        Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
-      italic: false, background: '', bold: false, group_name: main_headline_group,
-      underline: false}
-    name: subheadline_2
-    layout_properties:
-      col_widths: {}
-      grid_position: WEBMGZ,XWLEDP
-    data_bindings: []
-    event_bindings: {clicked: subheadline_button_click}
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Subheadlines,
-        Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
-      italic: false, background: '', bold: false, group_name: main_headline_group,
-      underline: false}
-    name: subheadline_3
-    layout_properties:
-      col_widths: {}
-      grid_position: MHUGPT,MSPQUH
-    data_bindings: []
-    event_bindings: {clicked: subheadline_button_click}
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Subheadlines,
-        Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
-      italic: false, background: '', bold: false, group_name: main_headline_group,
-      underline: false}
-    name: subheadline_4
-    layout_properties:
-      col_widths: {}
-      grid_position: DCOGKA,OGSLHK
-    data_bindings: []
-    event_bindings: {clicked: subheadline_button_click}
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Subheadlines,
-        Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
-      italic: false, background: '', bold: false, group_name: main_headline_group,
-      underline: false}
-    name: subheadline_5
-    layout_properties:
-      col_widths: {}
-      grid_position: VVFAXZ,MVVCZR
-    data_bindings: []
-    event_bindings: {clicked: subheadline_button_click}
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Subheadlines,
-        Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
-      italic: false, background: '', bold: false, group_name: main_headline_group,
-      underline: false}
-    name: subheadline_6
-    layout_properties:
-      col_widths: {}
-      grid_position: UHHMWR,RQXCFO
-    data_bindings: []
-    event_bindings: {clicked: subheadline_button_click}
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Subheadlines,
-        Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
-      italic: false, background: '', bold: false, group_name: main_headline_group,
-      underline: false}
-    name: subheadline_7
-    layout_properties:
-      col_widths: {}
-      grid_position: LLGIHQ,YVBNBJ
-    data_bindings: []
-    event_bindings: {clicked: subheadline_button_click}
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Subheadlines,
-        Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
-      italic: false, background: '', bold: false, group_name: main_headline_group,
-      underline: false}
-    name: subheadline_8
-    layout_properties:
-      col_widths: {}
-      grid_position: HRNHCM,VLONMU
-    data_bindings: []
-    event_bindings: {clicked: subheadline_button_click}
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Subheadlines,
-        Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
-      italic: false, background: '', bold: false, group_name: main_headline_group,
-      underline: false}
-    name: subheadline_9
-    layout_properties:
-      col_widths: {}
-      grid_position: LOGBWU,LDNCNT
-    data_bindings: []
-    event_bindings: {clicked: subheadline_button_click}
-  - type: RadioButton
-    properties: {role: null, selected: false, align: left, tooltip: '', border: '',
-      enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Subheadlines,
-        Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
-      italic: false, background: '', bold: false, group_name: main_headline_group,
-      underline: false}
-    name: subheadline_10
-    layout_properties:
-      col_widths: {}
-      grid_position: BEXTTU,AZNSYY
-    data_bindings: []
-    event_bindings: {clicked: subheadline_button_click}
-  - type: Button
-    properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: true,
-      foreground: '', visible: true, text: REGENERATE SUBHEADLINES, font_size: null,
-      font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false, icon: 'fa:android'}
-    name: generate_subheadlines_button_component
-    layout_properties:
-      col_widths: {}
-      grid_position: ZBUBHH,RPFPFK
-    event_bindings: {click: generate_subheadlines_button_click}
+      grid_position: CHJKXK,KZEZJL
+- type: ColumnPanel
+  properties: {col_widths: '{}'}
+  name: column_panel_6
+  layout_properties: {grid_position: 'JKTGPI,CSDQWC'}
+  components:
+  - type: ColumnPanel
+    properties: {col_widths: '{}'}
+    name: headlines_panel
+    layout_properties: {grid_position: 'SOZQBB,YFVVRX'}
+    components:
+    - type: ColumnPanel
+      properties: {col_widths: '{"ORHBDP":45,"NNUGPQ":15,"OJLEXS":45,"HSQGWR":15,"YLOXGL":45,"NNLTRF":15,"YGVCYX":45,"ODWGPB":15,"FNWHWH":45,"IPHTWK":15,"LIFXIH":45,"QQMQLA":15,"DHLYML":45,"JQPPDD":15,"CBOCZM":45,"MJUDYG":15,"RGYAOD":45,"LKGIWJ":15,"EABSMA":45,"SIBATG":15}'}
+      name: secondary_headline_5
+      layout_properties:
+        col_widths: {}
+        grid_position: BSHUHU,YSUFJT
+      components:
+      - type: Label
+        properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+          visible: true, text: Select 1st Headline, font_size: null, font: '', spacing_above: small,
+          icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+          underline: false, icon: ''}
+        name: label_2_copy_2
+        layout_properties:
+          col_widths: {}
+          grid_position: VAOTVB,OXKEVK
+      - type: Label
+        properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
+          visible: true, text: Select 2nd Headline, font_size: null, font: '', spacing_above: small,
+          icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+          underline: false, icon: ''}
+        name: label_2
+        layout_properties: {grid_position: 'VAOTVB,VIBYRI'}
+      - type: RadioButton
+        properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+          enabled: true, foreground: '', value: '', visible: true, text: 'Amazing
+            Headlines, Incoming!', font_size: null, font: '', spacing_above: none,
+          spacing_below: none, italic: false, background: '', bold: false, group_name: main_headline_group,
+          underline: false}
+        name: main_headline_1
+        layout_properties: {grid_position: 'AGESKX,ORHBDP'}
+        event_bindings: {clicked: radio_button_1_clicked}
+        data_bindings: []
+      - type: RadioButton
+        properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+          enabled: true, foreground: '', value: '', visible: true, text: '', font_size: null,
+          font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
+          bold: false, group_name: secondary_headline_group, underline: false}
+        name: secondary_headline_1
+        layout_properties: {grid_position: 'AGESKX,NNUGPQ'}
+        event_bindings: {clicked: secondary_headline_1_clicked}
+      - type: RadioButton
+        properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+          enabled: true, foreground: '', value: '', visible: true, text: 'Amazing
+            Headlines, Incoming!', font_size: null, font: '', spacing_above: none,
+          spacing_below: none, italic: false, background: '', bold: false, group_name: main_headline_group,
+          underline: false}
+        name: main_headline_2
+        layout_properties: {grid_position: 'XWGDUX,EABSMA'}
+        data_bindings: []
+        event_bindings: {clicked: main_headline_button_click}
+      - type: RadioButton
+        properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+          enabled: true, foreground: '', value: '', visible: true, text: '', font_size: null,
+          font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
+          bold: false, group_name: secondary_headline_group, underline: false}
+        name: secondary_headline_2
+        layout_properties:
+          col_widths: {}
+          grid_position: XWGDUX,SIBATG
+        event_bindings: {clicked: secondary_headline_2_clicked}
+      - type: RadioButton
+        properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+          enabled: true, foreground: '', value: '', visible: true, text: 'Amazing
+            Headlines, Incoming!', font_size: null, font: '', spacing_above: none,
+          spacing_below: none, italic: false, background: '', bold: false, group_name: main_headline_group,
+          underline: false}
+        name: main_headline_3
+        layout_properties:
+          col_widths: {}
+          grid_position: GLJCXM,RGYAOD
+        data_bindings: []
+        event_bindings: {clicked: main_headline_button_click}
+      - type: RadioButton
+        properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+          enabled: true, foreground: '', value: '', visible: true, text: '', font_size: null,
+          font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
+          bold: false, group_name: secondary_headline_group, underline: false}
+        name: secondary_headline_3
+        layout_properties:
+          col_widths: {}
+          grid_position: GLJCXM,LKGIWJ
+        event_bindings: {clicked: secondary_headline_3_clicked}
+      - type: RadioButton
+        properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+          enabled: true, foreground: '', value: '', visible: true, text: 'Amazing
+            Headlines, Incoming!', font_size: null, font: '', spacing_above: none,
+          spacing_below: none, italic: false, background: '', bold: false, group_name: main_headline_group,
+          underline: false}
+        name: main_headline_4
+        layout_properties:
+          col_widths: {}
+          grid_position: BWZVDR,CBOCZM
+        data_bindings: []
+        event_bindings: {clicked: main_headline_button_click}
+      - type: RadioButton
+        properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+          enabled: true, foreground: '', value: '', visible: true, text: '', font_size: null,
+          font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
+          bold: false, group_name: secondary_headline_group, underline: false}
+        name: secondary_headline_4
+        layout_properties:
+          col_widths: {}
+          grid_position: BWZVDR,MJUDYG
+        event_bindings: {clicked: secondary_headline_4_clicked}
+      - type: RadioButton
+        properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+          enabled: true, foreground: '', value: '', visible: true, text: 'Amazing
+            Headlines, Incoming!', font_size: null, font: '', spacing_above: none,
+          spacing_below: none, italic: false, background: '', bold: false, group_name: main_headline_group,
+          underline: false}
+        name: main_headline_5
+        layout_properties:
+          col_widths: {}
+          grid_position: BKMJIA,DHLYML
+        data_bindings: []
+        event_bindings: {clicked: main_headline_button_click}
+      - type: RadioButton
+        properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+          enabled: true, foreground: '', value: '', visible: true, text: '', font_size: null,
+          font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
+          bold: false, group_name: secondary_headline_group, underline: false}
+        name: secondary_headline_5_
+        layout_properties:
+          col_widths: {}
+          grid_position: BKMJIA,JQPPDD
+        event_bindings: {clicked: secondary_headline_5_clicked}
+      - type: RadioButton
+        properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+          enabled: true, foreground: '', value: '', visible: true, text: 'Amazing
+            Headlines, Incoming!', font_size: null, font: '', spacing_above: none,
+          spacing_below: none, italic: false, background: '', bold: false, group_name: main_headline_group,
+          underline: false}
+        name: main_headline_6
+        layout_properties:
+          col_widths: {}
+          grid_position: VDSWTL,LIFXIH
+        data_bindings: []
+        event_bindings: {clicked: main_headline_button_click}
+      - type: RadioButton
+        properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+          enabled: true, foreground: '', value: '', visible: true, text: '', font_size: null,
+          font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
+          bold: false, group_name: secondary_headline_group, underline: false}
+        name: secondary_headline_6
+        layout_properties:
+          col_widths: {}
+          grid_position: VDSWTL,QQMQLA
+        event_bindings: {clicked: secondary_headline_6_clicked}
+      - type: RadioButton
+        properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+          enabled: true, foreground: '', value: '', visible: true, text: 'Amazing
+            Headlines, Incoming!', font_size: null, font: '', spacing_above: none,
+          spacing_below: none, italic: false, background: '', bold: false, group_name: main_headline_group,
+          underline: false}
+        name: main_headline_7
+        layout_properties:
+          col_widths: {}
+          grid_position: RDGWWB,FNWHWH
+        data_bindings: []
+        event_bindings: {clicked: main_headline_button_click}
+      - type: RadioButton
+        properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+          enabled: true, foreground: '', value: '', visible: true, text: '', font_size: null,
+          font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
+          bold: false, group_name: secondary_headline_group, underline: false}
+        name: secondary_headline_7
+        layout_properties:
+          col_widths: {}
+          grid_position: RDGWWB,IPHTWK
+        event_bindings: {clicked: secondary_headline_7_clicked}
+      - type: RadioButton
+        properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+          enabled: true, foreground: '', value: '', visible: true, text: 'Amazing
+            Headlines, Incoming!', font_size: null, font: '', spacing_above: none,
+          spacing_below: none, italic: false, background: '', bold: false, group_name: main_headline_group,
+          underline: false}
+        name: main_headline_8
+        layout_properties:
+          col_widths: {}
+          grid_position: QRHHMM,YGVCYX
+        data_bindings: []
+        event_bindings: {clicked: main_headline_button_click}
+      - type: RadioButton
+        properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+          enabled: true, foreground: '', value: '', visible: true, text: '', font_size: null,
+          font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
+          bold: false, group_name: secondary_headline_group, underline: false}
+        name: secondary_headline_8
+        layout_properties:
+          col_widths: {}
+          grid_position: QRHHMM,ODWGPB
+        event_bindings: {clicked: secondary_headline_8_clicked}
+      - type: RadioButton
+        properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+          enabled: true, foreground: '', value: '', visible: true, text: 'Amazing
+            Headlines, Incoming!', font_size: null, font: '', spacing_above: none,
+          spacing_below: none, italic: false, background: '', bold: false, group_name: main_headline_group,
+          underline: false}
+        name: main_headline_9
+        layout_properties:
+          col_widths: {}
+          grid_position: NHWGMT,OJLEXS
+        data_bindings: []
+        event_bindings: {clicked: main_headline_button_click}
+      - type: RadioButton
+        properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+          enabled: true, foreground: '', value: '', visible: true, text: '', font_size: null,
+          font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
+          bold: false, group_name: secondary_headline_group, underline: false}
+        name: secondary_headline_9
+        layout_properties:
+          col_widths: {}
+          grid_position: NHWGMT,HSQGWR
+        event_bindings: {clicked: secondary_headline_9_clicked}
+      - type: RadioButton
+        properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+          enabled: true, foreground: '', value: '', visible: true, text: 'Amazing
+            Headlines, Incoming!', font_size: null, font: '', spacing_above: none,
+          spacing_below: none, italic: false, background: '', bold: false, group_name: main_headline_group,
+          underline: false}
+        name: main_headline_10
+        layout_properties:
+          col_widths: {}
+          grid_position: PIQPKC,YLOXGL
+        data_bindings: []
+        event_bindings: {clicked: main_headline_button_click}
+      - type: RadioButton
+        properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+          enabled: true, foreground: '', value: '', visible: true, text: '', font_size: null,
+          font: '', spacing_above: small, spacing_below: small, italic: false, background: '',
+          bold: false, group_name: secondary_headline_group, underline: false}
+        name: secondary_headline_10
+        layout_properties:
+          col_widths: {}
+          grid_position: PIQPKC,NNLTRF
+        event_bindings: {clicked: secondary_headline_10_clicked}
+      - type: Button
+        properties: {role: outlined-button, align: center, tooltip: '', border: '',
+          enabled: true, foreground: '', visible: true, text: REGENERATE HEADLINES,
+          font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+          italic: false, background: '', bold: false, underline: false, icon: 'fa:android'}
+        name: generate_main_headlines_button_component
+        layout_properties: {grid_position: 'QXJKVX,PCVHCY'}
+        event_bindings: {click: regenerate_main_headlines_button_click}
+    - type: ColumnPanel
+      properties: {col_widths: '{}'}
+      name: column_panel_7
+      layout_properties: {grid_position: 'BSHUHU,WSLNUW SNKWGH,IYDPLW'}
+      components:
+      - type: Label
+        properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+          visible: true, text: Select 1st Subheadline, font_size: null, font: '',
+          spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+          background: '', bold: true, underline: false, icon: ''}
+        name: label_2_copy_9
+        layout_properties:
+          col_widths: {}
+          grid_position: JOPSUB,GAJXOK
+    - type: RadioButton
+      properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+        enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Subheadlines,
+          Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
+        italic: false, background: '', bold: false, group_name: main_headline_group,
+        underline: false}
+      name: subheadline_10
+      layout_properties:
+        col_widths: {}
+        grid_position: BSHUHU,WSLNUW ELWGUG,VWXRAC
+      data_bindings: []
+      event_bindings: {clicked: subheadline_button_click}
+    - type: RadioButton
+      properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+        enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Subheadlines,
+          Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
+        italic: false, background: '', bold: false, group_name: main_headline_group,
+        underline: false}
+      name: subheadline_9
+      layout_properties:
+        col_widths: {}
+        grid_position: BSHUHU,WSLNUW ZZHIQS,RCVGVC
+      data_bindings: []
+      event_bindings: {clicked: subheadline_button_click}
+    - type: RadioButton
+      properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+        enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Subheadlines,
+          Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
+        italic: false, background: '', bold: false, group_name: main_headline_group,
+        underline: false}
+      name: subheadline_8
+      layout_properties:
+        col_widths: {}
+        grid_position: BSHUHU,WSLNUW NCBBKB,BLUDHH
+      data_bindings: []
+      event_bindings: {clicked: subheadline_button_click}
+    - type: RadioButton
+      properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+        enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Subheadlines,
+          Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
+        italic: false, background: '', bold: false, group_name: main_headline_group,
+        underline: false}
+      name: subheadline_7
+      layout_properties:
+        col_widths: {}
+        grid_position: BSHUHU,WSLNUW TIUTFK,GOMFOP
+      data_bindings: []
+      event_bindings: {clicked: subheadline_button_click}
+    - type: RadioButton
+      properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+        enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Subheadlines,
+          Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
+        italic: false, background: '', bold: false, group_name: main_headline_group,
+        underline: false}
+      name: subheadline_6
+      layout_properties:
+        col_widths: {}
+        grid_position: BSHUHU,WSLNUW XKRJDO,NGQNRR
+      data_bindings: []
+      event_bindings: {clicked: subheadline_button_click}
+    - type: RadioButton
+      properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+        enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Subheadlines,
+          Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
+        italic: false, background: '', bold: false, group_name: main_headline_group,
+        underline: false}
+      name: subheadline_5
+      layout_properties:
+        col_widths: {}
+        grid_position: BSHUHU,WSLNUW QLHUVR,MHNUDK
+      data_bindings: []
+      event_bindings: {clicked: subheadline_button_click}
+    - type: RadioButton
+      properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+        enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Subheadlines,
+          Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
+        italic: false, background: '', bold: false, group_name: main_headline_group,
+        underline: false}
+      name: subheadline_4
+      layout_properties:
+        col_widths: {}
+        grid_position: BSHUHU,WSLNUW GECCSV,MLCPUU
+      data_bindings: []
+      event_bindings: {clicked: subheadline_button_click}
+    - type: RadioButton
+      properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+        enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Subheadlines,
+          Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
+        italic: false, background: '', bold: false, group_name: main_headline_group,
+        underline: false}
+      name: subheadline_3
+      layout_properties:
+        col_widths: {}
+        grid_position: BSHUHU,WSLNUW NDAFIZ,GJYEWW
+      data_bindings: []
+      event_bindings: {clicked: subheadline_button_click}
+    - type: RadioButton
+      properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+        enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Subheadlines,
+          Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
+        italic: false, background: '', bold: false, group_name: main_headline_group,
+        underline: false}
+      name: subheadline_2
+      layout_properties:
+        col_widths: {}
+        grid_position: BSHUHU,WSLNUW CAXCKO,SUNPIN
+      data_bindings: []
+      event_bindings: {clicked: subheadline_button_click}
+    - type: RadioButton
+      properties: {role: null, selected: false, align: left, tooltip: '', border: '',
+        enabled: true, foreground: '', value: '', visible: true, text: 'Amazing Subheadlines,
+          Incoming!', font_size: null, font: '', spacing_above: none, spacing_below: none,
+        italic: false, background: '', bold: false, group_name: main_headline_group,
+        underline: false}
+      name: subheadline_1
+      layout_properties:
+        col_widths: {}
+        grid_position: BSHUHU,WSLNUW TZIFZA,VMPJPD
+      data_bindings: []
+      event_bindings: {clicked: subheadline_button_click}
+    - type: Button
+      properties: {role: outlined-button, align: center, tooltip: '', border: '',
+        enabled: true, foreground: '', visible: true, text: REGENERATE SUBHEADLINES,
+        font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false, icon: 'fa:android'}
+      name: generate_subheadlines_button_component
+      layout_properties:
+        col_widths: {}
+        grid_position: BSHUHU,WSLNUW GQWFBE,WAULBW
+      event_bindings: {click: regenerate_subheadlines_button_click}
 - type: ColumnPanel
   properties: {role: elevated-card, tooltip: '', border: '', foreground: '', visible: true,
     wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}',
@@ -458,6 +479,12 @@ components:
     layout_properties:
       col_widths: {}
       grid_position: FMIFCA,LVCCUK
+  - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
+    properties: {}
+    name: indeterminate_progress_vsl_script
+    layout_properties:
+      col_widths: {}
+      grid_position: JGRCZW,VBCSYQ
   - type: TextArea
     properties: {role: null, align: center, height: '', tooltip: '', placeholder: 1ST HEADLINE - Your Attention Getting Headline Loads Here,
       border: '', enabled: true, foreground: '', visible: true, text: '', font_size: 20,
@@ -481,6 +508,15 @@ components:
       background: '', bold: false, underline: false}
     name: video_sales_script_textbox
     layout_properties: {grid_position: 'LZWTET,KOGWGA'}
+  - type: Button
+    properties: {role: outlined-button, align: right, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: REGENERATE SUBHEADLINES, font_size: null,
+      font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false, icon: 'fa:android'}
+    name: generate_subheadlines_button_component_copy
+    layout_properties:
+      col_widths: {}
+      grid_position: SKSFEM,GDTXYU
   - type: TextArea
     properties: {role: null, align: center, height: '', tooltip: '', placeholder: 2ND HEADLINE HERE - This entices the reader to continue reading...,
       border: '', enabled: true, foreground: '', visible: true, text: '', font_size: 20,
@@ -578,13 +614,15 @@ components:
       event_bindings: {click: nav_button_headlines_to_vsl_click}
 - type: Button
   properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: true,
-    foreground: 'theme:Secondary Container', visible: true, text: GENERATE HEADLINES & VIDEO SALES SCRIPT,
+    foreground: 'theme:On Primary Container', visible: true, text: SEND ME MY SALES SCRIPT,
     font_size: 26, font: '', spacing_above: small, icon_align: right, spacing_below: small,
-    italic: false, background: 'theme:Primary', bold: true, underline: false, icon: 'fa:hand-pointer-o'}
+    italic: false, background: 'theme:Tertiary Container', bold: true, underline: false,
+    icon: 'fa:briefcase'}
   name: nav_button_headlines_to_vsl_copy
   layout_properties:
     col_widths: {}
     grid_position: WJBDLX,WWISGW
+  event_bindings: {click: email_my_script_click}
 - type: Timer
   properties: {interval: 3}
   name: task_check_timer_headlines
@@ -601,4 +639,16 @@ components:
   type: Timer
   properties: {interval: 3}
   event_bindings: {tick: check_task_status_vsl_themes}
+- name: task_check_timer_regenerate_headlines
+  type: Timer
+  properties: {interval: 3}
+  event_bindings: {tick: check_task_status_regenerate_headlines}
+- name: task_check_timer_regenerate_vsl_Script
+  type: Timer
+  properties: {interval: 3}
+  event_bindings: {tick: check_task_status_regenerate_vsl_script}
+- name: task_check_timer_regenerate_subheadlines
+  type: Timer
+  properties: {interval: 3}
+  event_bindings: {tick: check_task_status_regenerate_subheadlines}
 is_package: true

@@ -63,7 +63,7 @@ def launch_draft_company_summary(user_table,company_name, company_url):
 @anvil.server.background_task
 def draft_company_summary(user_table,company_name, company_url):
     print("Background task started for researching company:", user_table,company_name,company_url)
-    task_id = anvil.server.current_request['task_id']
+   
     # Here, you should write the code that uses the company_name and company_url
     # to research the company and generate a context. For example:
     try:

@@ -214,7 +214,7 @@ class VSL_Elements(VSL_ElementsTemplate):
       print("No script found with the selected title")
 
     # Save the script contents and title
-    row_chosen_script = user_table.search(variable='chosen_script')
+    row_chosen_script = user_table.searc(variable='chosen_script')
     row_chosen_script[0]['variable_value'] = self.chosen_script
     row_chosen_script[0]['variable_title'] = selected_script_title
     row_chosen_script[0].update()
