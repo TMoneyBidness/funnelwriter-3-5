@@ -438,7 +438,7 @@ class Avatars(AvatarsTemplate):
             self.indeterminate_10.visible = False
                 
             # Update the box
-            avatar_1_product_1_input = row['variable_value'] 
+            avatar_2_product_1_input = row['variable_value'] 
             self.avatar_2_product_1_input.text = avatar_2_product_1_input
 
 ##----------- Deep dive Avatars 3 ------##########          
@@ -508,7 +508,7 @@ class Avatars(AvatarsTemplate):
                 
             # Update the box
             avatar_3_product_1_input = row['variable_value'] 
-            self.avatar_3_product_1_input.text = avatar_1_product_1_input
+            self.avatar_3_product_1_input.text = avatar_3_product_1_input
           
 #### PRODUCT 2 -----##
   def all_avatars_product_2_button_click(self, **event_args):
@@ -636,6 +636,7 @@ class Avatars(AvatarsTemplate):
         # If all tasks are complete, you can stop the timer
         if all_tasks_complete:
           self.avatar_product_2_timer.enabled = False
+          self.avatar_product_2_timer.interval = 0
 
 #######----------- Deep dive Avatars--------##########
   def regenerate_avatar_1_product_2_click(self, **event_args):
@@ -830,7 +831,6 @@ class Avatars(AvatarsTemplate):
         # Get the table for the current user
         user_table = getattr(app_tables, user_table_name)
         row = user_table.get(variable='avatar_3_product_2_latest')
-     
       
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on Avatar 3 Product 2 Regeneration!")
@@ -971,6 +971,7 @@ class Avatars(AvatarsTemplate):
         # If all tasks are complete, you can stop the timer
         if all_tasks_complete:
           self.avatar_product_3_timer.enabled = False
+          self.avatar_product_3_timer.interval = 0
 
 #######----------- Deep dive Avatars--------##########
   def regenerate_avatar_1_product_3_click(self, **event_args):
@@ -1306,6 +1307,7 @@ class Avatars(AvatarsTemplate):
         # If all tasks are complete, you can stop the timer
         if all_tasks_complete:
           self.avatar_product_4_timer.enabled = False
+          self.avatar_product_4_timer.interval = 0
 
 #######----------- Deep dive Avatars--------##########
   def regenerate_avatar_1_product_4_click(self, **event_args):
@@ -1500,7 +1502,6 @@ class Avatars(AvatarsTemplate):
         # Get the table for the current user
         user_table = getattr(app_tables, user_table_name)
         row = user_table.get(variable='avatar_3_product_4_latest')
-     
       
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on Avatar 3 Product 4 Regeneration!")
@@ -1641,6 +1642,7 @@ class Avatars(AvatarsTemplate):
         # If all tasks are complete, you can stop the timer
         if all_tasks_complete:
           self.avatar_product_5_timer.enabled = False
+          self.avatar_product_5_timer.interval = 0
 
 #######----------- Deep dive Avatars--------##########
   def regenerate_avatar_1_product_5_click(self, **event_args):
