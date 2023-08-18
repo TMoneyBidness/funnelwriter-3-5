@@ -118,7 +118,7 @@ components:
           layout_properties:
             col_widths: {}
             grid_position: XFTMZZ,XOIGNB
-          event_bindings: {click: all_avatars_product_1_button_click}
+          event_bindings: {click: regenerate_avatar_1_product_1_click}
         - type: Button
           properties: {role: elevated-button, align: center, tooltip: '', border: '',
             enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
@@ -1243,4 +1243,8 @@ components:
   type: Timer
   properties: {interval: 2}
   event_bindings: {tick: avatar_product_5_timer_tick}
+- name: task_check_timer_regenerate_avatar_1_product_1
+  type: Timer
+  properties: {}
+  event_bindings: {tick: check_task_status_regenerate_avatar_1_product_1}
 is_package: true

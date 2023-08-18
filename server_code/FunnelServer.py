@@ -1992,12 +1992,19 @@ def all_avatars_generator(owner_company_profile):
 def launch_deepdive_avatar_1_product_1_generator(product_1_name,product_1_profile,avatar_1_product_1_name_preview,avatar_1_product_1_preview):
     print("Launch Deep Dive Avatar function started")  
     # Launch the background task
-    task = anvil.server.launch_background_task('deepdive_avatar_1_product_1_generator', product_1_name,product_1_profile,avatar_1_product_1_name_preview,avatar_1_product_1_preview)
+
+    current_user = anvil.users.get_user()
+    user_table_name = current_user['user_id']
+    # Get the table for the current user
+    user_table = getattr(app_tables, user_table_name)
+    row = user_table.get(variable='avatar_1_product_1_latest')
+
+    task = anvil.server.launch_background_task('deepdive_avatar_1_product_1_generator', product_1_name,product_1_profile,avatar_1_product_1_name_preview,avatar_1_product_1_preview,row)
     # Return the task ID
     return task.get_id()
 
 @anvil.server.background_task
-def deepdive_avatar_1_product_1_generator(product_1_name,product_1_profile,avatar_1_product_1_name_preview,avatar_1_product_1_preview):
+def deepdive_avatar_1_product_1_generator(product_1_name,product_1_profile,avatar_1_product_1_name_preview,avatar_1_product_1_preview,row):
     print("Background task started for generating the avatar:", avatar_1_product_1_name_preview)
  
     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
@@ -2046,6 +2053,11 @@ def deepdive_avatar_1_product_1_generator(product_1_name,product_1_profile,avata
 
     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
     avatar = chain_avatar.run(product_1_name=product_1_name,product_1_profile=product_1_profile,avatar_1_product_1_name_preview=avatar_1_product_1_name_preview,avatar_1_product_1_preview=avatar_1_product_1_preview)  # Pass in the combined context
+
+   # Save the generated avatar in the 'avatar latest' column of the variable_table
+    row['variable_value'] = avatar
+    row.update()
+  
     anvil.server.task_state['result']  = avatar
 
 # AVATAR 2, PRODUCT 1 -----##
@@ -2053,7 +2065,14 @@ def deepdive_avatar_1_product_1_generator(product_1_name,product_1_profile,avata
 def launch_deepdive_avatar_2_product_1_generator(product_1_name,product_1_profile,avatar_2_product_1_name_preview,avatar_2_product_1_preview):
     print("Launch Deep Dive Avatar function started")  
     # Launch the background task
-    task = anvil.server.launch_background_task('deepdive_avatar_2_product_1_generator', product_1_name,product_1_profile,avatar_2_product_1_name_preview,avatar_2_product_1_preview)
+    
+    current_user = anvil.users.get_user()
+    user_table_name = current_user['user_id']
+    # Get the table for the current user
+    user_table = getattr(app_tables, user_table_name)
+    row = user_table.get(variable='avatar_2_product_1_latest')
+    
+    task = anvil.server.launch_background_task('deepdive_avatar_2_product_1_generator', product_1_name,product_1_profile,avatar_2_product_1_name_preview,avatar_2_product_1_preview,row)
     # Return the task ID
     return task.get_id()
 
@@ -2107,6 +2126,10 @@ def deepdive_avatar_2_product_1_generator(product_1_name,product_1_profile,avata
 
     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
     avatar = chain_avatar.run(product_1_name=product_1_name,product_1_profile=product_1_profile,avatar_2_product_1_name_preview=avatar_2_product_1_name_preview,avatar_2_product_1_preview=avatar_2_product_1_preview)  # Pass in the combined context
+     # Save the generated avatar in the 'avatar latest' column of the variable_table
+    row['variable_value'] = avatar
+    row.update()
+  
     anvil.server.task_state['result']  = avatar
 
 # AVATAR 3, PRODUCT 1 -----##
@@ -2114,7 +2137,14 @@ def deepdive_avatar_2_product_1_generator(product_1_name,product_1_profile,avata
 def launch_deepdive_avatar_3_product_1_generator(product_1_name,product_1_profile,avatar_3_product_1_name_preview,avatar_3_product_1_preview):
     print("Launch Deep Dive Avatar function started")  
     # Launch the background task
-    task = anvil.server.launch_background_task('deepdive_avatar_3_product_1_generator', product_1_name,product_1_profile,avatar_3_product_1_name_preview,avatar_3_product_1_preview)
+  
+    current_user = anvil.users.get_user()
+    user_table_name = current_user['user_id']
+    # Get the table for the current user
+    user_table = getattr(app_tables, user_table_name)
+    row = user_table.get(variable='avatar_3_product_1_latest')
+    
+    task = anvil.server.launch_background_task('deepdive_avatar_3_product_1_generator', product_1_name,product_1_profile,avatar_3_product_1_name_preview,avatar_3_product_1_preview,row)
     # Return the task ID
     return task.get_id()
 
@@ -2168,6 +2198,11 @@ def deepdive_avatar_3_product_1_generator(product_1_name,product_1_profile,avata
 
     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
     avatar = chain_avatar.run(product_1_name=product_1_name,product_1_profile=product_1_profile,avatar_3_product_1_name_preview=avatar_3_product_1_name_preview,avatar_3_product_1_preview=avatar_3_product_1_preview)  # Pass in the combined context
+     
+    # Save the generated avatar in the 'avatar latest' column of the variable_table
+    row['variable_value'] = avatar
+    row.update()
+  
     anvil.server.task_state['result']  = avatar
 
 #------PRODUCT 2------------------------#################
@@ -2231,6 +2266,11 @@ def deepdive_avatar_1_product_2_generator(product_2_name,product_2_profile,avata
 
     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
     avatar = chain_avatar.run(product_2_name=product_2_name,product_2_profile=product_2_profile,avatar_1_product_2_name_preview=avatar_1_product_2_name_preview,avatar_1_product_2_preview=avatar_1_product_2_preview)  # Pass in the combined context
+
+     # Save the generated avatar in the 'avatar latest' column of the variable_table
+    row['variable_value'] = avatar
+    row.update()
+ 
     anvil.server.task_state['result']  = avatar
 
 # AVATAR 2, PRODUCT 2 -----##
@@ -2292,6 +2332,11 @@ def deepdive_avatar_2_product_2_generator(product_2_name,product_2_profile,avata
 
     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
     avatar = chain_avatar.run(product_2_name=product_2_name,product_2_profile=product_2_profile,avatar_2_product_2_name_preview=avatar_2_product_2_name_preview,avatar_2_product_2_preview=avatar_2_product_2_preview)  # Pass in the combined context
+
+     # Save the generated avatar in the 'avatar latest' column of the variable_table
+    row['variable_value'] = avatar
+    row.update()
+    
     anvil.server.task_state['result']  = avatar
 
 # AVATAR 3, PRODUCT 2 ---------------##
@@ -2353,6 +2398,11 @@ def deepdive_avatar_3_product_2_generator(product_2_name,product_2_profile,avata
 
     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
     avatar = chain_avatar.run(product_2_name=product_2_name,product_2_profile=product_2_profile,avatar_3_product_2_name_preview=avatar_3_product_2_name_preview,avatar_3_product_2_preview=avatar_3_product_2_preview)  # Pass in the combined context
+     
+    # Save the generated avatar in the 'avatar latest' column of the variable_table
+    row['variable_value'] = avatar
+    row.update()
+  
     anvil.server.task_state['result']  = avatar
 
 #------PRODUCT 3------------------------#################
@@ -2416,6 +2466,11 @@ def deepdive_avatar_1_product_3_generator(product_3_name,product_3_profile,avata
 
     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
     avatar = chain_avatar.run(product_3_name=product_3_name,product_3_profile=product_3_profile,avatar_1_product_3_name_preview=avatar_1_product_3_name_preview,avatar_1_product_3_preview=avatar_1_product_3_preview)  # Pass in the combined context
+    
+   # Save the generated avatar in the 'avatar latest' column of the variable_table
+    row['variable_value'] = avatar
+    row.update()
+  
     anvil.server.task_state['result']  = avatar
 
 # AVATAR 2, PRODUCT 3 -----##
@@ -2477,6 +2532,11 @@ def deepdive_avatar_2_product_3_generator(product_3_name,product_3_profile,avata
 
     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
     avatar = chain_avatar.run(product_2_name=product_2_name,product_2_profile=product_2_profile,avatar_2_product_2_name_preview=avatar_2_product_2_name_preview,avatar_2_product_2_preview=avatar_2_product_2_preview)  # Pass in the combined context
+    
+  # Save the generated avatar in the 'avatar latest' column of the variable_table
+    row['variable_value'] = avatar
+    row.update()
+  
     anvil.server.task_state['result']  = avatar
 
 # AVATAR 3, PRODUCT 3 ---------------##
@@ -2538,6 +2598,11 @@ def deepdive_avatar_3_product_3_generator(product_3_name,product_2_profile,avata
 
     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
     avatar = chain_avatar.run(product_3_name=product_3_name,product_3_profile=product_3_profile,avatar_3_product_3_name_preview=avatar_3_product_3_name_preview,avatar_3_product_3_preview=avatar_3_product_3_preview)  # Pass in the combined context
+   
+    # Save the generated avatar in the 'avatar latest' column of the variable_table
+    row['variable_value'] = avatar
+    row.update()
+  
     anvil.server.task_state['result']  = avatar
 
 #------PRODUCT 4------------------------#################
@@ -2601,6 +2666,11 @@ def deepdive_avatar_1_product_4_generator(product_4_name,product_4_profile,avata
 
     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
     avatar = chain_avatar.run(product_3_name=product_3_name,product_3_profile=product_3_profile,avatar_1_product_3_name_preview=avatar_1_product_3_name_preview,avatar_1_product_3_preview=avatar_1_product_3_preview)  # Pass in the combined context
+     
+    # Save the generated avatar in the 'avatar latest' column of the variable_table
+    row['variable_value'] = avatar
+    row.update()
+    
     anvil.server.task_state['result']  = avatar
 
 # AVATAR 2, PRODUCT 4 -----##
@@ -2662,6 +2732,11 @@ def deepdive_avatar_2_product_4_generator(product_4_name,product_4_profile,avata
 
     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
     avatar = chain_avatar.run(product_4_name=product_4_name,product_4_profile=product_4_profile,avatar_2_product_4_name_preview=avatar_2_product_4_name_preview,avatar_2_product_4_preview=avatar_2_product_4_preview)  # Pass in the combined context
+    
+    # Save the generated avatar in the 'avatar latest' column of the variable_table
+    row['variable_value'] = avatar
+    row.update()
+  
     anvil.server.task_state['result']  = avatar
 
 # AVATAR 3, PRODUCT 4 ---------------##
@@ -3253,6 +3328,7 @@ def launch_generate_main_headlines(chosen_product_name, chosen_company_profile, 
     # Get the table for the current user
     user_table = getattr(app_tables, user_table_name)
     row = user_table.get(variable='main_headlines')
+  
   
     # Launch the background task
     task = anvil.server.launch_background_task('generate_main_headlines',chosen_product_name, chosen_company_profile, chosen_product_research, chosen_tone,row)
