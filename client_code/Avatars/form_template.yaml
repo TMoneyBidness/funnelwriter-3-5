@@ -118,6 +118,7 @@ components:
           layout_properties:
             col_widths: {}
             grid_position: XFTMZZ,XOIGNB
+          event_bindings: {click: all_avatars_product_1_button_click}
         - type: Button
           properties: {role: elevated-button, align: center, tooltip: '', border: '',
             enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
@@ -178,7 +179,7 @@ components:
             layout_properties:
               col_widths: {}
               grid_position: TINESQ,LILIXU
-            event_bindings: {click: generate_avatar_2_product_1_button_click}
+            event_bindings: {click: all_avatars_product_1_button_click}
           - type: Button
             properties: {role: elevated-button, align: center, tooltip: '', border: '',
               enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
@@ -241,7 +242,7 @@ components:
             layout_properties:
               col_widths: {}
               grid_position: KNXUQX,YSRKFP
-            event_bindings: {click: generate_avatar_3_product_1_button_click}
+            event_bindings: {click: all_avatars_product_1_button_click}
           - type: ColumnPanel
             properties: {}
             name: column_panel_3
@@ -359,6 +360,7 @@ components:
           layout_properties:
             col_widths: {}
             grid_position: XFTMZZ,QFCJCW
+          event_bindings: {click: all_avatars_product_2_button_click}
         - type: Button
           properties: {role: elevated-button, align: center, tooltip: '', border: '',
             enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
@@ -419,6 +421,7 @@ components:
             layout_properties:
               col_widths: {}
               grid_position: TINESQ,ULZVEJ
+            event_bindings: {click: all_avatars_product_2_button_click}
           - type: Button
             properties: {role: elevated-button, align: center, tooltip: '', border: '',
               enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
@@ -481,6 +484,7 @@ components:
             layout_properties:
               col_widths: {}
               grid_position: KANWWO,TQJCRO
+            event_bindings: {click: all_avatars_product_2_button_click}
           - type: ColumnPanel
             properties: {col_widths: '{}'}
             name: column_panel_4
@@ -599,6 +603,7 @@ components:
           layout_properties:
             col_widths: {}
             grid_position: XFTMZZ,JKQLJP
+          event_bindings: {click: generate_avatar_1_product_3_button_click}
         - type: Button
           properties: {role: elevated-button, align: center, tooltip: '', border: '',
             enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
@@ -659,6 +664,7 @@ components:
             layout_properties:
               col_widths: {}
               grid_position: TINESQ,DGRFSR
+            event_bindings: {click: generate_avatar_1_2roduct_3_button_click}
           - type: Button
             properties: {role: elevated-button, align: center, tooltip: '', border: '',
               enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
@@ -721,6 +727,7 @@ components:
             layout_properties:
               col_widths: {}
               grid_position: RFYHQZ,YZKTZR
+            event_bindings: {click: generate_avatar_3_product_3_button_click}
           - type: ColumnPanel
             properties: {col_widths: '{}'}
             name: column_panel_5
@@ -839,6 +846,7 @@ components:
           layout_properties:
             col_widths: {}
             grid_position: BDNZAB,TENWBL
+          event_bindings: {click: generate_avatar_1_product_4_button_click}
         - type: Button
           properties: {role: elevated-button, align: center, tooltip: '', border: '',
             enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
@@ -901,6 +909,7 @@ components:
             layout_properties:
               col_widths: {}
               grid_position: LFLVQW,UTLXDN
+            event_bindings: {click: generate_avatar_2_product_4_button_click}
           - type: Button
             properties: {role: elevated-button, align: center, tooltip: '', border: '',
               enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
@@ -961,6 +970,7 @@ components:
             layout_properties:
               col_widths: {}
               grid_position: ONLPCW,NNNPVU
+            event_bindings: {click: generate_avatar_3_product_4_button_click}
           - type: Spacer
             properties: {height: 32}
             name: spacer_3_copy_5
