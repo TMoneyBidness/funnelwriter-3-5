@@ -2077,7 +2077,7 @@ def launch_deepdive_avatar_2_product_1_generator(product_1_name,product_1_profil
     return task.get_id()
 
 @anvil.server.background_task
-def deepdive_avatar_2_product_1_generator(product_1_name,product_1_profile,avatar_2_product_1_name_preview,avatar_2_product_1_preview):
+def deepdive_avatar_2_product_1_generator(product_1_name,product_1_profile,avatar_2_product_1_name_preview,avatar_2_product_1_preview,row):
     print("Background task started for generating the avatar:", avatar_2_product_1_name_preview)
  
     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
@@ -2149,7 +2149,7 @@ def launch_deepdive_avatar_3_product_1_generator(product_1_name,product_1_profil
     return task.get_id()
 
 @anvil.server.background_task
-def deepdive_avatar_3_product_1_generator(product_1_name,product_1_profile,avatar_3_product_1_name_preview,avatar_3_product_1_preview):
+def deepdive_avatar_3_product_1_generator(product_1_name,product_1_profile,avatar_3_product_1_name_preview,avatar_3_product_1_preview,row):
     print("Background task started for generating the avatar:", avatar_3_product_1_name_preview)
  
     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
@@ -2212,12 +2212,19 @@ def deepdive_avatar_3_product_1_generator(product_1_name,product_1_profile,avata
 def launch_deepdive_avatar_1_product_2_generator(product_2_name,product_2_profile,avatar_1_product_2_name_preview,avatar_1_product_2_preview):
     print("Launch Deep Dive Avatar function started")  
     # Launch the background task
-    task = anvil.server.launch_background_task('deepdive_avatar_1_product_2_generator', product_2_name,product_2_profile,avatar_1_product_2_name_preview,avatar_1_product_2_preview)
+    
+    current_user = anvil.users.get_user()
+    user_table_name = current_user['user_id']
+    # Get the table for the current user
+    user_table = getattr(app_tables, user_table_name)
+    row = user_table.get(variable='avatar_1_product_2_latest')
+   
+    task = anvil.server.launch_background_task('deepdive_avatar_1_product_2_generator', product_2_name,product_2_profile,avatar_1_product_2_name_preview,avatar_1_product_2_preview, row)
     # Return the task ID
     return task.get_id()
 
 @anvil.server.background_task
-def deepdive_avatar_1_product_2_generator(product_2_name,product_2_profile,avatar_1_product_2_name_preview,avatar_1_product_2_preview):
+def deepdive_avatar_1_product_2_generator(product_2_name,product_2_profile,avatar_1_product_2_name_preview,avatar_1_product_2_preview,row):
     print("Background task started for generating the avatar:", avatar_1_product_2_name_preview)
  
     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
@@ -2277,13 +2284,20 @@ def deepdive_avatar_1_product_2_generator(product_2_name,product_2_profile,avata
 @anvil.server.callable
 def launch_deepdive_avatar_2_product_2_generator(product_2_name,product_2_profile,avatar_2_product_2_name_preview,avatar_2_product_2_preview):
     print("Launch Deep Dive Avatar function started")  
+     
+    current_user = anvil.users.get_user()
+    user_table_name = current_user['user_id']
+    # Get the table for the current user
+    user_table = getattr(app_tables, user_table_name)
+    row = user_table.get(variable='avatar_2_product_2_latest')
+  
     # Launch the background task
-    task = anvil.server.launch_background_task('deepdive_avatar_2_product_2_generator', product_2_name,product_2_profile,avatar_2_product_2_name_preview,avatar_2_product_2_preview)
+    task = anvil.server.launch_background_task('deepdive_avatar_2_product_2_generator', product_2_name,product_2_profile,avatar_2_product_2_name_preview,avatar_2_product_2_preview,row)
     # Return the task ID
     return task.get_id()
 
 @anvil.server.background_task
-def deepdive_avatar_2_product_2_generator(product_2_name,product_2_profile,avatar_2_product_2_name_preview,avatar_2_product_2_preview):
+def deepdive_avatar_2_product_2_generator(product_2_name,product_2_profile,avatar_2_product_2_name_preview,avatar_2_product_2_preview,row):
     print("Background task started for generating the avatar:", avatar_2_product_2_name_preview)
  
     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
@@ -2343,13 +2357,20 @@ def deepdive_avatar_2_product_2_generator(product_2_name,product_2_profile,avata
 @anvil.server.callable
 def launch_deepdive_avatar_3_product_2_generator(product_2_name,product_2_profile,avatar_3_product_2_name_preview,avatar_3_product_2_preview):
     print("Launch Deep Dive Avatar function started")  
+
+    current_user = anvil.users.get_user()
+    user_table_name = current_user['user_id']
+    # Get the table for the current user
+    user_table = getattr(app_tables, user_table_name)
+    row = user_table.get(variable='avatar_3_product_2_latest')
+  
     # Launch the background task
-    task = anvil.server.launch_background_task('deepdive_avatar_3_product_2_generator', product_2_name,product_2_profile,avatar_3_product_2_name_preview,avatar_3_product_2_preview)
+    task = anvil.server.launch_background_task('deepdive_avatar_3_product_2_generator', product_2_name,product_2_profile,avatar_3_product_2_name_preview,avatar_3_product_2_preview,row)
     # Return the task ID
     return task.get_id()
 
 @anvil.server.background_task
-def deepdive_avatar_3_product_2_generator(product_2_name,product_2_profile,avatar_3_product_2_name_preview,avatar_3_product_2_preview):
+def deepdive_avatar_3_product_2_generator(product_2_name,product_2_profile,avatar_3_product_2_name_preview,avatar_3_product_2_preview,row):
     print("Background task started for generating the avatar:", avatar_3_product_2_name_preview)
  
     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
@@ -2410,14 +2431,21 @@ def deepdive_avatar_3_product_2_generator(product_2_name,product_2_profile,avata
 # AVATAR 1, PRODUCT 3 -----##
 @anvil.server.callable
 def launch_deepdive_avatar_1_product_3_generator(product_3_name,product_3_profile,avatar_1_product_3_name_preview,avatar_1_product_3_preview):
-    print("Launch Deep Dive Avatar function started")  
+    print("Launch Deep Dive Avatar function started") 
+    
+    current_user = anvil.users.get_user()
+    user_table_name = current_user['user_id']
+    # Get the table for the current user
+    user_table = getattr(app_tables, user_table_name)
+    row = user_table.get(variable='avatar_1_product_3_latest')
+
     # Launch the background task
-    task = anvil.server.launch_background_task('deepdive_avatar_1_product_3_generator', product_3_name,product_3_profile,avatar_1_product_3_name_preview,avatar_1_product_3_preview)
+    task = anvil.server.launch_background_task('deepdive_avatar_1_product_3_generator', product_3_name,product_3_profile,avatar_1_product_3_name_preview,avatar_1_product_3_preview,row)
     # Return the task ID
     return task.get_id()
 
 @anvil.server.background_task
-def deepdive_avatar_1_product_3_generator(product_3_name,product_3_profile,avatar_1_product_3_name_preview,avatar_1_product_3_preview):
+def deepdive_avatar_1_product_3_generator(product_3_name,product_3_profile,avatar_1_product_3_name_preview,avatar_1_product_3_preview,row):
     print("Background task started for generating the avatar:", avatar_1_product_3_name_preview)
  
     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
@@ -2476,14 +2504,21 @@ def deepdive_avatar_1_product_3_generator(product_3_name,product_3_profile,avata
 # AVATAR 2, PRODUCT 3 -----##
 @anvil.server.callable
 def launch_deepdive_avatar_2_product_3_generator(product_3_name,product_3_profile,avatar_2_product_3_name_preview,avatar_2_product_3_preview):
-    print("Launch Deep Dive Avatar function started")  
+    print("Launch Deep Dive Avatar function started") 
+
+    current_user = anvil.users.get_user()
+    user_table_name = current_user['user_id']
+    # Get the table for the current user
+    user_table = getattr(app_tables, user_table_name)
+    row = user_table.get(variable='avatar_2_product_3_latest')
+
     # Launch the background task
-    task = anvil.server.launch_background_task('deepdive_avatar_2_product_2_generator', product_2_name,product_3_profile,avatar_2_product_2_name_preview,avatar_2_product_2_preview)
+    task = anvil.server.launch_background_task('deepdive_avatar_2_product_2_generator', product_2_name,product_3_profile,avatar_2_product_2_name_preview,avatar_2_product_2_preview,row)
     # Return the task ID
     return task.get_id()
 
 @anvil.server.background_task
-def deepdive_avatar_2_product_3_generator(product_3_name,product_3_profile,avatar_2_product_3_name_preview,avatar_2_product_3_preview):
+def deepdive_avatar_2_product_3_generator(product_3_name,product_3_profile,avatar_2_product_3_name_preview,avatar_2_product_3_preview,row):
     print("Background task started for generating the avatar:", avatar_2_product_2_name_preview)
  
     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
@@ -2542,14 +2577,21 @@ def deepdive_avatar_2_product_3_generator(product_3_name,product_3_profile,avata
 # AVATAR 3, PRODUCT 3 ---------------##
 @anvil.server.callable
 def launch_deepdive_avatar_3_product_3_generator(product_3_name,product_3_profile,avatar_3_product_3_name_preview,avatar_3_product_3_preview):
-    print("Launch Deep Dive Avatar function started")  
+    print("Launch Deep Dive Avatar function started")
+
+    current_user = anvil.users.get_user()
+    user_table_name = current_user['user_id']
+    # Get the table for the current user
+    user_table = getattr(app_tables, user_table_name)
+    row = user_table.get(variable='avatar_3_product_3_latest')
+
     # Launch the background task
-    task = anvil.server.launch_background_task('deepdive_avatar_3_product_2_generator', product_2_name,product_2_profile,avatar_3_product_2_name_preview,avatar_3_product_2_preview)
+    task = anvil.server.launch_background_task('deepdive_avatar_3_product_2_generator', product_2_name,product_2_profile,avatar_3_product_2_name_preview,avatar_3_product_2_preview,row)
     # Return the task ID
     return task.get_id()
 
 @anvil.server.background_task
-def deepdive_avatar_3_product_3_generator(product_3_name,product_2_profile,avatar_3_product_3_name_preview,avatar_3_product_3_preview):
+def deepdive_avatar_3_product_3_generator(product_3_name,product_2_profile,avatar_3_product_3_name_preview,avatar_3_product_3_preview,row):
     print("Background task started for generating the avatar:", avatar_3_product_3_name_preview)
  
     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
@@ -2611,13 +2653,20 @@ def deepdive_avatar_3_product_3_generator(product_3_name,product_2_profile,avata
 @anvil.server.callable
 def launch_deepdive_avatar_1_product_4_generator(product_4_name,product_4_profile,avatar_1_product_4_name_preview,avatar_1_product_4_preview):
     print("Launch Deep Dive Avatar function started")  
+
+    current_user = anvil.users.get_user()
+    user_table_name = current_user['user_id']
+    # Get the table for the current user
+    user_table = getattr(app_tables, user_table_name)
+    row = user_table.get(variable='avatar_1_product_4_latest')
+
     # Launch the background task
-    task = anvil.server.launch_background_task('deepdive_avatar_1_product_3_generator', product_4_name,product_4_profile,avatar_1_product_4_name_preview,avatar_1_product_4_preview)
+    task = anvil.server.launch_background_task('deepdive_avatar_1_product_3_generator', product_4_name,product_4_profile,avatar_1_product_4_name_preview,avatar_1_product_4_preview,row)
     # Return the task ID
     return task.get_id()
 
 @anvil.server.background_task
-def deepdive_avatar_1_product_4_generator(product_4_name,product_4_profile,avatar_1_product_4_name_preview,avatar_1_product_4_preview):
+def deepdive_avatar_1_product_4_generator(product_4_name,product_4_profile,avatar_1_product_4_name_preview,avatar_1_product_4_preview,row):
     print("Background task started for generating the avatar:", avatar_1_product_3_name_preview)
  
     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
@@ -2677,13 +2726,20 @@ def deepdive_avatar_1_product_4_generator(product_4_name,product_4_profile,avata
 @anvil.server.callable
 def launch_deepdive_avatar_2_product_4_generator(product_4_name,product_4_profile,avatar_2_product_4_name_preview,avatar_2_product_4_preview):
     print("Launch Deep Dive Avatar function started")  
+
+    current_user = anvil.users.get_user()
+    user_table_name = current_user['user_id']
+    # Get the table for the current user
+    user_table = getattr(app_tables, user_table_name)
+    row = user_table.get(variable='avatar_2_product_4_latest')
+
     # Launch the background task
-    task = anvil.server.launch_background_task('deepdive_avatar_2_product_4_generator', product_4_name,product_4_profile,avatar_2_product_4_name_preview,avatar_2_product_4_preview)
+    task = anvil.server.launch_background_task('deepdive_avatar_2_product_4_generator', product_4_name,product_4_profile,avatar_2_product_4_name_preview,avatar_2_product_4_preview,row)
     # Return the task ID
     return task.get_id()
 
 @anvil.server.background_task
-def deepdive_avatar_2_product_4_generator(product_4_name,product_4_profile,avatar_2_product_4_name_preview,avatar_2_product_4_preview):
+def deepdive_avatar_2_product_4_generator(product_4_name,product_4_profile,avatar_2_product_4_name_preview,avatar_2_product_4_preview,row):
     print("Background task started for generating the avatar:", avatar_2_product_4_name_preview)
  
     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
@@ -2743,13 +2799,20 @@ def deepdive_avatar_2_product_4_generator(product_4_name,product_4_profile,avata
 @anvil.server.callable
 def launch_deepdive_avatar_3_product_4_generator(product_4_name,product_4_profile,avatar_3_product_4_name_preview,avatar_3_product_4_preview):
     print("Launch Deep Dive Avatar function started")  
+
+    current_user = anvil.users.get_user()
+    user_table_name = current_user['user_id']
+    # Get the table for the current user
+    user_table = getattr(app_tables, user_table_name)
+    row = user_table.get(variable='avatar_3_product_4_latest')
+
     # Launch the background task
-    task = anvil.server.launch_background_task('deepdive_avatar_4_product_2_generator', product_4_name,product_4_profile,avatar_3_product_4_name_preview,avatar_3_product_4_preview)
+    task = anvil.server.launch_background_task('deepdive_avatar_4_product_2_generator', product_4_name,product_4_profile,avatar_3_product_4_name_preview,avatar_3_product_4_preview,row)
     # Return the task ID
     return task.get_id()
 
 @anvil.server.background_task
-def deepdive_avatar_3_product_4_generator(product_4_name,product_2_profile,avatar_3_product_4_name_preview,avatar_3_product_4_preview):
+def deepdive_avatar_3_product_4_generator(product_4_name,product_2_profile,avatar_3_product_4_name_preview,avatar_3_product_4_preview,row):
     print("Background task started for generating the avatar:", avatar_3_product_4_name_preview)
  
     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
@@ -2798,6 +2861,11 @@ def deepdive_avatar_3_product_4_generator(product_4_name,product_2_profile,avata
 
     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
     avatar = chain_avatar.run(product_4_name=product_4_name,product_4_profile=product_4_profile,avatar_3_product_4_name_preview=avatar_3_product_4_name_preview,avatar_3_product_4_preview=avatar_3_product_4_preview)  # Pass in the combined context
+    
+     # Save the generated avatar in the 'avatar latest' column of the variable_table
+    row['variable_value'] = avatar
+    row.update()
+
     anvil.server.task_state['result']  = avatar
 
 #------PRODUCT 5------------------------#################
@@ -2806,13 +2874,20 @@ def deepdive_avatar_3_product_4_generator(product_4_name,product_2_profile,avata
 @anvil.server.callable
 def launch_deepdive_avatar_1_product_5_generator(product_5_name,product_5_profile,avatar_1_product_5_name_preview,avatar_1_product_5_preview):
     print("Launch Deep Dive Avatar function started")  
+
+    current_user = anvil.users.get_user()
+    user_table_name = current_user['user_id']
+    # Get the table for the current user
+    user_table = getattr(app_tables, user_table_name)
+    row = user_table.get(variable='avatar_1_product_5_latest')
+
     # Launch the background task
-    task = anvil.server.launch_background_task('deepdive_avatar_1_product_5_generator', product_5_name,product_5_profile,avatar_1_product_5_name_preview,avatar_1_product_5_preview)
+    task = anvil.server.launch_background_task('deepdive_avatar_1_product_5_generator', product_5_name,product_5_profile,avatar_1_product_5_name_preview,avatar_1_product_5_preview,row)
     # Return the task ID
     return task.get_id()
 
 @anvil.server.background_task
-def deepdive_avatar_1_product_5_generator(product_5_name,product_5_profile,avatar_1_product_5_name_preview,avatar_1_product_5_preview):
+def deepdive_avatar_1_product_5_generator(product_5_name,product_5_profile,avatar_1_product_5_name_preview,avatar_1_product_5_preview,row):
     print("Background task started for generating the avatar:", avatar_1_product_5_name_preview)
  
     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
@@ -2861,19 +2936,31 @@ def deepdive_avatar_1_product_5_generator(product_5_name,product_5_profile,avata
 
     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
     avatar = chain_avatar.run(product_5_name=product_5_name,product_5_profile=product_5_profile,avatar_1_product_5_name_preview=avatar_1_product_5_name_preview,avatar_1_product_5_preview=avatar_1_product_5_preview)  # Pass in the combined context
+
+    # Save the generated avatar in the 'avatar latest' column of the variable_table
+    row['variable_value'] = avatar
+    row.update()
+
     anvil.server.task_state['result']  = avatar
 
 # AVATAR 2, PRODUCT 5-----##
 @anvil.server.callable
 def launch_deepdive_avatar_2_product_5_generator(product_5_name,product_5_profile,avatar_2_product_5_name_preview,avatar_2_product_5_preview):
     print("Launch Deep Dive Avatar function started")  
+    
+    current_user = anvil.users.get_user()
+    user_table_name = current_user['user_id']
+    # Get the table for the current user
+    user_table = getattr(app_tables, user_table_name)
+    row = user_table.get(variable='avatar_2_product_5_latest')
+
     # Launch the background task
-    task = anvil.server.launch_background_task('deepdive_avatar_2_product_5_generator', product_5_name,product_5_profile,avatar_2_product_5_name_preview,avatar_2_product_5_preview)
+    task = anvil.server.launch_background_task('deepdive_avatar_2_product_5_generator', product_5_name,product_5_profile,avatar_2_product_5_name_preview,avatar_2_product_5_preview,row)
     # Return the task ID
     return task.get_id()
 
 @anvil.server.background_task
-def deepdive_avatar_2_product_5_generator(product_5_name,product_5_profile,avatar_2_product_5_name_preview,avatar_2_product_5_preview):
+def deepdive_avatar_2_product_5_generator(product_5_name,product_5_profile,avatar_2_product_5_name_preview,avatar_2_product_5_preview,row):
     print("Background task started for generating the avatar:", avatar_2_product_5_name_preview)
  
     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
@@ -2922,19 +3009,31 @@ def deepdive_avatar_2_product_5_generator(product_5_name,product_5_profile,avata
 
     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
     avatar = chain_avatar.run(product_5_name=product_5_name,product_5_profile=product_5_profile,avatar_2_product_5_name_preview=avatar_1_product_5_name_preview,avatar_2_product_5_preview=avatar_2_product_5_preview)  # Pass in the combined context
+    
+   # Save the generated avatar in the 'avatar latest' column of the variable_table
+    row['variable_value'] = avatar
+    row.update()
+  
     anvil.server.task_state['result']  = avatar
 
 # AVATAR 3, PRODUCT 5 -----##
 @anvil.server.callable
 def launch_deepdive_avatar_3_product_5_generator(product_5_name,product_5_profile,avatar_3_product_5_name_preview,avatar_3_product_5_preview):
     print("Launch Deep Dive Avatar function started")  
+
+    current_user = anvil.users.get_user()
+    user_table_name = current_user['user_id']
+    # Get the table for the current user
+    user_table = getattr(app_tables, user_table_name)
+    row = user_table.get(variable='avatar_3_product_5_latest')
+
     # Launch the background task
-    task = anvil.server.launch_background_task('deepdive_avatar_3_product_5_generator', product_5_name,product_5_profile,avatar_3_product_5_name_preview,avatar_3_product_5_preview)
+    task = anvil.server.launch_background_task('deepdive_avatar_3_product_5_generator', product_5_name,product_5_profile,avatar_3_product_5_name_preview,avatar_3_product_5_preview,row)
     # Return the task ID
     return task.get_id()
 
 @anvil.server.background_task
-def deepdive_avatar_3_product_5_generator(product_5_name,product_5_profile,avatar_3_product_5_name_preview,avatar_3_product_5_preview):
+def deepdive_avatar_3_product_5_generator(product_5_name,product_5_profile,avatar_3_product_5_name_preview,avatar_3_product_5_preview,row):
     print("Background task started for generating the avatar:", avatar_3_product_5_name_preview)
  
     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
@@ -2983,6 +3082,11 @@ def deepdive_avatar_3_product_5_generator(product_5_name,product_5_profile,avata
 
     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
     avatar = chain_avatar.run(product_5_name=product_5_name,product_5_profile=product_5_profile,avatar_3_product_5_name_preview=avatar_3_product_5_name_preview,avatar_3_product_5_preview=avatar_3_product_5_preview)  # Pass in the combined context
+    
+    # Save the generated avatar in the 'avatar latest' column of the variable_table
+    row['variable_value'] = avatar
+    row.update()
+  
     anvil.server.task_state['result']  = avatar
   
 

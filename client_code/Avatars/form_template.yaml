@@ -24,15 +24,6 @@ components:
       background: '', bold: false, underline: false, icon: 'fa:clock-o'}
     name: label_2
     layout_properties: {grid_position: 'UZWHPU,XUVWGG'}
-  - type: Label
-    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: Existing Avatars, font_size: 36, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
-      underline: false, icon: ''}
-    name: label_1_copy
-    layout_properties:
-      col_widths: {}
-      grid_position: OIOZEV,XCEIOD
   - type: ColumnPanel
     properties: {col_widths: '{}'}
     name: column_panel_1
@@ -179,7 +170,7 @@ components:
             layout_properties:
               col_widths: {}
               grid_position: TINESQ,LILIXU
-            event_bindings: {click: all_avatars_product_1_button_click}
+            event_bindings: {click: regenerate_avatar_2_product_1_click}
           - type: Button
             properties: {role: elevated-button, align: center, tooltip: '', border: '',
               enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
@@ -242,7 +233,7 @@ components:
             layout_properties:
               col_widths: {}
               grid_position: KNXUQX,YSRKFP
-            event_bindings: {click: all_avatars_product_1_button_click}
+            event_bindings: {click: regenerate_avatar_3_product_1_click}
           - type: ColumnPanel
             properties: {}
             name: column_panel_3
@@ -360,7 +351,7 @@ components:
           layout_properties:
             col_widths: {}
             grid_position: XFTMZZ,QFCJCW
-          event_bindings: {click: all_avatars_product_2_button_click}
+          event_bindings: {click: regenerate_avatar_1_product_2_click}
         - type: Button
           properties: {role: elevated-button, align: center, tooltip: '', border: '',
             enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
@@ -421,7 +412,7 @@ components:
             layout_properties:
               col_widths: {}
               grid_position: TINESQ,ULZVEJ
-            event_bindings: {click: all_avatars_product_2_button_click}
+            event_bindings: {click: regenerate_avatar_2_product_2_click}
           - type: Button
             properties: {role: elevated-button, align: center, tooltip: '', border: '',
               enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
@@ -484,7 +475,7 @@ components:
             layout_properties:
               col_widths: {}
               grid_position: KANWWO,TQJCRO
-            event_bindings: {click: all_avatars_product_2_button_click}
+            event_bindings: {click: regenerate_avatar_3_product_2_click}
           - type: ColumnPanel
             properties: {col_widths: '{}'}
             name: column_panel_4
@@ -603,7 +594,7 @@ components:
           layout_properties:
             col_widths: {}
             grid_position: XFTMZZ,JKQLJP
-          event_bindings: {click: generate_avatar_1_product_3_button_click}
+          event_bindings: {click: regenerate_avatar_1_product_3_click}
         - type: Button
           properties: {role: elevated-button, align: center, tooltip: '', border: '',
             enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
@@ -664,7 +655,7 @@ components:
             layout_properties:
               col_widths: {}
               grid_position: TINESQ,DGRFSR
-            event_bindings: {click: generate_avatar_1_2roduct_3_button_click}
+            event_bindings: {click: regenerate_avatar_2_product_3_click}
           - type: Button
             properties: {role: elevated-button, align: center, tooltip: '', border: '',
               enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
@@ -727,7 +718,7 @@ components:
             layout_properties:
               col_widths: {}
               grid_position: RFYHQZ,YZKTZR
-            event_bindings: {click: generate_avatar_3_product_3_button_click}
+            event_bindings: {click: regenerate_avatar_3_product_3_click}
           - type: ColumnPanel
             properties: {col_widths: '{}'}
             name: column_panel_5
@@ -846,7 +837,7 @@ components:
           layout_properties:
             col_widths: {}
             grid_position: BDNZAB,TENWBL
-          event_bindings: {click: generate_avatar_1_product_4_button_click}
+          event_bindings: {click: regenerate_avatar_1_product_4_click}
         - type: Button
           properties: {role: elevated-button, align: center, tooltip: '', border: '',
             enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
@@ -909,7 +900,7 @@ components:
             layout_properties:
               col_widths: {}
               grid_position: LFLVQW,UTLXDN
-            event_bindings: {click: generate_avatar_2_product_4_button_click}
+            event_bindings: {click: regenerate_avatar_2_product_4_click}
           - type: Button
             properties: {role: elevated-button, align: center, tooltip: '', border: '',
               enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
@@ -970,7 +961,7 @@ components:
             layout_properties:
               col_widths: {}
               grid_position: ONLPCW,NNNPVU
-            event_bindings: {click: generate_avatar_3_product_4_button_click}
+            event_bindings: {click: regenerate_avatar_3_product_4_click}
           - type: Spacer
             properties: {height: 32}
             name: spacer_3_copy_5
@@ -1021,8 +1012,8 @@ components:
       - type: ColumnPanel
         properties: {role: elevated-card, tooltip: '', border: '', foreground: '',
           visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small,
-          col_widths: '{"QQGLML":10,"JDKYLZ":9,"WXYRKE":49,"FWARSN":27}', spacing_below: small,
-          background: 'theme:On Primary'}
+          col_widths: '{"QQGLML":10,"JDKYLZ":9,"WXYRKE":49,"FWARSN":27,"FCWWYG":35,"WOZPUB":25}',
+          spacing_below: small, background: 'theme:On Primary'}
         name: avatar_1_product_5_input_section
         layout_properties:
           col_widths: {}
@@ -1086,6 +1077,17 @@ components:
           name: avatar_1_product_5_input
           layout_properties: {grid_position: 'UGVSDG,WXYRKE'}
         - type: Button
+          properties: {role: outlined-button, align: center, tooltip: '', border: '',
+            enabled: true, foreground: '', visible: true, text: REGENERATE AVATAR,
+            font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+            italic: false, background: 'theme:Secondary Container', bold: false, underline: false,
+            icon: 'fa:android'}
+          name: avatar_1_product_5_button
+          layout_properties:
+            col_widths: {}
+            grid_position: XFTMZZ,FCWWYG
+          event_bindings: {click: regenerate_avatar_1_product_5_click}
+        - type: Button
           properties: {role: elevated-button, align: center, tooltip: '', border: '',
             enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
             font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
@@ -1096,7 +1098,7 @@ components:
             grid_position: XFTMZZ,WOZPUB
           event_bindings: {click: add_avatar_2_product_5_click}
         - type: ColumnPanel
-          properties: {col_widths: '{"FGXNBI":10,"LPXMBI":50}'}
+          properties: {col_widths: '{"FGXNBI":10,"LPXMBI":50,"CCTUBA":35,"OYUXBO":25}'}
           name: avatar_2_product_5_input_section
           layout_properties: {grid_position: 'JSBBWB,VQXZMZ'}
           components:
@@ -1136,6 +1138,17 @@ components:
             name: avatar_2_product_5_input
             layout_properties: {grid_position: 'XZEMTO,LPXMBI'}
           - type: Button
+            properties: {role: outlined-button, align: center, tooltip: '', border: '',
+              enabled: true, foreground: '', visible: true, text: REGENERATE AVATAR,
+              font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+              italic: false, background: 'theme:Secondary Container', bold: false,
+              underline: false, icon: 'fa:android'}
+            name: avatar_2_product_5_button
+            layout_properties:
+              col_widths: {}
+              grid_position: TINESQ,CCTUBA
+            event_bindings: {click: regenerate_avatar_2_product_5_click}
+          - type: Button
             properties: {role: elevated-button, align: center, tooltip: '', border: '',
               enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
               font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
@@ -1146,7 +1159,7 @@ components:
               grid_position: TINESQ,OYUXBO
             event_bindings: {click: add_avatar_3_product_5_click}
         - type: ColumnPanel
-          properties: {col_widths: '{"FGXNBI":10,"LPXMBI":50}'}
+          properties: {col_widths: '{"FGXNBI":10,"LPXMBI":50,"MDHVAP":35,"VAGZHE":25}'}
           name: avatar_3_product_5_input_section
           layout_properties:
             col_widths: {}
@@ -1187,6 +1200,17 @@ components:
               spacing_below: small, italic: false, background: '', bold: false, underline: false}
             name: avatar_3_product_5_input
             layout_properties: {grid_position: 'XZEMTO,LPXMBI'}
+          - type: Button
+            properties: {role: outlined-button, align: center, tooltip: '', border: '',
+              enabled: true, foreground: '', visible: true, text: REGENERATE AVATAR,
+              font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+              italic: false, background: 'theme:Secondary Container', bold: false,
+              underline: false, icon: 'fa:android'}
+            name: avatar_3_product_5_button
+            layout_properties:
+              col_widths: {}
+              grid_position: ZLDHUP,MDHVAP
+            event_bindings: {click: regenerate_avatar_3_product_5_click}
           - type: Button
             properties: {role: outlined-button, align: right, tooltip: '', border: '',
               enabled: true, foreground: '', visible: true, text: 'SAVE ', font_size: null,
@@ -1245,6 +1269,62 @@ components:
   event_bindings: {tick: avatar_product_5_timer_tick}
 - name: task_check_timer_regenerate_avatar_1_product_1
   type: Timer
-  properties: {}
+  properties: {interval: 2}
   event_bindings: {tick: check_task_status_regenerate_avatar_1_product_1}
+- name: task_check_timer_regenerate_avatar_3_product_1
+  type: Timer
+  properties: {interval: 2}
+  event_bindings: {tick: check_task_status_regenerate_avatar_3_product_1}
+- name: task_check_timer_regenerate_avatar_2_product_2
+  type: Timer
+  properties: {interval: 2}
+  event_bindings: {tick: check_task_status_regenerate_avatar_2_product_2}
+- name: task_check_timer_regenerate_avatar_1_product_3
+  type: Timer
+  properties: {interval: 2}
+  event_bindings: {tick: check_task_status_regenerate_avatar_1_product_3}
+- name: task_check_timer_regenerate_avatar_3_product_3
+  type: Timer
+  properties: {interval: 2}
+  event_bindings: {tick: check_task_status_regenerate_avatar_3_product_3}
+- name: task_check_timer_regenerate_avatar_2_product_1
+  type: Timer
+  properties: {interval: 2}
+  event_bindings: {tick: check_task_status_regenerate_avatar_2_product_1}
+- name: task_check_timer_regenerate_avatar_1_product_2
+  type: Timer
+  properties: {interval: 2}
+  event_bindings: {tick: check_task_status_regenerate_avatar_1_product_2}
+- name: task_check_timer_regenerate_avatar_3_product_2
+  type: Timer
+  properties: {interval: 2}
+  event_bindings: {tick: check_task_status_regenerate_avatar_3_product_2}
+- name: task_check_timer_regenerate_avatar_2_product_3
+  type: Timer
+  properties: {interval: 2}
+  event_bindings: {tick: check_task_status_regenerate_avatar_2_product_3}
+- name: task_check_timer_regenerate_avatar_1_product_4
+  type: Timer
+  properties: {interval: 2}
+  event_bindings: {tick: check_task_status_regenerate_avatar_1_product_4}
+- name: task_check_timer_regenerate_avatar_2_product_4
+  type: Timer
+  properties: {interval: 3}
+  event_bindings: {tick: check_task_status_regenerate_avatar_2_product_4}
+- name: task_check_timer_regenerate_avatar_3_product_4
+  type: Timer
+  properties: {interval: 3}
+  event_bindings: {tick: check_task_status_regenerate_avatar_3_product_4}
+- name: task_check_timer_regenerate_avatar_1_product_5
+  type: Timer
+  properties: {interval: 2}
+  event_bindings: {tick: check_task_status_regenerate_avatar_1_product_5}
+- name: task_check_timer_regenerate_avatar_2_product_5
+  type: Timer
+  properties: {interval: 2}
+  event_bindings: {tick: check_task_status_regenerate_avatar_2_product_5}
+- name: task_check_timer_regenerate_avatar_3_product_5
+  type: Timer
+  properties: {interval: 2}
+  event_bindings: {tick: check_task_status_regenerate_avatar_3_product_5}
 is_package: true

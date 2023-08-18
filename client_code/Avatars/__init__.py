@@ -637,6 +637,214 @@ class Avatars(AvatarsTemplate):
         if all_tasks_complete:
           self.avatar_product_2_timer.enabled = False
 
+#######----------- Deep dive Avatars--------##########
+  def regenerate_avatar_1_product_2_click(self, **event_args):
+    with anvil.server.no_loading_indicator:
+      # This method should handle the UI logic
+      print("Deep Dive Avatar Generator Initiated")
+      # Start the progress bar with a small value
+      self.indeterminate_10.visible = True
+          
+      current_user = anvil.users.get_user()
+      user_table_name = current_user['user_id']
+      # Get the table for the current user
+      user_table = getattr(app_tables, user_table_name)
+      self.user_table = user_table
+      
+      # COMPANY PROFILE
+      # Retrieve the row with 'variable' column containing 'company_profile'
+      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile = company_profile_row['variable_value']
+            
+      # PRODUCT NAME 
+      product_2_name_row = user_table.search(variable='product_2')[0]
+      product_2_name = product_2_name_row['variable_title']
+      
+      # PRODUCT DESCRIPTION
+      product_2_profile_row = user_table.search(variable='product_2')[0]
+      product_2_profile = product_2_profile_row['variable_title']
+
+      # Delete whatever is in latest, so we can check it as the status update.
+      avatar_1_product_2_latest_row = user_table.get(variable='avatar_1_product_2_latest')
+      avatar_1_product_2_latest_row['variable_value'] = None
+      avatar_1_product_2_latest_row.update()
+
+      #Update the avatar preview
+      avatar_1_product_2_preview_row = user_table.get(variable='avatar_1_product_2_preview')
+      avatar_1_product_2_preview_row['variable_value'] = self.avatar_1_product_2_input.text # Avatar preview description
+      avatar_1_product_2_preview_row['variable_title'] = self.avatar_1_product_2_name.text # Avatar name description
+      avatar_1_product_2_preview_row.update()
+                
+      # Launch the background task                                                 
+      task_id = anvil.server.call(f'launch_deepdive_avatar_1_product_2_generator', product_2_name, product_2_profile, self.avatar_1_product_2_name.text, self.avatar_1_product_2_input.text)
+      print(f"Task ID for avatar_1_product_2:", task_id)
+
+      self.indeterminate_20.visible = True
+      self.task_check_timer_regenerate_avatar_1_product_2.enabled = True
+      self.task_check_timer_regenerate_avatar_1_product_2.interval = 3  # Check every 2seconds
+ 
+  def check_task_status_regenerate_avatar_1_product_2(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Get the background task by its ID
+        
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='avatar_1_product_2_latest')
+     
+      
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working on Avatar 1 Product 2 Regeneration!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Avatar 1 Product 2 Regenerated!")
+            self.task_check_timer_regenerate_avatar_1_product_2.enabled = False
+            self.task_check_timer_regenerate_avatar_1_product_2.interval = 0
+            self.indeterminate_20.visible = False
+                
+            # Update the box
+            avatar_1_product_2_input = row['variable_value'] 
+            self.avatar_1_product_2_input.text = avatar_1_product_2_input
+
+##----------- Deep dive Avatars 2 ------##########          
+  def regenerate_avatar_2_product_2_click(self, **event_args):
+    with anvil.server.no_loading_indicator:
+      # This method should handle the UI logic
+      print("Deep Dive Avatar Generator Initiated")
+      # Start the progress bar with a small value
+      self.indeterminate_20.visible = True
+          
+      current_user = anvil.users.get_user()
+      user_table_name = current_user['user_id']
+      # Get the table for the current user
+      user_table = getattr(app_tables, user_table_name)
+      self.user_table = user_table
+      
+      # COMPANY PROFILE
+      # Retrieve the row with 'variable' column containing 'company_profile'
+      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile = company_profile_row['variable_value']
+            
+      # PRODUCT NAME 
+      product_2_name_row = user_table.search(variable='product_2')[0]
+      product_2_name = product_2_name_row['variable_title']
+      
+      # PRODUCT DESCRIPTION
+      product_2_profile_row = user_table.search(variable='product_2')[0]
+      product_2_profile = product_2_profile_row['variable_title']
+
+      # Delete whatever is in latest, so we can check it as the status update.
+      avatar_2_product_2_latest_row = user_table.get(variable='avatar_2_product_2_latest')
+      avatar_2_product_2_latest_row['variable_value'] = None
+      avatar_2_product_2_latest_row.update()
+
+      #Update the avatar preview
+      avatar_2_product_2_preview_row = user_table.get(variable='avatar_2_product_2_preview')
+      avatar_2_product_2_preview_row['variable_value'] = self.avatar_2_product_2_input.text # Avatar preview description
+      avatar_2_product_2_preview_row['variable_title'] = self.avatar_2_product_2_name.text # Avatar name description
+      avatar_2_product_2_preview_row.update()
+                
+      # Launch the background task                                                 
+      task_id = anvil.server.call(f'launch_deepdive_avatar_2_product_2_generator', product_2_name, product_2_profile, self.avatar_2_product_2_name.text, self.avatar_2_product_2_input.text)
+      print(f"Task ID for avatar_2_product_2:", task_id)
+
+      self.indeterminate_20.visible = True
+      self.task_check_timer_regenerate_avatar_2_product_2.enabled = True
+      self.task_check_timer_regenerate_avatar_2_product_2.interval = 3  # Check every 2seconds
+ 
+  def check_task_status_regenerate_avatar_2_product_2(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Get the background task by its ID
+        
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='avatar_2_product_2_latest')
+     
+      
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working on Avatar 2 Product 2 Regeneration!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Avatar 2 Product 2 Regenerated!")
+            self.task_check_timer_regenerate_avatar_2_product_2.enabled = False
+            self.task_check_timer_regenerate_avatar_2_product_2.interval = 0
+            self.indeterminate_20.visible = False
+                
+            # Update the box
+            avatar_2_product_2_input = row['variable_value'] 
+            self.avatar_2_product_2_input.text = avatar_2_product_2_input
+
+##----------- Deep dive Avatars 3 ------##########          
+  def regenerate_avatar_3_product_2_click(self, **event_args):
+    with anvil.server.no_loading_indicator:
+      # This method should handle the UI logic
+      print("Deep Dive Avatar Generator Initiated")
+      # Start the progress bar with a small value
+      self.indeterminate_10.visible = True
+          
+      current_user = anvil.users.get_user()
+      user_table_name = current_user['user_id']
+      # Get the table for the current user
+      user_table = getattr(app_tables, user_table_name)
+      self.user_table = user_table
+      
+      # COMPANY PROFILE
+      # Retrieve the row with 'variable' column containing 'company_profile'
+      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile = company_profile_row['variable_value']
+            
+      # PRODUCT NAME 
+      product_2_name_row = user_table.search(variable='product_2')[0]
+      product_2_name = product_2_name_row['variable_title']
+      
+      # PRODUCT DESCRIPTION
+      product_2_profile_row = user_table.search(variable='product_2')[0]
+      product_2_profile = product_2_profile_row['variable_title']
+
+      # Delete whatever is in latest, so we can check it as the status update.
+      avatar_3_product_2_latest_row = user_table.get(variable='avatar_3_product_2_latest')
+      avatar_3_product_2_latest_row['variable_value'] = None
+      avatar_3_product_2_latest_row.update()
+
+      #Update the avatar preview
+      avatar_3_product_2_preview_row = user_table.get(variable='avatar_3_product_2_preview')
+      avatar_3_product_2_preview_row['variable_value'] = self.avatar_3_product_2_input.text # Avatar preview description
+      avatar_3_product_2_preview_row['variable_title'] = self.avatar_3_product_2_name.text # Avatar name description
+      avatar_3_product_2_preview_row.update()
+                
+      # Launch the background task                                                 
+      task_id = anvil.server.call(f'launch_deepdive_avatar_3_product_2_generator', product_2_name, product_2_profile, self.avatar_3_product_2_name.text, self.avatar_3_product_2_input.text)
+      print(f"Task ID for avatar_3_product_2:", task_id)
+
+      self.indeterminate_20.visible = True
+      self.task_check_timer_regenerate_avatar_3_product_2.enabled = True
+      self.task_check_timer_regenerate_avatar_3_product_2.interval = 3  # Check every 2seconds
+ 
+  def check_task_status_regenerate_avatar_3_product_2(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Get the background task by its ID
+        
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='avatar_3_product_2_latest')
+     
+      
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working on Avatar 3 Product 2 Regeneration!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Avatar 3 Product 2 Regenerated!")
+            self.task_check_timer_regenerate_avatar_3_product_2.enabled = False
+            self.task_check_timer_regenerate_avatar_3_product_2.interval = 0
+            self.indeterminate_20.visible = False
+                
+            # Update the box
+            avatar_3_product_2_input = row['variable_value'] 
+            self.avatar_3_product_2_input.text = avatar_3_product_2_input
+
+
 #### PRODUCT 3 -----##
   def all_avatars_product_3_button_click(self, **event_args):
     with anvil.server.no_loading_indicator:
@@ -763,6 +971,214 @@ class Avatars(AvatarsTemplate):
         # If all tasks are complete, you can stop the timer
         if all_tasks_complete:
           self.avatar_product_3_timer.enabled = False
+
+#######----------- Deep dive Avatars--------##########
+  def regenerate_avatar_1_product_3_click(self, **event_args):
+    with anvil.server.no_loading_indicator:
+      # This method should handle the UI logic
+      print("Deep Dive Avatar Generator Initiated")
+      # Start the progress bar with a small value
+      self.indeterminate_10.visible = True
+          
+      current_user = anvil.users.get_user()
+      user_table_name = current_user['user_id']
+      # Get the table for the current user
+      user_table = getattr(app_tables, user_table_name)
+      self.user_table = user_table
+      
+      # COMPANY PROFILE
+      # Retrieve the row with 'variable' column containing 'company_profile'
+      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile = company_profile_row['variable_value']
+            
+      # PRODUCT NAME 
+      product_3_name_row = user_table.search(variable='product_3')[0]
+      product_3_name = product_3_name_row['variable_title']
+      
+      # PRODUCT DESCRIPTION
+      product_3_profile_row = user_table.search(variable='product_3')[0]
+      product_3_profile = product_3_profile_row['variable_title']
+
+      # Delete whatever is in latest, so we can check it as the status update.
+      avatar_1_product_3_latest_row = user_table.get(variable='avatar_1_product_3_latest')
+      avatar_1_product_3_latest_row['variable_value'] = None
+      avatar_1_product_3_latest_row.update()
+
+      #Update the avatar preview
+      avatar_1_product_3_preview_row = user_table.get(variable='avatar_1_product_3_preview')
+      avatar_1_product_3_preview_row['variable_value'] = self.avatar_1_product_3_input.text # Avatar preview description
+      avatar_1_product_3_preview_row['variable_title'] = self.avatar_1_product_3_name.text # Avatar name description
+      avatar_1_product_3_preview_row.update()
+                
+      # Launch the background task                                                 
+      task_id = anvil.server.call(f'launch_deepdive_avatar_1_product_3_generator', product_3_name, product_3_profile, self.avatar_1_product_3_name.text, self.avatar_1_product_3_input.text)
+      print(f"Task ID for avatar_1_product_3:", task_id)
+
+      self.indeterminate_30.visible = True
+      self.task_check_timer_regenerate_avatar_1_product_3.enabled = True
+      self.task_check_timer_regenerate_avatar_1_product_3.interval = 3  # Check every 2seconds
+ 
+  def check_task_status_regenerate_avatar_1_product_3(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Get the background task by its ID
+        
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='avatar_1_product_3_latest')
+     
+      
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working on Avatar 1 Product 3 Regeneration!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Avatar 1 Product 3 Regenerated!")
+            self.task_check_timer_regenerate_avatar_1_product_3.enabled = False
+            self.task_check_timer_regenerate_avatar_1_product_3.interval = 0
+            self.indeterminate_30.visible = False
+                
+            # Update the box
+            avatar_1_product_3_input = row['variable_value'] 
+            self.avatar_1_product_3_input.text = avatar_1_product_3_input
+
+##----------- Deep dive Avatars 2 ------##########          
+  def regenerate_avatar_2_product_3_click(self, **event_args):
+    with anvil.server.no_loading_indicator:
+      # This method should handle the UI logic
+      print("Deep Dive Avatar Generator Initiated")
+      # Start the progress bar with a small value
+      self.indeterminate_30.visible = True
+          
+      current_user = anvil.users.get_user()
+      user_table_name = current_user['user_id']
+      # Get the table for the current user
+      user_table = getattr(app_tables, user_table_name)
+      self.user_table = user_table
+      
+      # COMPANY PROFILE
+      # Retrieve the row with 'variable' column containing 'company_profile'
+      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile = company_profile_row['variable_value']
+            
+      # PRODUCT NAME 
+      product_3_name_row = user_table.search(variable='product_3')[0]
+      product_3_name = product_3_name_row['variable_title']
+      
+      # PRODUCT DESCRIPTION
+      product_3_profile_row = user_table.search(variable='product_3')[0]
+      product_3_profile = product_3_profile_row['variable_title']
+
+      # Delete whatever is in latest, so we can check it as the status update.
+      avatar_2_product_3_latest_row = user_table.get(variable='avatar_2_product_3_latest')
+      avatar_2_product_3_latest_row['variable_value'] = None
+      avatar_2_product_3_latest_row.update()
+
+      #Update the avatar preview
+      avatar_2_product_3_preview_row = user_table.get(variable='avatar_2_product_3_preview')
+      avatar_2_product_3_preview_row['variable_value'] = self.avatar_2_product_3_input.text # Avatar preview description
+      avatar_2_product_3_preview_row['variable_title'] = self.avatar_2_product_3_name.text # Avatar name description
+      avatar_2_product_3_preview_row.update()
+                
+      # Launch the background task                                                 
+      task_id = anvil.server.call(f'launch_deepdive_avatar_2_product_3_generator', product_3_name, product_3_profile, self.avatar_2_product_3_name.text, self.avatar_2_product_3_input.text)
+      print(f"Task ID for avatar_2_product_3:", task_id)
+
+      self.indeterminate_20.visible = True
+      self.task_check_timer_regenerate_avatar_2_product_3.enabled = True
+      self.task_check_timer_regenerate_avatar_2_product_3.interval = 3  # Check every 2seconds
+ 
+  def check_task_status_regenerate_avatar_2_product_3(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Get the background task by its ID
+        
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='avatar_2_product_3_latest')
+     
+      
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working on Avatar 2 Product 3 Regeneration!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Avatar 2 Product 3 Regenerated!")
+            self.task_check_timer_regenerate_avatar_2_product_3.enabled = False
+            self.task_check_timer_regenerate_avatar_2_product_3.interval = 0
+            self.indeterminate_30.visible = False
+                
+            # Update the box
+            avatar_2_product_3_input = row['variable_value'] 
+            self.avatar_2_product_3_input.text = avatar_2_product_3_input
+
+##----------- Deep dive Avatars 3 ------##########          
+  def regenerate_avatar_3_product_3_click(self, **event_args):
+    with anvil.server.no_loading_indicator:
+      # This method should handle the UI logic
+      print("Deep Dive Avatar Generator Initiated")
+      # Start the progress bar with a small value
+      self.indeterminate_10.visible = True
+          
+      current_user = anvil.users.get_user()
+      user_table_name = current_user['user_id']
+      # Get the table for the current user
+      user_table = getattr(app_tables, user_table_name)
+      self.user_table = user_table
+      
+      # COMPANY PROFILE
+      # Retrieve the row with 'variable' column containing 'company_profile'
+      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile = company_profile_row['variable_value']
+            
+      # PRODUCT NAME 
+      product_3_name_row = user_table.search(variable='product_3')[0]
+      product_3_name = product_3_name_row['variable_title']
+      
+      # PRODUCT DESCRIPTION
+      product_3_profile_row = user_table.search(variable='product_3')[0]
+      product_3_profile = product_3_profile_row['variable_title']
+
+      # Delete whatever is in latest, so we can check it as the status update.
+      avatar_3_product_3_latest_row = user_table.get(variable='avatar_3_product_3_latest')
+      avatar_3_product_3_latest_row['variable_value'] = None
+      avatar_3_product_3_latest_row.update()
+
+      #Update the avatar preview
+      avatar_3_product_3_preview_row = user_table.get(variable='avatar_3_product_3_preview')
+      avatar_3_product_3_preview_row['variable_value'] = self.avatar_3_product_3_input.text # Avatar preview description
+      avatar_3_product_3_preview_row['variable_title'] = self.avatar_3_product_3_name.text # Avatar name description
+      avatar_3_product_3_preview_row.update()
+                
+      # Launch the background task                                                 
+      task_id = anvil.server.call(f'launch_deepdive_avatar_3_product_3_generator', product_3_name, product_3_profile, self.avatar_3_product_3_name.text, self.avatar_3_product_3_input.text)
+      print(f"Task ID for avatar_3_product_3:", task_id)
+
+      self.indeterminate_30.visible = True
+      self.task_check_timer_regenerate_avatar_3_product_3.enabled = True
+      self.task_check_timer_regenerate_avatar_3_product_3.interval = 3  # Check every 2seconds
+ 
+  def check_task_status_regenerate_avatar_3_product_3(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Get the background task by its ID
+        
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='avatar_3_product_3_latest')
+     
+      
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working on Avatar 3 Product 3 Regeneration!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Avatar 3 Product 3 Regenerated!")
+            self.task_check_timer_regenerate_avatar_3_product_3.enabled = False
+            self.task_check_timer_regenerate_avatar_3_product_3.interval = 0
+            self.indeterminate_30.visible = False
+                
+            # Update the box
+            avatar_3_product_3_input = row['variable_value'] 
+            self.avatar_3_product_3_input.text = avatar_3_product_3_input
+
 
 #### PRODUCT 4 -----##
   def all_avatars_product_4_button_click(self, **event_args):
@@ -891,6 +1307,214 @@ class Avatars(AvatarsTemplate):
         if all_tasks_complete:
           self.avatar_product_4_timer.enabled = False
 
+#######----------- Deep dive Avatars--------##########
+  def regenerate_avatar_1_product_4_click(self, **event_args):
+    with anvil.server.no_loading_indicator:
+      # This method should handle the UI logic
+      print("Deep Dive Avatar Generator Initiated")
+      # Start the progress bar with a small value
+      self.indeterminate_40.visible = True
+          
+      current_user = anvil.users.get_user()
+      user_table_name = current_user['user_id']
+      # Get the table for the current user
+      user_table = getattr(app_tables, user_table_name)
+      self.user_table = user_table
+      
+      # COMPANY PROFILE
+      # Retrieve the row with 'variable' column containing 'company_profile'
+      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile = company_profile_row['variable_value']
+            
+      # PRODUCT NAME 
+      product_4_name_row = user_table.search(variable='product_4')[0]
+      product_4_name = product_4_name_row['variable_title']
+      
+      # PRODUCT DESCRIPTION
+      product_4_profile_row = user_table.search(variable='product_4')[0]
+      product_4_profile = product_4_profile_row['variable_title']
+
+      # Delete whatever is in latest, so we can check it as the status update.
+      avatar_1_product_4_latest_row = user_table.get(variable='avatar_1_product_4_latest')
+      avatar_1_product_4_latest_row['variable_value'] = None
+      avatar_1_product_4_latest_row.update()
+
+      #Update the avatar preview
+      avatar_1_product_4_preview_row = user_table.get(variable='avatar_1_product_4_preview')
+      avatar_1_product_4_preview_row['variable_value'] = self.avatar_1_product_4_input.text # Avatar preview description
+      avatar_1_product_4_preview_row['variable_title'] = self.avatar_1_product_4_name.text # Avatar name description
+      avatar_1_product_4_preview_row.update()
+                
+      # Launch the background task                                                 
+      task_id = anvil.server.call(f'launch_deepdive_avatar_1_product_4_generator', product_4_name, product_4_profile, self.avatar_1_product_4_name.text, self.avatar_1_product_4_input.text)
+      print(f"Task ID for avatar_1_product_2:", task_id)
+
+      self.indeterminate_40.visible = True
+      self.task_check_timer_regenerate_avatar_1_product_4.enabled = True
+      self.task_check_timer_regenerate_avatar_1_product_4.interval = 3  # Check every 2seconds
+ 
+  def check_task_status_regenerate_avatar_1_product_4(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Get the background task by its ID
+        
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='avatar_1_product_4_latest')
+     
+      
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working on Avatar 1 Product 4 Regeneration!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Avatar 1 Product 4 Regenerated!")
+            self.task_check_timer_regenerate_avatar_1_product_4.enabled = False
+            self.task_check_timer_regenerate_avatar_1_product_4.interval = 0
+            self.indeterminate_40.visible = False
+                
+            # Update the box
+            avatar_1_product_4_input = row['variable_value'] 
+            self.avatar_1_product_4_input.text = avatar_1_product_4_input
+
+##----------- Deep dive Avatars 2 ------##########          
+  def regenerate_avatar_2_product_4_click(self, **event_args):
+    with anvil.server.no_loading_indicator:
+      # This method should handle the UI logic
+      print("Deep Dive Avatar Generator Initiated")
+      # Start the progress bar with a small value
+      self.indeterminate_40.visible = True
+          
+      current_user = anvil.users.get_user()
+      user_table_name = current_user['user_id']
+      # Get the table for the current user
+      user_table = getattr(app_tables, user_table_name)
+      self.user_table = user_table
+      
+      # COMPANY PROFILE
+      # Retrieve the row with 'variable' column containing 'company_profile'
+      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile = company_profile_row['variable_value']
+            
+      # PRODUCT NAME 
+      product_4_name_row = user_table.search(variable='product_4')[0]
+      product_4_name = product_4_name_row['variable_title']
+      
+      # PRODUCT DESCRIPTION
+      product_4_profile_row = user_table.search(variable='product_4')[0]
+      product_4_profile = product_4_profile_row['variable_title']
+
+      # Delete whatever is in latest, so we can check it as the status update.
+      avatar_2_product_4_latest_row = user_table.get(variable='avatar_2_product_4_latest')
+      avatar_2_product_4_latest_row['variable_value'] = None
+      avatar_2_product_4_latest_row.update()
+
+      #Update the avatar preview
+      avatar_2_product_4_preview_row = user_table.get(variable='avatar_2_product_4_preview')
+      avatar_2_product_4_preview_row['variable_value'] = self.avatar_2_product_4_input.text # Avatar preview description
+      avatar_2_product_4_preview_row['variable_title'] = self.avatar_2_product_4_name.text # Avatar name description
+      avatar_2_product_4_preview_row.update()
+                
+      # Launch the background task                                                 
+      task_id = anvil.server.call(f'launch_deepdive_avatar_2_product_2_generator', product_4_name, product_4_profile, self.avatar_2_product_4_name.text, self.avatar_2_product_4_input.text)
+      print(f"Task ID for avatar_2_product_4:", task_id)
+
+      self.indeterminate_40.visible = True
+      self.task_check_timer_regenerate_avatar_2_product_4.enabled = True
+      self.task_check_timer_regenerate_avatar_2_product_4.interval = 3  # Check every 2seconds
+ 
+  def check_task_status_regenerate_avatar_2_product_4(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Get the background task by its ID
+        
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='avatar_2_product_4_latest')
+     
+      
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working on Avatar 2 Product 4 Regeneration!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Avatar 2 Product 4 Regenerated!")
+            self.task_check_timer_regenerate_avatar_2_product_4.enabled = False
+            self.task_check_timer_regenerate_avatar_2_product_4.interval = 0
+            self.indeterminate_40.visible = False
+                
+            # Update the box
+            avatar_2_product_4_input = row['variable_value'] 
+            self.avatar_2_product_4_input.text = avatar_2_product_4_input
+
+##----------- Deep dive Avatars 3 ------##########          
+  def regenerate_avatar_3_product_4_click(self, **event_args):
+    with anvil.server.no_loading_indicator:
+      # This method should handle the UI logic
+      print("Deep Dive Avatar Generator Initiated")
+      # Start the progress bar with a small value
+      self.indeterminate_10.visible = True
+          
+      current_user = anvil.users.get_user()
+      user_table_name = current_user['user_id']
+      # Get the table for the current user
+      user_table = getattr(app_tables, user_table_name)
+      self.user_table = user_table
+      
+      # COMPANY PROFILE
+      # Retrieve the row with 'variable' column containing 'company_profile'
+      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile = company_profile_row['variable_value']
+            
+      # PRODUCT NAME 
+      product_4_name_row = user_table.search(variable='product_4')[0]
+      product_4_name = product_4_name_row['variable_title']
+      
+      # PRODUCT DESCRIPTION
+      product_4_profile_row = user_table.search(variable='product_4')[0]
+      product_4_profile = product_4_profile_row['variable_title']
+
+      # Delete whatever is in latest, so we can check it as the status update.
+      avatar_3_product_4_latest_row = user_table.get(variable='avatar_3_product_4_latest')
+      avatar_3_product_4_latest_row['variable_value'] = None
+      avatar_3_product_4_latest_row.update()
+
+      #Update the avatar preview
+      avatar_3_product_4_preview_row = user_table.get(variable='avatar_3_product_4_preview')
+      avatar_3_product_4_preview_row['variable_value'] = self.avatar_3_product_4_input.text # Avatar preview description
+      avatar_3_product_4_preview_row['variable_title'] = self.avatar_3_product_4_name.text # Avatar name description
+      avatar_3_product_4_preview_row.update()
+                
+      # Launch the background task                                                 
+      task_id = anvil.server.call(f'launch_deepdive_avatar_3_product_4_generator', product_4_name, product_4_profile, self.avatar_3_product_4_name.text, self.avatar_3_product_4_input.text)
+      print(f"Task ID for avatar_3_product_4:", task_id)
+
+      self.indeterminate_40.visible = True
+      self.task_check_timer_regenerate_avatar_3_product_4.enabled = True
+      self.task_check_timer_regenerate_avatar_3_product_4.interval = 3  # Check every 2seconds
+ 
+  def check_task_status_regenerate_avatar_3_product_4(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Get the background task by its ID
+        
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='avatar_3_product_4_latest')
+     
+      
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working on Avatar 3 Product 4 Regeneration!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Avatar 3 Product 4 Regenerated!")
+            self.task_check_timer_regenerate_avatar_3_product_4.enabled = False
+            self.task_check_timer_regenerate_avatar_3_product_4.interval = 0
+            self.indeterminate_40.visible = False
+                
+            # Update the box
+            avatar_3_product_4_input = row['variable_value'] 
+            self.avatar_3_product_4_input.text = avatar_3_product_4_input
+
+
 #### PRODUCT 5 -----##
   def all_avatars_product_5_button_click(self, **event_args):
     with anvil.server.no_loading_indicator:
@@ -1017,7 +1641,213 @@ class Avatars(AvatarsTemplate):
         # If all tasks are complete, you can stop the timer
         if all_tasks_complete:
           self.avatar_product_5_timer.enabled = False
-  
+
+#######----------- Deep dive Avatars--------##########
+  def regenerate_avatar_1_product_5_click(self, **event_args):
+    with anvil.server.no_loading_indicator:
+      # This method should handle the UI logic
+      print("Deep Dive Avatar Generator Initiated")
+      # Start the progress bar with a small value
+      self.indeterminate_50.visible = True
+          
+      current_user = anvil.users.get_user()
+      user_table_name = current_user['user_id']
+      # Get the table for the current user
+      user_table = getattr(app_tables, user_table_name)
+      self.user_table = user_table
+      
+      # COMPANY PROFILE
+      # Retrieve the row with 'variable' column containing 'company_profile'
+      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile = company_profile_row['variable_value']
+            
+      # PRODUCT NAME 
+      product_5_name_row = user_table.search(variable='product_5')[0]
+      product_5_name = product_5_name_row['variable_title']
+      
+      # PRODUCT DESCRIPTION
+      product_5_profile_row = user_table.search(variable='product_5')[0]
+      product_5_profile = product_5_profile_row['variable_title']
+
+      # Delete whatever is in latest, so we can check it as the status update.
+      avatar_1_product_5_latest_row = user_table.get(variable='avatar_1_product_5_latest')
+      avatar_1_product_5_latest_row['variable_value'] = None
+      avatar_1_product_5_latest_row.update()
+
+      #Update the avatar preview
+      avatar_1_product_5_preview_row = user_table.get(variable='avatar_1_product_5_preview')
+      avatar_1_product_5_preview_row['variable_value'] = self.avatar_1_product_5_input.text # Avatar preview description
+      avatar_1_product_5_preview_row['variable_title'] = self.avatar_1_product_5_name.text # Avatar name description
+      avatar_1_product_5_preview_row.update()
+                
+      # Launch the background task                                                 
+      task_id = anvil.server.call(f'launch_deepdive_avatar_1_product_5_generator', product_5_name, product_5_profile, self.avatar_1_product_5_name.text, self.avatar_1_product_5_input.text)
+      print(f"Task ID for avatar_1_product_5:", task_id)
+
+      self.indeterminate_50.visible = True
+      self.task_check_timer_regenerate_avatar_1_product_5.enabled = True
+      self.task_check_timer_regenerate_avatar_1_product_5.interval = 3  # Check every 2seconds
+ 
+  def check_task_status_regenerate_avatar_1_product_5(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Get the background task by its ID
+        
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='avatar_1_product_5_latest')
+     
+      
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working on Avatar 1 Product 2 Regeneration!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Avatar 1 Product 2 Regenerated!")
+            self.task_check_timer_regenerate_avatar_1_product_5.enabled = False
+            self.task_check_timer_regenerate_avatar_1_product_5.interval = 0
+            self.indeterminate_50.visible = False
+                
+            # Update the box
+            avatar_1_product_5_input = row['variable_value'] 
+            self.avatar_1_product_5_input.text = avatar_1_product_5_input
+
+##----------- Deep dive Avatars 2 ------##########          
+  def regenerate_avatar_2_product_5_click(self, **event_args):
+    with anvil.server.no_loading_indicator:
+      # This method should handle the UI logic
+      print("Deep Dive Avatar Generator Initiated")
+      # Start the progress bar with a small value
+      self.indeterminate_50.visible = True
+          
+      current_user = anvil.users.get_user()
+      user_table_name = current_user['user_id']
+      # Get the table for the current user
+      user_table = getattr(app_tables, user_table_name)
+      self.user_table = user_table
+      
+      # COMPANY PROFILE
+      # Retrieve the row with 'variable' column containing 'company_profile'
+      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile = company_profile_row['variable_value']
+            
+      # PRODUCT NAME 
+      product_5_name_row = user_table.search(variable='product_5')[0]
+      product_5_name = product_5_name_row['variable_title']
+      
+      # PRODUCT DESCRIPTION
+      product_5_profile_row = user_table.search(variable='product_5')[0]
+      product_5_profile = product_5_profile_row['variable_title']
+
+      # Delete whatever is in latest, so we can check it as the status update.
+      avatar_2_product_5_latest_row = user_table.get(variable='avatar_2_product_5_latest')
+      avatar_2_product_5_latest_row['variable_value'] = None
+      avatar_2_product_5_latest_row.update()
+
+      #Update the avatar preview
+      avatar_2_product_5_preview_row = user_table.get(variable='avatar_2_product_5_preview')
+      avatar_2_product_5_preview_row['variable_value'] = self.avatar_2_product_5_input.text # Avatar preview description
+      avatar_2_product_5_preview_row['variable_title'] = self.avatar_2_product_5_name.text # Avatar name description
+      avatar_2_product_5_preview_row.update()
+                
+      # Launch the background task                                                 
+      task_id = anvil.server.call(f'launch_deepdive_avatar_2_product_2_generator', product_5_name, product_5_profile, self.avatar_2_product_5_name.text, self.avatar_2_product_5_input.text)
+      print(f"Task ID for avatar_2_product_5:", task_id)
+
+      self.indeterminate_20.visible = True
+      self.task_check_timer_regenerate_avatar_2_product_5.enabled = True
+      self.task_check_timer_regenerate_avatar_2_product_5.interval = 3  # Check every 2seconds
+ 
+  def check_task_status_regenerate_avatar_2_product_5(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Get the background task by its ID
+        
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='avatar_2_product_5_latest')
+     
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working on Avatar 2 Product 5 Regeneration!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Avatar 2 Product 5 Regenerated!")
+            self.task_check_timer_regenerate_avatar_2_product_5.enabled = False
+            self.task_check_timer_regenerate_avatar_2_product_5.interval = 0
+            self.indeterminate_50.visible = False
+                
+            # Update the box
+            avatar_2_product_5_input = row['variable_value'] 
+            self.avatar_2_product_5_input.text = avatar_2_product_5_input
+
+##----------- Deep dive Avatars 3 ------##########          
+  def regenerate_avatar_3_product_5_click(self, **event_args):
+    with anvil.server.no_loading_indicator:
+      # This method should handle the UI logic
+      print("Deep Dive Avatar Generator Initiated")
+      # Start the progress bar with a small value
+      self.indeterminate_10.visible = True
+          
+      current_user = anvil.users.get_user()
+      user_table_name = current_user['user_id']
+      # Get the table for the current user
+      user_table = getattr(app_tables, user_table_name)
+      self.user_table = user_table
+      
+      # COMPANY PROFILE
+      # Retrieve the row with 'variable' column containing 'company_profile'
+      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile = company_profile_row['variable_value']
+            
+      # PRODUCT NAME 
+      product_5_name_row = user_table.search(variable='product_5')[0]
+      product_5_name = product_5_name_row['variable_title']
+      
+      # PRODUCT DESCRIPTION
+      product_5_profile_row = user_table.search(variable='product_5')[0]
+      product_5_profile = product_5_profile_row['variable_title']
+
+      # Delete whatever is in latest, so we can check it as the status update.
+      avatar_3_product_5_latest_row = user_table.get(variable='avatar_3_product_5_latest')
+      avatar_3_product_5_latest_row['variable_value'] = None
+      avatar_3_product_5_latest_row.update()
+
+      #Update the avatar preview
+      avatar_3_product_5_preview_row = user_table.get(variable='avatar_3_product_5_preview')
+      avatar_3_product_5_preview_row['variable_value'] = self.avatar_3_product_5_input.text # Avatar preview description
+      avatar_3_product_5_preview_row['variable_title'] = self.avatar_3_product_5_name.text # Avatar name description
+      avatar_3_product_5_preview_row.update()
+                
+      # Launch the background task                                                 
+      task_id = anvil.server.call(f'launch_deepdive_avatar_3_product_5_generator', product_5_name, product_5_profile, self.avatar_3_product_5_name.text, self.avatar_3_product_5_input.text)
+      print(f"Task ID for avatar_3_product_5:", task_id)
+
+      self.indeterminate_50.visible = True
+      self.task_check_timer_regenerate_avatar_3_product_5.enabled = True
+      self.task_check_timer_regenerate_avatar_3_product_5.interval = 3  # Check every 2seconds
+ 
+  def check_task_status_regenerate_avatar_3_product_5(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Get the background task by its ID
+        
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='avatar_3_product_5_latest')
+     
+      
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working on Avatar 3 Product 5 Regeneration!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Avatar 3 Product 5 Regenerated!")
+            self.task_check_timer_regenerate_avatar_3_product_5.enabled = False
+            self.task_check_timer_regenerate_avatar_3_product_5.interval = 0
+            self.indeterminate_50.visible = False
+                
+            # Update the box
+            avatar_3_product_5_input = row['variable_value'] 
+            self.avatar_3_product_5_input.text = avatar_3_product_5_input
+          
         
 #-- SAVE / LOAD EACH AVATAR ------------#######################################################################
   def save_product_1_avatars_button_click(self, **event_args):
