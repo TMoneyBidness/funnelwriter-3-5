@@ -296,12 +296,10 @@ class Home(HomeTemplate):
                     product_url_row['variable_value'] = product_url_input
                     product_url_row.update()
 
-                    # Launch the background task for product research
-                    if product_name_input:
-                        task_product_research = anvil.server.call(f"launch_draft_deepdive_product_{i}_generator", user_table, company_name, product_name_input, product_url_input)
-                        print(f"product_{i} analysis initiated")
-                        tasks_product_research.append((i, task_product_research))
-                        task_ids.append(task_product_research)
+                    task_product_research = anvil.server.call(f"launch_draft_deepdive_product_{i}_generator", user_table, company_name, product_name_input, product_url_input)
+                    print(f"product_{i} analysis initiated")
+                    tasks_product_research.append((i, task_product_research))
+                    task_ids.append(task_product_research)
 
             # CHECK THE AVATARS FOR EACH PRODUCT
             for i in range(1, 6):
