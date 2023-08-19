@@ -155,8 +155,6 @@ class Home(HomeTemplate):
           else:
               # Handle case where the row does not exist for the current user
               print(f"No row found for 'avatar_{j}_product_{i}_latest'")
-
-          
         
     
 # ADDING PRODUCTS / AVATAR PANELS
@@ -300,6 +298,7 @@ class Home(HomeTemplate):
                     print(f"product_{i} analysis initiated")
                     tasks_product_research.append((i, task_product_research))
                     task_ids.append(task_product_research)
+                    pass
 
             # CHECK THE AVATARS FOR EACH PRODUCT
             for i in range(1, 6):
