@@ -26,20 +26,20 @@ components:
     layout_properties: {grid_position: 'UZWHPU,XUVWGG'}
   - type: ColumnPanel
     properties: {col_widths: '{}'}
-    name: column_panel_1
+    name: whole_panel
     layout_properties: {grid_position: 'AUYURQ,XFCXPF'}
     components:
     - type: ColumnPanel
       properties: {col_widths: '{}'}
-      name: column_panel_2
+      name: whole_panel_2
       layout_properties: {grid_position: 'FXZADJ,KYHNOE'}
       components:
       - type: ColumnPanel
         properties: {role: elevated-card, tooltip: '', border: '', foreground: '',
           visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small,
-          col_widths: '{"QQGLML":14,"JDKYLZ":10,"WXYRKE":50,"WOZPUB":25,"CEPQWZ":36,"XOIGNB":35,"PIYGOZ":40,"ATNXQA":20}',
-          spacing_below: small, background: 'theme:On Primary'}
-        name: avatar_1_product_1_input_section
+          col_widths: '{"QQGLML":14,"CEPQWZ":36,"PIYGOZ":40,"ATNXQA":20}', spacing_below: small,
+          background: 'theme:On Primary'}
+        name: product_1_input_section
         layout_properties:
           col_widths: {}
           grid_position: LSYGLE,MPYIIT
@@ -63,63 +63,76 @@ components:
         - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
           properties: {}
           name: indeterminate_10
-          layout_properties: {grid_position: 'WYMVXU,MDJRDZ'}
-        - type: Label
-          properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
-            visible: true, text: 'Avatar 1 Name:', font_size: 16, font: '', spacing_above: small,
-            icon_align: left, spacing_below: small, italic: false, background: '',
-            bold: true, underline: false, icon: ''}
-          name: label_2_copy_36
+          layout_properties: {grid_position: 'ZYUXOE,OLATPY'}
+        - type: ColumnPanel
+          properties: {col_widths: '{"FGXNBI":10,"LPXMBI":50,"YSRKFP":40}'}
+          name: avatar_1_product_1_input_section
           layout_properties:
             col_widths: {}
-            grid_position: AYAOTQ,SDNATI
-        - type: TextBox
-          properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: 'ie.
-              Hillary, the Digital Marketer', border: '', enabled: true, foreground: '',
-            visible: true, text: '', font_size: null, font: '', spacing_above: small,
-            type: text, spacing_below: small, italic: true, background: '', bold: false,
-            underline: false}
-          name: avatar_1_product_1_name
-          layout_properties:
-            col_widths: {}
-            grid_position: AYAOTQ,BIINXZ
-        - type: Label
-          properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
-            visible: true, text: Avatar 1 (Primary Buyer), font_size: 16, font: '',
-            spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-            background: '', bold: true, underline: false, icon: ''}
-          name: label_2_copy_37
-          layout_properties:
-            col_widths: {}
-            grid_position: UGVSDG,JDKYLZ
-        - type: TextArea
-          properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
-            border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-            auto_expand: true, font: '', spacing_above: small, spacing_below: small,
-            italic: false, background: '', bold: false, underline: false}
-          name: avatar_1_product_1_input
-          layout_properties: {grid_position: 'UGVSDG,WXYRKE'}
-        - type: Button
-          properties: {role: outlined-button, align: center, tooltip: '', border: '',
-            enabled: true, foreground: '', visible: true, text: REGENERATE AVATAR,
-            font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
-            italic: false, background: 'theme:Secondary Container', bold: false, underline: false,
-            icon: 'fa:android'}
-          name: avatar_1_product_1_button
-          layout_properties:
-            col_widths: {}
-            grid_position: XFTMZZ,XOIGNB
-          event_bindings: {click: regenerate_avatar_1_product_1_click}
-        - type: Button
-          properties: {role: elevated-button, align: center, tooltip: '', border: '',
-            enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
-            font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
-            italic: false, background: '', bold: false, underline: false, icon: 'fa:plus'}
-          name: add_avatar_2_product_1
-          layout_properties:
-            col_widths: {}
-            grid_position: XFTMZZ,WOZPUB
-          event_bindings: {click: add_avatar_2_product_1_click}
+            grid_position: LJESUP,ZNBFAE
+          components:
+          - type: Label
+            properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
+              visible: true, text: 'Avatar 1 Name:', font_size: 16, font: '', spacing_above: small,
+              icon_align: left, spacing_below: small, italic: false, background: '',
+              bold: true, underline: false, icon: ''}
+            name: label_2_copy_49
+            layout_properties:
+              col_widths: {}
+              grid_position: ZUHAUT,LZXGLA
+          - type: TextBox
+            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: 'ie.
+                Hillary, the Digital Marketer', border: '', enabled: true, foreground: '',
+              visible: true, text: '', font_size: null, font: '', spacing_above: small,
+              type: text, spacing_below: small, italic: true, background: '', bold: false,
+              underline: false}
+            name: avatar_1_product_1_name
+            layout_properties:
+              col_widths: {}
+              grid_position: ZUHAUT,HAITGA
+          - type: Label
+            properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
+              visible: true, text: Customer Avatar 1, font_size: 16, font: '', spacing_above: small,
+              icon_align: left, spacing_below: small, italic: false, background: '',
+              bold: true, underline: false, icon: ''}
+            name: label_2_copy_52
+            layout_properties:
+              col_widths: {}
+              grid_position: XZEMTO,FGXNBI
+          - type: TextArea
+            properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+              border: '', enabled: true, foreground: '', visible: true, text: '',
+              font_size: null, auto_expand: true, font: '', spacing_above: small,
+              spacing_below: small, italic: false, background: '', bold: false, underline: false}
+            name: avatar_1_product_1_input
+            layout_properties: {grid_position: 'XZEMTO,LPXMBI'}
+          - type: Button
+            properties: {role: outlined-button, align: center, tooltip: '', border: '',
+              enabled: true, foreground: '', visible: true, text: REGENERATE AVATAR,
+              font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+              italic: false, background: 'theme:Secondary Container', bold: false,
+              underline: false, icon: 'fa:android'}
+            name: avatar_3_product_1_button_copy
+            layout_properties:
+              col_widths: {}
+              grid_position: KNXUQX,YSRKFP
+            event_bindings: {click: regenerate_avatar_1_product_1_click}
+          - type: ColumnPanel
+            properties: {col_widths: '{}'}
+            name: column_panel_3_copy
+            layout_properties: {grid_position: 'KNXUQX,MCAKHV'}
+            components:
+            - type: Button
+              properties: {role: elevated-button, align: center, tooltip: '', border: '',
+                enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
+                font_size: null, font: '', spacing_above: small, icon_align: left,
+                spacing_below: small, italic: false, background: '', bold: false,
+                underline: false, icon: 'fa:plus'}
+              name: add_avatar_3_product_1_copy
+              layout_properties:
+                col_widths: {}
+                grid_position: SPEJKK,XPEYXP
+              event_bindings: {click: add_avatar_2_product_1_click}
         - type: ColumnPanel
           properties: {col_widths: '{"FGXNBI":10,"LPXMBI":50,"LILIXU":35,"OYUXBO":25}'}
           name: avatar_2_product_1_input_section
@@ -277,9 +290,9 @@ components:
       - type: ColumnPanel
         properties: {role: elevated-card, tooltip: '', border: '', foreground: '',
           visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small,
-          col_widths: '{"QQGLML":10,"JDKYLZ":10,"WXYRKE":50,"KJDRWI":26,"WOZPUB":24,"QFCJCW":35,"MRYQOF":40,"MVITBE":20}',
-          spacing_below: small, background: ''}
-        name: avatar_1_product_2_input_section
+          col_widths: '{"QQGLML":10,"KJDRWI":26,"MRYQOF":40,"MVITBE":20}', spacing_below: small,
+          background: ''}
+        name: product_2_input_section
         layout_properties:
           col_widths: {}
           grid_position: OUZDAF,KUEBYI
@@ -300,68 +313,83 @@ components:
               Container', bold: true, underline: false, icon: ''}
           name: product_2_name_input
           layout_properties: {grid_position: 'BFSHLN,KJDRWI'}
+        - type: Button
+          properties: {role: elevated-button, align: center, tooltip: '', border: '',
+            enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
+            font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+            italic: false, background: '', bold: false, underline: false, icon: 'fa:plus'}
+          name: add_avatar_1_product_2
+          layout_properties:
+            col_widths: {}
+            grid_position: XKOEDS,KCMOMN
+          event_bindings: {click: add_avatar_1_product_2_click}
         - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
           properties: {}
           name: indeterminate_20
           layout_properties:
             col_widths: {}
             grid_position: KUCBVU,DPWUQJ
-        - type: Label
-          properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
-            visible: true, text: 'Avatar 1 Name:', font_size: 16, font: '', spacing_above: small,
-            icon_align: left, spacing_below: small, italic: false, background: '',
-            bold: true, underline: false, icon: ''}
-          name: label_2_copy_42
-          layout_properties:
-            col_widths: {}
-            grid_position: CVXFJQ,KKISUO
-        - type: TextBox
-          properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: 'ie.
-              Hillary, the Digital Marketer', border: '', enabled: true, foreground: '',
-            visible: true, text: '', font_size: null, font: '', spacing_above: small,
-            type: text, spacing_below: small, italic: true, background: '', bold: false,
-            underline: false}
-          name: avatar_1_product_2_name
-          layout_properties:
-            col_widths: {}
-            grid_position: CVXFJQ,LIIDXB
-        - type: Label
-          properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
-            visible: true, text: Customer Avatar 2 (Primary Buyer), font_size: 16,
-            font: '', spacing_above: small, icon_align: left, spacing_below: small,
-            italic: false, background: '', bold: true, underline: false, icon: ''}
-          name: label_2_copy_17
-          layout_properties:
-            col_widths: {}
-            grid_position: UGVSDG,JDKYLZ
-        - type: TextArea
-          properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
-            border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-            auto_expand: true, font: '', spacing_above: small, spacing_below: small,
-            italic: false, background: '', bold: false, underline: false}
-          name: avatar_1_product_2_input
-          layout_properties: {grid_position: 'UGVSDG,WXYRKE'}
-        - type: Button
-          properties: {role: outlined-button, align: center, tooltip: '', border: '',
-            enabled: true, foreground: '', visible: true, text: REGENERATE AVATAR,
-            font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
-            italic: false, background: 'theme:Secondary Container', bold: false, underline: false,
-            icon: 'fa:android'}
-          name: avatar_1_product_2_button
-          layout_properties:
-            col_widths: {}
-            grid_position: XFTMZZ,QFCJCW
-          event_bindings: {click: regenerate_avatar_1_product_2_click}
-        - type: Button
-          properties: {role: elevated-button, align: center, tooltip: '', border: '',
-            enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
-            font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
-            italic: false, background: '', bold: false, underline: false, icon: 'fa:plus'}
-          name: add_avatar_2_product_2
-          layout_properties:
-            col_widths: {}
-            grid_position: XFTMZZ,WOZPUB
-          event_bindings: {click: add_avatar_2_product_2_click}
+        - type: ColumnPanel
+          properties: {col_widths: '{"ZAKTQE":35,"ONJHFG":25,"KZYLST":10,"QVGULV":50}'}
+          name: avatar_1_product_2_input_section
+          layout_properties: {grid_position: 'NKIHII,DAWMNS'}
+          components:
+          - type: Label
+            properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
+              visible: true, text: 'Avatar 1 Name:', font_size: 16, font: '', spacing_above: small,
+              icon_align: left, spacing_below: small, italic: false, background: '',
+              bold: true, underline: false, icon: ''}
+            name: label_2_copy_42
+            layout_properties:
+              col_widths: {}
+              grid_position: XMCHRH,RXXOCS
+          - type: TextBox
+            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: 'ie.
+                Hillary, the Digital Marketer', border: '', enabled: true, foreground: '',
+              visible: true, text: '', font_size: null, font: '', spacing_above: small,
+              type: text, spacing_below: small, italic: true, background: '', bold: false,
+              underline: false}
+            name: avatar_1_product_2_name
+            layout_properties:
+              col_widths: {}
+              grid_position: XMCHRH,KQEFVB
+          - type: Label
+            properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
+              visible: true, text: Customer Avatar 1 (Primary Buyer), font_size: 16,
+              font: '', spacing_above: small, icon_align: left, spacing_below: small,
+              italic: false, background: '', bold: true, underline: false, icon: ''}
+            name: label_2_copy_17
+            layout_properties:
+              col_widths: {}
+              grid_position: AMBEIB,KZYLST
+          - type: TextArea
+            properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+              border: '', enabled: true, foreground: '', visible: true, text: '',
+              font_size: null, auto_expand: true, font: '', spacing_above: small,
+              spacing_below: small, italic: false, background: '', bold: false, underline: false}
+            name: avatar_1_product_2_input
+            layout_properties: {grid_position: 'AMBEIB,QVGULV'}
+          - type: Button
+            properties: {role: outlined-button, align: center, tooltip: '', border: '',
+              enabled: true, foreground: '', visible: true, text: REGENERATE AVATAR,
+              font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+              italic: false, background: 'theme:Secondary Container', bold: false,
+              underline: false, icon: 'fa:android'}
+            name: avatar_1_product_2_button
+            layout_properties:
+              col_widths: {}
+              grid_position: EFCMEW,ZAKTQE
+            event_bindings: {click: regenerate_avatar_1_product_2_click}
+          - type: Button
+            properties: {role: elevated-button, align: center, tooltip: '', border: '',
+              enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
+              font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+              italic: false, background: '', bold: false, underline: false, icon: 'fa:plus'}
+            name: add_avatar_2_product_2
+            layout_properties:
+              col_widths: {}
+              grid_position: EFCMEW,ONJHFG
+            event_bindings: {click: add_avatar_2_product_2_click}
         - type: ColumnPanel
           properties: {col_widths: '{"FGXNBI":10,"LPXMBI":50,"ULZVEJ":35,"OYUXBO":25}'}
           name: avatar_2_product_2_input_section
@@ -520,9 +548,9 @@ components:
       - type: ColumnPanel
         properties: {role: elevated-card, tooltip: '', border: black, foreground: '',
           visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small,
-          col_widths: '{"QQGLML":10,"JDKYLZ":9,"WXYRKE":47,"MDMKUW":26,"JKQLJP":35,"WOZPUB":25,"OXLYNN":40,"UCCFEJ":20}',
-          spacing_below: small, background: 'theme:On Primary'}
-        name: avatar_1_product_3_input_section
+          col_widths: '{"QQGLML":10,"MDMKUW":26,"OXLYNN":40,"UCCFEJ":20}', spacing_below: small,
+          background: 'theme:On Primary'}
+        name: product_3_input_section
         layout_properties:
           col_widths: {}
           grid_position: AWRLTG,BBOXPV
@@ -549,62 +577,79 @@ components:
           layout_properties:
             col_widths: {}
             grid_position: LZPOOI,SBZNQJ
-        - type: Label
-          properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
-            visible: true, text: 'Avatar 1 Name:', font_size: 16, font: '', spacing_above: small,
-            icon_align: left, spacing_below: small, italic: false, background: '',
-            bold: true, underline: false, icon: ''}
-          name: label_2_copy_45
-          layout_properties:
-            col_widths: {}
-            grid_position: IUPNWN,RHROFJ
-        - type: TextBox
-          properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: 'ie.
-              Hillary, the Digital Marketer', border: '', enabled: true, foreground: '',
-            visible: true, text: '', font_size: null, font: '', spacing_above: small,
-            type: text, spacing_below: small, italic: true, background: '', bold: false,
-            underline: false}
-          name: avatar_1_product_3_name
-          layout_properties:
-            col_widths: {}
-            grid_position: IUPNWN,EUAKWP
-        - type: Label
-          properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
-            visible: true, text: Customer Avatar 1 (Primary Buyer), font_size: 16,
-            font: '', spacing_above: small, icon_align: left, spacing_below: small,
-            italic: false, background: '', bold: true, underline: false, icon: ''}
-          name: label_2_copy_22
-          layout_properties:
-            col_widths: {}
-            grid_position: UGVSDG,JDKYLZ
-        - type: TextArea
-          properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
-            border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-            auto_expand: true, font: '', spacing_above: small, spacing_below: small,
-            italic: false, background: '', bold: false, underline: false}
-          name: avatar_1_product_3_input
-          layout_properties: {grid_position: 'UGVSDG,WXYRKE'}
-        - type: Button
-          properties: {role: outlined-button, align: center, tooltip: '', border: '',
-            enabled: true, foreground: '', visible: true, text: REGENERATE AVATAR,
-            font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
-            italic: false, background: 'theme:Secondary Container', bold: false, underline: false,
-            icon: 'fa:android'}
-          name: avatar_1_product_3_button
-          layout_properties:
-            col_widths: {}
-            grid_position: XFTMZZ,JKQLJP
-          event_bindings: {click: regenerate_avatar_1_product_3_click}
         - type: Button
           properties: {role: elevated-button, align: center, tooltip: '', border: '',
             enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
             font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
             italic: false, background: '', bold: false, underline: false, icon: 'fa:plus'}
-          name: add_avatar_2_product_3
+          name: add_avatar_1_product_3
           layout_properties:
             col_widths: {}
-            grid_position: XFTMZZ,WOZPUB
-          event_bindings: {click: add_avatar_2_product_3_click}
+            grid_position: UDYPRT,EAFMBV
+          event_bindings: {click: add_avatar_1_product_3_click}
+        - type: ColumnPanel
+          properties: {col_widths: '{"ZAKTQE":35,"ONJHFG":25,"KZYLST":10,"QVGULV":50}'}
+          name: avatar_1_product_3_input_section
+          layout_properties:
+            col_widths: {}
+            grid_position: XIBFJQ,AQBNQF
+          components:
+          - type: Label
+            properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
+              visible: true, text: 'Avatar 1 Name:', font_size: 16, font: '', spacing_above: small,
+              icon_align: left, spacing_below: small, italic: false, background: '',
+              bold: true, underline: false, icon: ''}
+            name: label_2_copy_48
+            layout_properties:
+              col_widths: {}
+              grid_position: XMCHRH,RXXOCS
+          - type: TextBox
+            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: 'ie.
+                Hillary, the Digital Marketer', border: '', enabled: true, foreground: '',
+              visible: true, text: '', font_size: null, font: '', spacing_above: small,
+              type: text, spacing_below: small, italic: true, background: '', bold: false,
+              underline: false}
+            name: avatar_1_product_3_name
+            layout_properties:
+              col_widths: {}
+              grid_position: XMCHRH,KQEFVB
+          - type: Label
+            properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
+              visible: true, text: Customer Avatar 1 (Primary Buyer), font_size: 16,
+              font: '', spacing_above: small, icon_align: left, spacing_below: small,
+              italic: false, background: '', bold: true, underline: false, icon: ''}
+            name: label_2_copy_19
+            layout_properties:
+              col_widths: {}
+              grid_position: AMBEIB,KZYLST
+          - type: TextArea
+            properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+              border: '', enabled: true, foreground: '', visible: true, text: '',
+              font_size: null, auto_expand: true, font: '', spacing_above: small,
+              spacing_below: small, italic: false, background: '', bold: false, underline: false}
+            name: avatar_1_product_3_input
+            layout_properties: {grid_position: 'AMBEIB,QVGULV'}
+          - type: Button
+            properties: {role: outlined-button, align: center, tooltip: '', border: '',
+              enabled: true, foreground: '', visible: true, text: REGENERATE AVATAR,
+              font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+              italic: false, background: 'theme:Secondary Container', bold: false,
+              underline: false, icon: 'fa:android'}
+            name: avatar_1_product_3_button
+            layout_properties:
+              col_widths: {}
+              grid_position: EFCMEW,ZAKTQE
+            event_bindings: {click: regenerate_avatar_1_product_3_click}
+          - type: Button
+            properties: {role: elevated-button, align: center, tooltip: '', border: '',
+              enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
+              font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+              italic: false, background: '', bold: false, underline: false, icon: 'fa:plus'}
+            name: add_avatar_2_product_3
+            layout_properties:
+              col_widths: {}
+              grid_position: EFCMEW,ONJHFG
+            event_bindings: {click: add_avatar_2_product_2_click}
         - type: ColumnPanel
           properties: {col_widths: '{"FGXNBI":10,"LPXMBI":50,"DGRFSR":35,"OYUXBO":25}'}
           name: avatar_2_product_3_input_section
@@ -763,9 +808,9 @@ components:
       - type: ColumnPanel
         properties: {role: elevated-card, tooltip: '', border: '', foreground: '',
           visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small,
-          col_widths: '{"QQGLML":10,"JDKYLZ":10,"XXFKWG":50,"BAPQNB":26,"TENWBL":35,"TJAIQC":25,"TURVEQ":40,"XDHHKV":20}',
-          spacing_below: small, background: ''}
-        name: avatar_1_product_4_input_section
+          col_widths: '{"QQGLML":10,"BAPQNB":26,"TURVEQ":40,"XDHHKV":20}', spacing_below: small,
+          background: ''}
+        name: product_4_input_section
         layout_properties:
           col_widths: {}
           grid_position: GKAHMV,FIKAVJ
@@ -792,62 +837,79 @@ components:
           layout_properties:
             col_widths: {}
             grid_position: CUVDZB,RZVQUX
-        - type: Label
-          properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
-            visible: true, text: 'Avatar 1 Name:', font_size: 16, font: '', spacing_above: small,
-            icon_align: left, spacing_below: small, italic: false, background: '',
-            bold: true, underline: false, icon: ''}
-          name: label_2_copy_52
-          layout_properties:
-            col_widths: {}
-            grid_position: ZUJTBB,OUCQLE
-        - type: TextBox
-          properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: 'ie.
-              Hillary, the Digital Marketer', border: '', enabled: true, foreground: '',
-            visible: true, text: '', font_size: null, font: '', spacing_above: small,
-            type: text, spacing_below: small, italic: true, background: '', bold: false,
-            underline: false}
-          name: avatar_1_product_4_name
-          layout_properties:
-            col_widths: {}
-            grid_position: ZUJTBB,BRTWYC
-        - type: Label
-          properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
-            visible: true, text: Customer Avatar 1 (Primary Buyer), font_size: 16,
-            font: '', spacing_above: small, icon_align: left, spacing_below: small,
-            italic: false, background: '', bold: true, underline: false, icon: ''}
-          name: label_2_copy_27
-          layout_properties:
-            col_widths: {}
-            grid_position: UGVSDG,JDKYLZ
-        - type: TextArea
-          properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
-            border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-            auto_expand: true, font: '', spacing_above: small, spacing_below: small,
-            italic: false, background: '', bold: false, underline: false}
-          name: avatar_1_product_4_input
-          layout_properties: {grid_position: 'UGVSDG,XXFKWG'}
-        - type: Button
-          properties: {role: outlined-button, align: center, tooltip: '', border: '',
-            enabled: true, foreground: '', visible: true, text: REGENERATE AVATAR,
-            font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
-            italic: false, background: 'theme:Secondary Container', bold: false, underline: false,
-            icon: 'fa:android'}
-          name: avatar_1_product_4_button
-          layout_properties:
-            col_widths: {}
-            grid_position: BDNZAB,TENWBL
-          event_bindings: {click: regenerate_avatar_1_product_4_click}
         - type: Button
           properties: {role: elevated-button, align: center, tooltip: '', border: '',
             enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
             font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
             italic: false, background: '', bold: false, underline: false, icon: 'fa:plus'}
-          name: add_avatar_2_product_4
+          name: add_avatar_1_product_4
           layout_properties:
             col_widths: {}
-            grid_position: BDNZAB,TJAIQC
-          event_bindings: {click: add_avatar_2_product_4_click}
+            grid_position: OHVQOM,SEXYKY
+          event_bindings: {click: add_avatar_1_product_4_click}
+        - type: ColumnPanel
+          properties: {col_widths: '{"FGXNBI":10,"LPXMBI":50,"UTLXDN":35,"KGNEDG":25}'}
+          name: avatar_1_product_4_input_section
+          layout_properties:
+            col_widths: {}
+            grid_position: IFYSDT,ZYQGXF
+          components:
+          - type: Label
+            properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
+              visible: true, text: 'Avatar 1 Name:', font_size: 16, font: '', spacing_above: small,
+              icon_align: left, spacing_below: small, italic: false, background: '',
+              bold: true, underline: false, icon: ''}
+            name: label_2_copy_56
+            layout_properties:
+              col_widths: {}
+              grid_position: BOCFSQ,DEOQXE
+          - type: TextBox
+            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: 'ie.
+                Hillary, the Digital Marketer', border: '', enabled: true, foreground: '',
+              visible: true, text: '', font_size: null, font: '', spacing_above: small,
+              type: text, spacing_below: small, italic: true, background: '', bold: false,
+              underline: false}
+            name: avatar_1_product_4_name
+            layout_properties:
+              col_widths: {}
+              grid_position: BOCFSQ,CPMBTC
+          - type: Label
+            properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
+              visible: true, text: Customer Avatar 1, font_size: 16, font: '', spacing_above: small,
+              icon_align: left, spacing_below: small, italic: false, background: '',
+              bold: true, underline: false, icon: ''}
+            name: label_2_copy_31
+            layout_properties:
+              col_widths: {}
+              grid_position: XZEMTO,FGXNBI
+          - type: TextArea
+            properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+              border: '', enabled: true, foreground: '', visible: true, text: '',
+              font_size: null, auto_expand: true, font: '', spacing_above: small,
+              spacing_below: small, italic: false, background: '', bold: false, underline: false}
+            name: avatar_1_product_4_input
+            layout_properties: {grid_position: 'XZEMTO,LPXMBI'}
+          - type: Button
+            properties: {role: outlined-button, align: center, tooltip: '', border: '',
+              enabled: true, foreground: '', visible: true, text: REGENERATE AVATAR,
+              font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+              italic: false, background: 'theme:Secondary Container', bold: false,
+              underline: false, icon: 'fa:android'}
+            name: avatar_1_product_4_button
+            layout_properties:
+              col_widths: {}
+              grid_position: LFLVQW,UTLXDN
+            event_bindings: {click: regenerate_avatar_1_product_4_click}
+          - type: Button
+            properties: {role: elevated-button, align: center, tooltip: '', border: '',
+              enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
+              font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+              italic: false, background: '', bold: false, underline: false, icon: 'fa:plus'}
+            name: add_avatar_2_product_4
+            layout_properties:
+              col_widths: {}
+              grid_position: LFLVQW,KGNEDG
+            event_bindings: {click: add_avatar_2_product_4_click}
         - type: ColumnPanel
           properties: {col_widths: '{"FGXNBI":10,"LPXMBI":50,"UTLXDN":35,"KGNEDG":25}'}
           name: avatar_2_product_4_input_section
@@ -1012,9 +1074,9 @@ components:
       - type: ColumnPanel
         properties: {role: elevated-card, tooltip: '', border: '', foreground: '',
           visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: small,
-          col_widths: '{"QQGLML":10,"JDKYLZ":9,"WXYRKE":49,"FWARSN":27,"FCWWYG":35,"WOZPUB":25}',
-          spacing_below: small, background: 'theme:On Primary'}
-        name: avatar_1_product_5_input_section
+          col_widths: '{"QQGLML":10,"FWARSN":27}', spacing_below: small, background: 'theme:On
+            Primary'}
+        name: product_5_input_section
         layout_properties:
           col_widths: {}
           grid_position: XPXHWN,CILRVR
@@ -1035,68 +1097,85 @@ components:
               Container', bold: true, underline: false, icon: ''}
           name: product_5_name_input
           layout_properties: {grid_position: 'BFSHLN,FWARSN'}
+        - type: Button
+          properties: {role: elevated-button, align: center, tooltip: '', border: '',
+            enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
+            font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+            italic: false, background: '', bold: false, underline: false, icon: 'fa:plus'}
+          name: add_avatar_1_product_5
+          layout_properties:
+            col_widths: {}
+            grid_position: LWNSQV,FVJSDZ
+          event_bindings: {click: add_avatar_1_product_5_click}
         - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
           properties: {}
           name: indeterminate_50
           layout_properties:
             col_widths: {}
             grid_position: OXJKGV,EXHBOT
-        - type: Label
-          properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
-            visible: true, text: 'Avatar 1 Name:', font_size: 16, font: '', spacing_above: small,
-            icon_align: left, spacing_below: small, italic: false, background: '',
-            bold: true, underline: false, icon: ''}
-          name: label_2_copy_53
+        - type: ColumnPanel
+          properties: {col_widths: '{"FGXNBI":10,"LPXMBI":50,"CCTUBA":35,"OYUXBO":25}'}
+          name: avatar_1_product_5_input_section
           layout_properties:
             col_widths: {}
-            grid_position: KOSUQG,JCNWFD
-        - type: TextBox
-          properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: 'ie.
-              Hillary, the Digital Marketer', border: '', enabled: true, foreground: '',
-            visible: true, text: '', font_size: null, font: '', spacing_above: small,
-            type: text, spacing_below: small, italic: true, background: '', bold: false,
-            underline: false}
-          name: avatar_1_product_5_name
-          layout_properties:
-            col_widths: {}
-            grid_position: KOSUQG,WOFDFP
-        - type: Label
-          properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
-            visible: true, text: Customer Avatar 1 (Primary Buyer), font_size: 16,
-            font: '', spacing_above: small, icon_align: left, spacing_below: small,
-            italic: false, background: '', bold: true, underline: false, icon: ''}
-          name: label_2_copy_32
-          layout_properties:
-            col_widths: {}
-            grid_position: UGVSDG,JDKYLZ
-        - type: TextArea
-          properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
-            border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-            auto_expand: true, font: '', spacing_above: small, spacing_below: small,
-            italic: false, background: '', bold: false, underline: false}
-          name: avatar_1_product_5_input
-          layout_properties: {grid_position: 'UGVSDG,WXYRKE'}
-        - type: Button
-          properties: {role: outlined-button, align: center, tooltip: '', border: '',
-            enabled: true, foreground: '', visible: true, text: REGENERATE AVATAR,
-            font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
-            italic: false, background: 'theme:Secondary Container', bold: false, underline: false,
-            icon: 'fa:android'}
-          name: avatar_1_product_5_button
-          layout_properties:
-            col_widths: {}
-            grid_position: XFTMZZ,FCWWYG
-          event_bindings: {click: regenerate_avatar_1_product_5_click}
-        - type: Button
-          properties: {role: elevated-button, align: center, tooltip: '', border: '',
-            enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
-            font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
-            italic: false, background: '', bold: false, underline: false, icon: 'fa:plus'}
-          name: add_avatar_2_product_5
-          layout_properties:
-            col_widths: {}
-            grid_position: XFTMZZ,WOZPUB
-          event_bindings: {click: add_avatar_2_product_5_click}
+            grid_position: FCXKAD,LUJREG
+          components:
+          - type: Label
+            properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
+              visible: true, text: 'Avatar 1 Name:', font_size: 16, font: '', spacing_above: small,
+              icon_align: left, spacing_below: small, italic: false, background: '',
+              bold: true, underline: false, icon: ''}
+            name: label_2_copy_57
+            layout_properties:
+              col_widths: {}
+              grid_position: IFLRVV,DOPXSI
+          - type: TextBox
+            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: 'ie.
+                Hillary, the Digital Marketer', border: '', enabled: true, foreground: '',
+              visible: true, text: '', font_size: null, font: '', spacing_above: small,
+              type: text, spacing_below: small, italic: true, background: '', bold: false,
+              underline: false}
+            name: avatar_1_product_5_name
+            layout_properties:
+              col_widths: {}
+              grid_position: IFLRVV,QYZGEP
+          - type: Label
+            properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
+              visible: true, text: Customer Avatar 1, font_size: 16, font: '', spacing_above: small,
+              icon_align: left, spacing_below: small, italic: false, background: '',
+              bold: true, underline: false, icon: ''}
+            name: label_2_copy_45
+            layout_properties:
+              col_widths: {}
+              grid_position: XZEMTO,FGXNBI
+          - type: TextArea
+            properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+              border: '', enabled: true, foreground: '', visible: true, text: '',
+              font_size: null, auto_expand: true, font: '', spacing_above: small,
+              spacing_below: small, italic: false, background: '', bold: false, underline: false}
+            name: avatar_1_product_5_input
+            layout_properties: {grid_position: 'XZEMTO,LPXMBI'}
+          - type: Button
+            properties: {role: outlined-button, align: center, tooltip: '', border: '',
+              enabled: true, foreground: '', visible: true, text: REGENERATE AVATAR,
+              font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+              italic: false, background: 'theme:Secondary Container', bold: false,
+              underline: false, icon: 'fa:android'}
+            name: avatar_1_product_5_button
+            layout_properties:
+              col_widths: {}
+              grid_position: TINESQ,CCTUBA
+            event_bindings: {click: regenerate_avatar_1_product_5_click}
+          - type: Button
+            properties: {role: elevated-button, align: center, tooltip: '', border: '',
+              enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
+              font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+              italic: false, background: '', bold: false, underline: false, icon: 'fa:plus'}
+            name: add_avatar_2_product_5
+            layout_properties:
+              col_widths: {}
+              grid_position: TINESQ,OYUXBO
+            event_bindings: {click: add_avatar_2_product_5_click}
         - type: ColumnPanel
           properties: {col_widths: '{"FGXNBI":10,"LPXMBI":50,"CCTUBA":35,"OYUXBO":25}'}
           name: avatar_2_product_5_input_section
@@ -1237,6 +1316,15 @@ components:
           properties: {height: 32}
           name: spacer_3_copy_9
           layout_properties: {grid_position: 'LYPEGN,GPPXZG'}
+        - type: Button
+          properties: {role: elevated-button, align: center, tooltip: '', border: '',
+            enabled: false, foreground: '', visible: true, text: '', font_size: null,
+            font: '', spacing_above: small, icon_align: left, spacing_below: small,
+            italic: false, background: '', bold: false, underline: false, icon: 'fa:plus'}
+          name: add_avatar_1_product_1
+          layout_properties:
+            col_widths: {}
+            grid_position: TPYCFO,GPYAKX
 - type: Button
   properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: false,
     foreground: 'theme:Secondary Container', visible: true, text: CONTINUE TO BRAND TONE,

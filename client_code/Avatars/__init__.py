@@ -30,13 +30,19 @@ class Avatars(AvatarsTemplate):
     user_table_name = current_user['user_id']
     user_table = getattr(app_tables, user_table_name)
 
+    self.all_avatars_product_1_button.visible = False
+    self.all_avatars_product_2_button.visible = False
+    self.all_avatars_product_3_button.visible = False
+    self.all_avatars_product_4_button.visible = False
+    self.all_avatars_product_5_button.visible = False
+
     self.indeterminate_10.visible = False
     self.indeterminate_20.visible = False
     self.indeterminate_30.visible = False
     self.indeterminate_40.visible = False
     self.indeterminate_50.visible = False
 
-    # Start Timers
+    # Stop Timers
     self.avatar_product_1_timer.enabled = False
     self.avatar_product_1_timer.interval = 0  # Check every 5 seconds
     self.avatar_product_2_timer.enabled = False
@@ -54,12 +60,15 @@ class Avatars(AvatarsTemplate):
     # Get the table for the current user
     user_table = getattr(app_tables, user_table_name)
 
+    # Show Panels
+    self.whole_panel.visible=True
+    self.whole_panel_2.visible=True
     # Hide Panels of Products 2-5
-    self.avatar_1_product_1_input_section.visible = False
-    self.avatar_1_product_2_input_section.visible = False
-    self.avatar_1_product_3_input_section.visible = False
-    self.avatar_1_product_4_input_section.visible = False
-    self.avatar_1_product_5_input_section.visible = False
+    self.product_1_input_section.visible = False
+    self.product_2_input_section.visible = False
+    self.product_3_input_section.visible = False
+    self.product_4_input_section.visible = False
+    self.product_5_input_section.visible = False
         
     for i in range(1, 6):
       row_product_latest = user_table.search(variable=f'product_{i}_latest')
@@ -74,34 +83,34 @@ class Avatars(AvatarsTemplate):
           # getattr(self, f'product_{i}_url').text = product_latest_url
 
           if product_latest_name:
-            getattr(self, f'avatar_1_product_{i}_input_section').visible = True
-
-          else:
-            getattr(self, f'avatar_1_product_{i}_input_section').visible = False
-                  
+            getattr(self, f'product_{i}_input_section').visible = True
+            getattr(self, f'add_avatar_1_product_{i}').visible = True
+          
           # Now, load the avatars associated with that product. There may be 1 avatar only, or there are 3. The cells might be empty!
           # Load the avatars associated with that product
           for j in range(1, 4):
               row_avatar_product_latest = user_table.get(variable=f'avatar_{j}_product_{i}_latest')
-              
-              # If the avatar cell exists
-              if row_avatar_product_latest:
-                  avatar_product_latest = row_avatar_product_latest['variable_value']
-                  avatar_product_latest_name = row_avatar_product_latest['variable_title']
-          
-                  # Check if the avatar cell is not empty
-                  if avatar_product_latest and avatar_product_latest.strip():
-                      getattr(self, f'avatar_{j}_product_{i}_input').text = avatar_product_latest
-                      getattr(self, f'avatar_{j}_product_{i}_name').text = avatar_product_latest_name
-                      getattr(self, f'avatar_{j}_product_{i}_input_section').visible = True
-                  else:
-                      # Make the section invisible if the avatar cell is empty
-                      getattr(self, f'avatar_{j}_product_{i}_input_section').visible = False
-          
+              avatar_product_latest = row_avatar_product_latest['variable_value']
+              avatar_product_latest_name = row_avatar_product_latest['variable_title']
+      
+              # Check if the avatar cell is not empty
+              if avatar_product_latest and avatar_product_latest.strip():
+                  getattr(self, f'avatar_{j}_product_{i}_input').text = avatar_product_latest
+                  getattr(self, f'avatar_{j}_product_{i}_name').text = avatar_product_latest_name
+                  getattr(self, f'avatar_{j}_product_{i}_input_section').visible = True
+                  # Since the avatar cell exists, the button should be invisible
+                  getattr(self, f'add_avatar_1_product_{i}').visible = False
+                  
               else:
-                  # Make the section invisible if the avatar cell doesn't exist
+                  # Make the section invisible if the avatar cell is empty
                   getattr(self, f'avatar_{j}_product_{i}_input_section').visible = False
-                  print(f"No row found for 'avatar_{j}_product_{i}_latest'")
+
+      # else:
+      #   getattr(self, f'product_{i}_input_section').visible = False
+                  
+ 
+                 
+    
 
     # Check if any of the final avatars are empty
     final_avatar_rows = [
@@ -130,20 +139,24 @@ class Avatars(AvatarsTemplate):
     self.add_avatar_2_product_1.visible = False
     self.add_avatar_3_product_1.visible = False 
   def add_product_2_panel_click(self, **event_args):
-    self.avatar_1_product_2_input_section.visible = True
+    self.product_2_input_section.visible = True
 
 # Panel 2 / Product 2
-  def add_avatar_2_product_2_click(self, **event_args):
-    self.avatar_2_product_2_input_section.visible = True
-    self.add_avatar_2_product_2.visible = False
+  def add_avatar_1_product_2_click(self, **event_args):
+    self.avatar_1_product_2_input_section.visible = True
+    self.add_avatar_1_product_2.visible = False
   def add_avatar_3_product_2_click(self, **event_args):
     self.avatar_3_product_2_input_section.visible = True
     self.add_avatar_2_product_2.visible = False
     self.add_avatar_3_product_2.visible = False
   def add_product_3_panel_click(self, **event_args):
-    self.avatar_1_product_3_input_section.visible = True
+    self.product_3_input_section.visible = True
 
 # Panel 3 / Product 3
+  def add_avatar_1_product_3_click(self, **event_args):
+    self.avatar_1_product_3_input_section.visible = True
+    self.add_avatar_1_product_3.visible = False
+    
   def add_avatar_2_product_3_click(self, **event_args):
     self.avatar_2_product_3_input_section.visible = True
     self.add_avatar_2_product_3.visible = False
@@ -152,7 +165,7 @@ class Avatars(AvatarsTemplate):
     self.add_avatar_2_product_3.visible = False
     self.add_avatar_3_product_3.visible = False 
   def add_product_4_panel_click(self, **event_args):
-    self.avatar_1_product_4_input_section.visible = True
+    self.product_4_input_section.visible = True
     
 # Panel 4 / Product 4
   def add_avatar_2_product_4_click(self, **event_args):
@@ -163,7 +176,7 @@ class Avatars(AvatarsTemplate):
     self.add_avatar_2_product_4.visible = False
     self.add_avatar_3_product_4.visible = False 
   def add_product_5_panel_click(self, **event_args):
-    self.avatar_1_product_5_input_section.visible = True
+    self.product_5_input_section.visible = True
 
 # Panel 5 / Product 5
   def add_avatar_2_product_5_click(self, **event_args):
