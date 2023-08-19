@@ -272,8 +272,8 @@ class Home(HomeTemplate):
             task_id_company_summary = anvil.server.call('launch_draft_company_summary', user_table, company_name, company_url)
             print("Company Summary Launch function called")
             task_ids.append(task_id_company_summary)
-            task_id_brand_tone = anvil.server.call('launch_draft_brand_tone_research', user_table, company_url)
-            print("Brand Tone Launch function called")
+            # task_id_brand_tone = anvil.server.call('launch_draft_brand_tone_research', user_table, company_url)
+            # print("Brand Tone Launch function called")
             task_ids.append(task_id_brand_tone)
 
             tasks_product_research = []
@@ -300,28 +300,28 @@ class Home(HomeTemplate):
                     task_ids.append(task_product_research)
                     pass
 
-            # CHECK THE AVATARS FOR EACH PRODUCT
-            for i in range(1, 6):
-                # Loop through avatars 1 to 3 for each product
-                for j in range(1, 4):
-                    # Get the avatar description from the textbox
-                    avatar_input = getattr(self, f"avatar_{j}_product_{i}_input").text
-
-                    # Check if the avatar description is not empty and save it to the user table
-                    if avatar_input:
-                        # Launch the background task for Avatar
-                        task_id_avatar = anvil.server.call(f"launch_draft_deepdive_avatar_{j}_product_{i}_generator", user_table, company_name, getattr(self, f"product_{i}_name_input").text, avatar_input)
-                        print("Deep Dive Draft Avatar Research Started")
-
-                        # Save it as the preview
-                        avatar_preview_row = user_table.search(variable=f"avatar_{j}_product_{i}_preview")[0]
-                        avatar_preview_row['variable_value'] = avatar_input
-                        avatar_preview_row.update()
-
-                        # Save it as the latest
-                        avatar_latest_row = user_table.search(variable=f"avatar_{j}_product_{i}_latest")[0]
-                        avatar_latest_row['variable_value'] = avatar_input
-                        avatar_latest_row.update()
+            # # CHECK THE AVATARS FOR EACH PRODUCT
+            # for i in range(1, 6):
+            #     # Loop through avatars 1 to 3 for each product
+                    for j in range(1, 4):
+                        # Get the avatar description from the textbox
+                        avatar_input = getattr(self, f"avatar_{j}_product_{i}_input").text
+    
+                        # Check if the avatar description is not empty and save it to the user table
+                        if avatar_input:
+                            # Launch the background task for Avatar
+                            task_id_avatar = anvil.server.call(f"launch_draft_deepdive_avatar_{j}_product_{i}_generator", user_table, company_name, getattr(self, f"product_{i}_name_input").text, avatar_input)
+                            print("Deep Dive Draft Avatar Research Started")
+    
+                            # Save it as the preview
+                            avatar_preview_row = user_table.search(variable=f"avatar_{j}_product_{i}_preview")[0]
+                            avatar_preview_row['variable_value'] = avatar_input
+                            avatar_preview_row.update()
+    
+                            # Save it as the latest
+                            avatar_latest_row = user_table.search(variable=f"avatar_{j}_product_{i}_latest")[0]
+                            avatar_latest_row['variable_value'] = avatar_input
+                            avatar_latest_row.update()
                        # CHECK THE STATUS OF THE TASKS
             # self.check_all_task_status(task_ids)
 
