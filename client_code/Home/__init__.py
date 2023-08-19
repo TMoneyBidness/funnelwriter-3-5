@@ -319,6 +319,7 @@ class Home(HomeTemplate):
                             avatar_preview_row.update()
 
                             getattr(self, f"task_check_timer_product_{i}_avatar_{j}").enabled = True
+                  
                      
                           
             #            CHECK THE STATUS OF THE TASKS
