@@ -60,6 +60,16 @@ components:
               Container', bold: true, underline: false, icon: ''}
           name: product_1_name_input
           layout_properties: {grid_position: 'BFSHLN,CEPQWZ'}
+        - type: Button
+          properties: {role: elevated-button, align: center, tooltip: '', border: '',
+            enabled: true, foreground: '', visible: true, text: Add Another Avatar for this Product,
+            font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+            italic: false, background: '', bold: false, underline: false, icon: 'fa:plus'}
+          name: add_avatar_1_product_1
+          layout_properties:
+            col_widths: {}
+            grid_position: BVOGLH,BSLXZK
+          event_bindings: {click: add_avatar_1_product_1_click}
         - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
           properties: {}
           name: indeterminate_10
@@ -128,7 +138,7 @@ components:
                 font_size: null, font: '', spacing_above: small, icon_align: left,
                 spacing_below: small, italic: false, background: '', bold: false,
                 underline: false, icon: 'fa:plus'}
-              name: add_avatar_3_product_1_copy
+              name: add_avatar_2_product_1
               layout_properties:
                 col_widths: {}
                 grid_position: SPEJKK,XPEYXP
@@ -649,7 +659,7 @@ components:
             layout_properties:
               col_widths: {}
               grid_position: EFCMEW,ONJHFG
-            event_bindings: {click: add_avatar_2_product_2_click}
+            event_bindings: {click: add_avatar_2_product_3_click}
         - type: ColumnPanel
           properties: {col_widths: '{"FGXNBI":10,"LPXMBI":50,"DGRFSR":35,"OYUXBO":25}'}
           name: avatar_2_product_3_input_section
@@ -1316,15 +1326,6 @@ components:
           properties: {height: 32}
           name: spacer_3_copy_9
           layout_properties: {grid_position: 'LYPEGN,GPPXZG'}
-        - type: Button
-          properties: {role: elevated-button, align: center, tooltip: '', border: '',
-            enabled: false, foreground: '', visible: true, text: '', font_size: null,
-            font: '', spacing_above: small, icon_align: left, spacing_below: small,
-            italic: false, background: '', bold: false, underline: false, icon: 'fa:plus'}
-          name: add_avatar_1_product_1
-          layout_properties:
-            col_widths: {}
-            grid_position: TPYCFO,GPYAKX
 - type: Button
   properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: false,
     foreground: 'theme:Secondary Container', visible: true, text: CONTINUE TO BRAND TONE,

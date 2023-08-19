@@ -44,15 +44,30 @@ class Avatars(AvatarsTemplate):
 
     # Stop Timers
     self.avatar_product_1_timer.enabled = False
-    self.avatar_product_1_timer.interval = 0  # Check every 5 seconds
+    self.avatar_product_1_timer.interval = 0  
     self.avatar_product_2_timer.enabled = False
-    self.avatar_product_2_timer.interval = 0 # Check every 5 seconds
+    self.avatar_product_2_timer.interval = 0
     self.avatar_product_3_timer.enabled = False
-    self.avatar_product_3_timer.interval = 0  # Check every 5 seconds
+    self.avatar_product_3_timer.interval = 0  
     self.avatar_product_4_timer.enabled = False
-    self.avatar_product_4_timer.interval = 0  # Check every 5 seconds
+    self.avatar_product_4_timer.interval = 0 
     self.avatar_product_5_timer.enabled = False
-    self.avatar_product_5_timer.interval = 0  # Check every 5 seconds
+    self.avatar_product_5_timer.interval = 0  
+    self.task_check_timer_regenerate_avatar_1_product_1.interval = 0
+    self.task_check_timer_regenerate_avatar_2_product_1.interval = 0
+    self.task_check_timer_regenerate_avatar_3_product_1.interval = 0
+    self.task_check_timer_regenerate_avatar_1_product_2.interval = 0
+    self.task_check_timer_regenerate_avatar_2_product_2.interval = 0
+    self.task_check_timer_regenerate_avatar_3_product_2.interval = 0
+    self.task_check_timer_regenerate_avatar_1_product_3.interval = 0
+    self.task_check_timer_regenerate_avatar_2_product_3.interval = 0
+    self.task_check_timer_regenerate_avatar_3_product_3.interval = 0
+    self.task_check_timer_regenerate_avatar_1_product_4.interval = 0
+    self.task_check_timer_regenerate_avatar_2_product_4.interval = 0
+    self.task_check_timer_regenerate_avatar_3_product_4.interval = 0
+    self.task_check_timer_regenerate_avatar_1_product_5.interval = 0
+    self.task_check_timer_regenerate_avatar_2_product_5.interval = 0
+    self.task_check_timer_regenerate_avatar_3_product_5.interval = 0
 
     # Get the current user
     current_user = anvil.users.get_user()
@@ -63,7 +78,7 @@ class Avatars(AvatarsTemplate):
     # Show Panels
     self.whole_panel.visible=True
     self.whole_panel_2.visible=True
-    # Hide Panels of Products 2-5
+    #Hide Panels of Products 2-5
     self.product_1_input_section.visible = False
     self.product_2_input_section.visible = False
     self.product_3_input_section.visible = False
@@ -107,10 +122,7 @@ class Avatars(AvatarsTemplate):
 
       # else:
       #   getattr(self, f'product_{i}_input_section').visible = False
-                  
- 
-                 
-    
+                
 
     # Check if any of the final avatars are empty
     final_avatar_rows = [
@@ -131,12 +143,14 @@ class Avatars(AvatarsTemplate):
 # ADDING PRODUCTS / AVATAR PANELS
 
 # Base Panel
+  def add_avatar_1_product_1_click(self, **event_args):
+    self.avatar_1_product_1_input_section.visible = True
+    self.add_avatar_1_product_1.visible = False
   def add_avatar_2_product_1_click(self, **event_args):
     self.avatar_2_product_1_input_section.visible = True
     self.add_avatar_2_product_1.visible = False
   def add_avatar_3_product_1_click(self, **event_args):
     self.avatar_3_product_1_input_section.visible = True
-    self.add_avatar_2_product_1.visible = False
     self.add_avatar_3_product_1.visible = False 
   def add_product_2_panel_click(self, **event_args):
     self.product_2_input_section.visible = True
@@ -145,6 +159,9 @@ class Avatars(AvatarsTemplate):
   def add_avatar_1_product_2_click(self, **event_args):
     self.avatar_1_product_2_input_section.visible = True
     self.add_avatar_1_product_2.visible = False
+  def add_avatar_2_product_2_click(self, **event_args):
+    self.avatar_2_product_2_input_section.visible = True
+    self.add_avatar_2_product_2.visible = False
   def add_avatar_3_product_2_click(self, **event_args):
     self.avatar_3_product_2_input_section.visible = True
     self.add_avatar_2_product_2.visible = False
@@ -156,29 +173,34 @@ class Avatars(AvatarsTemplate):
   def add_avatar_1_product_3_click(self, **event_args):
     self.avatar_1_product_3_input_section.visible = True
     self.add_avatar_1_product_3.visible = False
-    
   def add_avatar_2_product_3_click(self, **event_args):
     self.avatar_2_product_3_input_section.visible = True
     self.add_avatar_2_product_3.visible = False
   def add_avatar_3_product_3_click(self, **event_args):
     self.avatar_3_product_3_input_section.visible = True
     self.add_avatar_2_product_3.visible = False
-    self.add_avatar_3_product_3.visible = False 
+    self.add_avatar_3_product_3.visible = False
   def add_product_4_panel_click(self, **event_args):
     self.product_4_input_section.visible = True
     
 # Panel 4 / Product 4
+  def add_avatar_1_product_4_click(self, **event_args):
+    self.avatar_1_product_4_input_section.visible = True
+    self.add_avatar_1_product_4.visible = False
   def add_avatar_2_product_4_click(self, **event_args):
     self.avatar_2_product_4_input_section.visible = True
     self.add_avatar_2_product_4.visible = False
   def add_avatar_3_product_4_click(self, **event_args):
     self.avatar_3_product_4_input_section.visible = True
     self.add_avatar_2_product_4.visible = False
-    self.add_avatar_3_product_4.visible = False 
+    self.add_avatar_3_product_4.visible = False
   def add_product_5_panel_click(self, **event_args):
     self.product_5_input_section.visible = True
 
 # Panel 5 / Product 5
+  def add_avatar_1_product_5_click(self, **event_args):
+    self.avatar_1_product_5_input_section.visible = True
+    self.add_avatar_1_product_5.visible = False
   def add_avatar_2_product_5_click(self, **event_args):
     self.avatar_2_product_5_input_section.visible = True
     self.add_avatar_2_product_5.visible = False

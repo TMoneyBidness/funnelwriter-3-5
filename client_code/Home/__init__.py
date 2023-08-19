@@ -39,7 +39,6 @@ class Home(HomeTemplate):
     self.check_status_timer_company_summary.enabled = False
     self.check_status_timer_company_summary.interval = 0
 
-
     self.task_check_timer_product_1.enabled = False
     self.task_check_timer_product_1_avatar_1.enabled = False
     self.task_check_timer_product_1_avatar_2.enabled = False
