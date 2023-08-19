@@ -28,7 +28,7 @@ class Home(HomeTemplate):
     anvil.users.login_with_form()
     self.indeterminate_1.visible = False
     self.free_navigate_label.visible = False
-    self.status.text = 'Idle'
+    # self.status.text = 'Idle'
     self.youtube_intro_video.visible = False
     self.nav_button_company_to_products.visible = False
 
@@ -237,8 +237,9 @@ class Home(HomeTemplate):
             self.indeterminate_1.visible = True
             self.free_navigate_label.visible = True
             self.youtube_intro_video.visible = True
-            self.status.text = 'Researching'
+            # self.status.text = 'Researching'
             self.product_1_panel.visible = False
+            self.company_research_button_component.visible = False
 
             # Load stuff
             current_user = anvil.users.get_user()
@@ -269,12 +270,14 @@ class Home(HomeTemplate):
                       
             # Launch the background tasks concurrently
             # COMPANY SUMMARY // BRAND TONE
-            task_id_company_summary = anvil.server.call('launch_draft_company_summary', user_table, company_name, company_url)
-            print("Company Summary Launch function called")
-            task_ids.append(task_id_company_summary)
+            # task_id_company_summary = anvil.server.call('launch_draft_company_summary', user_table, company_name, company_url)
+            # print("Company Summary Launch function called")
+            # self.check_status_timer_company_summary.enabled = True
+            # self.check_status_timer_company_summary.enabled = 0
+            # task_ids.append(task_id_company_summary)
             # task_id_brand_tone = anvil.server.call('launch_draft_brand_tone_research', user_table, company_url)
             # print("Brand Tone Launch function called")
-            task_ids.append(task_id_brand_tone)
+            # task_ids.append(task_id_brand_tone)
 
             tasks_product_research = []
             tasks_avatar = []
@@ -294,21 +297,18 @@ class Home(HomeTemplate):
                     product_url_row['variable_value'] = product_url_input
                     product_url_row.update()
 
-                    task_product_research = anvil.server.call(f"launch_draft_deepdive_product_{i}_generator", user_table, company_name, product_name_input, product_url_input)
-                    print(f"product_{i} analysis initiated")
-                    tasks_product_research.append((i, task_product_research))
-                    task_ids.append(task_product_research)
-                    pass
+                    # task_product_research = anvil.server.call(f"launch_draft_deepdive_product_{i}_generator", user_table, company_name, product_name_input, product_url_input)
+                    # print(f"product_{i} analysis initiated")
 
-            # # CHECK THE AVATARS FOR EACH PRODUCT
-            # for i in range(1, 6):
-            #     # Loop through avatars 1 to 3 for each product
+                    # getattr(self, f"task_check_timer_product_{i}").enabled = True
+  
+                   # Loop through avatars 1 to 3 for each product
                     for j in range(1, 4):
                         # Get the avatar description from the textbox
                         avatar_input = getattr(self, f"avatar_{j}_product_{i}_input").text
     
                         # Check if the avatar description is not empty and save it to the user table
-                        if avatar_input:
+                        if avatar_input.strip():
                             # Launch the background task for Avatar
                             task_id_avatar = anvil.server.call(f"launch_draft_deepdive_avatar_{j}_product_{i}_generator", user_table, company_name, getattr(self, f"product_{i}_name_input").text, avatar_input)
                             print("Deep Dive Draft Avatar Research Started")
@@ -317,14 +317,108 @@ class Home(HomeTemplate):
                             avatar_preview_row = user_table.search(variable=f"avatar_{j}_product_{i}_preview")[0]
                             avatar_preview_row['variable_value'] = avatar_input
                             avatar_preview_row.update()
-    
-                            # Save it as the latest
-                            avatar_latest_row = user_table.search(variable=f"avatar_{j}_product_{i}_latest")[0]
-                            avatar_latest_row['variable_value'] = avatar_input
-                            avatar_latest_row.update()
-                       # CHECK THE STATUS OF THE TASKS
+
+                            getattr(self, f"task_check_timer_product_{i}_avatar_{j}").enabled = True
+                     
+                          
+            #            CHECK THE STATUS OF THE TASKS
             # self.check_all_task_status(task_ids)
 
+  def check_status_company_summary(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Get the background task by its ID
+        
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='company_profile_latest')
+     
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working on the draft company summary!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Draft Company Summary Generated!")
+            self.check_status_timer_company_summary.enabled = False
+            self.check_status_timer_company_summary.interval = 0
+                          
+            # Update the box
+            self.company_summary_status.text = "Research Complete!"
+
+  def check_status_product_profile_1(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Get the background task by its ID
+        
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='product_1_latest')
+     
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working on the draft company summary!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Draft Company Summary Generated!")
+            self.task_check_timer_product_1.enabled = False
+            self.task_check_timer_product_1.interval = 0
+                          
+            # Update the box
+            self.product_research_status.text = "Research Complete!"
+
+  def check_status_product_1_avatar_1(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Get the background task by its ID
+        
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='avatar_1_product_1_latest')
+     
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working on Avatar 1 Product 1 Generation...")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Draft Company Summary Generated!")
+            self.task_check_timer_product_1_avatar_1.enabled = False
+            self.task_check_timer_product_1_avatar_1.interval = 0
+            print(f"Avatar 1 Product 1 Generation Complete!")
+
+  def check_status_product_1_avatar_2(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Get the background task by its ID
+        
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='avatar_2_product_1_latest')
+     
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working on Avatar 2 Product 1 Generation...")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Draft Company Summary Generated!")
+            self.task_check_timer_product_1_avatar_2.enabled = False
+            self.task_check_timer_product_1_avatar_2.interval = 0
+            print(f"Avatar 2 Product 1 Generation Complete!")
+
+  def check_status_product_1_avatar_3(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Get the background task by its ID
+        
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='avatar_3_product_1_latest')
+     
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working on Avatar 3 Product 1 Generation...")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Draft Company Summary Generated!")
+            self.task_check_timer_product_1_avatar_3.enabled = False
+            self.task_check_timer_product_1_avatar_3.interval = 0
+            print(f"Avatar 3 Product 1 Generation Complete!")
+  
+          
  # # CHECK THE STATUS OF THE TASKS
  #  def check_all_task_status(self, task_ids):
  #      all_tasks_completed = False

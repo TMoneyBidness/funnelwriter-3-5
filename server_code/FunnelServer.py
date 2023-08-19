@@ -55,14 +55,20 @@ tools = Tool(
 @anvil.server.callable
 def launch_draft_company_summary(user_table,company_name, company_url):
     # Launch the background task
-    print("Launch task started for researching company:",user_table, company_name,company_url)
-    task = anvil.server.launch_background_task('draft_company_summary', user_table,company_name, company_url)
+    current_user = anvil.users.get_user()
+    user_table_name = current_user['user_id']
+    # Get the table for the current user
+    user_table = getattr(app_tables, user_table_name)
+    row = user_table.get(variable='company_profile_latest')
+  
+    print("Launch task started for researching company:",row, company_name,company_url)
+    task = anvil.server.launch_background_task('draft_company_summary', row,company_name, company_url)
     # Return the task ID
     return task.get_id()
   
 @anvil.server.background_task
-def draft_company_summary(user_table,company_name, company_url):
-    print("Background task started for researching company:", user_table,company_name,company_url)
+def draft_company_summary(row,company_name, company_url):
+    print("Background task started for researching company:", row,company_name,company_url)
   
     llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-4', openai_api_key=openai_api_key)
     agent_company_context = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
@@ -107,10 +113,8 @@ def draft_company_summary(user_table,company_name, company_url):
     draft_company_context = company_research['output']
 
   # Save this generated version as the latest version
-    row_company_profile_latest = user_table.search(variable='company_profile_latest')
-    first_row_company_profile_latest = row_company_profile_latest[0]
-    first_row_company_profile_latest['variable_value'] = draft_company_context
-    first_row_company_profile_latest.update()
+    row['variable_value'] = draft_company_context
+    row.update()
     print("Company Research Complete")
   
     anvil.server.task_state['result'] = draft_company_context
@@ -134,7 +138,6 @@ def launch_draft_deepdive_product_1_generator(user_table,company_name,product_1_
 @anvil.server.background_task
 def deepdive_draft_product_1_generator(user_table,company_name,product_1_name,product_1_url):
     print("Background task started for the Deep Dive of Researching the Product:", product_1_name)
-
     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     agent_product_research = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
   
@@ -177,7 +180,7 @@ def deepdive_draft_product_1_generator(user_table,company_name,product_1_name,pr
     product_1_latest_row['variable_value'] = product_research_1
     product_1_latest_row.update()
     print("Product Research Complete")
-
+  
 # PRODUCT 2, 1st DRAFT
 @anvil.server.callable
 def launch_draft_deepdive_product_2_generator(user_table,company_name,product_2_name,product_2_url):
@@ -465,7 +468,7 @@ def draft_deepdive_avatar_1_product_1_generator(user_table,company_name,product_
 def launch_draft_deepdive_avatar_2_product_1_generator(user_table,company_name,product_1_name,avatar_2_preview):
     print("Launch Deep Dive Avatar function started")  
     # Launch the background task
-    task = anvil.server.launch_background_task('draft_deepdive_avatar_1_product_1_generator', user_table,company_name,product_1_name,avatar_2_preview)
+    task = anvil.server.launch_background_task('draft_deepdive_avatar_2_product_1_generator', user_table,company_name,product_1_name,avatar_2_preview)
     # Return the task ID
     return task.get_id()  
 @anvil.server.background_task
