@@ -359,16 +359,23 @@ class Home(HomeTemplate):
                       
                         if avatar_input.strip():
                             print(f"Avatar {j} for product {i} input: '{avatar_input}'")
-                            getattr(self, f"task_check_timer_product_{i}_avatar_{j}").enabled = False
+                            getattr(self, f"task_check_timer_product_{i}_avatar_{j}").enabled = True
 
                           # Launch the background task for Avatar
                             task_id_avatar = anvil.server.call(f"launch_draft_deepdive_avatar_{j}_product_{i}_generator", user_table, company_name, getattr(self, f"product_{i}_name_input").text, avatar_input)
                             print("Deep Dive Draft Avatar Research Started")
     
                             # Save it as the preview
-                            avatar_preview_row = user_table.get(variable=f"avatar_{j}_product_{i}_preview") 
-                            avatar_preview_row['variable_value'] = avatar_input
-                            avatar_preview_row.update()
+                            variable_name = f"avatar_{j}_product_{i}_preview"
+                            print(f"Searching for: {variable_name}")
+                            avatar_preview_row = user_table.get(variable=variable_name)
+                    
+                            if avatar_preview_row is None:
+                                print(f"No data found for: {variable_name}")
+                                continue
+                            else:
+                              avatar_preview_row['variable_value'] = avatar_input
+                              avatar_preview_row.update()
 
                             getattr(self, f"task_check_timer_product_{i}_avatar_{j}").enabled = True
                             getattr(self, f"task_check_timer_product_{i}_avatar_{j}").interval = 3
