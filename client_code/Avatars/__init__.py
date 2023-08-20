@@ -42,6 +42,12 @@ class Avatars(AvatarsTemplate):
     self.indeterminate_40.visible = False
     self.indeterminate_50.visible = False
 
+    self.add_product_1.visible = False
+    self.add_product_2.visible = False 
+    self.add_product_3.visible = False 
+    self.add_product_4.visible = False 
+    
+
     # Stop Timers
     for component in self.get_components():
         # Check if the component is a Timer
@@ -106,8 +112,9 @@ class Avatars(AvatarsTemplate):
           if product_latest_name:
             getattr(self, f'product_{i}_input_section').visible = True
             getattr(self, f'add_avatar_1_product_{i}').visible = True
-            if i != 1:
-              getattr(self, f'add_product_{i-1}').visible = False
+            # if i != 1:
+              # getattr(self, f'add_product_{i-1}').visible = False
+              # pass
 
           
           # Now, load the avatars associated with that product. There may be 1 avatar only, or there are 3. The cells might be empty!
@@ -161,8 +168,8 @@ class Avatars(AvatarsTemplate):
   def add_avatar_3_product_1_click(self, **event_args):
     self.avatar_3_product_1_input_section.visible = True
     self.add_avatar_3_product_1.visible = False 
-  def add_product_2_panel_click(self, **event_args):
-    self.product_2_input_section.visible = True
+  # def add_product_2_panel_click(self, **event_args):
+  #   self.product_2_input_section.visible = True
 
 # Panel 2 / Product 2
   def add_avatar_1_product_2_click(self, **event_args):
@@ -175,8 +182,8 @@ class Avatars(AvatarsTemplate):
     self.avatar_3_product_2_input_section.visible = True
     self.add_avatar_2_product_2.visible = False
     self.add_avatar_3_product_2.visible = False
-  def add_product_3_panel_click(self, **event_args):
-    self.product_3_input_section.visible = True
+  # def add_product_3_panel_click(self, **event_args):
+  #   self.product_3_input_section.visible = True
 
 # Panel 3 / Product 3
   def add_avatar_1_product_3_click(self, **event_args):
@@ -189,8 +196,8 @@ class Avatars(AvatarsTemplate):
     self.avatar_3_product_3_input_section.visible = True
     self.add_avatar_2_product_3.visible = False
     self.add_avatar_3_product_3.visible = False
-  def add_product_4_panel_click(self, **event_args):
-    self.product_4_input_section.visible = True
+  # def add_product_4_panel_click(self, **event_args):
+  #   self.product_4_input_section.visible = True
     
 # Panel 4 / Product 4
   def add_avatar_1_product_4_click(self, **event_args):
@@ -203,8 +210,8 @@ class Avatars(AvatarsTemplate):
     self.avatar_3_product_4_input_section.visible = True
     self.add_avatar_2_product_4.visible = False
     self.add_avatar_3_product_4.visible = False
-  def add_product_5_panel_click(self, **event_args):
-    self.product_5_input_section.visible = True
+  # def add_product_5_panel_click(self, **event_args):
+  #   self.product_5_input_section.visible = True
 
 # Panel 5 / Product 5
   def add_avatar_1_product_5_click(self, **event_args):
@@ -2065,7 +2072,8 @@ class Avatars(AvatarsTemplate):
 
   def nav_button_avatars_to_brand_tone_click(self, **event_args):
       self.navigate_to_brand_tone()
-  
+
+    
   def navigate_to_brand_tone(self):
       brandtone = BrandTone()
       self.content_panel.clear()

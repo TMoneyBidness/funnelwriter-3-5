@@ -656,7 +656,7 @@ class Product(ProductTemplate):
 
         # Enable the button for navigation
         self.nav_button_products_to_avatars.enabled = True
-        self.nav_button_company_to_products.visible = False
+        
     else:
         # Handle case where the row does not exist for the current user
         print("No row found for the current user")
@@ -694,7 +694,7 @@ class Product(ProductTemplate):
 
         # Enable the button for navigation
         self.nav_button_products_to_avatars.enabled = True
-        self.nav_button_company_to_products.visible = False
+     
     else:
         # Handle case where the row does not exist for the current user
         print("No row found for the current user")
@@ -732,7 +732,7 @@ class Product(ProductTemplate):
 
         # Enable the button for navigation
         self.nav_button_products_to_avatars.enabled = True
-        self.nav_button_company_to_products.visible = False
+  
     else:
         # Handle case where the row does not exist for the current user
         print("No row found for the current user")
@@ -770,7 +770,7 @@ class Product(ProductTemplate):
 
         # Enable the button for navigation
         self.nav_button_products_to_avatars.enabled = True
-        self.nav_button_company_to_products.visible = False
+      
     else:
         # Handle case where the row does not exist for the current user
         print("No row found for the current user")
@@ -808,7 +808,7 @@ class Product(ProductTemplate):
 
         # Enable the button for navigation
         self.nav_button_products_to_avatars.enabled = True
-        self.nav_button_company_to_products.visible = False
+    
     else:
         # Handle case where the row does not exist for the current user
         print("No row found for the current user")
@@ -927,7 +927,13 @@ class Product(ProductTemplate):
 
 ###----------NAVIGATION---------------####
   def nav_button_products_to_avatars_click(self, **event_args):
+    for component in self.get_components():
+      # Check if the component is a Timer
+      if isinstance(component, anvil.Timer):
+          # Stop the timer by setting its interval to None
+          component.interval = None
     self.navigate_to_avatars()
+
   
   def navigate_to_avatars(self):
     avatars = Avatars()

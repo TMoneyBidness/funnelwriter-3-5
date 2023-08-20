@@ -101,7 +101,7 @@ components:
     event_bindings: {click: company_asset_link_click}
   - type: Link
     properties: {role: null, url: '', align: right, tooltip: '', border: '', foreground: '',
-      visible: true, text: Product, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
+      visible: true, text: Products, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
       spacing_above: small, icon_align: left, col_widths: '{}', spacing_below: small,
       italic: false, background: '', bold: false, underline: false, icon: ''}
     name: product_asset_link_sidebar
@@ -153,7 +153,7 @@ components:
   name: label_4
   layout_properties: {slot: title}
 - type: ColumnPanel
-  properties: {col_widths: '{"AMHTWA":65,"JAIOGK":5,"IMLKTM":55}'}
+  properties: {col_widths: '{"AMHTWA":65}'}
   name: content_panel
   layout_properties:
     col_widths: {}
@@ -179,34 +179,38 @@ components:
     name: spacer_2
     layout_properties: {grid_position: 'DIHMGQ,ICJXUV'}
   - type: ColumnPanel
-    properties: {}
-    name: column_panel_1_copy_2
-    layout_properties: {grid_position: 'NJHPTL,JAIOGK'}
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: 'First, let''s build your company profile', font_size: 16,
-      font: '', spacing_above: small, icon_align: left, spacing_below: none, italic: false,
-      background: '', bold: true, underline: false, icon: ''}
-    name: label_4_copy_5
-    layout_properties:
-      col_widths: {}
-      grid_position: NJHPTL,IMLKTM JPSAOD,MXCMVQ
-  - type: Label
-    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: Please enter your company name and site. The agent will get all the details of your business automatically.,
-      font_size: 16, font: '', spacing_above: none, icon_align: left, spacing_below: small,
-      italic: false, background: '', bold: false, underline: false, icon: ''}
-    name: label_4_copy_6
-    layout_properties:
-      col_widths: {}
-      grid_position: NJHPTL,IMLKTM EOXOHL,ATQOQX
-  - type: ColumnPanel
-    properties: {col_widths: '{"WBZYIA":20,"RSPOOJ":40,"YRPHYY":15,"BSQLTW":45,"YMGZYS":20,"DBFHQA":40,"YSCTOH":20,"ABETJV":40,"MMOSXR":19,"KXHMDV":5,"KXWTYT":55,"QIDESK":39,"LQLQFM":20,"CDQKHE":40}'}
+    properties: {col_widths: '{"WBZYIA":20,"RSPOOJ":40,"YRPHYY":15,"BSQLTW":45,"YMGZYS":20,"DBFHQA":40,"YSCTOH":20,"ABETJV":40,"MMOSXR":19,"KXHMDV":5,"KXWTYT":55,"QIDESK":39,"LQLQFM":20,"CDQKHE":40,"ELZFZL":5,"DQNYXW":55,"CDYYWX":5,"ARTIPL":55}'}
     name: product_1_panel
     layout_properties:
       col_widths: {}
       grid_position: HXGTEX,GUYSSA
     components:
+    - type: ColumnPanel
+      properties: {}
+      name: column_panel_1_copy_2
+      layout_properties: {grid_position: 'PJSXXG,ELZFZL'}
+    - type: Label
+      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'First, let''s build your company profile', font_size: 16,
+        font: '', spacing_above: small, icon_align: left, spacing_below: none, italic: false,
+        background: '', bold: true, underline: false, icon: ''}
+      name: label_4_copy_5
+      layout_properties:
+        col_widths: {}
+        grid_position: PJSXXG,DQNYXW
+    - type: ColumnPanel
+      properties: {}
+      name: column_panel_2
+      layout_properties: {grid_position: 'AXSJQI,CDYYWX'}
+    - type: Label
+      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: Please enter your company name and site. The agent will get all the details of your business automatically.,
+        font_size: 16, font: '', spacing_above: none, icon_align: left, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false, icon: ''}
+      name: label_4_copy_6
+      layout_properties:
+        col_widths: {}
+        grid_position: AXSJQI,ARTIPL
     - type: Label
       properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
         visible: true, text: 'What is your Company name?', font_size: 16, font: '',
@@ -945,7 +949,7 @@ components:
         layout_properties: {grid_position: 'LYPEGN,GPPXZG'}
   - type: Label
     properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
-      visible: false, text: You may navigate to other pages while building your profile... Check back in two minutes!,
+      visible: false, text: Watch the video to learn how FunnelWriter.AI works for you...,
       font_size: 16, font: '', spacing_above: small, icon_align: left, spacing_below: small,
       italic: false, background: '', bold: false, underline: false, icon: ''}
     name: free_navigate_label

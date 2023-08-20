@@ -217,6 +217,13 @@ class BrandTone(BrandToneTemplate):
  #        print("No row found for 'brand_tone_url'")
  #        self.nav_button_tone_to_VSL_elements.enabled = False
 
+  def nav_button_tone_to_VSL_elements(self, **event_args):
+    vsl_elements = VSL_Elements()
+    self.content_panel.clear()
+    self.content_panel.add_component(vsl_elements)
+
+
+
 
 
 

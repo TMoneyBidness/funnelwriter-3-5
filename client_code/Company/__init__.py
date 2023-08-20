@@ -31,6 +31,7 @@ class Company(CompanyTemplate):
     self.free_navigate_label.visible = False
     self.status.text = 'Idle'
 
+
     # Get the current user
     current_user = anvil.users.get_user()
     user_table_name = current_user['user_id']
