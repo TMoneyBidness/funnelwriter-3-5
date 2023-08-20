@@ -317,9 +317,9 @@ class Home(HomeTemplate):
             self.undertaken_tasks.append('company_profile_latest')
             print(f"Added to undertaken_tasks: company_profile_latest")
           
-            # task_id_brand_tone = anvil.server.call('launch_draft_brand_tone_research', user_table, company_url)
-            # print("Brand Tone Launch function called")
-            # task_ids.append(task_id_brand_tone)
+            task_id_brand_tone = anvil.server.call('launch_draft_brand_tone_research', user_table, company_url)
+            print("Brand Tone Launch function called")
+            task_ids.append(task_id_brand_tone)
 
             tasks_product_research = []
             tasks_avatar = []
@@ -366,12 +366,12 @@ class Home(HomeTemplate):
                             print("Deep Dive Draft Avatar Research Started")
     
                             # Save it as the preview
-                            avatar_preview_row = user_table.search(variable=f"avatar_{j}_product_{i}_preview")[0]
+                            avatar_preview_row = user_table.get(variable=f"avatar_{j}_product_{i}_preview")
                             avatar_preview_row['variable_value'] = avatar_input
                             avatar_preview_row.update()
 
-                            # getattr(self, f"task_check_timer_product_{i}_avatar_{j}").enabled = True
-                            # getattr(self, f"task_check_timer_product_{i}_avatar_{j}").interval = 3
+                            getattr(self, f"task_check_timer_product_{i}_avatar_{j}").enabled = True
+                            getattr(self, f"task_check_timer_product_{i}_avatar_{j}").interval = 3
                           
                             # Step 2: Append the identifier to the list
                             self.undertaken_tasks.append(f"avatar_{j}_product_{i}_latest")
@@ -860,30 +860,6 @@ class Home(HomeTemplate):
         else:
             print(f"Still working on all tasks...")
 
-          
- # # CHECK THE STATUS OF THE TASKS
- #  def check_all_task_status(self, task_ids):
- #      all_tasks_completed = False
- #      while not all_tasks_completed:
- #          # Check the status of each task
- #          completed_tasks = 0
- #          for task_id in task_ids:
- #              task_status = anvil.server.call('get_status_function', task_id)
- #              if task_status == 'completed':
- #                  completed_tasks += 1
- #              elif task_status == 'failed':
- #                  print(f"Task {task_id} failed.")
- #                  # Handle the failure gracefully, e.g., inform the user or retry the task
-  
- #          # Check if all tasks are completed
- #          if completed_tasks == len(task_ids):
- #              all_tasks_completed = True
- #               # All tasks are completed
- #              print("All tasks are completed!")
- #          else:
- #              # Wait for a short interval before checking again
- #              time.sleep(1)  # Adjust the interval as needed
-
   # NAVIGATION
   
   def home_asset_link_click(self, **event_args):
@@ -928,6 +904,32 @@ class Home(HomeTemplate):
     self.content_panel.clear()
     self.content_panel.add_component(vsl_elements)
 
+
+          
+ # # CHECK THE STATUS OF THE TASKS
+ #  def check_all_task_status(self, task_ids):
+ #      all_tasks_completed = False
+ #      while not all_tasks_completed:
+ #          # Check the status of each task
+ #          completed_tasks = 0
+ #          for task_id in task_ids:
+ #              task_status = anvil.server.call('get_status_function', task_id)
+ #              if task_status == 'completed':
+ #                  completed_tasks += 1
+ #              elif task_status == 'failed':
+ #                  print(f"Task {task_id} failed.")
+ #                  # Handle the failure gracefully, e.g., inform the user or retry the task
+  
+ #          # Check if all tasks are completed
+ #          if completed_tasks == len(task_ids):
+ #              all_tasks_completed = True
+ #               # All tasks are completed
+ #              print("All tasks are completed!")
+ #          else:
+ #              # Wait for a short interval before checking again
+ #              time.sleep(1)  # Adjust the interval as needed
+
+  
 
 
  

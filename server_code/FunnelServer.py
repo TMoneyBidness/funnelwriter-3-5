@@ -413,7 +413,7 @@ def launch_draft_deepdive_avatar_1_product_1_generator(user_table,company_name,p
 def draft_deepdive_avatar_1_product_1_generator(user_table,company_name,product_1_name,avatar_1_preview):
     print("Background task started for generating the avatar:", avatar_1_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
     Company Context: The company, {company_name}, is selling {product_1_name}.
@@ -475,7 +475,7 @@ def launch_draft_deepdive_avatar_2_product_1_generator(user_table,company_name,p
 def draft_deepdive_avatar_2_product_1_generator(user_table,company_name,product_1_name,avatar_2_preview):
     print("Background task started for generating the avatar:", avatar_2_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
     Company Context: The company, {company_name}, is selling {product_1_name}.
@@ -538,7 +538,7 @@ def launch_draft_deepdive_avatar_3_product_1_generator(user_table,company_name,p
 def draft_deepdive_avatar_3_product_1_generator(user_table,company_name,product_1_name,avatar_3_preview):
     print("Background task started for generating the avatar:", avatar_3_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
     Company Context: The company, {company_name}, is selling {product_1_name}.
@@ -600,7 +600,7 @@ def launch_draft_deepdive_avatar_1_product_2_generator(user_table,company_name,p
 def draft_deepdive_avatar_1_product_2_generator(user_table,company_name,product_2_name,avatar_1_preview):
     print("Background task started for generating the avatar:", avatar_1_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
     Company Context: The company, {company_name}, is selling {product_2_name}.
@@ -662,7 +662,7 @@ def launch_draft_deepdive_avatar_2_product_2_generator(user_table,company_name,p
 def draft_deepdive_avatar_2_product_2_generator(user_table,company_name,product_2_name,avatar_2_preview):
     print("Background task started for generating the avatar:", avatar_2_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
     Company Context: The company, {company_name}, is selling {product_2_name}.
@@ -725,7 +725,7 @@ def launch_draft_deepdive_avatar_3_product_2_generator(user_table,company_name,p
 def draft_deepdive_avatar_3_product_2_generator(user_table,company_name,product_2_name,avatar_3_preview):
     print("Background task started for generating the avatar:", avatar_3_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
     Company Context: The company, {company_name}, is selling {product_2_name}.
@@ -787,7 +787,7 @@ def launch_draft_deepdive_avatar_1_product_3_generator(user_table,company_name,p
 def draft_deepdive_avatar_1_product_3_generator(user_table,company_name,product_3_name,avatar_1_preview):
     print("Background task started for generating the avatar:", avatar_1_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
     Company Context: The company, {company_name}, is selling {product_3_name}.
@@ -849,7 +849,7 @@ def launch_draft_deepdive_avatar_2_product_3_generator(user_table,company_name,p
 def draft_deepdive_avatar_2_product_3_generator(user_table,company_name,product_3_name,avatar_2_preview):
     print("Background task started for generating the avatar:", avatar_2_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
     Company Context: The company, {company_name}, is selling {product_3_name}.
@@ -912,7 +912,7 @@ def launch_draft_deepdive_avatar_3_product_3_generator(user_table,company_name,p
 def draft_deepdive_avatar_3_product_3_generator(user_table,company_name,product_3_name,avatar_3_preview):
     print("Background task started for generating the avatar:", avatar_3_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
     Company Context: The company, {company_name}, is selling {product_3_name}.
@@ -974,7 +974,7 @@ def launch_draft_deepdive_avatar_1_product_4_generator(user_table,company_name,p
 def draft_deepdive_avatar_1_product_4_generator(user_table,company_name,product_4_name,avatar_1_preview):
     print("Background task started for generating the avatar:", avatar_1_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
     Company Context: The company, {company_name}, is selling {product_4_name}.
@@ -1036,7 +1036,7 @@ def launch_draft_deepdive_avatar_2_product_4_generator(user_table,company_name,p
 def draft_deepdive_avatar_2_product_4_generator(user_table,company_name,product_4_name,avatar_2_preview):
     print("Background task started for generating the avatar:", avatar_2_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
     Company Context: The company, {company_name}, is selling {product_4_name}.
@@ -1099,7 +1099,7 @@ def launch_draft_deepdive_avatar_3_product_4_generator(user_table,company_name,p
 def draft_deepdive_avatar_3_product_4_generator(user_table,company_name,product_4_name,avatar_3_preview):
     print("Background task started for generating the avatar:", avatar_3_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
     Company Context: The company, {company_name}, is selling {product_4_name}.
@@ -1161,7 +1161,7 @@ def launch_draft_deepdive_avatar_1_product_5_generator(user_table,company_name,p
 def draft_deepdive_avatar_1_product_5_generator(user_table,company_name,product_5_name,avatar_1_preview):
     print("Background task started for generating the avatar:", avatar_1_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
     Company Context: The company, {company_name}, is selling {product_5_name}.
@@ -1223,7 +1223,7 @@ def launch_draft_deepdive_avatar_2_product_5_generator(user_table,company_name,p
 def draft_deepdive_avatar_2_product_5_generator(user_table,company_name,product_5_name,avatar_2_preview):
     print("Background task started for generating the avatar:", avatar_2_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
     Company Context: The company, {company_name}, is selling {product_5_name}.
@@ -1286,7 +1286,7 @@ def launch_draft_deepdive_avatar_3_product_5_generator(user_table,company_name,p
 def draft_deepdive_avatar_3_product_5_generator(user_table,company_name,product_5_name,avatar_3_preview):
     print("Background task started for generating the avatar:", avatar_3_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
     Company Context: The company, {company_name}, is selling {product_5_name}.
@@ -1421,7 +1421,7 @@ def company_summary(company_name, company_url):
     # Here, you should write the code that uses the company_name and company_url
     # to research the company and generate a context. For example:
   
-    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-4', openai_api_key=openai_api_key)
     agent_company_context = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
     company_research = agent_company_context({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive analysis to build an informational company profile of {company_name}. \
                     Leverage all necessary resources, primarily the company's website {company_url}, but also news articles, and any other relevant sources.  \
@@ -2004,7 +2004,7 @@ def launch_deepdive_avatar_1_product_1_generator(product_1_name,product_1_profil
 def deepdive_avatar_1_product_1_generator(product_1_name,product_1_profile,avatar_1_product_1_name_preview,avatar_1_product_1_preview,row):
     print("Background task started for generating the avatar:", avatar_1_product_1_name_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would. We'd like to create the ideal customer avatar for a product. \
     Below, we'll provide the format of how we'd like the question answered, as well as the contextual information.
 
@@ -2077,7 +2077,7 @@ def launch_deepdive_avatar_2_product_1_generator(product_1_name,product_1_profil
 def deepdive_avatar_2_product_1_generator(product_1_name,product_1_profile,avatar_2_product_1_name_preview,avatar_2_product_1_preview,row):
     print("Background task started for generating the avatar:", avatar_2_product_1_name_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would. We'd like to create the ideal customer avatar for a product. \
     Below, we'll provide the format of how we'd like the question answered, as well as the contextual information.
 
@@ -2149,7 +2149,7 @@ def launch_deepdive_avatar_3_product_1_generator(product_1_name,product_1_profil
 def deepdive_avatar_3_product_1_generator(product_1_name,product_1_profile,avatar_3_product_1_name_preview,avatar_3_product_1_preview,row):
     print("Background task started for generating the avatar:", avatar_3_product_1_name_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would. We'd like to create the ideal customer avatar for a product. \
     Below, we'll provide the format of how we'd like the question answered, as well as the contextual information.
 
@@ -2224,7 +2224,7 @@ def launch_deepdive_avatar_1_product_2_generator(product_2_name,product_2_profil
 def deepdive_avatar_1_product_2_generator(product_2_name,product_2_profile,avatar_1_product_2_name_preview,avatar_1_product_2_preview,row):
     print("Background task started for generating the avatar:", avatar_1_product_2_name_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would. We'd like to create the ideal customer avatar for a product. \
     Below, we'll provide the format of how we'd like the question answered, as well as the contextual information.
 
@@ -2297,7 +2297,7 @@ def launch_deepdive_avatar_2_product_2_generator(product_2_name,product_2_profil
 def deepdive_avatar_2_product_2_generator(product_2_name,product_2_profile,avatar_2_product_2_name_preview,avatar_2_product_2_preview,row):
     print("Background task started for generating the avatar:", avatar_2_product_2_name_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would. We'd like to create the ideal customer avatar for a product. \
     Below, we'll provide the format of how we'd like the question answered, as well as the contextual information.
 
@@ -2370,7 +2370,7 @@ def launch_deepdive_avatar_3_product_2_generator(product_2_name,product_2_profil
 def deepdive_avatar_3_product_2_generator(product_2_name,product_2_profile,avatar_3_product_2_name_preview,avatar_3_product_2_preview,row):
     print("Background task started for generating the avatar:", avatar_3_product_2_name_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would. We'd like to create the ideal customer avatar for a product. \
     Below, we'll provide the format of how we'd like the question answered, as well as the contextual information.
 
@@ -2445,7 +2445,7 @@ def launch_deepdive_avatar_1_product_3_generator(product_3_name,product_3_profil
 def deepdive_avatar_1_product_3_generator(product_3_name,product_3_profile,avatar_1_product_3_name_preview,avatar_1_product_3_preview,row):
     print("Background task started for generating the avatar:", avatar_1_product_3_name_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would. We'd like to create the ideal customer avatar for a product. \
     Below, we'll provide the format of how we'd like the question answered, as well as the contextual information.
 
@@ -2518,7 +2518,7 @@ def launch_deepdive_avatar_2_product_3_generator(product_3_name,product_3_profil
 def deepdive_avatar_2_product_3_generator(product_3_name,product_3_profile,avatar_2_product_3_name_preview,avatar_2_product_3_preview,row):
     print("Background task started for generating the avatar:", avatar_2_product_2_name_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would. We'd like to create the ideal customer avatar for a product. \
     Below, we'll provide the format of how we'd like the question answered, as well as the contextual information.
 
@@ -2591,7 +2591,7 @@ def launch_deepdive_avatar_3_product_3_generator(product_3_name,product_3_profil
 def deepdive_avatar_3_product_3_generator(product_3_name,product_2_profile,avatar_3_product_3_name_preview,avatar_3_product_3_preview,row):
     print("Background task started for generating the avatar:", avatar_3_product_3_name_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would. We'd like to create the ideal customer avatar for a product. \
     Below, we'll provide the format of how we'd like the question answered, as well as the contextual information.
 
@@ -2666,7 +2666,7 @@ def launch_deepdive_avatar_1_product_4_generator(product_4_name,product_4_profil
 def deepdive_avatar_1_product_4_generator(product_4_name,product_4_profile,avatar_1_product_4_name_preview,avatar_1_product_4_preview,row):
     print("Background task started for generating the avatar:", avatar_1_product_3_name_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would. We'd like to create the ideal customer avatar for a product. \
     Below, we'll provide the format of how we'd like the question answered, as well as the contextual information.
 
@@ -2739,7 +2739,7 @@ def launch_deepdive_avatar_2_product_4_generator(product_4_name,product_4_profil
 def deepdive_avatar_2_product_4_generator(product_4_name,product_4_profile,avatar_2_product_4_name_preview,avatar_2_product_4_preview,row):
     print("Background task started for generating the avatar:", avatar_2_product_4_name_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would. We'd like to create the ideal customer avatar for a product. \
     Below, we'll provide the format of how we'd like the question answered, as well as the contextual information.
 
@@ -2812,7 +2812,7 @@ def launch_deepdive_avatar_3_product_4_generator(product_4_name,product_4_profil
 def deepdive_avatar_3_product_4_generator(product_4_name,product_2_profile,avatar_3_product_4_name_preview,avatar_3_product_4_preview,row):
     print("Background task started for generating the avatar:", avatar_3_product_4_name_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would. We'd like to create the ideal customer avatar for a product. \
     Below, we'll provide the format of how we'd like the question answered, as well as the contextual information.
 
@@ -2887,7 +2887,7 @@ def launch_deepdive_avatar_1_product_5_generator(product_5_name,product_5_profil
 def deepdive_avatar_1_product_5_generator(product_5_name,product_5_profile,avatar_1_product_5_name_preview,avatar_1_product_5_preview,row):
     print("Background task started for generating the avatar:", avatar_1_product_5_name_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would. We'd like to create the ideal customer avatar for a product. \
     Below, we'll provide the format of how we'd like the question answered, as well as the contextual information.
 
@@ -2960,7 +2960,7 @@ def launch_deepdive_avatar_2_product_5_generator(product_5_name,product_5_profil
 def deepdive_avatar_2_product_5_generator(product_5_name,product_5_profile,avatar_2_product_5_name_preview,avatar_2_product_5_preview,row):
     print("Background task started for generating the avatar:", avatar_2_product_5_name_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would. We'd like to create the ideal customer avatar for a product. \
     Below, we'll provide the format of how we'd like the question answered, as well as the contextual information.
 
@@ -3033,7 +3033,7 @@ def launch_deepdive_avatar_3_product_5_generator(product_5_name,product_5_profil
 def deepdive_avatar_3_product_5_generator(product_5_name,product_5_profile,avatar_3_product_5_name_preview,avatar_3_product_5_preview,row):
     print("Background task started for generating the avatar:", avatar_3_product_5_name_preview)
  
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would. We'd like to create the ideal customer avatar for a product. \
     Below, we'll provide the format of how we'd like the question answered, as well as the contextual information.
 

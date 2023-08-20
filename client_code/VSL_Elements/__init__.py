@@ -13,7 +13,7 @@ from anvil.tables import app_tables
 from anvil import tables
 
 from ..Headlines import Headlines
-from ..Headlines_new import Headlines_new
+
 ############################################################################################################
 # LOADING
 
@@ -245,6 +245,6 @@ class VSL_Elements(VSL_ElementsTemplate):
 
   def nav_button_VSL_Elements_to_headline(self, **event_args):
     #anvil.open_form('Headlines')
-    headlines = Headlines_new()
+    headlines = Headlines()
     self.whole_content_panel.clear()
     self.whole_content_panel.add_component(headlines)
