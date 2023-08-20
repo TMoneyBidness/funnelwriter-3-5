@@ -604,7 +604,26 @@ components:
           col_widths: {}
           grid_position: VFCDCM,HYVIIL
 - type: Timer
-  properties: {interval: 1}
-  name: time_1
-  event_bindings: {tick: timer_tick}
+  properties: {interval: 3}
+  name: task_check_timer_headlines
+  event_bindings: {tick: check_task_status_headlines}
+- name: task_check_timer_subheadlines
+  type: Timer
+  properties: {interval: 3}
+  event_bindings: {tick: check_task_status_subheadlines}
+- name: timer_2
+  type: Timer
+  properties: {}
+- name: timer_3
+  type: Timer
+  properties: {}
+- name: timer_4
+  type: Timer
+  properties: {}
+- name: timer_5
+  type: Timer
+  properties: {}
+- name: timer_6
+  type: Timer
+  properties: {}
 is_package: true
