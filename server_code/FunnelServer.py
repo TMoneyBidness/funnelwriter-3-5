@@ -18,6 +18,7 @@ from langchain.chat_models import ChatOpenAI
 from langchain import SerpAPIWrapper, LLMChain, PromptTemplate
 from langchain.tools import StructuredTool
 from langchain.utilities import GoogleSearchAPIWrapper
+from langchain.utilities import SerpAPIWrapper
 import json
 
 ############################################################################################################################
@@ -30,22 +31,32 @@ google_api_key = anvil.secrets.get_secret('GOOGLE_API_KEY')
 
 ############################################################################################################################
 ### TOOLS
-# search = GoogleSearchAPIWrapper(google_api_key=google_api_key, google_cse_id=google_cse_id)
-# tools = Tool(name="Google Search", description="Search Google for recent results.", func=search.run)
-  
-search = SerpAPIWrapper(serpapi_api_key=serpapi_api_key)
-# search = GoogleSearchAPIWrapper()
 
-# tool = Tool(
-#     name="Google Search",
+# SERPAPI
+# search = SerpAPIWrapper(serpapi_api_key=serpapi_api_key)
+# tools = Tool(
+#     name="serpapi",
 #     description="Search Google for recent results.",
 #     func=search.run,
 # )
 
+# GOOGLE SEARCH
+search = GoogleSearchAPIWrapper(google_api_key=google_api_key, google_cse_id=google_cse_id)
+# tools = Tool(name="Google Search", description="Search Google for recent results.", func=search.run)
+
 tools = Tool(
-    name="Search",
+    name="Google Search",
+    description="Search Google for recent results.",
     func=search.run,
-    description="Search Google for recent results")
+)
+
+
+# USE THIS ONE IF YOU NEED TO COME BACK -> 
+# search = GoogleSearchAPIWrapper(google_api_key=google_api_key, google_cse_id=google_cse_id)
+# tools = Tool(name="Google Search", description="Search Google for recent results.", func=search.run)
+
+
+
 
 ############################################################################################################################
 
@@ -1422,7 +1433,7 @@ def company_summary(company_name, company_url):
     # to research the company and generate a context. For example:
   
     llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-4', openai_api_key=openai_api_key)
-    agent_company_context = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
+    agent_company_context = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True,max_execution_time=300,max_iterations=300)
     company_research = agent_company_context({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive analysis to build an informational company profile of {company_name}. \
                     Leverage all necessary resources, primarily the company's website {company_url}, but also news articles, and any other relevant sources.  \
                     to gather the following details about {company_name}.  Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful research and findings. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
