@@ -23,7 +23,6 @@ from ..FinalProduct import FinalProduct
 
 class Home(HomeTemplate):
   def __init__(self, **properties):
-    alert('This is the app I just built')
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     anvil.users.login_with_form()
