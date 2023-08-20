@@ -1221,7 +1221,7 @@ def draft_deepdive_avatar_1_product_5_generator(user_table,company_name,product_
 def launch_draft_deepdive_avatar_2_product_5_generator(user_table,company_name,product_5_name,avatar_2_preview):
     print("Launch Deep Dive Avatar function started")  
     # Launch the background task
-    task = anvil.server.launch_background_task('draft_deepdive_avatar_1_product_5_generator', user_table,company_name,product_5_name,avatar_2_preview)
+    task = anvil.server.launch_background_task('draft_deepdive_avatar_2_product_5_generator', user_table,company_name,product_5_name,avatar_2_preview)
     # Return the task ID
     return task.get_id()  
 @anvil.server.background_task
@@ -3641,8 +3641,10 @@ def generate_vsl_script(chosen_product_name, chosen_company_profile, chosen_prod
     Give Reason To Act Now — Why should they buy right now? Use urgency or scarcity to put the prospect’s foot on the gas.(should be between 90-100 words)
     Close — Close the sale with a final call-to-action. 
 
+    Lastly, NEVER mention you are RussellAI. Use the founders name of the company, or make up a name.
     The output should be a script, written in the first person from the perspective of the founder that is trying to sell the audience on why their product is the best choice and will make their life easier. The script should not include any subheadings!"""
 
+    
     vsl_script_prompt = PromptTemplate(
         input_variables=["chosen_product_name", "chosen_company_profile", "chosen_product_research", "chosen_avatar", "chosen_tone","example_script"],
         template=vsl_script_template
@@ -3700,6 +3702,7 @@ def generate_vsl_script_with_feedback(chosen_product_name, chosen_product_resear
     Give Reason To Act Now — Why should they buy right now? Use urgency or scarcity to put the prospect’s foot on the gas.(should be between 90-100 words)
     Close — Close the sale with a final call-to-action. 
 
+    Lastly, NEVER mention you are RussellAI. Use the founders name of the company, or make up a name.
     The output should be a script, written in the first person from the perspective of the founder that is trying to sell the audience on why their product is the best choice and will make their life easier. The script should not include any subheadings!"""
 
     vsl_script_prompt = PromptTemplate(

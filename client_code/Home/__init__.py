@@ -32,6 +32,7 @@ class Home(HomeTemplate):
     self.youtube_intro_video.visible = False
     self.nav_button_company_to_products.visible = False
     self.research_status_bar.visible = False
+    self.intro_panel.visible = False
     
     for component in self.get_components():
         # Check if the component is a Timer
@@ -280,6 +281,9 @@ class Home(HomeTemplate):
             # self.status.text = 'Researching'
             self.product_1_panel.visible = False
             self.company_research_button_component.visible = False
+            self.intro_panel.visible = True
+            self.research_status_bar.visible = True
+  
 
             # Load stuff
             current_user = anvil.users.get_user()
@@ -793,10 +797,6 @@ class Home(HomeTemplate):
         # Get the table for the current user
         user_table = getattr(app_tables, user_table_name)
         
-        for item in self.undertaken_tasks:
-          print(f'Heres the items in the task list:')
-          print(item)
-
         all_tasks_completed = True  # Start with the assumption that all tasks are completed
 
         for task in self.undertaken_tasks:  # Loop through each identifier in the list
@@ -809,61 +809,17 @@ class Home(HomeTemplate):
         if all_tasks_completed:
             print(f"All Tasks completed.!")
        
-            self.task_check_timer_product_1.enabled = False
-            self.task_check_timer_product_1_avatar_1.enabled = False
-            self.task_check_timer_product_1_avatar_2.enabled = False
-            self.task_check_timer_product_1_avatar_3.enabled = False
-            self.task_check_timer_product_1.interval = 0
-            self.task_check_timer_product_1_avatar_1.interval = 0
-            self.task_check_timer_product_1_avatar_2.interval = 0
-            self.task_check_timer_product_1_avatar_3.interval = 0
-
-            self.task_check_timer_product_2.enabled = False
-            self.task_check_timer_product_2_avatar_1.enabled = False
-            self.task_check_timer_product_2_avatar_2.enabled = False
-            self.task_check_timer_product_2_avatar_3.enabled = False
-            self.task_check_timer_product_2.interval = 0
-            self.task_check_timer_product_2_avatar_1.interval = 0
-            self.task_check_timer_product_2_avatar_2.interval = 0
-            self.task_check_timer_product_2_avatar_3.interval = 0
-
-            self.task_check_timer_product_3.enabled = False
-            self.task_check_timer_product_3_avatar_1.enabled = False
-            self.task_check_timer_product_3_avatar_2.enabled = False
-            self.task_check_timer_product_3_avatar_3.enabled = False
-            self.task_check_timer_product_3.interval = 0
-            self.task_check_timer_product_3_avatar_1.interval = 0
-            self.task_check_timer_product_3_avatar_2.interval = 0
-            self.task_check_timer_product_3_avatar_3.interval = 0
-
-            self.task_check_timer_product_4.enabled = False
-            self.task_check_timer_product_4_avatar_1.enabled = False
-            self.task_check_timer_product_4_avatar_2.enabled = False
-            self.task_check_timer_product_4_avatar_3.enabled = False
-            self.task_check_timer_product_4.interval = 0
-            self.task_check_timer_product_4_avatar_1.interval = 0
-            self.task_check_timer_product_4_avatar_2.interval = 0
-            self.task_check_timer_product_4_avatar_3.interval = 0
-
-            self.task_check_timer_product_5.enabled = False
-            self.task_check_timer_product_5_avatar_1.enabled = False
-            self.task_check_timer_product_5_avatar_2.enabled = False
-            self.task_check_timer_product_5_avatar_3.enabled = False
-            self.task_check_timer_product_5.interval = 0
-            self.task_check_timer_product_5_avatar_1.interval = 0
-            self.task_check_timer_product_5_avatar_2.interval = 0
-            self.task_check_timer_product_5_avatar_3.interval = 0
-
-            self.check_all_tasks_timer.enabled = False
-            self.check_all_tasks_timer.interval = 0
-            self.check_status_timer_company_summary.enabled = False
-            self.check_status_timer_company_summary.interval = 0
+            for component in self.get_components():
+            # Check if the component is a Timer
+              if isinstance(component, anvil.Timer):
+                # Stop the timer by setting its interval to None
+                component.interval = None
         
             self.indeterminate_1.visible = False
 
             self.avatar_research_status.text = 'All Avatar Research Complete'
             self.product_asset_link_sidebar.visible = True
-            self.nav_button_company_to_products.visbile = True
+            self.nav_button_company_to_products.visible = True
           
         else:
             print(f"Still working on all tasks...")

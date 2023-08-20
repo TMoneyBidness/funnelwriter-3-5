@@ -4,7 +4,7 @@ container:
   event_bindings: {show: form_show}
 components:
 - type: ColumnPanel
-  properties: {col_widths: '{"HMUAQW":50,"UCBBTZ":22,"QRVTNE":8,"OMOIIC":7,"BLYXNK":7,"RXSAID":40,"XNVOWS":10,"SZPFOL":10,"UIOSDG":40,"NXLHRY":10,"GZBANM":10,"ACVNKA":45,"QGXZWD":15,"XASHYQ":35,"XQYGSV":30,"FYZBLO":40,"PLRNXE":10,"CZJILU":10}'}
+  properties: {col_widths: '{"HMUAQW":50,"UCBBTZ":22,"QRVTNE":10,"OMOIIC":13,"BLYXNK":13,"RXSAID":30,"XNVOWS":15,"SZPFOL":15,"UIOSDG":30,"NXLHRY":15,"GZBANM":15,"ACVNKA":40,"QGXZWD":20,"XASHYQ":35,"XQYGSV":27,"FYZBLO":30,"PLRNXE":15,"CZJILU":15}'}
   name: content_panel
   layout_properties:
     col_widths: {}
@@ -117,7 +117,7 @@ components:
       grid_position: IJRFRK,XASHYQ JWFEHR,ACVNKA
     event_bindings: {click: generate_product_1_button_click}
   - type: Button
-    properties: {role: outlined-button, align: right, tooltip: '', border: '', enabled: true,
+    properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: LOAD, font_size: null, font: '', spacing_above: small,
       icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
       underline: false, icon: 'fa:file-o'}
@@ -448,6 +448,13 @@ components:
       col_widths: {}
       grid_position: NIKZFY,CZJILU
     event_bindings: {click: save_product_5_button_click}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: 'theme:Error',
+      visible: true, text: You must 'SAVE' a product before proceeding...., font_size: 18,
+      font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: '', bold: true, underline: false, icon: ''}
+    name: save_warning
+    layout_properties: {grid_position: 'VPCLJK,YAFTKF'}
   - type: Button
     properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: false,
       foreground: 'theme:Secondary Container', visible: true, text: CONTINUE TO AVATARS,

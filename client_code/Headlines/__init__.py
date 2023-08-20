@@ -37,6 +37,7 @@ class Headlines(HeadlinesTemplate):
     self.indeterminate_progress_vsl_themes_rewrites.visible = False
     self.generate_headlines_vsl_button.enabled = True
     self.generate_vsl_themes_button.visible = False
+    self.indeterminate_progress_vsl_excerpts.visible = False
     self.indeterminate_progress_vsl_script.visible = False
     self.rewrite_box.visible = False
      
@@ -178,7 +179,7 @@ class Headlines(HeadlinesTemplate):
   
   def generate_vsl_themes_button_click(self, **event_args):
     with anvil.server.no_loading_indicator:
-        self.indeterminate_progress_vsl_themes.visible = True
+        self.indeterminate_progress_vsl_excerpts.visible = True
         # Check if all of the textboxes are populated
         if not self.main_headline_textbox.text or not self.subheadline_textbox.text or not self.video_sales_script_textbox.text:
             anvil.js.window.alert("Please Populate All Fields Before Generating your themes.")
@@ -342,7 +343,7 @@ class Headlines(HeadlinesTemplate):
             self.task_check_timer_vsl_script.enabled = False
             self.task_check_timer_vsl_script.interval = 0
             self.generate_vsl_themes_button.visible = False
-            self.indeterminate_progress_vsl_themes.visible = False
+            self.self.indeterminate_progress_vsl_excerpts.visible = False
 
             # Convert the JSON string back to a list
             all_vsl_themes_json = row['variable_value'] 

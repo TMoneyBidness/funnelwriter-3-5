@@ -656,6 +656,7 @@ class Product(ProductTemplate):
 
         # Enable the button for navigation
         self.nav_button_products_to_avatars.enabled = True
+        self.nav_button_company_to_products.visible = False
     else:
         # Handle case where the row does not exist for the current user
         print("No row found for the current user")
@@ -693,6 +694,7 @@ class Product(ProductTemplate):
 
         # Enable the button for navigation
         self.nav_button_products_to_avatars.enabled = True
+        self.nav_button_company_to_products.visible = False
     else:
         # Handle case where the row does not exist for the current user
         print("No row found for the current user")
@@ -730,6 +732,7 @@ class Product(ProductTemplate):
 
         # Enable the button for navigation
         self.nav_button_products_to_avatars.enabled = True
+        self.nav_button_company_to_products.visible = False
     else:
         # Handle case where the row does not exist for the current user
         print("No row found for the current user")
@@ -767,6 +770,7 @@ class Product(ProductTemplate):
 
         # Enable the button for navigation
         self.nav_button_products_to_avatars.enabled = True
+        self.nav_button_company_to_products.visible = False
     else:
         # Handle case where the row does not exist for the current user
         print("No row found for the current user")
@@ -804,6 +808,7 @@ class Product(ProductTemplate):
 
         # Enable the button for navigation
         self.nav_button_products_to_avatars.enabled = True
+        self.nav_button_company_to_products.visible = False
     else:
         # Handle case where the row does not exist for the current user
         print("No row found for the current user")

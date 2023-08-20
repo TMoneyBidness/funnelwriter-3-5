@@ -101,7 +101,10 @@ components:
     name: indeterminate_brand_tone
     layout_properties: {grid_position: 'TPAXJG,BURGKM'}
   - type: TextArea
-    properties: {height: 232}
+    properties: {role: null, align: left, height: 232, tooltip: '', placeholder: '',
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      auto_expand: true, font: '', spacing_above: small, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
     name: brand_tone_textbox
     layout_properties: {grid_position: 'CPLMNG,PRISQI'}
     event_bindings: {change: brand_tone_textbox_change}

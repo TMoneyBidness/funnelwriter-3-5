@@ -961,13 +961,17 @@ components:
     event_bindings: {click: go_get_all_assets_click}
   - type: ColumnPanel
     properties: {col_widths: '{}'}
-    name: column_panel_2
+    name: intro_panel
     layout_properties: {grid_position: 'QRTDSE,SLVLQC'}
     components:
+    - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
+      properties: {}
+      name: indeterminate_1
+      layout_properties: {grid_position: 'TMZOMP,VYTVPB'}
     - type: ColumnPanel
       properties: {col_widths: '{"FHYGOS":10,"UMWPSM":10,"AAAAEQ":10,"PIKYQW":10,"GUQYLG":10}'}
       name: research_status_bar
-      layout_properties: {grid_position: 'CIFFOC,EQBFDG'}
+      layout_properties: {grid_position: 'AXJKQC,MTIFBE'}
       components:
       - type: Label
         properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
@@ -1015,10 +1019,6 @@ components:
         layout_properties:
           col_widths: {}
           grid_position: PSYKWE,GUQYLG
-    - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
-      properties: {}
-      name: indeterminate_1
-      layout_properties: {grid_position: 'TMZOMP,VYTVPB'}
     - type: YouTubeVideo
       properties: {role: null, loop: false, height: '500', autoplay: false, mute: false,
         border: '', foreground: '', visible: false, youtube_id: rtgHlD7cW98, spacing_above: small,
