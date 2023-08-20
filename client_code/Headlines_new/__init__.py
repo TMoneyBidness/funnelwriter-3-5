@@ -28,7 +28,6 @@ class Headlines_new(Headlines_newTemplate):
     self.task_id = None
     # Initialize counter
     anvil.users.login_with_form()
-    self.indeterminate_company_research.visible = False
     self.free_navigate_label.visible = False
     self.status.text = 'Idle'
 
