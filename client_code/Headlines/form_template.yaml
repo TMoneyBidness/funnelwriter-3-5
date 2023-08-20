@@ -517,6 +517,12 @@ components:
           italic: false, background: '', bold: true, underline: false}
         name: subheadline_textbox
         layout_properties: {grid_position: 'TSJQSD,HGLANS'}
+      - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
+        properties: {}
+        name: indeterminate_progress_vsl_themes
+        layout_properties:
+          col_widths: {}
+          grid_position: GDSLQZ,FXQVYK
       - type: TextArea
         properties: {role: null, align: left, height: 355, tooltip: '', placeholder: VIDEO SALES SCRIPT IS HERE (Next Step...),
           border: '', enabled: true, foreground: '', visible: true, text: '', font_size: 16,
@@ -524,6 +530,21 @@ components:
           italic: false, background: '', bold: false, underline: false}
         name: video_sales_script_textbox
         layout_properties: {grid_position: 'LZWTET,KOGWGA'}
+      - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
+        properties: {}
+        name: indeterminate_progress_vsl_themes_rewrites
+        layout_properties: {grid_position: 'BUZOXT,LJYZKI'}
+      - type: Button
+        properties: {role: elevated-button, align: right, tooltip: '', border: '',
+          enabled: true, foreground: 'theme:Error', visible: true, text: Provide Feedback / Direction to FunnelWriter.AI Bot,
+          font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+          italic: false, background: 'theme:Secondary Container', bold: true, underline: false,
+          icon: 'fa:pencil'}
+        name: provide_feedback_button
+        layout_properties:
+          col_widths: {}
+          grid_position: SKSFEM,NLABZQ
+        event_bindings: {click: provide_feedback_button_click}
       - type: Button
         properties: {role: outlined-button, align: right, tooltip: '', border: '',
           enabled: true, foreground: '', visible: true, text: REGENERATE SUBHEADLINES,
@@ -533,6 +554,30 @@ components:
         layout_properties:
           col_widths: {}
           grid_position: SKSFEM,GDTXYU
+      - type: ColumnPanel
+        properties: {col_widths: '{"QYJHNU":10}'}
+        name: rewrite_box
+        layout_properties: {grid_position: 'NHRDDL,DOAHMI'}
+        components:
+        - type: TextArea
+          properties: {role: null, align: left, height: '', tooltip: '', placeholder: '''This
+              sounds too stiff. Make it funnier, and add the term "There''s no better
+              time than now!"', border: '', enabled: true, foreground: '', visible: true,
+            text: '', font_size: null, auto_expand: true, font: '', spacing_above: small,
+            spacing_below: small, italic: false, background: '', bold: false, underline: false}
+          name: feedback_box
+          layout_properties: {grid_position: 'UFRDRV,QYSTJE'}
+        - type: Button
+          properties: {role: elevated-button, align: center, tooltip: '', border: '',
+            enabled: true, foreground: 'theme:Error', visible: true, text: REWRITE,
+            font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+            italic: false, background: 'theme:Secondary Container', bold: true, underline: false,
+            icon: 'fa:pencil-square-o'}
+          name: regenerate_vsl_button_with_edits
+          layout_properties:
+            col_widths: {}
+            grid_position: UFRDRV,QYJHNU
+          event_bindings: {click: regenerate_vsl_button_with_edits_click}
       - type: TextArea
         properties: {role: null, align: center, height: '', tooltip: '', placeholder: 2ND HEADLINE HERE - This entices the reader to continue reading...,
           border: '', enabled: true, foreground: '', visible: true, text: '', font_size: 20,
@@ -553,12 +598,6 @@ components:
           col_widths: {}
           grid_position: PVCBWL,UVHRNN
         event_bindings: {click: generate_vsl_themes_button_click}
-      - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
-        properties: {}
-        name: indeterminate_progress_vsl_themes
-        layout_properties:
-          col_widths: {}
-          grid_position: GBOQHQ,HIMZJI
       - type: TextArea
         properties: {role: null, align: left, height: '', tooltip: '', placeholder: '',
           border: '', enabled: true, foreground: '', visible: true, text: EXCERPT 1 - Compelling Reason,
@@ -632,4 +671,8 @@ components:
   type: Timer
   properties: {interval: 3}
   event_bindings: {tick: check_task_status_regenerate_subheadlines}
+- name: task_check_timer_regenerate_vsl_script_with_feedback
+  type: Timer
+  properties: {interval: 3}
+  event_bindings: {tick: check_task_status_regenerate_vsl_script_with_feedback}
 is_package: true

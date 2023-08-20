@@ -33,27 +33,21 @@ google_api_key = anvil.secrets.get_secret('GOOGLE_API_KEY')
 ### TOOLS
 
 # SERPAPI
-# search = SerpAPIWrapper(serpapi_api_key=serpapi_api_key)
-# tools = Tool(
-#     name="serpapi",
-#     description="Search Google for recent results.",
-#     func=search.run,
-# )
-
-# GOOGLE SEARCH
-search = GoogleSearchAPIWrapper(google_api_key=google_api_key, google_cse_id=google_cse_id)
-# tools = Tool(name="Google Search", description="Search Google for recent results.", func=search.run)
-
+search = SerpAPIWrapper(serpapi_api_key=serpapi_api_key)
 tools = Tool(
     name="Google Search",
     description="Search Google for recent results.",
     func=search.run,
 )
 
-
-# USE THIS ONE IF YOU NEED TO COME BACK -> 
+# # GOOGLE SEARCH - DOESN'T WORK
 # search = GoogleSearchAPIWrapper(google_api_key=google_api_key, google_cse_id=google_cse_id)
-# tools = Tool(name="Google Search", description="Search Google for recent results.", func=search.run)
+# tools = Tool(
+#     name="Google Search",
+#     description="Search Google for recent results.",
+#     func=search.run,
+# )
+
 
 
 
@@ -81,7 +75,7 @@ def launch_draft_company_summary(user_table,company_name, company_url):
 def draft_company_summary(row,company_name, company_url):
     print("Background task started for researching company:", row,company_name,company_url)
   
-    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-4', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
     agent_company_context = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
     company_research = agent_company_context({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive analysis to build an informational company profile of {company_name}. \
                     Leverage all necessary resources, primarily the company's website {company_url}, but also news articles, and any other relevant sources.  \
@@ -1405,6 +1399,7 @@ def draft_brand_tone_research(user_table,brand_tone_url):
     brand_tone_latest_row = list(user_table.search(variable='brand_tone'))
     first_row_brand_tone_latest =  brand_tone_latest_row[0]
     first_row_brand_tone_latest['variable_value'] = extracted_tone
+    first_row_brand_tone_latest['variable_title'] = brand_tone_url
     first_row_brand_tone_latest.update()
     print("Brand Tone Research Complete")
 
@@ -1432,11 +1427,11 @@ def company_summary(company_name, company_url):
     # Here, you should write the code that uses the company_name and company_url
     # to research the company and generate a context. For example:
   
-    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-4', openai_api_key=openai_api_key)
-    agent_company_context = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True,max_execution_time=300,max_iterations=300)
+    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    agent_company_context = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True) #max_execution_time=300,max_iterations=300
     company_research = agent_company_context({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive analysis to build an informational company profile of {company_name}. \
                     Leverage all necessary resources, primarily the company's website {company_url}, but also news articles, and any other relevant sources.  \
-                    to gather the following details about {company_name}.  Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful research and findings. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
+                    to gather the following details about {company_name}. Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful research and findings. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
                     \n \
                     Overview: Provide a comprehensive introduction to the company. What are the unique features or value propositions of the company's offerings? What does the company aim to achieve? \n \
                     \n \
@@ -3661,6 +3656,64 @@ def generate_vsl_script(chosen_product_name, chosen_company_profile, chosen_prod
     row.update()
     anvil.server.task_state['result'] = vsl_script
 
+####### --------VIDEO SALES SCRIPT WITH FEEDBACK
+
+@anvil.server.callable
+def launch_generate_vsl_script_with_feedback(chosen_product_name, chosen_product_research,vsl_script_feedback):
+    print("Launch Generate Video Sales Letter Script Function")
+    current_user = anvil.users.get_user()
+    user_table_name = current_user['user_id']
+    # Get the table for the current user
+    user_table = getattr(app_tables, user_table_name)
+    row = user_table.get(variable='vsl_script')
+  
+    # Launch the background task
+    task = anvil.server.launch_background_task('generate_vsl_script_with_feedback', chosen_product_name, chosen_product_research,vsl_script_feedback,row)
+    # Return the task ID
+    return task.get_id()
+
+@anvil.server.background_task
+def generate_vsl_script_with_feedback(chosen_product_name, chosen_product_research,vsl_script_feedback,row):
+    # Return the task ID):
+    print("Background task started for generating the Video Sales Letter script")
+
+    llm_vsl_script = ChatOpenAI(temperature=0.8, model_name='gpt-4', openai_api_key=openai_api_key)
+
+    vsl_script_template = """You are RussellAI, a highly-evolved version of Russell Brunson, the author and business coach behind "Dotcom Secrets". You are the best scriptwriter on the planet, and you've just written an amazing and effect script that will surely convert. This script will help you sell {chosen_product_name} to more people than ever!
+     
+    However, your ad partner, a truly gifted marketer with great understanding of the customers needs, has given some minor feedback they would like you to incorporate into your existing script (shared below). The format and structure is very important to maintain. You should maintain the existing tone, cadence, names and details, but modify the script according to the notes received.
+    
+    Remember, this is a sales script. Do your best to address the notes, and improve the script as much as you can.
+
+    HERE IS SOME CONTEXT ABOUT THE PRODUCT: {chosen_product_research}
+
+    HERE ARE THE NOTES YOU'VE RECEIVED FROM YOUR AD PARTNER. {vsl_script_feedback} 
+
+    HERE IS THE TEMPLATE TO ADHERE TO WHEN EDITING OR MODIIFYING THE EXISTING SCRIPT.
+    Explain The Problem — What problem is our avatar and target market facing? How can we empathize with their challenges? (should be between 90-100 words)
+    Agitate The Problem — What are some examples of that problem? Make that problem visceral for them. Explain why it’s a bigger problem than they think it is and how it’s really going to harm them over the long-run. (should be between 90-100 words)
+    Introduce The Solution — What is your solution to their problem? It's our product, of course! (should be between 90-100 words)
+    Build Credibility — Why should they trust our founder to be the provider of this solution? Use their name. What makes you so great? Telling a story about your own journey can help build credibility. (should be between 90-100 words)
+    Show Proof — How do they know that it’ll actually work? Make up a fictional case-study using ficticious details. This is important to discuss and show proof. (should be between 90-100 words)
+    Explain Exactly What They Get — Explain exactly what the prospect is going to get if they sign up! (should be between 90-100 words)
+    Give Reason To Act Now — Why should they buy right now? Use urgency or scarcity to put the prospect’s foot on the gas.(should be between 90-100 words)
+    Close — Close the sale with a final call-to-action. 
+
+    The output should be a script, written in the first person from the perspective of the founder that is trying to sell the audience on why their product is the best choice and will make their life easier. The script should not include any subheadings!"""
+
+    vsl_script_prompt = PromptTemplate(
+        input_variables=["chosen_product_name", "chosen_product_research","vsl_script_feedback"],
+        template=vsl_script_template
+    )
+
+    chain_vsl_script = LLMChain(llm=llm_vsl_script, prompt=vsl_script_prompt)
+    vsl_script = chain_vsl_script.run(chosen_product_name=chosen_product_name, chosen_product_research=chosen_product_research,vsl_script_feedback=vsl_script_feedback)
+
+      # Save the generated subheadlines in the 'subheadlines' column of the variable_table
+    
+    row['variable_value'] = vsl_script
+    row.update()
+    anvil.server.task_state['result'] = vsl_script
 ####### --------VIDEO SALES SCRIPT 4 THEMES --------###################################################
 
 @anvil.server.callable 

@@ -34,9 +34,11 @@ class Headlines(HeadlinesTemplate):
     self.indeterminate_progress_main_headlines.visible = False
     self.indeterminate_progress_subheadlines.visible = False
     self.indeterminate_progress_vsl_themes.visible = False
+    self.indeterminate_progress_vsl_themes_rewrites.visible = False
     self.generate_headlines_vsl_button.enabled = True
     self.generate_vsl_themes_button.visible = False
     self.indeterminate_progress_vsl_script.visible = False
+    self.rewrite_box.visible = False
      
     
     self.chosen_company_name = None
@@ -163,6 +165,7 @@ class Headlines(HeadlinesTemplate):
         self.task_id_vsl_script = anvil.server.call('launch_generate_vsl_script', self.chosen_product_name, self.chosen_company_profile, self.chosen_product_research,self.chosen_avatar, self.chosen_tone, self.example_script)
         print("Video Sales Script function called")
         self.indeterminate_progress_main_headlines.visible = True
+        self.indeterminate_progress_vsl_themes.visible = True
 
         self.task_check_timer_headlines.enabled = True
         self.task_check_timer_headlines.interval = 3  # Check every 2seconds
@@ -313,6 +316,7 @@ class Headlines(HeadlinesTemplate):
             self.task_check_timer_vsl_script.enabled = False
             self.task_check_timer_vsl_script.interval = 0
             self.generate_vsl_themes_button.visible = True
+            self.indeterminate_progress_vsl_themes.visible = False
 
   def check_task_status_vsl_themes(self, sender=None, **event_args):
     with anvil.server.no_loading_indicator:
@@ -323,6 +327,11 @@ class Headlines(HeadlinesTemplate):
         # Get the table for the current user
         user_table = getattr(app_tables, user_table_name)
         row = user_table.get(variable='vsl_themes')
+
+        vsl_theme_1_row = user_table.get(variable='vsl_theme_1')
+        vsl_theme_2_row = user_table.get(variable='vsl_theme_2')
+        vsl_theme_3_row = user_table.get(variable='vsl_theme_3')
+        vsl_theme_4_row = user_table.get(variable='vsl_theme_4')
 
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on the Video Sales Script!")
@@ -340,10 +349,10 @@ class Headlines(HeadlinesTemplate):
           
             all_vsl_themes = json.loads(all_vsl_themes_json)
             # Update the text boxes with the headlines
-            self.vsl_theme_1.text = all_vsl_themes[0]
-            self.vsl_theme_2.text = all_vsl_themes[1]
-            self.vsl_theme_3.text = all_vsl_themes[2]
-            self.vsl_theme_4.text = all_vsl_themes[3]
+            self.excerpt_textbox_1.text = all_vsl_themes[0]
+            self.excerpt_textbox_3.text = all_vsl_themes[1]
+            self.excerpt_textbox_3.text = all_vsl_themes[2]
+            self.excerpt_textbox_4.text = all_vsl_themes[3]
 
             # Update the rows in the 'variable' column of the 'mdia' table
             vsl_theme_1_row['variable_value'] = all_vsl_themes[0]
@@ -536,7 +545,57 @@ class Headlines(HeadlinesTemplate):
             self.indeterminate_progress_vsl_script.visible = False
             self.generate_vsl_themes_button.visible = True
             return
+
+  def regenerate_vsl_button_with_edits_click(self, **event_args):
+    with anvil.server.no_loading_indicator:
+        self.indeterminate_progress_vsl_themes_rewrites.visible = True
+        vsl_script_feedback = self.feedback_box.text
       
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        
+        vsl_script_row = user_table.get(variable='vsl_script')
+        vsl_script_row['variable_value'] = None
+        vsl_script_row.update()
+        
+       # Launch the background tasks concurrently
+      # REGENERATE VSL SCRIPT     
+        self.task_id_vsl_script_feedback = anvil.server.call('launch_generate_vsl_script_with_feedback', self.chosen_product_name, self.chosen_product_research,vsl_script_feedback)
+        print("Video Sales Script For Feedback function called")
+    
+        self.task_check_timer_regenerate_vsl_script_with_feedback.enabled = True
+        self.task_check_timer_regenerate_vsl_script_with_feedback.interval = 3  # Check every 2seconds
+
+
+  def check_task_status_regenerate_vsl_script_with_feedback(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Check if the background task is complete
+
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='vsl_script')
+
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Video Sales Script Generated!")
+                                      
+            # Update the 'variable_value' column of the row
+            vsl_script = row['variable_value']
+            row.update()
+          
+            # Populate the textbox with the generated script
+            self.video_sales_script_textbox.text = vsl_script
+            self.task_check_timer_regenerate_vsl_script_with_feedback.enabled = False
+            self.task_check_timer_regenerate_vsl_script_with_feedback.interval = 0
+            self.indeterminate_progress_vsl_themes_rewrites.visible = False
+            self.generate_vsl_themes_button.visible = True
+            return
+          
 ###---- GENERATE HEADLINES--------#########################################################################################################
   #Use the saved values in other functions
   # def generate_main_headlines_button_click(self, **event_args):
@@ -741,3 +800,8 @@ class Headlines(HeadlinesTemplate):
   def email_my_script_click(self, **event_args):
    anvil.js.window.alert("Check your inbox (TBD, but it's easily doable!")
    pass
+
+  def provide_feedback_button_click(self, **event_args):
+    self.rewrite_box.visible = True
+    
+

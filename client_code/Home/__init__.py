@@ -366,7 +366,7 @@ class Home(HomeTemplate):
                             print("Deep Dive Draft Avatar Research Started")
     
                             # Save it as the preview
-                            avatar_preview_row = user_table.get(variable=f"avatar_{j}_product_{i}_preview")
+                            avatar_preview_row = user_table.get(variable=f"avatar_{j}_product_{i}_preview") 
                             avatar_preview_row['variable_value'] = avatar_input
                             avatar_preview_row.update()
 
@@ -376,6 +376,7 @@ class Home(HomeTemplate):
                             # Step 2: Append the identifier to the list
                             self.undertaken_tasks.append(f"avatar_{j}_product_{i}_latest")
                             print(f"Added to undertaken_tasks: avatar_{j}_product_{i}_latest")
+                            pass
                          
 
   def check_status_company_summary(self, sender=None, **event_args):
