@@ -13,6 +13,7 @@ from anvil.tables import app_tables
 from anvil import tables
 
 from ..Headlines import Headlines
+from ..Headlines_new import Headlines_new
 ############################################################################################################
 # LOADING
 
@@ -64,21 +65,21 @@ class VSL_Elements(VSL_ElementsTemplate):
    
     # AVATARS
     avatar_rows_custom = [
-    user_table.search(variable='avatar_1_product_1')[0],
-    user_table.search(variable='avatar_2_product_1')[0],
-    user_table.search(variable='avatar_3_product_1')[0],
-    user_table.search(variable='avatar_1_product_2')[0],
-    user_table.search(variable='avatar_2_product_2')[0],
-    user_table.search(variable='avatar_3_product_2')[0],
-    user_table.search(variable='avatar_1_product_3')[0],
-    user_table.search(variable='avatar_2_product_3')[0],
-    user_table.search(variable='avatar_3_product_3')[0],
-    user_table.search(variable='avatar_1_product_4')[0],
-    user_table.search(variable='avatar_2_product_4')[0],
-    user_table.search(variable='avatar_3_product_4')[0],
-    user_table.search(variable='avatar_1_product_5')[0],
-    user_table.search(variable='avatar_2_product_5')[0],
-    user_table.search(variable='avatar_3_product_5')[0],
+    user_table.search(variable='avatar_1_product_1_latest')[0],
+    user_table.search(variable='avatar_2_product_1_latest')[0],
+    user_table.search(variable='avatar_3_product_1_latest')[0],
+    user_table.search(variable='avatar_1_product_2_latest')[0],
+    user_table.search(variable='avatar_2_product_2_latest')[0],
+    user_table.search(variable='avatar_3_product_2_latest')[0],
+    user_table.search(variable='avatar_1_product_3_latest')[0],
+    user_table.search(variable='avatar_2_product_3_latest')[0],
+    user_table.search(variable='avatar_3_product_3_latest')[0],
+    user_table.search(variable='avatar_1_product_4_latest')[0],
+    user_table.search(variable='avatar_2_product_4_latest')[0],
+    user_table.search(variable='avatar_3_product_4_latest')[0],
+    user_table.search(variable='avatar_1_product_5_latest')[0],
+    user_table.search(variable='avatar_2_product_5_latest')[0],
+    user_table.search(variable='avatar_3_product_5_latest')[0],
     ]
     # Filter out rows where 'variable_value' (avatar) is not empty
     non_empty_rows = [row for row in avatar_rows_custom if row['variable_title']]
@@ -103,31 +104,10 @@ class VSL_Elements(VSL_ElementsTemplate):
     self.script_format_dropdown.items = ['Who, What, Where, How - 1', 'Who, What, Where, How - 2', 'Star, Story, Solution']
 
 # LOCK IT ALL IN
-
-  def validate_dropdown_selections(self):
-    # Check if any of the dropdowns have an empty selection
-    if not self.product_name_dropdown.selected_value:
-      anvil.js.window.alert("Please select a product name.")
-      return False
-
-    if not self.avatar_dropdown.selected_value:
-      anvil.js.window.alert("Please select an avatar.")
-      return False
-
-    if not self.brand_tone_dropdown.selected_value:
-      anvil.js.window.alert("Please select a brand tone.")
-      return False
-
-    if not self.script_format_dropdown.selected_value:
-      anvil.js.window.alert("Please select a script format.")
-      return False
-
-    # All dropdowns have a selected value, return True
-    return True
-
   def save_funnel_settings_component_click(self, **event_args):
-    # Call the submit_button_click method to perform the validation and action
-    self.submit_button_click()
+     # Call the submit_button_click method to perform the validation and action
+    if not self.submit_button_click():
+        return  # Stop the function execution if validation failed
 
     # Get the current user
     current_user = anvil.users.get_user()
@@ -214,22 +194,47 @@ class VSL_Elements(VSL_ElementsTemplate):
       print("No script found with the selected title")
 
     # Save the script contents and title
-    row_chosen_script = user_table.searc(variable='chosen_script')
+    row_chosen_script = user_table.search(variable='chosen_script')
     row_chosen_script[0]['variable_value'] = self.chosen_script
     row_chosen_script[0]['variable_title'] = selected_script_title
     row_chosen_script[0].update()
 
     
-    
+
     # Call the navigation
     self.nav_button_VSL_Elements_to_headline()
 
+  def validate_dropdown_selections(self):
+    if not self.product_name_dropdown.selected_value:
+        anvil.alert("Please select a product name.")
+        return False
+
+    if not self.avatar_dropdown.selected_value:
+        anvil.alert("Please select an avatar.")
+        return False
+
+    if not self.brand_tone_dropdown.selected_value:
+        anvil.alert("Please select a brand tone.")
+        return False
+
+    if not self.script_format_dropdown.selected_value:
+        anvil.alert("Please select a script format.")
+        return False
+
+    # All dropdowns have a selected value, return True
+    return True
+
+
   def submit_button_click(self, **event_args):
     # Validate the dropdown selections
-    if self.validate_dropdown_selections():
-      # All dropdowns have a selected value, proceed with the action
-      # Your code to handle the form submission or other actions here
-      pass
+    if not self.validate_dropdown_selections():
+        return False
+    # All dropdowns have a selected value, proceed with the action
+    # Your code to handle the form submission or other actions here
+    return True
+
+
+  
 ###----------NAVIGATION---------------####
     
   # # Define the event handler for nav_button_tone_to_VSL_elements click
@@ -239,7 +244,7 @@ class VSL_Elements(VSL_ElementsTemplate):
   #       self.content_panel.add_component(headlines)
 
   def nav_button_VSL_Elements_to_headline(self, **event_args):
-    anvil.open_form('Headlines')
-    # headlines = Headlines()
-    # self.whole_content_panel.clear()
-    # self.whole_content_panel.add_component(headlines)
+    #anvil.open_form('Headlines')
+    headlines = Headlines_new()
+    self.whole_content_panel.clear()
+    self.whole_content_panel.add_component(headlines)

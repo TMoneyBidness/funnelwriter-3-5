@@ -33,36 +33,42 @@ class Home(HomeTemplate):
     self.nav_button_company_to_products.visible = False
     self.research_status_bar.visible = False
     
-  # Turn off all timers:
-    self.check_all_tasks_timer.enabled = False
-    self.check_all_tasks_timer.interval = 0
-    self.check_status_timer_company_summary.enabled = False
-    self.check_status_timer_company_summary.interval = 0
+    for component in self.get_components():
+        # Check if the component is a Timer
+        if isinstance(component, anvil.Timer):
+            # Stop the timer by setting its interval to None
+            component.interval = None
 
-    self.task_check_timer_product_1.enabled = False
-    self.task_check_timer_product_1_avatar_1.enabled = False
-    self.task_check_timer_product_1_avatar_2.enabled = False
-    self.task_check_timer_product_1_avatar_3.enabled = False
+    
+    # self.check_all_tasks_timer.enabled = False
+    # self.check_all_tasks_timer.interval = 0
+    # self.check_status_timer_company_summary.enabled = False
+    # self.check_status_timer_company_summary.interval = 0
+
+    # self.task_check_timer_product_1.enabled = False
+    # self.task_check_timer_product_1_avatar_1.enabled = False
+    # self.task_check_timer_product_1_avatar_2.enabled = False
+    # self.task_check_timer_product_1_avatar_3.enabled = False
    
-    self.task_check_timer_product_2.interval = 0
-    self.task_check_timer_product_2_avatar_1.interval = 0
-    self.task_check_timer_product_2_avatar_2.interval = 0
-    self.task_check_timer_product_2_avatar_3.interval = 0
+    # self.task_check_timer_product_2.interval = 0
+    # self.task_check_timer_product_2_avatar_1.interval = 0
+    # self.task_check_timer_product_2_avatar_2.interval = 0
+    # self.task_check_timer_product_2_avatar_3.interval = 0
 
-    self.task_check_timer_product_3.interval = 0
-    self.task_check_timer_product_3_avatar_1.interval = 0
-    self.task_check_timer_product_3_avatar_2.interval = 0
-    self.task_check_timer_product_3_avatar_3.interval = 0
+    # self.task_check_timer_product_3.interval = 0
+    # self.task_check_timer_product_3_avatar_1.interval = 0
+    # self.task_check_timer_product_3_avatar_2.interval = 0
+    # self.task_check_timer_product_3_avatar_3.interval = 0
 
-    self.task_check_timer_product_4.interval = 0
-    self.task_check_timer_product_4_avatar_1.interval = 0
-    self.task_check_timer_product_4_avatar_2.interval = 0
-    self.task_check_timer_product_4_avatar_3.interval = 0
+    # self.task_check_timer_product_4.interval = 0
+    # self.task_check_timer_product_4_avatar_1.interval = 0
+    # self.task_check_timer_product_4_avatar_2.interval = 0
+    # self.task_check_timer_product_4_avatar_3.interval = 0
 
-    self.task_check_timer_product_5.interval = 0
-    self.task_check_timer_product_5_avatar_1.interval = 0
-    self.task_check_timer_product_5_avatar_2.interval = 0
-    self.task_check_timer_product_5_avatar_3.interval = 0
+    # self.task_check_timer_product_5.interval = 0
+    # self.task_check_timer_product_5_avatar_1.interval = 0
+    # self.task_check_timer_product_5_avatar_2.interval = 0
+    # self.task_check_timer_product_5_avatar_3.interval = 0
    
     self.undertaken_tasks = []
 

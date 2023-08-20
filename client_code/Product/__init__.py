@@ -40,6 +40,12 @@ class Product(ProductTemplate):
     # Get the table for the current user
     user_table = getattr(app_tables, user_table_name)
 
+    for component in self.get_components():
+        # Check if the component is a Timer
+        if isinstance(component, anvil.Timer):
+            # Stop the timer by setting its interval to None
+            component.interval = None
+          
     # Load the latest info for products 1 to 5
     for i in range(1, 6):
         row_product_latest = user_table.search(variable=f'product_{i}_latest')
@@ -75,6 +81,7 @@ class Product(ProductTemplate):
             # If all product descriptions are empty, disable the button
             self.nav_button_products_to_avatars.enabled = False
 
+  
 #-- GENERATE THE 5 PREVIEWS ------------#######################################################################
 
   def all_products_button_click(self, **event_args):

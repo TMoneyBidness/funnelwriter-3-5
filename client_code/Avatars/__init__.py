@@ -43,6 +43,12 @@ class Avatars(AvatarsTemplate):
     self.indeterminate_50.visible = False
 
     # Stop Timers
+    for component in self.get_components():
+        # Check if the component is a Timer
+        if isinstance(component, anvil.Timer):
+            # Stop the timer by setting its interval to None
+            component.interval = None
+          
     self.avatar_product_1_timer.enabled = False
     self.avatar_product_1_timer.interval = 0  
     self.avatar_product_2_timer.enabled = False
@@ -100,6 +106,9 @@ class Avatars(AvatarsTemplate):
           if product_latest_name:
             getattr(self, f'product_{i}_input_section').visible = True
             getattr(self, f'add_avatar_1_product_{i}').visible = True
+            if i != 1:
+              getattr(self, f'add_product_{i-1}').visible = False
+
           
           # Now, load the avatars associated with that product. There may be 1 avatar only, or there are 3. The cells might be empty!
           # Load the avatars associated with that product
@@ -1904,7 +1913,7 @@ class Avatars(AvatarsTemplate):
             continue  # Skip this iteration
         # If either is empty, show alert and break
         if not avatar_description.strip() or not avatar_name.strip():
-            anvil.js.window.alert("Avatar Name and Description cannot be empty.")
+            anvil.js.window.alert("Please name the avatar, and ensure there's an avatar description.")
             break
       
         avatar_description_row = user_table.get(variable=f'avatar_{j}_product_1_latest')

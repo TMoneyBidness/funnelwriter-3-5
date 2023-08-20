@@ -91,11 +91,10 @@ components:
               col_widths: {}
               grid_position: ZUHAUT,LZXGLA
           - type: TextBox
-            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: 'ie.
-                Hillary, the Digital Marketer', border: '', enabled: true, foreground: '',
-              visible: true, text: '', font_size: null, font: '', spacing_above: small,
-              type: text, spacing_below: small, italic: true, background: '', bold: false,
-              underline: false}
+            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+              border: '', enabled: true, foreground: '', visible: true, text: '',
+              font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
+              italic: true, background: '', bold: false, underline: false}
             name: avatar_1_product_1_name
             layout_properties:
               col_widths: {}
@@ -110,7 +109,7 @@ components:
               col_widths: {}
               grid_position: XZEMTO,FGXNBI
           - type: TextArea
-            properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+            properties: {role: null, align: left, height: '', tooltip: '', placeholder: '',
               border: '', enabled: true, foreground: '', visible: true, text: '',
               font_size: null, auto_expand: true, font: '', spacing_above: small,
               spacing_below: small, italic: false, background: '', bold: false, underline: false}
@@ -158,11 +157,10 @@ components:
               col_widths: {}
               grid_position: ZPDNHG,DGKKPO
           - type: TextBox
-            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: 'ie.
-                Hillary, the Digital Marketer', border: '', enabled: true, foreground: '',
-              visible: true, text: '', font_size: null, font: '', spacing_above: small,
-              type: text, spacing_below: small, italic: true, background: '', bold: false,
-              underline: false}
+            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+              border: '', enabled: true, foreground: '', visible: true, text: '',
+              font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
+              italic: true, background: '', bold: false, underline: false}
             name: avatar_2_product_1_name
             layout_properties:
               col_widths: {}
@@ -177,7 +175,7 @@ components:
               col_widths: {}
               grid_position: XZEMTO,FGXNBI
           - type: TextArea
-            properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+            properties: {role: null, align: left, height: '', tooltip: '', placeholder: '',
               border: '', enabled: true, foreground: '', visible: true, text: '',
               font_size: null, auto_expand: true, font: '', spacing_above: small,
               spacing_below: small, italic: false, background: '', bold: false, underline: false}
@@ -240,7 +238,7 @@ components:
               col_widths: {}
               grid_position: XZEMTO,FGXNBI
           - type: TextArea
-            properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+            properties: {role: null, align: left, height: '', tooltip: '', placeholder: '',
               border: '', enabled: true, foreground: '', visible: true, text: '',
               font_size: null, auto_expand: true, font: '', spacing_above: small,
               spacing_below: small, italic: false, background: '', bold: false, underline: false}
@@ -266,7 +264,7 @@ components:
             enabled: true, foreground: '', visible: true, text: ADD ANOTHER PRODUCT,
             font_size: 18, font: '', spacing_above: small, icon_align: left, spacing_below: small,
             italic: false, background: '', bold: true, underline: false, icon: 'fa:plus'}
-          name: add_product_2
+          name: add_product_1
           layout_properties:
             col_widths: {}
             grid_position: EDRWYY,PIYGOZ
@@ -354,11 +352,10 @@ components:
               col_widths: {}
               grid_position: XMCHRH,RXXOCS
           - type: TextBox
-            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: 'ie.
-                Hillary, the Digital Marketer', border: '', enabled: true, foreground: '',
-              visible: true, text: '', font_size: null, font: '', spacing_above: small,
-              type: text, spacing_below: small, italic: true, background: '', bold: false,
-              underline: false}
+            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+              border: '', enabled: true, foreground: '', visible: true, text: '',
+              font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
+              italic: true, background: '', bold: false, underline: false}
             name: avatar_1_product_2_name
             layout_properties:
               col_widths: {}
@@ -373,7 +370,7 @@ components:
               col_widths: {}
               grid_position: AMBEIB,KZYLST
           - type: TextArea
-            properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+            properties: {role: null, align: left, height: '', tooltip: '', placeholder: '',
               border: '', enabled: true, foreground: '', visible: true, text: '',
               font_size: null, auto_expand: true, font: '', spacing_above: small,
               spacing_below: small, italic: false, background: '', bold: false, underline: false}
@@ -415,11 +412,10 @@ components:
               col_widths: {}
               grid_position: HJYUWE,VZSBXB
           - type: TextBox
-            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: 'ie.
-                Hillary, the Digital Marketer', border: '', enabled: true, foreground: '',
-              visible: true, text: '', font_size: null, font: '', spacing_above: small,
-              type: text, spacing_below: small, italic: true, background: '', bold: false,
-              underline: false}
+            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+              border: '', enabled: true, foreground: '', visible: true, text: '',
+              font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
+              italic: true, background: '', bold: false, underline: false}
             name: avatar_2_product_2_name
             layout_properties:
               col_widths: {}
@@ -434,7 +430,7 @@ components:
               col_widths: {}
               grid_position: XZEMTO,FGXNBI
           - type: TextArea
-            properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+            properties: {role: null, align: left, height: '', tooltip: '', placeholder: '',
               border: '', enabled: true, foreground: '', visible: true, text: '',
               font_size: null, auto_expand: true, font: '', spacing_above: small,
               spacing_below: small, italic: false, background: '', bold: false, underline: false}
@@ -478,11 +474,10 @@ components:
               col_widths: {}
               grid_position: XUYRVX,WJZVCC
           - type: TextBox
-            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: 'ie.
-                Hillary, the Digital Marketer', border: '', enabled: true, foreground: '',
-              visible: true, text: '', font_size: null, font: '', spacing_above: small,
-              type: text, spacing_below: small, italic: true, background: '', bold: false,
-              underline: false}
+            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+              border: '', enabled: true, foreground: '', visible: true, text: '',
+              font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
+              italic: true, background: '', bold: false, underline: false}
             name: avatar_3_product_2_name
             layout_properties:
               col_widths: {}
@@ -497,7 +492,7 @@ components:
               col_widths: {}
               grid_position: XZEMTO,FGXNBI
           - type: TextArea
-            properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+            properties: {role: null, align: left, height: '', tooltip: '', placeholder: '',
               border: '', enabled: true, foreground: '', visible: true, text: '',
               font_size: null, auto_expand: true, font: '', spacing_above: small,
               spacing_below: small, italic: false, background: '', bold: false, underline: false}
@@ -524,7 +519,7 @@ components:
             enabled: true, foreground: '', visible: true, text: ADD ANOTHER PRODUCT,
             font_size: 18, font: '', spacing_above: small, icon_align: left, spacing_below: small,
             italic: false, background: '', bold: true, underline: false, icon: 'fa:plus'}
-          name: add_product_3
+          name: add_product_2
           layout_properties:
             col_widths: {}
             grid_position: PNGOIS,MRYQOF
@@ -539,7 +534,7 @@ components:
           layout_properties:
             col_widths: {}
             grid_position: PNGOIS,MVITBE
-          event_bindings: {click: save_product_1_avatars_button_click}
+          event_bindings: {click: save_product_2_avatars_button_click}
         - type: Button
           properties: {role: outlined-button, align: center, tooltip: '', border: '',
             enabled: true, foreground: '', visible: true, text: GENERATE PRODUCT 2 AVATARS,
@@ -614,11 +609,10 @@ components:
               col_widths: {}
               grid_position: XMCHRH,RXXOCS
           - type: TextBox
-            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: 'ie.
-                Hillary, the Digital Marketer', border: '', enabled: true, foreground: '',
-              visible: true, text: '', font_size: null, font: '', spacing_above: small,
-              type: text, spacing_below: small, italic: true, background: '', bold: false,
-              underline: false}
+            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+              border: '', enabled: true, foreground: '', visible: true, text: '',
+              font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
+              italic: true, background: '', bold: false, underline: false}
             name: avatar_1_product_3_name
             layout_properties:
               col_widths: {}
@@ -633,7 +627,7 @@ components:
               col_widths: {}
               grid_position: AMBEIB,KZYLST
           - type: TextArea
-            properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+            properties: {role: null, align: left, height: '', tooltip: '', placeholder: '',
               border: '', enabled: true, foreground: '', visible: true, text: '',
               font_size: null, auto_expand: true, font: '', spacing_above: small,
               spacing_below: small, italic: false, background: '', bold: false, underline: false}
@@ -675,11 +669,10 @@ components:
               col_widths: {}
               grid_position: QHALJV,INPRBC
           - type: TextBox
-            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: 'ie.
-                Hillary, the Digital Marketer', border: '', enabled: true, foreground: '',
-              visible: true, text: '', font_size: null, font: '', spacing_above: small,
-              type: text, spacing_below: small, italic: true, background: '', bold: false,
-              underline: false}
+            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+              border: '', enabled: true, foreground: '', visible: true, text: '',
+              font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
+              italic: true, background: '', bold: false, underline: false}
             name: avatar_2_product_3_name
             layout_properties:
               col_widths: {}
@@ -738,11 +731,10 @@ components:
               col_widths: {}
               grid_position: WGADYU,AHEDRA
           - type: TextBox
-            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: 'ie.
-                Hillary, the Digital Marketer', border: '', enabled: true, foreground: '',
-              visible: true, text: '', font_size: null, font: '', spacing_above: small,
-              type: text, spacing_below: small, italic: true, background: '', bold: false,
-              underline: false}
+            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+              border: '', enabled: true, foreground: '', visible: true, text: '',
+              font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
+              italic: true, background: '', bold: false, underline: false}
             name: avatar_3_product_3_name
             layout_properties:
               col_widths: {}
@@ -757,7 +749,7 @@ components:
               col_widths: {}
               grid_position: XZEMTO,FGXNBI
           - type: TextArea
-            properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+            properties: {role: null, align: left, height: '', tooltip: '', placeholder: '',
               border: '', enabled: true, foreground: '', visible: true, text: '',
               font_size: null, auto_expand: true, font: '', spacing_above: small,
               spacing_below: small, italic: false, background: '', bold: false, underline: false}
@@ -784,7 +776,7 @@ components:
             enabled: true, foreground: '', visible: true, text: ADD ANOTHER PRODUCT,
             font_size: 18, font: '', spacing_above: small, icon_align: left, spacing_below: small,
             italic: false, background: '', bold: true, underline: false, icon: 'fa:plus'}
-          name: add_product_4
+          name: add_product_3
           layout_properties:
             col_widths: {}
             grid_position: WUYKQV,OXLYNN
@@ -874,11 +866,10 @@ components:
               col_widths: {}
               grid_position: BOCFSQ,DEOQXE
           - type: TextBox
-            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: 'ie.
-                Hillary, the Digital Marketer', border: '', enabled: true, foreground: '',
-              visible: true, text: '', font_size: null, font: '', spacing_above: small,
-              type: text, spacing_below: small, italic: true, background: '', bold: false,
-              underline: false}
+            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+              border: '', enabled: true, foreground: '', visible: true, text: '',
+              font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
+              italic: true, background: '', bold: false, underline: false}
             name: avatar_1_product_4_name
             layout_properties:
               col_widths: {}
@@ -893,7 +884,7 @@ components:
               col_widths: {}
               grid_position: XZEMTO,FGXNBI
           - type: TextArea
-            properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+            properties: {role: null, align: left, height: '', tooltip: '', placeholder: '',
               border: '', enabled: true, foreground: '', visible: true, text: '',
               font_size: null, auto_expand: true, font: '', spacing_above: small,
               spacing_below: small, italic: false, background: '', bold: false, underline: false}
@@ -937,11 +928,10 @@ components:
               col_widths: {}
               grid_position: BOCFSQ,DEOQXE
           - type: TextBox
-            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: 'ie.
-                Hillary, the Digital Marketer', border: '', enabled: true, foreground: '',
-              visible: true, text: '', font_size: null, font: '', spacing_above: small,
-              type: text, spacing_below: small, italic: true, background: '', bold: false,
-              underline: false}
+            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+              border: '', enabled: true, foreground: '', visible: true, text: '',
+              font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
+              italic: true, background: '', bold: false, underline: false}
             name: avatar_2_product_4_name
             layout_properties:
               col_widths: {}
@@ -998,11 +988,10 @@ components:
               col_widths: {}
               grid_position: YEVFXG,HNCZQB
           - type: TextBox
-            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: 'ie.
-                Hillary, the Digital Marketer', border: '', enabled: true, foreground: '',
-              visible: true, text: '', font_size: null, font: '', spacing_above: small,
-              type: text, spacing_below: small, italic: true, background: '', bold: false,
-              underline: false}
+            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+              border: '', enabled: true, foreground: '', visible: true, text: '',
+              font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
+              italic: true, background: '', bold: false, underline: false}
             name: avatar_3_product_4_name
             layout_properties:
               col_widths: {}
@@ -1017,7 +1006,7 @@ components:
               col_widths: {}
               grid_position: XZEMTO,FGXNBI
           - type: TextArea
-            properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+            properties: {role: null, align: left, height: '', tooltip: '', placeholder: '',
               border: '', enabled: true, foreground: '', visible: true, text: '',
               font_size: null, auto_expand: true, font: '', spacing_above: small,
               spacing_below: small, italic: false, background: '', bold: false, underline: false}
@@ -1043,7 +1032,7 @@ components:
             enabled: true, foreground: '', visible: true, text: ADD ANOTHER PRODUCT,
             font_size: 18, font: '', spacing_above: small, icon_align: left, spacing_below: small,
             italic: false, background: '', bold: true, underline: false, icon: 'fa:plus'}
-          name: add_product_5
+          name: add_product_4
           layout_properties:
             col_widths: {}
             grid_position: THAXUL,TURVEQ
@@ -1140,11 +1129,10 @@ components:
               col_widths: {}
               grid_position: IFLRVV,DOPXSI
           - type: TextBox
-            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: 'ie.
-                Hillary, the Digital Marketer', border: '', enabled: true, foreground: '',
-              visible: true, text: '', font_size: null, font: '', spacing_above: small,
-              type: text, spacing_below: small, italic: true, background: '', bold: false,
-              underline: false}
+            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+              border: '', enabled: true, foreground: '', visible: true, text: '',
+              font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
+              italic: true, background: '', bold: false, underline: false}
             name: avatar_1_product_5_name
             layout_properties:
               col_widths: {}
@@ -1159,7 +1147,7 @@ components:
               col_widths: {}
               grid_position: XZEMTO,FGXNBI
           - type: TextArea
-            properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+            properties: {role: null, align: left, height: '', tooltip: '', placeholder: '',
               border: '', enabled: true, foreground: '', visible: true, text: '',
               font_size: null, auto_expand: true, font: '', spacing_above: small,
               spacing_below: small, italic: false, background: '', bold: false, underline: false}
@@ -1201,11 +1189,10 @@ components:
               col_widths: {}
               grid_position: IFLRVV,DOPXSI
           - type: TextBox
-            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: 'ie.
-                Hillary, the Digital Marketer', border: '', enabled: true, foreground: '',
-              visible: true, text: '', font_size: null, font: '', spacing_above: small,
-              type: text, spacing_below: small, italic: true, background: '', bold: false,
-              underline: false}
+            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+              border: '', enabled: true, foreground: '', visible: true, text: '',
+              font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
+              italic: true, background: '', bold: false, underline: false}
             name: avatar_2_product_5_name
             layout_properties:
               col_widths: {}
@@ -1220,7 +1207,7 @@ components:
               col_widths: {}
               grid_position: XZEMTO,FGXNBI
           - type: TextArea
-            properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+            properties: {role: null, align: left, height: '', tooltip: '', placeholder: '',
               border: '', enabled: true, foreground: '', visible: true, text: '',
               font_size: null, auto_expand: true, font: '', spacing_above: small,
               spacing_below: small, italic: false, background: '', bold: false, underline: false}
@@ -1264,11 +1251,10 @@ components:
               col_widths: {}
               grid_position: FWXNZK,ZUHDCQ
           - type: TextBox
-            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: 'ie.
-                Hillary, the Digital Marketer', border: '', enabled: true, foreground: '',
-              visible: true, text: '', font_size: null, font: '', spacing_above: small,
-              type: text, spacing_below: small, italic: true, background: '', bold: false,
-              underline: false}
+            properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '',
+              border: '', enabled: true, foreground: '', visible: true, text: '',
+              font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
+              italic: true, background: '', bold: false, underline: false}
             name: avatar_3_product_5_name
             layout_properties:
               col_widths: {}
@@ -1283,7 +1269,7 @@ components:
               col_widths: {}
               grid_position: XZEMTO,FGXNBI
           - type: TextArea
-            properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+            properties: {role: null, align: left, height: '', tooltip: '', placeholder: '',
               border: '', enabled: true, foreground: '', visible: true, text: '',
               font_size: null, auto_expand: true, font: '', spacing_above: small,
               spacing_below: small, italic: false, background: '', bold: false, underline: false}

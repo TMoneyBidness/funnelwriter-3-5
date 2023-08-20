@@ -621,7 +621,7 @@ components:
   name: nav_button_headlines_to_vsl_copy
   layout_properties:
     col_widths: {}
-    grid_position: WJBDLX,WWISGW
+    grid_position: WJBDLX,CQYFAU
   event_bindings: {click: email_my_script_click}
 - type: Timer
   properties: {interval: 3}
