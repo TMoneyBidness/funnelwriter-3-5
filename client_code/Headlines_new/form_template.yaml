@@ -548,14 +548,14 @@ components:
             GENERATE 4 SALES THEMES', font_size: 26, font: '', spacing_above: small,
           icon_align: left, spacing_below: small, italic: false, background: 'theme:Primary',
           bold: true, underline: false, icon: 'fa:microphone'}
-        name: generate_vsl_themes_button_copy
+        name: generate_vsl_themes_button
         layout_properties:
           col_widths: {}
           grid_position: PVCBWL,UVHRNN
         event_bindings: {click: generate_vsl_themes_button_click}
       - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
         properties: {}
-        name: indeterminate_progress_vsl_themes_copy
+        name: indeterminate_progress_vsl_themes
         layout_properties:
           col_widths: {}
           grid_position: GBOQHQ,HIMZJI

@@ -1,7 +1,7 @@
 from ._anvil_designer import Headlines_newTemplate
 from anvil import *
-import plotly.graph_objects as go
 import time
+import json
 import anvil.server
 import anvil.facebook.auth
 import anvil.google.auth, anvil.google.drive
@@ -10,7 +10,7 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
-import anvil.js
+from anvil import tables
 
 from ..VideoSalesLetter import VideoSalesLetter
 
@@ -22,358 +22,718 @@ PROMPT_TITLE = "FunnelWriter.AI needs a title to SAVE AS"
 ## LOADING
 class Headlines_new(Headlines_newTemplate):
   def __init__(self, **properties):
+    # Find the example script
+    anvil.users.login_with_form()
+  
     # Call the parent class's __init__ method
     super().__init__(**properties)
     # Initialize task_id attribute
     self.task_id = None
     # Initialize counter
-    anvil.users.login_with_form()
-    self.free_navigate_label.visible = False
-    self.status.text = 'Idle'
+    self.counter = 0
+    self.indeterminate_progress_main_headlines.visible = False
+    self.indeterminate_progress_subheadlines.visible = False
+    self.indeterminate_progress_vsl_themes.visible = False
+    self.generate_headlines_vsl_button.enabled = True
+    self.generate_vsl_themes_button.visible = False
+    self.indeterminate_progress_vsl_script.visible = False
+     
+    
+    self.chosen_company_name = None
+    self.chosen_product_name = None
+    self.chosen_product_research = None
+    self.chosen_avatar = None
+    self.chosen_tone = None
+    self.chosen_script = None
 
-    # Get the current user
+    # Load stuff
     current_user = anvil.users.get_user()
     user_table_name = current_user['user_id']
-
     # Get the table for the current user
     user_table = getattr(app_tables, user_table_name)
 
-    # Load the latest company profile
-    row_company_profile_latest = user_table.search(variable='company_profile_latest')
-    if row_company_profile_latest:
-      company_profile_latest = row_company_profile_latest[0]['variable_value']
-      self.company_profile_textbox.text = company_profile_latest
-    else:
-      # Handle case where the row does not exist for the current user
-      print("No row found for 'company_profile_latest'")
+    # COMPANY NAME
+    chosen_company_name_row = user_table.search(variable='chosen_company_name')[0]
+    self.chosen_company_name = chosen_company_name_row['variable_value']
 
-    # Load the latest company name
-    row_company_name = user_table.search(variable='company_name')
-    if row_company_name:
-      company_name = row_company_name[0]['variable_value']
-      self.company_name_input.text = company_name
+    # COMPANY PROFILE
+    chosen_company_profile_row = user_table.search(variable='chosen_company_profile')[0]
+    self.chosen_company_profile = chosen_company_profile_row['variable_value']
+    
+    # PRODUCT NAME
+    chosen_product_name_row = user_table.search(variable='chosen_product_name')[0]
+    self.chosen_product_name = chosen_product_name_row['variable_value']
 
-    # Load the latest company name
-    row_company_url = user_table.search(variable='company_url')
-    if row_company_url:
-      company_url = row_company_url[0]['variable_value']
-      self.company_url_input.text = company_url
+    # PRODUCT PROFILE
+    chosen_product_research_row = user_table.search(variable='chosen_product_research')[0]
+    self.chosen_product_research = chosen_product_research_row['variable_value']
 
-    # Check if any of the final company profile is empty
-    row_company_profile = user_table.search(variable='company_profile')
-    if not row_company_profile:
-      # If any of the company profiles are empty, disable the button
-      self.nav_button_company_to_products.enabled = False
-    else:
-      # If all company profiles are saved, enable the button and navigate to the 'Products' form
-      self.nav_button_company_to_products.enabled = True
+    # AVATARS
+    chosen_avatar_row = user_table.search(variable='chosen_avatar')[0]
+    self.chosen_avatar = chosen_avatar_row['variable_value']
 
-  def form_show(self, **event_args):
-    # Load the company profile on form show
-    self.company_profile_textbox.load_data()
-    self.company_name_input.load_data()
-    self.company_url_input.load_data()
+    # BRAND TONE
+    chosen_tone_row = user_table.search(variable='chosen_tone')[0]
+    self.chosen_tone = chosen_tone_row['variable_value']
 
+    # SCRIPT FORMAT
+    chosen_script_row = user_table.search(variable='chosen_script')[0]
+    self.chosen_script = chosen_script_row['variable_value']
 
-  def company_research_button_click(self, **event_args):
+    # Call set_saved_values to store the retrieved values in class-level variables
+    self.set_saved_values(
+        self.chosen_company_name,
+        self.chosen_company_profile,
+        self.chosen_product_name,
+        self.chosen_product_research,
+        self.chosen_tone,
+        self.chosen_avatar,
+        self.chosen_script
+    )
+
+    # Find the example script
+    row_chosen_script = user_table.search(variable='chosen_script')
+
+    for component in self.get_components():
+        # Check if the component is a Timer
+        if isinstance(component, anvil.Timer):
+            # Stop the timer by setting its interval to None
+            component.interval = None
+          
+    if row_chosen_script and row_chosen_script[0]['variable_title'] == 'Who, What, Where, How - 1':
+        example_wwwh_1_row = app_tables.example_scripts.get(script='wwwh_1')
+        example_script = example_wwwh_1_row['script_contents']
+        self.example_script = example_script
+    elif row_chosen_script and row_chosen_script[0]['variable_title'] == 'Who, What, Where, How - 2':
+        example_wwwh_2_row = app_tables.example_scripts.get(script='wwwh_2')
+        example_script = example_wwwh_2_row['script_contents']
+        self.example_script = example_script
+    elif self.chosen_script == 'Star, Story, Solution':
+        example_sss_row = app_tables.example_scripts.get(script='sss')
+        example_script = example_sss_row['script_contents']
+        self.example_script = example_script
+
+    # Stop all Timers
+    # self.task_check_timer_headlines.enabled = False
+    # self.task_check_timer_headlines.interval = 0
+  
+    # self.task_check_timer_subheadlines.enabled = False
+    # self.task_check_timer_subheadlines.interval = 0  # Check every 2seconds
+
+    # self.task_check_timer_vsl_script.enabled = False
+    # self.task_check_timer_vsl_script.interval = 0 # Check every 2seconds
+      
+    self.task_ids = []  # List to store all task IDs
+    
+  def generate_headlines_vsl_button_click(self, **event_args):
     with anvil.server.no_loading_indicator:
-      # This method should handle the UI logic
-      print("Research button clicked")
-      # Start the progress bar with a small value
+        self.indeterminate_progress_main_headlines.visible = True
+        self.indeterminate_progress_subheadlines.visible = True
 
-      # print("Before setting status:", self.status.text)
-      # self.status.text = 'Researching'
-      # print("After setting status:", self.status.text)
-      current_user = anvil.users.get_user()
-      user_table_name = current_user['user_id']
-      user_table = getattr(app_tables, user_table_name)
+      # Delete whatever is in the table with existing headlines.
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        
+      # Delete all the existing boxes and start fresh
+        headline_row = user_table.get(variable='main_headlines')
+        headline_row['variable_value'] = None
+        headline_row.update()
+        
+        subheadline_row = user_table.get(variable='subheadlines')
+        subheadline_row['variable_value'] = None
+        subheadline_row.update()
+        
+        vsl_script_row = user_table.get(variable='vsl_script')
+        vsl_script_row['variable_value'] = None
+        vsl_script_row.update()
+        
+       # Launch the background tasks concurrently
+        # MAIN HEADLINES 
+        task_id_main_headlines = anvil.server.call('launch_generate_main_headlines', self.chosen_product_name,self.chosen_company_profile,self.chosen_product_research, self.chosen_tone)
+        print("Main Headlines Launch function called")
+        self.indeterminate_progress_main_headlines.visible = True
 
-     # Check if either the company name or company URL input is empty
-      if not self.company_name_input.text or not self.company_url_input.text:
-        anvil.js.window.alert("Please fill out both the company name and company URL before proceeding")
-      else:
-        self.indeterminate_company_research.visible = True
-        self.free_navigate_label.visible = True
-        self.status.text = 'Researching'
+      # SUBHEADLINES 
+        task_id_subheadlines = anvil.server.call('launch_generate_subheadlines', self.chosen_product_name,self.chosen_company_profile,self.chosen_product_research, self.chosen_tone)
+        print("Subheadlines Launch function called")
+        self.indeterminate_progress_subheadlines.visible = True
+     
+        self.task_id_vsl_script = anvil.server.call('launch_generate_vsl_script', self.chosen_product_name, self.chosen_company_profile, self.chosen_product_research,self.chosen_avatar, self.chosen_tone, self.example_script)
+        print("Video Sales Script function called")
+        self.indeterminate_progress_main_headlines.visible = True
 
-        # Save company name
-        company_name_row = user_table.get(variable='company_name')
-        company_name_row['variable_value'] = self.company_name_input.text
-        company_name_row.update()
-        company_name = self.company_name_input.text
+        self.task_check_timer_headlines.enabled = True
+        self.task_check_timer_headlines.interval = 3  # Check every 2seconds
+      
+        self.task_check_timer_subheadlines.enabled = True
+        self.task_check_timer_subheadlines.interval = 3  # Check every 2seconds
 
-        # Save company URL
-        company_url_row = user_table.get(variable='company_url')
-        company_url_row['variable_value'] = self.company_url_input.text
-        company_url_row.update()
-        company_url = self.company_url_input.text
+        self.task_check_timer_vsl_script.enabled = True
+        self.task_check_timer_vsl_script.interval = 3  # Check every 2seconds
+  
+  def generate_vsl_themes_button_click(self, **event_args):
+    with anvil.server.no_loading_indicator:
+        self.indeterminate_progress_vsl_themes.visible = True
+        # Check if all of the textboxes are populated
+        if not self.main_headline_textbox.text or not self.subheadline_textbox.text or not self.video_sales_script_textbox.text:
+            anvil.js.window.alert("Please Populate All Fields Before Generating your themes.")
+            return
+        else:
+            current_user = anvil.users.get_user()
+            user_table_name = current_user['user_id']
+            # Get the table for the current user
+            user_table = getattr(app_tables, user_table_name)
 
-        # Launch the background task and store the task ID
-        self.task_id = anvil.server.call('launch_company_summary', company_name, company_url)
-        print("Task ID:", self.task_id)
+            #Define and save the final headlines and subheadlines
+            self.chosen_final_headline = self.main_headline_textbox.text
+            self.chosen_final_subheadline = self.subheadline_textbox.text
+            self.chosen_final_secondary_headline = self.secondary_headline_textbox.text
+          
+            chosen_final_headline_row = user_table.search(variable='chosen_final_headline')[0]
+            chosen_final_subheadline_row = user_table.search(variable='chosen_final_subheadline')[0]
+            chosen_final_secondary_headline_row = user_table.search(variable='chosen_final_secondary_headline')[0]
+          
+            chosen_final_headline_row['variable_value'] = self.chosen_final_headline
+            chosen_final_subheadline_row['variable_value'] = self.chosen_final_subheadline
+            chosen_final_secondary_headline_row['variable_value'] = self.chosen_final_secondary_headline
+            chosen_final_headline_row.update()
+            chosen_final_secondary_headline_row.update()
+            
+            row = user_table.get(variable='vsl_themes')
+            vsl_theme_1_row = user_table.get(variable='vsl_theme_1')
+            vsl_theme_2_row = user_table.get(variable='vsl_theme_2')
+            vsl_theme_3_row = user_table.get(variable='vsl_theme_3')
+            vsl_theme_4_row = user_table.get(variable='vsl_theme_4')
+      
+            self.task_id = anvil.server.call('launch_generate_vsl_themes', self.chosen_final_headline, self.chosen_final_subheadline, self.chosen_product_name, self.chosen_product_research, self.chosen_tone,self.video_sales_script_textbox,row)
+    
+            self.task_check_timer_vsl_themes.enabled = True
+            self.task_check_timer_vsl_themes.interval = 3
+        
+  def check_task_status_headlines(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Check if the background task is complete
 
-        # # Call the function extract_my_brand_tone asynchronously
-        # self.extract_my_brand_tone()
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='main_headlines')
 
-        # Loop to check the status of the background task
-        while True:
-          # Check if the background task is complete
-          task_status = anvil.server.call('get_task_status', self.task_id)
-          print("Task status:", task_status)
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working on Headlines!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Main Headlines Generated!")
+            self.task_check_timer_headlines.enabled = False
+            self.task_check_timer_headlines.interval = 0
+            self.indeterminate_progress_main_headlines.visible = False
+                
+            # Convert the JSON string back to a list
+            all_main_headlines_json = row['variable_value'] 
+          
+            all_headlines = json.loads(all_main_headlines_json)
+            # Update the text boxes with the headlines
+            self.main_headline_1.text = all_headlines[0]
+            self.main_headline_2.text = all_headlines[1]
+            self.main_headline_3.text = all_headlines[2]
+            self.main_headline_4.text = all_headlines[3]
+            self.main_headline_5.text = all_headlines[4]
+            self.main_headline_6.text = all_headlines[5]
+            self.main_headline_7.text = all_headlines[6]
+            self.main_headline_8.text = all_headlines[7]
+            self.main_headline_9.text = all_headlines[8]
+            self.main_headline_10.text = all_headlines[9]
 
-          if task_status is not None and task_status == "completed":
-            # Get the result of the background task
-            company_context = anvil.server.call('get_task_result', self.task_id)
-            # Update the textbox with the result
-            print("Company Context:", company_context)
-            self.company_profile_textbox.text = company_context
+            # Update the 'variable_value' column of the row
+            row['variable_value'] = all_main_headlines_json
+            row.update()
 
-            # Save this generated version as the latest version
-            row_company_profile_latest = user_table.search(variable='company_profile_latest')
-            row_company_profile_latest[0]['variable_value'] = company_context
-            row_company_profile_latest[0].update()
+  def check_task_status_subheadlines(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Check if the background task is complete
 
-            self.status.text = 'Complete'
-            self.indeterminate_company_research.visible = False
-            self.free_navigate_label.visible = False
-            break  # Exit the loop
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        subheadlines_row = user_table.get(variable='subheadlines')
 
-          # Sleep for 1 second before checking again
-          time.sleep(2)
+        if subheadlines_row['variable_value'] is None or subheadlines_row['variable_value'] == '':
+            print("Still working on Subheadlines!")
+        elif subheadlines_row['variable_value'] is not None and subheadlines_row['variable_value'] != '':
+            print("Subheadlines Generated!")
+            self.task_check_timer_headlines.enabled = False
+            self.task_check_timer_headlines.interval = 0
+            self.indeterminate_progress_subheadlines.visible = False
 
+           # Convert the JSON string back to a list
+            all_subheadlines_json = subheadlines_row['variable_value'] 
+          
+            # Convert the JSON string back to a list
+            all_subheadlines = json.loads(all_subheadlines_json)
+            # Update the text boxes with the headlines
+            self.subheadline_1.text = all_subheadlines[0]
+            self.subheadline_2.text = all_subheadlines[1]
+            self.subheadline_3.text = all_subheadlines[2]
+            self.subheadline_4.text = all_subheadlines[3]
+            self.subheadline_5.text = all_subheadlines[4]
+            self.subheadline_6.text = all_subheadlines[5]
+            self.subheadline_7.text = all_subheadlines[6]
+            self.subheadline_8.text = all_subheadlines[7]
+            self.subheadline_9.text = all_subheadlines[8]
+            self.subheadline_10.text = all_subheadlines[9]
 
-  def edit_company_profile_component_click(self, **event_args):
-    self.company_profile_textbox.read_only = False
+          # Update the 'variable_value' column of the row
+            subheadlines_row['variable_value'] = all_subheadlines_json
+            subheadlines_row.update()
+   
+  def check_task_status_vsl_script(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Check if the background task is complete
 
-  def save_company_profile_component_click(self, **event_args):
-    # Get the current user
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='vsl_script')
 
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Video Sales Script Generated!")
+                                      
+            # Update the 'variable_value' column of the row
+            vsl_script = row['variable_value']
+            row.update()
+          
+            # Populate the textbox with the generated script
+            self.video_sales_script_textbox.text = vsl_script
+            self.task_check_timer_vsl_script.enabled = False
+            self.task_check_timer_vsl_script.interval = 0
+            self.generate_vsl_themes_button.visible = True
 
-    # Check if the company profile textbox is not empty and doesn't have the placeholder text
-    if self.company_profile_textbox.text.strip() and self.company_profile_textbox.text.strip() != "AI agents will populate your company profile here!":
-      company_profile_row = user_table.get(variable='company_profile')
-      company_profile_row['variable_value'] = self.company_profile_textbox.text
-      company_profile_row.update()
-      self.nav_button_company_to_products.enabled = True
-      self.nav_button_company_to_products.background = "#6750A4"  # Set the background color to green
-      self.nav_button_company_to_products.foreground = "#1E192B"
+  def check_task_status_vsl_themes(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Check if the background task is complete
 
-      # Save this generated version as the latest version
-      # Save company name
-      company_name_row = user_table.get(variable='company_name')
-      company_name_row['variable_value'] = self.company_name_input.text
-      company_name_row.update()
-      company_name = self.company_name_input.text
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='vsl_themes')
 
-      # Save company URL
-      company_url_row = user_table.get(variable='company_url')
-      company_url_row['variable_value'] = self.company_url_input.text
-      company_url_row.update()
-      company_url = self.company_url_input.text
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working on the Video Sales Script!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("VSL Themes Extracted!")
+                                        
+            # Populate the textbox with the generated script
+            self.task_check_timer_vsl_script.enabled = False
+            self.task_check_timer_vsl_script.interval = 0
+            self.generate_vsl_themes_button.visible = False
+            self.indeterminate_progress_vsl_themes.visible = False
 
-      row_company_profile_latest = user_table.search(variable='company_profile_latest')
-      row_company_profile_latest[0]['variable_value'] = self.company_profile_textbox.text
-      row_company_profile_latest[0].update()
-      self.nav_button_company_to_products.enabled = True
-    else:
-      # Handle case where no profile name is selected
-      anvil.js.window.alert("Please build your company profile before proceeding")
-      self.nav_button_company_to_products.enabled = False
-      self.nav_button_company_to_products.background = "#EADDFF"
+            # Convert the JSON string back to a list
+            all_vsl_themes_jsonn = row['variable_value'] 
+          
+            all_vsl_themes = json.loads(all_vsl_themes_json)
+            # Update the text boxes with the headlines
+            self.vsl_theme_1.text = all_vsl_themes[0]
+            self.vsl_theme_2.text = all_vsl_themes[1]
+            self.vsl_theme_3.text = all_vsl_themes[2]
+            self.vsl_theme_4.text = all_vsl_themes[3]
 
+            # Update the rows in the 'variable' column of the 'mdia' table
+            vsl_theme_1_row['variable_value'] = all_vsl_themes[0]
+            vsl_theme_2_row['variable_value'] = all_vsl_themes[1]
+            vsl_theme_3_row['variable_value'] = all_vsl_themes[2]
+            vsl_theme_4_row['variable_value'] = all_vsl_themes[3]
 
-  def load_company_profile_component_click(self, **event_args):
-    # Get the current user
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
+            vsl_theme_1_row.update()
+            vsl_theme_2_row.update()
+            vsl_theme_3_row.update()
+            vsl_theme_4_row.update()
 
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+            # Update the variable_table with the JSON string
+            row['variable_value'] = all_vsl_themes_json
+            row.update()
 
-    company_profile_row = user_table.get(variable='company_profile')
+# REGENERATE STUFF    
+  def regenerate_main_headlines_button_click(self, **event_args):
+    with anvil.server.no_loading_indicator:
+        self.indeterminate_progress_main_headlines.visible = True
+      
+      # Delete whatever is in the table with existing headlines.
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        
+      # Delete all the existing boxes and start fresh
+        headline_row = user_table.get(variable='main_headlines')
+        headline_row['variable_value'] = None
+        headline_row.update()
 
-    # Load the Company Profile from the profile row
-    self.company_profile_textbox.text = company_profile_row['variable_value']
+        # MAIN HEADLINES 
+        task_id_main_headlines = anvil.server.call('launch_generate_main_headlines', self.chosen_product_name,self.chosen_company_profile,self.chosen_product_research, self.chosen_tone)
+        print("Main Headlines Launch function called")
+        self.indeterminate_progress_main_headlines.visible = True
 
-    # Load the Company Name and URL from the user_table
-    company_name_row = user_table.get(variable='company_name')
-    company_url_row = user_table.get(variable='company_url')
+        self.task_check_timer_headlines.enabled = True
+        self.task_check_timer_headlines.interval = 3  # Check every 2seconds
+      
+  def check_task_status_regenerate_headlines(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Check if the background task is complete
 
-  ### NAVIGATION
-  def navigate_to_product(self, **event_args):
-    product = Product()
-    self.content_panel.clear()
-    self.content_panel.add_component(product)
-    # anvil.open_form('Product')
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='main_headlines')
+        row['variable_value'] = None
+        row.update()
+      
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working on Headlines!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Main Headlines Generated!")
+            self.task_check_timer_headlines.enabled = False
+            self.task_check_timer_headlines.interval = 0
+            self.indeterminate_progress_main_headlines.visible = False
+                
+            # Convert the JSON string back to a list
+            all_main_headlines_json = row['variable_value'] 
+          
+            all_headlines = json.loads(all_main_headlines_json)
+            # Update the text boxes with the headlines
+            self.main_headline_1.text = all_headlines[0]
+            self.main_headline_2.text = all_headlines[1]
+            self.main_headline_3.text = all_headlines[2]
+            self.main_headline_4.text = all_headlines[3]
+            self.main_headline_5.text = all_headlines[4]
+            self.main_headline_6.text = all_headlines[5]
+            self.main_headline_7.text = all_headlines[6]
+            self.main_headline_8.text = all_headlines[7]
+            self.main_headline_9.text = all_headlines[8]
+            self.main_headline_10.text = all_headlines[9]
 
-# Launch the Brand Tone and Save it!
+            # Update the 'variable_value' column of the row
+            row['variable_value'] = all_main_headlines_json
+            row.update()
 
-  # def extract_my_brand_tone(self, **event_args):
+  def regenerate_subheadlines_button_click(self, **event_args):
+    with anvil.server.no_loading_indicator:
+        self.indeterminate_progress_subheadlines.visible = True
+
+      # Delete whatever is in the table with existing headlines.
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+              
+        subheadline_row = user_table.get(variable='subheadlines')
+        subheadline_row['variable_value'] = None
+        subheadline_row.update()
+        
+       # Launch the background tasks concurrently
+        # SUBHEADLINES 
+        task_id_subheadlines = anvil.server.call('launch_generate_subheadlines', self.chosen_product_name,self.chosen_company_profile,self.chosen_product_research, self.chosen_tone)
+        print("Subheadlines Launch function called")
+        self.indeterminate_progress_subheadlines.visible = True
+     
+        self.task_check_timer_subheadlines.enabled = True
+        self.task_check_timer_subheadlines.interval = 3  # Check every 2seconds
+
+  def check_task_status_regenerate_subheadlines(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Check if the background task is complete
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+      
+        subheadlines_row = user_table.get(variable='subheadlines')
+        subheadlines_row['variable_value'] = None
+        subheadlines_row.update()
+
+        if subheadlines_row['variable_value'] is None or subheadlines_row['variable_value'] == '':
+            print("Still working on Subheadlines!")
+        elif subheadlines_row['variable_value'] is not None and subheadlines_row['variable_value'] != '':
+            print("Subheadlines Generated!")
+            self.task_check_timer_headlines.enabled = False
+            self.task_check_timer_headlines.interval = 0
+            self.indeterminate_progress_subheadlines.visible = False
+
+           # Convert the JSON string back to a list
+            all_subheadlines_json = subheadlines_row['variable_value'] 
+          
+            # Convert the JSON string back to a list
+            all_subheadlines = json.loads(all_subheadlines_json)
+            # Update the text boxes with the headlines
+            self.subheadline_1.text = all_subheadlines[0]
+            self.subheadline_2.text = all_subheadlines[1]
+            self.subheadline_3.text = all_subheadlines[2]
+            self.subheadline_4.text = all_subheadlines[3]
+            self.subheadline_5.text = all_subheadlines[4]
+            self.subheadline_6.text = all_subheadlines[5]
+            self.subheadline_7.text = all_subheadlines[6]
+            self.subheadline_8.text = all_subheadlines[7]
+            self.subheadline_9.text = all_subheadlines[8]
+            self.subheadline_10.text = all_subheadlines[9]
+
+          # Update the 'variable_value' column of the row
+            subheadlines_row['variable_value'] = all_subheadlines_json
+            subheadlines_row.update()
+
+  def regenerate_vsl_button_click(self, **event_args):
+    with anvil.server.no_loading_indicator:
+        self.indeterminate_progress_vsl_script.visible = True
+
+      # Delete whatever is in the table with existing headlines.
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        
+        vsl_script_row = user_table.get(variable='vsl_script')
+        vsl_script_row['variable_value'] = None
+        vsl_script_row.update()
+        
+       # Launch the background tasks concurrently
+      # REGENERATE VSL SCRIPT     
+        self.task_id_vsl_script = anvil.server.call('launch_generate_vsl_script', self.chosen_product_name, self.chosen_company_profile, self.chosen_product_research,self.chosen_avatar, self.chosen_tone, self.example_script)
+        print("Video Sales Script function called")
+    
+        self.task_check_timer_regenerate_vsl_script.enabled = True
+        self.task_check_timer_regenerate_vsl_script.interval = 3  # Check every 2seconds
+
+  def check_task_status_regenerate_vsl_script(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Check if the background task is complete
+
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='vsl_script')
+
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Video Sales Script Generated!")
+                                      
+            # Update the 'variable_value' column of the row
+            vsl_script = row['variable_value']
+            row.update()
+          
+            # Populate the textbox with the generated script
+            self.video_sales_script_textbox.text = vsl_script
+            self.task_check_timer_vsl_script.enabled = False
+            self.task_check_timer_vsl_script.interval = 0
+            self.indeterminate_progress_vsl_script.visible = False
+            self.generate_vsl_themes_button.visible = True
+            return
+      
+###---- GENERATE HEADLINES--------#########################################################################################################
+  #Use the saved values in other functions
+  # def generate_main_headlines_button_click(self, **event_args):
   #   with anvil.server.no_loading_indicator:
+  #       print("Main Headlines Launch function was received!")
 
-  #     brand_tone_url = self.company_url_input.text
-  #     brand_tone_title = self.company_name_input.text
+  #       current_user = anvil.users.get_user()
+  #       user_table_name = current_user['user_id']
+  #       # Get the table for the current user
+  #       user_table = getattr(app_tables, user_table_name)
+  #       row = user_table.get(variable='main_headlines')
 
-  #     # Get the current user
-  #     current_user = anvil.users.get_user()
-  #     user_table_name = current_user['user_id']
-  #     user_table = getattr(app_tables, user_table_name)
+  #       # Start the timer immediately
+  #       self.task_check_timer_headlines.enabled = True
+  #       self.task_check_timer_headlines.interval = 5  # Check every 5 seconds
 
-  #     brand_tone_url_latest_row = list(user_table.search(variable='brand_tone_url'))
-  #     brand_tone_title_row = user_table.get(variable='brand_tone')
+            
+    #       #Define and save the final headlines and subheadlines
+      # self.chosen_final_headline = self.main_headline_textbox.text
+      # self.chosen_final_secondary_headline = self.secondary_headline_textbox.text
+      # chosen_final_headline_row = user_table.search(variable='chosen_final_headline')[0]
+    #   chosen_final_secondary_headline_row = user_table.search(variable='chosen_final_secondary_headline')[0]
 
-  #     # Check if the row exists before updating it
-  #     if brand_tone_url_latest_row:
-  #         brand_tone_url_latest_row[0]['variable_value'] = brand_tone_url
-  #         brand_tone_url_latest_row[0].update()
+    #   chosen_final_headline_row['variable_value'] = self.chosen_final_headline
+    #   chosen_final_secondary_headline_row['variable_value'] = self.chosen_final_secondary_headline
+    #   chosen_final_headline_row.update()
+    #   chosen_final_secondary_headline_row.update()
+    
+  
+              
+  def check_task_status(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Check if the background task is complete
+        task_status = anvil.server.call('get_task_status', self.task_id)
+        print("Task status:", task_status)
+      
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='main_headlines')
+      
+        if task_status is not None:
+            if task_status == "completed":
+                # Get the result of the background task
+                all_main_headlines_json = anvil.server.call('get_task_result', self.task_id)
+                self.indeterminate_progress_main_headlines.visible = False
 
-  #     if brand_tone_title_row is not None:
-  #         brand_tone_title_row['variable_title'] = brand_tone_title
-  #         brand_tone_title_row.update()
+                if all_main_headlines_json is not None:
+                    # Convert the JSON string back to a list
+                    all_headlines = json.loads(all_main_headlines_json)
+                    # Update the text boxes with the headlines
+                    self.main_headline_1.text = all_headlines[0]
+                    self.main_headline_2.text = all_headlines[1]
+                    self.main_headline_3.text = all_headlines[2]
+                    self.main_headline_4.text = all_headlines[3]
+                    self.main_headline_5.text = all_headlines[4]
+                    self.main_headline_6.text = all_headlines[5]
+                    self.main_headline_7.text = all_headlines[6]
+                    self.main_headline_8.text = all_headlines[7]
+                    self.main_headline_9.text = all_headlines[8]
+                    self.main_headline_10.text = all_headlines[9]
 
+                if row:
+                    # Update the 'variable_value' column of the row
+                    row['variable_value'] = all_main_headlines_json
+                    row.update()
+                else:
+                    print("Error: Row not found in user_table")
 
-  #     self.task_id = anvil.server.call('launch_brand_tone_research', brand_tone_url)
-  #     print("Task ID:", self.task_id)
+                # Hide the progress bar
+                self.indeterminate_progress_main_headlines.visible = False
 
-  #    # Loop to check the status of the background task
-  #   while True:
-  #     with anvil.server.no_loading_indicator:
+                # Stop the timer
+                self.task_check_timer_headlines.enabled = False
 
-  #       # Check if the background task is complete
-  #       task_status = anvil.server.call('get_task_status', self.task_id)
-  #       print("Task status:", task_status)
+            elif task_status == "failed":
+                # Handle the case where the background task failed
+                print("Task failed")
+                # Stop the timer
+                self.task_check_timer_headlines.enabled = False
 
-  #       if task_status is not None:
-  #         if task_status == "completed":
-  #           # Get the result of the background task
-  #           brand_tone_research = anvil.server.call('get_task_result', self.task_id)
-  #           # Update the textbox with the result
-  #           print("Brand Tone:", brand_tone_research  )
-  #           brand_tone_title_row[0]['variable_value'] = brand_tone_research
-  #           brand_tone_title_row.update()
-  #           break  # Exit the loop
-  #         elif task_status == "failed":
-  #           # Get the error message
-  #           task_error = anvil.server.call('get_task_result', self.task_id)
-  #           print("Task error:", task_error)
+          
 
-  #           break  # Exit the loop
+          
+# NAVIGATION
 
-  #       # Sleep for 1 second before checking again
-  #       time.sleep(2)
+# Define the function to navigate to the 'Company' form
+  def navigate_to_headlines(self, **event_args):
+    anvil.open_form('Company')
 
+#### ----- SAVE VARIABLES------------######
+  def set_saved_values(self, chosen_company_name, chosen_company_profile, chosen_product_name, chosen_product_research, chosen_tone, chosen_avatar, chosen_script):
+      self.chosen_company_name = chosen_company_name
+      self.chosen_company_profile = chosen_company_profile
+      self.chosen_product_name = chosen_product_name
+      self.chosen_product_research = chosen_product_research
+      self.chosen_tone = chosen_tone
+      self.chosen_avatar = chosen_avatar
+      self.chosen_script = chosen_script
+    
+#### ----- HEADLINE HANDLERS------------######
+  # Event handler for the click event of the radio buttons
+  def main_headline_button_click(self, **event_args):
+    # Get the clicked radio button
+    clicked_radio_button = event_args['sender']
 
-# THIS IS THE CODE IF WE CONTINUED TO DO LOAD / SAVE SLOTS:
+    # Get the text of the clicked radio button
+    selected_headline = clicked_radio_button.text
 
-# THIS IS THE SLOT LOADING OPTION AS SOON AS WE OPEN THE PAGE
+    # Set the text of the textbox
+    self.main_headline_textbox.text = selected_headline
 
-    # # Get the variable_title values for the specific profiles
-    # variable_titles_company_profiles = []
+  def secondary_headline_1_clicked(self, **event_args):
+    # Set the text of radiobutton2 to the text of radiobutton1
+    self.secondary_headline_textbox.text = self.main_headline_1.text
 
-    # # Search for the rows with company_profile_1
-    # rows_company_profile_1 = user_table.search(variable='company_profile_1')
-    # if rows_company_profile_1:
-    #     variable_titles_company_profiles.append(rows_company_profile_1[0]['variable_title'])
+  def secondary_headline_2_clicked(self, **event_args):
+    # Set the text of radiobutton2 to the text of radiobutton1
+    self.secondary_headline_textbox.text = self.main_headline_2.text
 
-    # # Search for the rows with company_profile_2
-    # rows_company_profile_2 = user_table.search(variable='company_profile_2')
-    # if rows_company_profile_2:
-    #     variable_titles_company_profiles.append(rows_company_profile_2[0]['variable_title'])
+  def secondary_headline_3_clicked(self, **event_args):
+  # Set the text of radiobutton2 to the text of radiobutton1
+    self.secondary_headline_textbox.text = self.main_headline_3.text
 
-    # # Search for the rows with company_profile_3
-    # rows_company_profile_3 = user_table.search(variable='company_profile_3')
-    # if rows_company_profile_3:
-    #     variable_titles_company_profiles.append(rows_company_profile_3[0]['variable_title'])
+  def secondary_headline_4_clicked(self, **event_args):
+  # Set the text of radiobutton2 to the text of radiobutton1
+    self.secondary_headline_textbox.text = self.main_headline_4.text
 
-    # # Update the dropdown items with the variable_titles
-    # self.company_profile_dropdown.items = variable_titles_company_profiles
-    # self.load_company_profile_dropdown.items = variable_titles_company_profiles
+  def secondary_headline_5_clicked(self, **event_args):
+  # Set the text of radiobutton2 to the text of radiobutton1
+    self.secondary_headline_textbox.text = self.main_headline_5.text
 
+  def secondary_headline_6_clicked(self, **event_args):
+  # Set the text of radiobutton2 to the text of radiobutton1
+    self.secondary_headline_textbox.text = self.main_headline_6.text
 
- # def save_company_profile_component_click(self, **event_args):
- #    # Get the current user
- #    current_user = anvil.users.get_user()
- #    user_table_name = current_user['user_id']
+  def secondary_headline_7_clicked(self, **event_args):
+  # Set the text of radiobutton2 to the text of radiobutton1
+    self.secondary_headline_textbox.text = self.main_headline_7.text
 
- #    # Get the table for the current user
- #    user_table = getattr(app_tables, user_table_name)
+  def secondary_headline_8_clicked(self, **event_args):
+  # Set the text of radiobutton2 to the text of radiobutton1
+    self.secondary_headline_textbox.text = self.main_headline_8.text
 
- #    # Prompt the user to select a profile name from the dropdown
- #    selected_profile_name = self.company_profile_dropdown.selected_value
+  def secondary_headline_9_clicked(self, **event_args):
+  # Set the text of radiobutton2 to the text of radiobutton1
+    self.secondary_headline_textbox.text = self.main_headline_9.text
 
- #    # Check if a profile name is selected
- #    if selected_profile_name:
- #        # Get the row from the user_table based on the selected profile name
- #        profile_row = user_table.get(variable_title=selected_profile_name)
+  def secondary_headline_10_clicked(self, **event_args):
+  # Set the text of radiobutton2 to the text of radiobutton1
+    self.secondary_headline_textbox.text = self.main_headline_10.text
 
- #        # Update the variable_value column in the profile row
- #        profile_row['variable_value'] = self.company_profile_textbox.text
+  ###### ----- SUBHEADLINE HANDLERS------------######
+  # Event handler for the click event of the radio buttons
+  def subheadline_button_click(self, **event_args):
+    # Get the clicked radio button
+    clicked_radio_button = event_args['sender']
 
- #        # Prompt the user to enter the variable name/title
- #        variable_title = anvil.js.window.prompt("What would you like to call this profile?")
+    # Get the text of the clicked radio button
+    selected_subheadline = clicked_radio_button.text
 
- #        # Check if the user entered a variable name/title
- #        if variable_title is not None:
- #            # Update the variable_title column in the profile row
- #            profile_row['variable_title'] = variable_title
+    # Set the text of the textbox
+    self.subheadline_textbox.text = selected_subheadline
 
- #            # Save the Company Name and URL
- #            company_name_row = user_table.get(variable='company_name')
- #            company_url_row = user_table.get(variable='company_url')
+    # Turn on the button
+    # self.nav_button_headlines_to_vsl.enabled = True
 
- #            # Check if company_name_row and company_url_row exist
- #            if company_name_row and company_url_row:
- #                company_name_row['variable_value'] = self.company_name_input.text
- #                company_url_row['variable_value'] = self.company_url_input.text
- #                # Update the rows in the user_table
- #                company_name_row.update()
- #                company_url_row.update()
- #            else:
- #                # Handle case where company_name_row or company_url_row is missing
- #                print("Company name or URL not found")
- #        else:
- #            # Handle case where the user cancelled the variable name/title prompt
- #            print("Variable name/title input cancelled by the user")
- #    else:
- #        # Handle case where no profile name is selected
- #        print("No profile name selected")
+  # Lock everything in, and navigate away
+  def nav_button_headlines_to_vsl_click(self, **event_args):
+    
+    # SAVE THE CHOSEN HEADLINES
+    current_user = anvil.users.get_user()
+    user_table_name = current_user['user_id']
+    # Get the table for the current user
+    user_table = getattr(app_tables, user_table_name)
 
-
-
-  # def load_company_profile_component_click(self, **event_args):
-  #   # Get the current user
-  #   current_user = anvil.users.get_user()
-  #   user_table_name = current_user['user_id']
-
-  #   # Get the table for the current user
-  #   user_table = getattr(app_tables, user_table_name)
-
-  #   # Prompt the user to select a profile name from the dropdown
-  #   selected_profile_name = self.load_company_profile_dropdown.selected_value
-
-  #   # Check if a profile name is selected
-  #   if selected_profile_name:
-  #       # Get the row from the user_table based on the selected profile name
-  #       profile_row = user_table.get(variable_title=selected_profile_name)
-
-  #       # Load the Company Profile from the profile row
-  #       self.company_profile_textbox.text = profile_row['variable_value']
-
-  #       # Load the Company Name and URL from the user_table
-  #       company_name_row = user_table.get(variable='company_name')
-  #       company_url_row = user_table.get(variable='company_url')
-
-  #       # Check if company_name_row and company_url_row exist
-  #       if company_name_row and company_url_row:
-  #           self.company_name_input.text = company_name_row['variable_value']
-  #           self.company_url_input.text = company_url_row['variable_value']
-  #       else:
-  #           # Handle case where company_name_row or company_url_row is missing
-  #           print("Company name or URL not found")
-  #   else:
-  #       # Handle case where no profile name is selected
-  #       print("No profile name selected")
+      # Check if any of the textboxes are empty
+    if not self.main_headline_textbox.text or not self.subheadline_textbox.text or not self.secondary_headline_textbox.text:
+        # If any of the textboxes are empty, show an alert
+        anvil.js.window.alert("Please choose your headline, subheadline, and secondary headline before proceeding")
+        return
+    else:
+      self.chosen_final_headline = self.main_headline_textbox.text
+      self.chosen_final_subheadline = self.subheadline_textbox.text
+      self.chosen_final_secondary_headline = self.secondary_headline_textbox.text
+      
+      chosen_final_headline_row = user_table.search(variable='chosen_final_headline')[0]
+      chosen_final_subheadline_row = user_table.search(variable='chosen_final_subheadline')[0]
+      chosen_final_secondary_headline_row = user_table.search(variable='chosen_final_secondary_headline')[0]
+        
+      chosen_final_headline_row['variable_value'] = self.chosen_final_headline
+      chosen_final_subheadline_row['variable_value'] = self.chosen_final_subheadline
+      chosen_final_secondary_headline_row['variable_value'] = self.chosen_final_secondary_headline
+      chosen_final_headline_row.update()
+      chosen_final_subheadline_row.update()
+      chosen_final_secondary_headline_row.update()
+    
+      #Navigate away
+      anvil.open_form('VideoSalesLetter')
