@@ -350,7 +350,7 @@ class Headlines(HeadlinesTemplate):
             all_vsl_themes = json.loads(all_vsl_themes_json)
             # Update the text boxes with the headlines
             self.excerpt_textbox_1.text = all_vsl_themes[0]
-            self.excerpt_textbox_3.text = all_vsl_themes[1]
+            self.excerpt_textbox_2.text = all_vsl_themes[1]
             self.excerpt_textbox_3.text = all_vsl_themes[2]
             self.excerpt_textbox_4.text = all_vsl_themes[3]
 

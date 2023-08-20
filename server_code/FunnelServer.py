@@ -847,7 +847,7 @@ def draft_deepdive_avatar_1_product_3_generator(user_table,company_name,product_
 def launch_draft_deepdive_avatar_2_product_3_generator(user_table,company_name,product_3_name,avatar_2_preview):
     print("Launch Deep Dive Avatar function started")  
     # Launch the background task
-    task = anvil.server.launch_background_task('draft_deepdive_avatar_1_product_3_generator', user_table,company_name,product_3_name,avatar_2_preview)
+    task = anvil.server.launch_background_task('draft_deepdive_avatar_2_product_3_generator', user_table,company_name,product_3_name,avatar_2_preview)
     # Return the task ID
     return task.get_id()  
 @anvil.server.background_task
@@ -1034,7 +1034,7 @@ def draft_deepdive_avatar_1_product_4_generator(user_table,company_name,product_
 def launch_draft_deepdive_avatar_2_product_4_generator(user_table,company_name,product_4_name,avatar_2_preview):
     print("Launch Deep Dive Avatar function started")  
     # Launch the background task
-    task = anvil.server.launch_background_task('draft_deepdive_avatar_1_product_4_generator', user_table,company_name,product_4_name,avatar_2_preview)
+    task = anvil.server.launch_background_task('draft_deepdive_avatar_2_product_4_generator', user_table,company_name,product_4_name,avatar_2_preview)
     # Return the task ID
     return task.get_id()  
 @anvil.server.background_task
@@ -3554,7 +3554,8 @@ def generate_subheadlines(chosen_product_name, chosen_company_profile, chosen_pr
     The output should be a list of 10 SUBHEADLINES that relate to the final existing main headline.
     
     No "" quotation marks.
-    No itemized numbers. Just text.
+    No itemized numbers. 
+    Do not list them like '1.' '2.'... Just text.
     For example: 'BREAKING NEWS! Eliminate the Guesswork!'instead of '"1. Breaking News! Eliminate the Guesswork!"''
     (no introduction or outro needed, just an itemized list of 10 subheadlines)
     """
