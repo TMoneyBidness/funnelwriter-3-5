@@ -963,6 +963,14 @@ components:
     name: company_research_button_component
     layout_properties: {grid_position: 'LNPKUC,AQUBCI'}
     event_bindings: {click: go_get_all_assets_click}
+  - type: Button
+    properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: button_1, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: 'fa:amazon'}
+    name: button_1
+    layout_properties: {grid_position: 'JLSQGT,EMEYRN'}
+    event_bindings: {click: button_1_click}
   - type: ColumnPanel
     properties: {col_widths: '{}'}
     name: intro_panel

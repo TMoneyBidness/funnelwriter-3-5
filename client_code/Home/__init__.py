@@ -1176,6 +1176,12 @@ class Home(HomeTemplate):
         #     # Sleep for a few seconds before checking again
         #     time.sleep(2)
 
+  def button_1_click(self, **event_args):
+    company_form = Company()
+    self.content_panel.clear()  # Clear the content panel
+    self.content_panel.add_component(company_form) 
+
+
 
 
         
