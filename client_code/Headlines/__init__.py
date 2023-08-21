@@ -343,7 +343,7 @@ class Headlines(HeadlinesTemplate):
             self.task_check_timer_vsl_script.enabled = False
             self.task_check_timer_vsl_script.interval = 0
             self.generate_vsl_themes_button.visible = False
-            self.self.indeterminate_progress_vsl_excerpts.visible = False
+            self.indeterminate_progress_vsl_excerpts.visible = False
 
             # Convert the JSON string back to a list
             all_vsl_themes_json = row['variable_value'] 
