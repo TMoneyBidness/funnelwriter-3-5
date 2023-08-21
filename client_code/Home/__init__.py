@@ -818,7 +818,14 @@ class Home(HomeTemplate):
             self.indeterminate_1.visible = False
 
             self.avatar_research_status.text = 'All Avatar Research Complete'
+            self.company_assets_label.visible = True
+            self.company_asset_link_sidebar.visible = True
             self.product_asset_link_sidebar.visible = True
+            self.brand_tone_asset_link_sidebar.visible = True
+            self.avatars_asset_link_sidebar.visible = True
+            self.funnels_label.visible = True
+            self.vsl_page_link_sidebar.visible = True
+        
             self.nav_button_company_to_products.visible = True
           
         else:
@@ -840,7 +847,6 @@ class Home(HomeTemplate):
     company_form = Company()
     self.content_panel.clear()  # Clear the content panel
     self.content_panel.add_component(company_form)  # Add the new component
-
 
   def brand_tone_asset_link_click(self, **event_args):
     brandtone=BrandTone()
