@@ -311,7 +311,7 @@ class Home(HomeTemplate):
 
             # LAUNCH THE TASKS
             task_ids = []  # List to store all task IDs
-                      
+          
             # Launch the background tasks concurrently
             # COMPANY SUMMARY // BRAND TONE
             task_id_company_summary = anvil.server.call('launch_draft_company_summary', user_table, company_name, company_url)
@@ -320,7 +320,9 @@ class Home(HomeTemplate):
             self.check_status_timer_company_summary.interval = 3
             self.undertaken_tasks.append('company_profile_latest')
             print(f"Added to undertaken_tasks: company_profile_latest")
-          
+
+            
+            
             # task_id_brand_tone = anvil.server.call('launch_draft_brand_tone_research', user_table, company_url)
             # print("Brand Tone Launch function called")
             # task_ids.append(task_id_brand_tone)
