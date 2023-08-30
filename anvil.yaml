@@ -23,9 +23,9 @@ services:
   client_config: {}
   server_config: {}
 startup: {type: form, module: Home}
-package_name: FunnelWriter_2_0
+package_name: FunnelWriter_3_0
 allow_embedding: false
-name: FunnelWriter 2.0
+name: FunnelWriter 3.0
 runtime_options:
   version: 2
   client_version: '3'
