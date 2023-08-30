@@ -57,23 +57,10 @@ tools = Tool(
 
 ####### -------- PRELIMINARY / FIRST DRAFTS--------###########
 
-# USE WEBSCRAPER
 # COMPANY 1st DRAFT
 
-# @anvil.server.callable
-# def draft_company_summary_scraper(company_url):
-#   print("Server side task started for web scraping")
-#   page_content = requests.get(company_url).content
-#   soup = BeautifulSoup(page_content, "html.parser")
-
-#   # Extract all the text from the page
-#   bulky_text_content = soup.get_text()
+# USE WEBSCRAPER
  
-#   # Remove leading and trailing whitespaces, replace newlines and extra spaces
-#   text_content = bulky_text_content.strip().replace('\n', ' ').replace('\r', '').replace('  ', ' ')
-  
-#   return text_content
-  
 @anvil.server.callable
 def launch_draft_company_summary_scraper(company_name, company_url):
     # Launch the background task
@@ -162,9 +149,9 @@ def draft_company_summary_scraper(company_name, company_url,row,company_context_
     row['variable_value'] = draft_company_summary
     row.update()
     print("Company Research Complete")
-  
-  
-# # COMPANY 1st DRAFT
+
+### THESE ARE THE COMPANY SEARCH AGENTS  
+# COMPANY 1st DRAFT
 # @anvil.server.callable
 # def launch_draft_company_summary(user_table,company_name, company_url):
 #     # Launch the background task
@@ -230,1444 +217,1456 @@ def draft_company_summary_scraper(company_name, company_url,row,company_context_
 #     print("Company Research Complete")
   
 #     anvil.server.task_state['result'] = draft_company_context
-
-#   # # Task completed successfully
-#   #   update_task_status(task_id, "completed")
-#   # except Exception as e:
-#   #   # Handle any exceptions or errors that may occur during the background task
-    
-#   #   # Task failed
-#   #   update_task_status(task_id, "failed")
         
-# # PRODUCT 1st DRAFT
-# @anvil.server.callable
-# def launch_draft_deepdive_product_1_generator(user_table,company_name,product_1_name,product_1_url):
-#     # Launch the background task
-#     task = anvil.server.launch_background_task('deepdive_draft_product_1_generator',user_table,company_name,product_1_name,product_1_url)
-#     # Return the task ID
-#     return task.get_id()
-  
-# @anvil.server.background_task
-# def deepdive_draft_product_1_generator(user_table,company_name,product_1_name,product_1_url):
-#     print("Background task started for the Deep Dive of Researching the Product:", product_1_name)
-#     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
-#     agent_product_research = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
-  
-#     product_research_context = agent_product_research({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_1_name} \
-#                   Leverage all necessary resources such as {company_name}'s' main product website {product_1_url}, web pages, and any other relevant sources \
-#                   to gather the following details about company's product, {product_1_name}. Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful, actionable insights. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
-#                   \n \
-#                   Overview: Provide a comprehensive introduction to the product. What is its purpose, and what does the company aim to achieve with it? \n \
-#                   \n \
-#                   Description: Deeply describe the product. What does it look like, feel like, and what experience does it offer? \n \
-#                   \n \
-#                   Price: Detail the pricing structure. What is the cost, and are there any variations or tiers in pricing? \n \
-#                   \n \
-#                   Features: Elucidate the key features of the product. What distinguishes this product from others in the market? I would like around 15 differences between the product offers, if possible. \n \
-#                   \n \
-#                   Benefits: Explicate on how the product will benefit the customer. How can it change their life or improve their situation? \n \
-#                   \n \
-#                   Why people buy it: Analyze the consumer's pain points and desires before purchasing this product. Why might someone be drawn to this product, and what needs does it fulfill? \n \
-#                   \n \
-#                   Expected results: What are the anticipated outcomes or gains after using this product? How will the customer's situation improve or change? \n \
-#                   \n \
-#                   Guarantees: Discuss any guarantees the company offers with this product. Are there any assurances of product performance, or return policies in place? \n \
-#                   \n \
-#                   Bonuses: List any additional bonuses or incentives that come along with the product. What additional value does the company provide to sweeten the deal? \n \
-#                   \n \
-#                   Possible objections: Predict potential objections or concerns a customer may have about the product. How might the company address these? \n \
-#                   \n \
-#                   Ensure to provide an in-depth report with approximately 800-1000 words on the product, making it as detailed and specific as possible. Your aim is to capture the full essence of the product.
-#                   \n \
-#                   NOTES ON FORMAT:
-#                   Be confident, do not say there is incomplete information, or there is not information. If you can't answer elements from the above, ignore it! Speak as if you are the authority of the subject. If you don't know the answer, don't talk about it. Do not say "I was unable to find information on XYZ". 
-#                   """})
+# PRODUCT 1st DRAFT
+@anvil.server.callable
+def launch_draft_deepdive_product_1_generator(user_table,company_name,product_name,product_url):
+    # Launch the background task
 
-#     product_research_1 = product_research_context['output']
-#     # if "I couldn't find more information" in product_research_context:
-#     #       product_research_1= "Insufficient information. Please write the product description yourself."
-#     anvil.server.task_state['result'] = product_research_1
-#    # Save it in the table:
-#     product_1_latest_row = user_table.search(variable='product_1_latest')[0]
-#     product_1_latest_row['variable_value'] = product_research_1
-#     product_1_latest_row.update()
-#     print("Product Research Complete")
+  # START THE WEB SCRAPING
+    headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0"}
+    page_content = requests.get(product_url, headers=headers).content
+
+    soup = BeautifulSoup(page_content, "html.parser")
+    # Extract all the text from the page
+    bulky_text_content = soup.get_text()
+   # Remove leading and trailing whitespaces, replace newlines and extra spaces
+    product_webpage_scraped = bulky_text_content.strip().replace('\n', ' ').replace('\r', '').replace('  ', ' ')
+
+    print("Scraped Information:",product_webpage_scraped)
   
-# # PRODUCT 2, 1st DRAFT
-# @anvil.server.callable
-# def launch_draft_deepdive_product_2_generator(user_table,company_name,product_2_name,product_2_url):
-#     # Launch the background task
-#     task = anvil.server.launch_background_task('deepdive_draft_product_2_generator',user_table,company_name,product_2_name,product_2_url)
-#     # Return the task ID
-#     return task.get_id()
+    task = anvil.server.launch_background_task('deepdive_draft_product_1_generator',user_table,company_name,product_name,product_url,product_webpage_scraped)
+    # Return the task ID
+    return task.get_id()
   
-# @anvil.server.background_task
-# def deepdive_draft_product_2_generator(user_table,company_name,product_2_name,product_2_url):
-#     print("Background task started for the Deep Dive of Researching the Product:", product_2_name)
+@anvil.server.background_task
+def deepdive_draft_product_1_generator(user_table,company_name,product_name,product_url,product_webpage_scraped):
+    print("Background task started for the Deep Dive of Researching the Product:", product_name)
+    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-4', openai_api_key=openai_api_key)
+    print("Background task started for generating the company summary:", company_url)
 
-#     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
-#     agent_product_research = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
+    template_product_summary = """As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_1_name} \
+                  Leverage all necessary resources such as {company_name}'s' main product website {product_1_url}, web pages, and any other relevant sources \
+                  to gather the following details about company's product, {product_1_name}. Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful, actionable insights. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
+                  \n \
+                  Overview: Provide a comprehensive introduction to the product. What is its purpose, and what does the company aim to achieve with it? \n \
+                  \n \
+                  Description: Deeply describe the product. What does it look like, feel like, and what experience does it offer? \n \
+                  \n \
+                  Price: Detail the pricing structure. What is the cost, and are there any variations or tiers in pricing? \n \
+                  \n \
+                  Features: Elucidate the key features of the product. What distinguishes this product from others in the market? I would like around 15 differences between the product offers, if possible. \n \
+                  \n \
+                  Benefits: Explicate on how the product will benefit the customer. How can it change their life or improve their situation? \n \
+                  \n \
+                  Why people buy it: Analyze the consumer's pain points and desires before purchasing this product. Why might someone be drawn to this product, and what needs does it fulfill? \n \
+                  \n \
+                  Expected results: What are the anticipated outcomes or gains after using this product? How will the customer's situation improve or change? \n \
+                  \n \
+                  Guarantees: Discuss any guarantees the company offers with this product. Are there any assurances of product performance, or return policies in place? \n \
+                  \n \
+                  Bonuses: List any additional bonuses or incentives that come along with the product. What additional value does the company provide to sweeten the deal? \n \
+                  \n \
+                  Possible objections: Predict potential objections or concerns a customer may have about the product. How might the company address these? \n \
+                  \n \
+                  Ensure to provide an in-depth report with approximately 800-1000 words on the product, making it as detailed and specific as possible. Your aim is to capture the full essence of the product.
+                  \n \
+                  NOTES ON FORMAT:
+                  Be confident, do not say there is incomplete information, or there is not information. If you can't answer elements from the above, ignore it! Speak as if you are the authority of the subject. If you don't know the answer, don't talk about it. Do not say "I was unable to find information on XYZ". 
+                  """
   
-#     product_research_context = agent_product_research({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_2_name} \
-#                   Leverage all necessary resources such as {company_name}'s' main product website {product_2_url}, web pages, and any other relevant sources \
-#                   to gather the following details about company's product, {product_2_name}. Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful, actionable insights. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
-#                   \n \
-#                   Overview: Provide a comprehensive introduction to the product. What is its purpose, and what does the company aim to achieve with it? \n \
-#                   \n \
-#                   Description: Deeply describe the product. What does it look like, feel like, and what experience does it offer? \n \
-#                   \n \
-#                   Price: Detail the pricing structure. What is the cost, and are there any variations or tiers in pricing? \n \
-#                   \n \
-#                   Features: Elucidate the key features of the product. What distinguishes this product from others in the market? I would like around 15 differences between the product offers, if possible. \n \
-#                   \n \
-#                   Benefits: Explicate on how the product will benefit the customer. How can it change their life or improve their situation? \n \
-#                   \n \
-#                   Why people buy it: Analyze the consumer's pain points and desires before purchasing this product. Why might someone be drawn to this product, and what needs does it fulfill? \n \
-#                   \n \
-#                   Expected results: What are the anticipated outcomes or gains after using this product? How will the customer's situation improve or change? \n \
-#                   \n \
-#                   Guarantees: Discuss any guarantees the company offers with this product. Are there any assurances of product performance, or return policies in place? \n \
-#                   \n \
-#                   Bonuses: List any additional bonuses or incentives that come along with the product. What additional value does the company provide to sweeten the deal? \n \
-#                   \n \
-#                   Possible objections: Predict potential objections or concerns a customer may have about the product. How might the company address these? \n \
-#                   \n \
-#                   Ensure to provide an in-depth report with approximately 800-1000 words on the product, making it as detailed and specific as possible. Your aim is to capture the full essence of the product.
-#                   \n \
-#                   NOTES ON FORMAT:
-#                   Be confident, do not say there is incomplete information, or there is not information. If you can't answer elements from the above, ignore it! Speak as if you are the authority of the subject. If you don't know the answer, don't talk about it. Do not say "I was unable to find information on XYZ". 
-#                   """})
-
-#     product_research_2 = product_research_context['output']
-#     # if "I couldn't find more information" in product_research_context:
-#     #       product_research_1= "Insufficient information. Please write the product description yourself."
-#     anvil.server.task_state['result'] = product_research_2
-#    # Save it in the table:
-#     product_2_latest_row = user_table.search(variable='product_2_latest')[0]
-#     product_2_latest_row['variable_value'] = product_research_2
-#     product_2_latest_row.update()
-#     print("Product Research Complete")
-
-# # PRODUCT 3, 1st DRAFT
-# @anvil.server.callable
-# def launch_draft_deepdive_product_3_generator(user_table,company_name,product_3_name,product_3_url):
-#     # Launch the background task
-#     task = anvil.server.launch_background_task('deepdive_draft_product_3_generator',user_table,company_name,product_3_name,product_3_url)
-#     # Return the task ID
-#     return task.get_id()
+    prompt_product_summary = PromptTemplate(
+        input_variables=["company_name", "product_name","product_url","product_webpage_scraped"],
+        template=template_product_summary
+    )
   
-# @anvil.server.background_task
-# def deepdive_draft_product_3_generator(user_table,company_name,product_3_name,product_3_url):
-#     print("Background task started for the Deep Dive of Researching the Product:", product_3_name)
-
-#     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
-#     agent_product_research = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
+    chain_product_summary = LLMChain(llm=llm_agents, prompt=prompt_product_summary)
+    draft_product_summary = chain_product_summary.run(company_name=company_name,company_url=company_url,company_context_scraped=company_context_scraped)  # Pass in the combined context
+    product_research_1 = product_research_context['output']
+    # if "I couldn't find more information" in product_research_context:
+    #       product_research_1= "Insufficient information. Please write the product description yourself."
+    anvil.server.task_state['result'] = product_research_1
+   # Save it in the table:
+    product_1_latest_row = user_table.search(variable='product_1_latest')[0]
+    product_1_latest_row['variable_value'] = product_research_1
+    product_1_latest_row.update()
+    print("Product Research Complete")
   
-#     product_research_context = agent_product_research({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_3_name} \
-#                   Leverage all necessary resources such as {company_name}'s' main product website {product_3_url}, web pages, and any other relevant sources \
-#                   to gather the following details about company's product, {product_3_name}. Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful, actionable insights. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
-#                   \n \
-#                   Overview: Provide a comprehensive introduction to the product. What is its purpose, and what does the company aim to achieve with it? \n \
-#                   \n \
-#                   Description: Deeply describe the product. What does it look like, feel like, and what experience does it offer? \n \
-#                   \n \
-#                   Price: Detail the pricing structure. What is the cost, and are there any variations or tiers in pricing? \n \
-#                   \n \
-#                   Features: Elucidate the key features of the product. What distinguishes this product from others in the market? I would like around 15 differences between the product offers, if possible. \n \
-#                   \n \
-#                   Benefits: Explicate on how the product will benefit the customer. How can it change their life or improve their situation? \n \
-#                   \n \
-#                   Why people buy it: Analyze the consumer's pain points and desires before purchasing this product. Why might someone be drawn to this product, and what needs does it fulfill? \n \
-#                   \n \
-#                   Expected results: What are the anticipated outcomes or gains after using this product? How will the customer's situation improve or change? \n \
-#                   \n \
-#                   Guarantees: Discuss any guarantees the company offers with this product. Are there any assurances of product performance, or return policies in place? \n \
-#                   \n \
-#                   Bonuses: List any additional bonuses or incentives that come along with the product. What additional value does the company provide to sweeten the deal? \n \
-#                   \n \
-#                   Possible objections: Predict potential objections or concerns a customer may have about the product. How might the company address these? \n \
-#                   \n \
-#                   Ensure to provide an in-depth report with approximately 800-1000 words on the product, making it as detailed and specific as possible. Your aim is to capture the full essence of the product.
-#                   \n \
-#                   NOTES ON FORMAT:
-#                   Be confident, do not say there is incomplete information, or there is not information. If you can't answer elements from the above, ignore it! Speak as if you are the authority of the subject. If you don't know the answer, don't talk about it. Do not say "I was unable to find information on XYZ". 
-#                   """})
-
-#     product_research_3= product_research_context['output']
-#     # if "I couldn't find more information" in product_research_context:
-#     #       product_research_1= "Insufficient information. Please write the product description yourself."
-#     anvil.server.task_state['result'] = product_research_3
-#    # Save it in the table:
-#     product_3_latest_row = user_table.search(variable='product_3_latest')[0]
-#     product_3_latest_row['variable_value'] = product_research_3
-#     product_3_latest_row.update()
-#     print("Product 3 Research Complete")
-
-# # PRODUCT 4, 1st DRAFT
-# @anvil.server.callable
-# def launch_draft_deepdive_product_4_generator(user_table,company_name,product_4_name,product_4_url):
-#     # Launch the background task
-#     task = anvil.server.launch_background_task('deepdive_draft_product_4_generator',user_table,company_name,product_4_name,product_4_url)
-#     # Return the task ID
-#     return task.get_id()
+# PRODUCT 2, 1st DRAFT
+@anvil.server.callable
+def launch_draft_deepdive_product_2_generator(user_table,company_name,product_2_name,product_2_url):
+    # Launch the background task
+    task = anvil.server.launch_background_task('deepdive_draft_product_2_generator',user_table,company_name,product_2_name,product_2_url)
+    # Return the task ID
+    return task.get_id()
   
-# @anvil.server.background_task
-# def deepdive_draft_product_4_generator(user_table,company_name,product_4_name,product_4_url):
-#     print("Background task started for the Deep Dive of Researching the Product:", product_4_name)
+@anvil.server.background_task
+def deepdive_draft_product_2_generator(user_table,company_name,product_2_name,product_2_url):
+    print("Background task started for the Deep Dive of Researching the Product:", product_2_name)
 
-#     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
-#     agent_product_research = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
+    agent_product_research = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
   
-#     product_research_context = agent_product_research({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_4_name} \
-#                   Leverage all necessary resources such as {company_name}'s' main product website {product_4_url}, web pages, and any other relevant sources \
-#                   to gather the following details about company's product, {product_4_name}. Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful, actionable insights. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
-#                   \n \
-#                   Overview: Provide a comprehensive introduction to the product. What is its purpose, and what does the company aim to achieve with it? \n \
-#                   \n \
-#                   Description: Deeply describe the product. What does it look like, feel like, and what experience does it offer? \n \
-#                   \n \
-#                   Price: Detail the pricing structure. What is the cost, and are there any variations or tiers in pricing? \n \
-#                   \n \
-#                   Features: Elucidate the key features of the product. What distinguishes this product from others in the market? I would like around 15 differences between the product offers, if possible. \n \
-#                   \n \
-#                   Benefits: Explicate on how the product will benefit the customer. How can it change their life or improve their situation? \n \
-#                   \n \
-#                   Why people buy it: Analyze the consumer's pain points and desires before purchasing this product. Why might someone be drawn to this product, and what needs does it fulfill? \n \
-#                   \n \
-#                   Expected results: What are the anticipated outcomes or gains after using this product? How will the customer's situation improve or change? \n \
-#                   \n \
-#                   Guarantees: Discuss any guarantees the company offers with this product. Are there any assurances of product performance, or return policies in place? \n \
-#                   \n \
-#                   Bonuses: List any additional bonuses or incentives that come along with the product. What additional value does the company provide to sweeten the deal? \n \
-#                   \n \
-#                   Possible objections: Predict potential objections or concerns a customer may have about the product. How might the company address these? \n \
-#                   \n \
-#                   Ensure to provide an in-depth report with approximately 800-1000 words on the product, making it as detailed and specific as possible. Your aim is to capture the full essence of the product.
-#                   \n \
-#                   NOTES ON FORMAT:
-#                   Be confident, do not say there is incomplete information, or there is not information. If you can't answer elements from the above, ignore it! Speak as if you are the authority of the subject. If you don't know the answer, don't talk about it. Do not say "I was unable to find information on XYZ". 
-#                   """})
+    product_research_context = agent_product_research({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_2_name} \
+                  Leverage all necessary resources such as {company_name}'s' main product website {product_2_url}, web pages, and any other relevant sources \
+                  to gather the following details about company's product, {product_2_name}. Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful, actionable insights. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
+                  \n \
+                  Overview: Provide a comprehensive introduction to the product. What is its purpose, and what does the company aim to achieve with it? \n \
+                  \n \
+                  Description: Deeply describe the product. What does it look like, feel like, and what experience does it offer? \n \
+                  \n \
+                  Price: Detail the pricing structure. What is the cost, and are there any variations or tiers in pricing? \n \
+                  \n \
+                  Features: Elucidate the key features of the product. What distinguishes this product from others in the market? I would like around 15 differences between the product offers, if possible. \n \
+                  \n \
+                  Benefits: Explicate on how the product will benefit the customer. How can it change their life or improve their situation? \n \
+                  \n \
+                  Why people buy it: Analyze the consumer's pain points and desires before purchasing this product. Why might someone be drawn to this product, and what needs does it fulfill? \n \
+                  \n \
+                  Expected results: What are the anticipated outcomes or gains after using this product? How will the customer's situation improve or change? \n \
+                  \n \
+                  Guarantees: Discuss any guarantees the company offers with this product. Are there any assurances of product performance, or return policies in place? \n \
+                  \n \
+                  Bonuses: List any additional bonuses or incentives that come along with the product. What additional value does the company provide to sweeten the deal? \n \
+                  \n \
+                  Possible objections: Predict potential objections or concerns a customer may have about the product. How might the company address these? \n \
+                  \n \
+                  Ensure to provide an in-depth report with approximately 800-1000 words on the product, making it as detailed and specific as possible. Your aim is to capture the full essence of the product.
+                  \n \
+                  NOTES ON FORMAT:
+                  Be confident, do not say there is incomplete information, or there is not information. If you can't answer elements from the above, ignore it! Speak as if you are the authority of the subject. If you don't know the answer, don't talk about it. Do not say "I was unable to find information on XYZ". 
+                  """})
 
-#     product_research_4 = product_research_context['output']
-#     # if "I couldn't find more information" in product_research_context:
-#     #       product_research_1= "Insufficient information. Please write the product description yourself."
-#     anvil.server.task_state['result'] = product_research_4
-#    # Save it in the table:
-#     product_4_latest_row = user_table.search(variable='product_4_latest')[0]
-#     product_4_latest_row['variable_value'] = product_research_4
-#     product_4_latest_row.update()
-#     print("Product 4 Research Complete")
+    product_research_2 = product_research_context['output']
+    # if "I couldn't find more information" in product_research_context:
+    #       product_research_1= "Insufficient information. Please write the product description yourself."
+    anvil.server.task_state['result'] = product_research_2
+   # Save it in the table:
+    product_2_latest_row = user_table.search(variable='product_2_latest')[0]
+    product_2_latest_row['variable_value'] = product_research_2
+    product_2_latest_row.update()
+    print("Product Research Complete")
 
-# # PRODUCT 5, 1st DRAFT
-# @anvil.server.callable
-# def launch_draft_deepdive_product_5_generator(user_table,company_name,product_5_name,product_5_url):
-#     # Launch the background task
-#     task = anvil.server.launch_background_task('deepdive_draft_product_5_generator',user_table,company_name,product_5_name,product_5_url)
-#     # Return the task ID
-#     return task.get_id()
+# PRODUCT 3, 1st DRAFT
+@anvil.server.callable
+def launch_draft_deepdive_product_3_generator(user_table,company_name,product_3_name,product_3_url):
+    # Launch the background task
+    task = anvil.server.launch_background_task('deepdive_draft_product_3_generator',user_table,company_name,product_3_name,product_3_url)
+    # Return the task ID
+    return task.get_id()
   
-# @anvil.server.background_task
-# def deepdive_draft_product_5_generator(user_table,company_name,product_5_name,product_5_url):
-#     print("Background task started for the Deep Dive of Researching the Product:", product_5_name)
+@anvil.server.background_task
+def deepdive_draft_product_3_generator(user_table,company_name,product_3_name,product_3_url):
+    print("Background task started for the Deep Dive of Researching the Product:", product_3_name)
 
-#     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
-#     agent_product_research = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
+    agent_product_research = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
   
-#     product_research_context = agent_product_research({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_5_name} \
-#                   Leverage all necessary resources such as {company_name}'s' main product website {product_5_url}, web pages, and any other relevant sources \
-#                   to gather the following details about company's product, {product_5_name}. Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful, actionable insights. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
-#                   \n \
-#                   Overview: Provide a comprehensive introduction to the product. What is its purpose, and what does the company aim to achieve with it? \n \
-#                   \n \
-#                   Description: Deeply describe the product. What does it look like, feel like, and what experience does it offer? \n \
-#                   \n \
-#                   Price: Detail the pricing structure. What is the cost, and are there any variations or tiers in pricing? \n \
-#                   \n \
-#                   Features: Elucidate the key features of the product. What distinguishes this product from others in the market? I would like around 15 differences between the product offers, if possible. \n \
-#                   \n \
-#                   Benefits: Explicate on how the product will benefit the customer. How can it change their life or improve their situation? \n \
-#                   \n \
-#                   Why people buy it: Analyze the consumer's pain points and desires before purchasing this product. Why might someone be drawn to this product, and what needs does it fulfill? \n \
-#                   \n \
-#                   Expected results: What are the anticipated outcomes or gains after using this product? How will the customer's situation improve or change? \n \
-#                   \n \
-#                   Guarantees: Discuss any guarantees the company offers with this product. Are there any assurances of product performance, or return policies in place? \n \
-#                   \n \
-#                   Bonuses: List any additional bonuses or incentives that come along with the product. What additional value does the company provide to sweeten the deal? \n \
-#                   \n \
-#                   Possible objections: Predict potential objections or concerns a customer may have about the product. How might the company address these? \n \
-#                   \n \
-#                   Ensure to provide an in-depth report with approximately 800-1000 words on the product, making it as detailed and specific as possible. Your aim is to capture the full essence of the product.
-#                   \n \
-#                   NOTES ON FORMAT:
-#                   Be confident, do not say there is incomplete information, or there is not information. If you can't answer elements from the above, ignore it! Speak as if you are the authority of the subject. If you don't know the answer, don't talk about it. Do not say "I was unable to find information on XYZ". 
-#                   """})
+    product_research_context = agent_product_research({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_3_name} \
+                  Leverage all necessary resources such as {company_name}'s' main product website {product_3_url}, web pages, and any other relevant sources \
+                  to gather the following details about company's product, {product_3_name}. Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful, actionable insights. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
+                  \n \
+                  Overview: Provide a comprehensive introduction to the product. What is its purpose, and what does the company aim to achieve with it? \n \
+                  \n \
+                  Description: Deeply describe the product. What does it look like, feel like, and what experience does it offer? \n \
+                  \n \
+                  Price: Detail the pricing structure. What is the cost, and are there any variations or tiers in pricing? \n \
+                  \n \
+                  Features: Elucidate the key features of the product. What distinguishes this product from others in the market? I would like around 15 differences between the product offers, if possible. \n \
+                  \n \
+                  Benefits: Explicate on how the product will benefit the customer. How can it change their life or improve their situation? \n \
+                  \n \
+                  Why people buy it: Analyze the consumer's pain points and desires before purchasing this product. Why might someone be drawn to this product, and what needs does it fulfill? \n \
+                  \n \
+                  Expected results: What are the anticipated outcomes or gains after using this product? How will the customer's situation improve or change? \n \
+                  \n \
+                  Guarantees: Discuss any guarantees the company offers with this product. Are there any assurances of product performance, or return policies in place? \n \
+                  \n \
+                  Bonuses: List any additional bonuses or incentives that come along with the product. What additional value does the company provide to sweeten the deal? \n \
+                  \n \
+                  Possible objections: Predict potential objections or concerns a customer may have about the product. How might the company address these? \n \
+                  \n \
+                  Ensure to provide an in-depth report with approximately 800-1000 words on the product, making it as detailed and specific as possible. Your aim is to capture the full essence of the product.
+                  \n \
+                  NOTES ON FORMAT:
+                  Be confident, do not say there is incomplete information, or there is not information. If you can't answer elements from the above, ignore it! Speak as if you are the authority of the subject. If you don't know the answer, don't talk about it. Do not say "I was unable to find information on XYZ". 
+                  """})
 
-#     product_research_5 = product_research_context['output']
-#     # if "I couldn't find more information" in product_research_context:
-#     #       product_research_1= "Insufficient information. Please write the product description yourself."
-#     anvil.server.task_state['result'] = product_research_5
-#    # Save it in the table:
-#     product_5_latest_row = user_table.search(variable='product_5_latest')[0]
-#     product_5_latest_row['variable_value'] = product_research_5
-#     product_5_latest_row.update()
-#     print("Product 5 Research Complete")
+    product_research_3= product_research_context['output']
+    # if "I couldn't find more information" in product_research_context:
+    #       product_research_1= "Insufficient information. Please write the product description yourself."
+    anvil.server.task_state['result'] = product_research_3
+   # Save it in the table:
+    product_3_latest_row = user_table.search(variable='product_3_latest')[0]
+    product_3_latest_row['variable_value'] = product_research_3
+    product_3_latest_row.update()
+    print("Product 3 Research Complete")
+
+# PRODUCT 4, 1st DRAFT
+@anvil.server.callable
+def launch_draft_deepdive_product_4_generator(user_table,company_name,product_4_name,product_4_url):
+    # Launch the background task
+    task = anvil.server.launch_background_task('deepdive_draft_product_4_generator',user_table,company_name,product_4_name,product_4_url)
+    # Return the task ID
+    return task.get_id()
   
-# #------AVATARS, 1st DRAFT - AVATAR 1 / PRODUCT 1-------------------------------------------##################
-# @anvil.server.callable
-# def launch_draft_deepdive_avatar_1_product_1_generator(user_table,company_name,product_1_name,avatar_1_preview):
-#     print("Launch Deep Dive Avatar function started")  
-#     # Launch the background task
-#     task = anvil.server.launch_background_task('draft_deepdive_avatar_1_product_1_generator', user_table,company_name,product_1_name,avatar_1_preview)
-#     # Return the task ID
-#     return task.get_id()
-# @anvil.server.background_task
-# def draft_deepdive_avatar_1_product_1_generator(user_table,company_name,product_1_name,avatar_1_preview):
-#     print("Background task started for generating the avatar:", avatar_1_preview)
+@anvil.server.background_task
+def deepdive_draft_product_4_generator(user_table,company_name,product_4_name,product_4_url):
+    print("Background task started for the Deep Dive of Researching the Product:", product_4_name)
+
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
+    agent_product_research = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
+  
+    product_research_context = agent_product_research({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_4_name} \
+                  Leverage all necessary resources such as {company_name}'s' main product website {product_4_url}, web pages, and any other relevant sources \
+                  to gather the following details about company's product, {product_4_name}. Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful, actionable insights. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
+                  \n \
+                  Overview: Provide a comprehensive introduction to the product. What is its purpose, and what does the company aim to achieve with it? \n \
+                  \n \
+                  Description: Deeply describe the product. What does it look like, feel like, and what experience does it offer? \n \
+                  \n \
+                  Price: Detail the pricing structure. What is the cost, and are there any variations or tiers in pricing? \n \
+                  \n \
+                  Features: Elucidate the key features of the product. What distinguishes this product from others in the market? I would like around 15 differences between the product offers, if possible. \n \
+                  \n \
+                  Benefits: Explicate on how the product will benefit the customer. How can it change their life or improve their situation? \n \
+                  \n \
+                  Why people buy it: Analyze the consumer's pain points and desires before purchasing this product. Why might someone be drawn to this product, and what needs does it fulfill? \n \
+                  \n \
+                  Expected results: What are the anticipated outcomes or gains after using this product? How will the customer's situation improve or change? \n \
+                  \n \
+                  Guarantees: Discuss any guarantees the company offers with this product. Are there any assurances of product performance, or return policies in place? \n \
+                  \n \
+                  Bonuses: List any additional bonuses or incentives that come along with the product. What additional value does the company provide to sweeten the deal? \n \
+                  \n \
+                  Possible objections: Predict potential objections or concerns a customer may have about the product. How might the company address these? \n \
+                  \n \
+                  Ensure to provide an in-depth report with approximately 800-1000 words on the product, making it as detailed and specific as possible. Your aim is to capture the full essence of the product.
+                  \n \
+                  NOTES ON FORMAT:
+                  Be confident, do not say there is incomplete information, or there is not information. If you can't answer elements from the above, ignore it! Speak as if you are the authority of the subject. If you don't know the answer, don't talk about it. Do not say "I was unable to find information on XYZ". 
+                  """})
+
+    product_research_4 = product_research_context['output']
+    # if "I couldn't find more information" in product_research_context:
+    #       product_research_1= "Insufficient information. Please write the product description yourself."
+    anvil.server.task_state['result'] = product_research_4
+   # Save it in the table:
+    product_4_latest_row = user_table.search(variable='product_4_latest')[0]
+    product_4_latest_row['variable_value'] = product_research_4
+    product_4_latest_row.update()
+    print("Product 4 Research Complete")
+
+# PRODUCT 5, 1st DRAFT
+@anvil.server.callable
+def launch_draft_deepdive_product_5_generator(user_table,company_name,product_5_name,product_5_url):
+    # Launch the background task
+    task = anvil.server.launch_background_task('deepdive_draft_product_5_generator',user_table,company_name,product_5_name,product_5_url)
+    # Return the task ID
+    return task.get_id()
+  
+@anvil.server.background_task
+def deepdive_draft_product_5_generator(user_table,company_name,product_5_name,product_5_url):
+    print("Background task started for the Deep Dive of Researching the Product:", product_5_name)
+
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
+    agent_product_research = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
+  
+    product_research_context = agent_product_research({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_5_name} \
+                  Leverage all necessary resources such as {company_name}'s' main product website {product_5_url}, web pages, and any other relevant sources \
+                  to gather the following details about company's product, {product_5_name}. Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful, actionable insights. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
+                  \n \
+                  Overview: Provide a comprehensive introduction to the product. What is its purpose, and what does the company aim to achieve with it? \n \
+                  \n \
+                  Description: Deeply describe the product. What does it look like, feel like, and what experience does it offer? \n \
+                  \n \
+                  Price: Detail the pricing structure. What is the cost, and are there any variations or tiers in pricing? \n \
+                  \n \
+                  Features: Elucidate the key features of the product. What distinguishes this product from others in the market? I would like around 15 differences between the product offers, if possible. \n \
+                  \n \
+                  Benefits: Explicate on how the product will benefit the customer. How can it change their life or improve their situation? \n \
+                  \n \
+                  Why people buy it: Analyze the consumer's pain points and desires before purchasing this product. Why might someone be drawn to this product, and what needs does it fulfill? \n \
+                  \n \
+                  Expected results: What are the anticipated outcomes or gains after using this product? How will the customer's situation improve or change? \n \
+                  \n \
+                  Guarantees: Discuss any guarantees the company offers with this product. Are there any assurances of product performance, or return policies in place? \n \
+                  \n \
+                  Bonuses: List any additional bonuses or incentives that come along with the product. What additional value does the company provide to sweeten the deal? \n \
+                  \n \
+                  Possible objections: Predict potential objections or concerns a customer may have about the product. How might the company address these? \n \
+                  \n \
+                  Ensure to provide an in-depth report with approximately 800-1000 words on the product, making it as detailed and specific as possible. Your aim is to capture the full essence of the product.
+                  \n \
+                  NOTES ON FORMAT:
+                  Be confident, do not say there is incomplete information, or there is not information. If you can't answer elements from the above, ignore it! Speak as if you are the authority of the subject. If you don't know the answer, don't talk about it. Do not say "I was unable to find information on XYZ". 
+                  """})
+
+    product_research_5 = product_research_context['output']
+    # if "I couldn't find more information" in product_research_context:
+    #       product_research_1= "Insufficient information. Please write the product description yourself."
+    anvil.server.task_state['result'] = product_research_5
+   # Save it in the table:
+    product_5_latest_row = user_table.search(variable='product_5_latest')[0]
+    product_5_latest_row['variable_value'] = product_research_5
+    product_5_latest_row.update()
+    print("Product 5 Research Complete")
+  
+#------AVATARS, 1st DRAFT - AVATAR 1 / PRODUCT 1-------------------------------------------##################
+@anvil.server.callable
+def launch_draft_deepdive_avatar_1_product_1_generator(user_table,company_name,product_1_name,avatar_1_preview):
+    print("Launch Deep Dive Avatar function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('draft_deepdive_avatar_1_product_1_generator', user_table,company_name,product_1_name,avatar_1_preview)
+    # Return the task ID
+    return task.get_id()
+@anvil.server.background_task
+def draft_deepdive_avatar_1_product_1_generator(user_table,company_name,product_1_name,avatar_1_preview):
+    print("Background task started for generating the avatar:", avatar_1_preview)
  
-#     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
-#     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
+    template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
-#     Company Context: The company, {company_name}, is selling {product_1_name}.
-#     Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_1_preview}
-#     Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
-#     ----
-#     FORMAT: 
-#     - Overview
-#     Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
+    Company Context: The company, {company_name}, is selling {product_1_name}.
+    Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_1_preview}
+    Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
+    ----
+    FORMAT: 
+    - Overview
+    Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
 
-#     - Demographic
-#     Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
+    - Demographic
+    Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
 
-#     - Psychographic
-#     Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
+    - Psychographic
+    Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
 
-#     - Goals & Aspirations
-#     Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
+    - Goals & Aspirations
+    Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
 
-#     - Pain Points
-#     Identify the specific problems, challenges, and frustrations the avatar is facing.
+    - Pain Points
+    Identify the specific problems, challenges, and frustrations the avatar is facing.
 
-#     - Personal Experience
-#     Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
+    - Personal Experience
+    Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
 
-#     RULES: 
-#     - Do not say "the target customer", instead, provide a fictional name, age, location.  
-#     - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
-#     - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
-#     -----
+    RULES: 
+    - Do not say "the target customer", instead, provide a fictional name, age, location.  
+    - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
+    - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
+    -----
    
-#     Chatbot:"""
+    Chatbot:"""
 
-#     prompt_avatar = PromptTemplate(
-#         input_variables=["company_name","product_1_name", "avatar_1_preview"],
-#         template=template_avatar
-#     )
+    prompt_avatar = PromptTemplate(
+        input_variables=["company_name","product_1_name", "avatar_1_preview"],
+        template=template_avatar
+    )
 
-#     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
-#     draft_avatar = chain_avatar.run(company_name=company_name, product_1_name=product_1_name, avatar_1_preview=avatar_1_preview)  # Pass in the combined context
-#     anvil.server.task_state['result']  = draft_avatar
+    chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
+    draft_avatar = chain_avatar.run(company_name=company_name, product_1_name=product_1_name, avatar_1_preview=avatar_1_preview)  # Pass in the combined context
+    anvil.server.task_state['result']  = draft_avatar
 
-#     # Save this generated version as the latest version
-#     row_avatar_1_latest = user_table.search(variable='avatar_1_product_1_latest')
-#     first_row_avatar_1_latest = row_avatar_1_latest[0]
-#     first_row_avatar_1_latest['variable_value'] = draft_avatar
-#     first_row_avatar_1_latest.update()
-#     print("Avatar Draft Research Complete")
+    # Save this generated version as the latest version
+    row_avatar_1_latest = user_table.search(variable='avatar_1_product_1_latest')
+    first_row_avatar_1_latest = row_avatar_1_latest[0]
+    first_row_avatar_1_latest['variable_value'] = draft_avatar
+    first_row_avatar_1_latest.update()
+    print("Avatar Draft Research Complete")
 
-# # AVATARS, 1st DRAFT - AVATAR 2 / PRODUCT 1
-# @anvil.server.callable
-# def launch_draft_deepdive_avatar_2_product_1_generator(user_table,company_name,product_1_name,avatar_2_preview):
-#     print("Launch Deep Dive Avatar function started")  
-#     # Launch the background task
-#     task = anvil.server.launch_background_task('draft_deepdive_avatar_2_product_1_generator', user_table,company_name,product_1_name,avatar_2_preview)
-#     # Return the task ID
-#     return task.get_id()  
-# @anvil.server.background_task
-# def draft_deepdive_avatar_2_product_1_generator(user_table,company_name,product_1_name,avatar_2_preview):
-#     print("Background task started for generating the avatar:", avatar_2_preview)
+# AVATARS, 1st DRAFT - AVATAR 2 / PRODUCT 1
+@anvil.server.callable
+def launch_draft_deepdive_avatar_2_product_1_generator(user_table,company_name,product_1_name,avatar_2_preview):
+    print("Launch Deep Dive Avatar function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('draft_deepdive_avatar_2_product_1_generator', user_table,company_name,product_1_name,avatar_2_preview)
+    # Return the task ID
+    return task.get_id()  
+@anvil.server.background_task
+def draft_deepdive_avatar_2_product_1_generator(user_table,company_name,product_1_name,avatar_2_preview):
+    print("Background task started for generating the avatar:", avatar_2_preview)
  
-#     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
-#     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
+    template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
-#     Company Context: The company, {company_name}, is selling {product_1_name}.
-#     Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_2_preview}
-#     Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
-#     ----
-#     FORMAT: 
-#     - Overview
-#     Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
+    Company Context: The company, {company_name}, is selling {product_1_name}.
+    Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_2_preview}
+    Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
+    ----
+    FORMAT: 
+    - Overview
+    Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
 
-#     - Demographic
-#     Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
+    - Demographic
+    Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
 
-#     - Psychographic
-#     Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
+    - Psychographic
+    Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
 
-#     - Goals & Aspirations
-#     Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
+    - Goals & Aspirations
+    Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
 
-#     - Pain Points
-#     Identify the specific problems, challenges, and frustrations the avatar is facing.
+    - Pain Points
+    Identify the specific problems, challenges, and frustrations the avatar is facing.
 
-#     - Personal Experience
-#     Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
+    - Personal Experience
+    Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
 
-#     RULES: 
-#     - Do not say "the target customer", instead, provide a fictional name, age, location.  
-#     - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
-#     - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
-#     -----
+    RULES: 
+    - Do not say "the target customer", instead, provide a fictional name, age, location.  
+    - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
+    - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
+    -----
    
-#     Chatbot:"""
+    Chatbot:"""
 
-#     prompt_avatar = PromptTemplate(
-#         input_variables=["company_name","product_1_name", "avatar_2_preview"],
-#         template=template_avatar
-#     )
+    prompt_avatar = PromptTemplate(
+        input_variables=["company_name","product_1_name", "avatar_2_preview"],
+        template=template_avatar
+    )
 
-#     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
-#     draft_avatar = chain_avatar.run(company_name=company_name, product_1_name=product_1_name, avatar_2_preview=avatar_2_preview)  # Pass in the combined context
-#     anvil.server.task_state['result']  = draft_avatar
+    chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
+    draft_avatar = chain_avatar.run(company_name=company_name, product_1_name=product_1_name, avatar_2_preview=avatar_2_preview)  # Pass in the combined context
+    anvil.server.task_state['result']  = draft_avatar
 
-#     # Save this generated version as the latest version
-#     row_avatar_2_latest = user_table.search(variable='avatar_2_product_1_latest')
-#     first_row_avatar_2_latest = row_avatar_2_latest[0]
-#     first_row_avatar_2_latest['variable_value'] = draft_avatar
-#     first_row_avatar_2_latest.update()
-#     print("Avatar Draft Research Complete")
+    # Save this generated version as the latest version
+    row_avatar_2_latest = user_table.search(variable='avatar_2_product_1_latest')
+    first_row_avatar_2_latest = row_avatar_2_latest[0]
+    first_row_avatar_2_latest['variable_value'] = draft_avatar
+    first_row_avatar_2_latest.update()
+    print("Avatar Draft Research Complete")
 
-# # AVATARS, 1st DRAFT - AVATAR 3 / PRODUCT 1
-# @anvil.server.callable
-# def launch_draft_deepdive_avatar_3_product_1_generator(user_table,company_name,product_1_name,avatar_3_preview):
-#     print("Launch Deep Dive Avatar function started")  
-#     # Launch the background task
-#     task = anvil.server.launch_background_task('draft_deepdive_avatar_3_product_1_generator', user_table,company_name,product_1_name,avatar_3_preview)
-#     # Return the task ID
-#     return task.get_id()
+# AVATARS, 1st DRAFT - AVATAR 3 / PRODUCT 1
+@anvil.server.callable
+def launch_draft_deepdive_avatar_3_product_1_generator(user_table,company_name,product_1_name,avatar_3_preview):
+    print("Launch Deep Dive Avatar function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('draft_deepdive_avatar_3_product_1_generator', user_table,company_name,product_1_name,avatar_3_preview)
+    # Return the task ID
+    return task.get_id()
   
-# @anvil.server.background_task
-# def draft_deepdive_avatar_3_product_1_generator(user_table,company_name,product_1_name,avatar_3_preview):
-#     print("Background task started for generating the avatar:", avatar_3_preview)
+@anvil.server.background_task
+def draft_deepdive_avatar_3_product_1_generator(user_table,company_name,product_1_name,avatar_3_preview):
+    print("Background task started for generating the avatar:", avatar_3_preview)
  
-#     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
-#     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
+    template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
-#     Company Context: The company, {company_name}, is selling {product_1_name}.
-#     Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_3_preview}
-#     Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
-#     ----
-#     FORMAT: 
-#     - Overview
-#     Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
+    Company Context: The company, {company_name}, is selling {product_1_name}.
+    Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_3_preview}
+    Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
+    ----
+    FORMAT: 
+    - Overview
+    Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
 
-#     - Demographic
-#     Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
+    - Demographic
+    Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
 
-#     - Psychographic
-#     Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
+    - Psychographic
+    Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
 
-#     - Goals & Aspirations
-#     Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
+    - Goals & Aspirations
+    Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
 
-#     - Pain Points
-#     Identify the specific problems, challenges, and frustrations the avatar is facing.
+    - Pain Points
+    Identify the specific problems, challenges, and frustrations the avatar is facing.
 
-#     - Personal Experience
-#     Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
+    - Personal Experience
+    Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
 
-#     RULES: 
-#     - Do not say "the target customer", instead, provide a fictional name, age, location.  
-#     - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
-#     - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
-#     -----
+    RULES: 
+    - Do not say "the target customer", instead, provide a fictional name, age, location.  
+    - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
+    - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
+    -----
    
-#     Chatbot:"""
+    Chatbot:"""
 
-#     prompt_avatar = PromptTemplate(
-#         input_variables=["company_name","product_1_name", "avatar_3_preview"],
-#         template=template_avatar
-#     )
+    prompt_avatar = PromptTemplate(
+        input_variables=["company_name","product_1_name", "avatar_3_preview"],
+        template=template_avatar
+    )
 
-#     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
-#     draft_avatar = chain_avatar.run(company_name=company_name, product_1_name=product_1_name, avatar_3_preview=avatar_3_preview)  # Pass in the combined context
-#     anvil.server.task_state['result']  = draft_avatar
+    chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
+    draft_avatar = chain_avatar.run(company_name=company_name, product_1_name=product_1_name, avatar_3_preview=avatar_3_preview)  # Pass in the combined context
+    anvil.server.task_state['result']  = draft_avatar
 
-#     # Save this generated version as the latest version
-#     row_avatar_3_latest = user_table.search(variable='avatar_3_product_1_latest')
-#     first_row_avatar_3_latest = row_avatar_3_latest[0]
-#     first_row_avatar_3_latest['variable_value'] = draft_avatar
-#     first_row_avatar_3_latest.update()
-#     print("Avatar Draft Research Complete")
+    # Save this generated version as the latest version
+    row_avatar_3_latest = user_table.search(variable='avatar_3_product_1_latest')
+    first_row_avatar_3_latest = row_avatar_3_latest[0]
+    first_row_avatar_3_latest['variable_value'] = draft_avatar
+    first_row_avatar_3_latest.update()
+    print("Avatar Draft Research Complete")
 
-# #------AVATARS, 1st DRAFT - AVATAR 1 / PRODUCT 2-----------------##################
-# @anvil.server.callable
-# def launch_draft_deepdive_avatar_1_product_2_generator(user_table,company_name,product_2_name,avatar_1_preview):
-#     print("Launch Deep Dive Avatar function started")  
-#     # Launch the background task
-#     task = anvil.server.launch_background_task('draft_deepdive_avatar_1_product_2_generator', user_table,company_name,product_2_name,avatar_1_preview)
-#     # Return the task ID
-#     return task.get_id()
-# @anvil.server.background_task
-# def draft_deepdive_avatar_1_product_2_generator(user_table,company_name,product_2_name,avatar_1_preview):
-#     print("Background task started for generating the avatar:", avatar_1_preview)
+#------AVATARS, 1st DRAFT - AVATAR 1 / PRODUCT 2-----------------##################
+@anvil.server.callable
+def launch_draft_deepdive_avatar_1_product_2_generator(user_table,company_name,product_2_name,avatar_1_preview):
+    print("Launch Deep Dive Avatar function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('draft_deepdive_avatar_1_product_2_generator', user_table,company_name,product_2_name,avatar_1_preview)
+    # Return the task ID
+    return task.get_id()
+@anvil.server.background_task
+def draft_deepdive_avatar_1_product_2_generator(user_table,company_name,product_2_name,avatar_1_preview):
+    print("Background task started for generating the avatar:", avatar_1_preview)
  
-#     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
-#     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
+    template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
-#     Company Context: The company, {company_name}, is selling {product_2_name}.
-#     Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_1_preview}
-#     Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
-#     ----
-#     FORMAT: 
-#     - Overview
-#     Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
+    Company Context: The company, {company_name}, is selling {product_2_name}.
+    Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_1_preview}
+    Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
+    ----
+    FORMAT: 
+    - Overview
+    Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
 
-#     - Demographic
-#     Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
+    - Demographic
+    Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
 
-#     - Psychographic
-#     Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
+    - Psychographic
+    Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
 
-#     - Goals & Aspirations
-#     Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
+    - Goals & Aspirations
+    Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
 
-#     - Pain Points
-#     Identify the specific problems, challenges, and frustrations the avatar is facing.
+    - Pain Points
+    Identify the specific problems, challenges, and frustrations the avatar is facing.
 
-#     - Personal Experience
-#     Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
+    - Personal Experience
+    Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
 
-#     RULES: 
-#     - Do not say "the target customer", instead, provide a fictional name, age, location.  
-#     - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
-#     - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
-#     -----
+    RULES: 
+    - Do not say "the target customer", instead, provide a fictional name, age, location.  
+    - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
+    - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
+    -----
    
-#     Chatbot:"""
+    Chatbot:"""
 
-#     prompt_avatar = PromptTemplate(
-#         input_variables=["company_name","product_2_name", "avatar_1_preview"],
-#         template=template_avatar
-#     )
+    prompt_avatar = PromptTemplate(
+        input_variables=["company_name","product_2_name", "avatar_1_preview"],
+        template=template_avatar
+    )
 
-#     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
-#     draft_avatar = chain_avatar.run(company_name=company_name, product_2_name=product_2_name, avatar_1_preview=avatar_1_preview)  # Pass in the combined context
-#     anvil.server.task_state['result']  = draft_avatar
+    chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
+    draft_avatar = chain_avatar.run(company_name=company_name, product_2_name=product_2_name, avatar_1_preview=avatar_1_preview)  # Pass in the combined context
+    anvil.server.task_state['result']  = draft_avatar
 
-#     # Save this generated version as the latest version
-#     row_avatar_1_latest = user_table.search(variable='avatar_1_product_2_latest')
-#     first_row_avatar_1_latest = row_avatar_1_latest[0]
-#     first_row_avatar_1_latest['variable_value'] = draft_avatar
-#     first_row_avatar_1_latest.update()
-#     print("Avatar Draft Research Complete")
+    # Save this generated version as the latest version
+    row_avatar_1_latest = user_table.search(variable='avatar_1_product_2_latest')
+    first_row_avatar_1_latest = row_avatar_1_latest[0]
+    first_row_avatar_1_latest['variable_value'] = draft_avatar
+    first_row_avatar_1_latest.update()
+    print("Avatar Draft Research Complete")
 
-# # AVATARS, 1st DRAFT - AVATAR 2 / PRODUCT 2
-# @anvil.server.callable
-# def launch_draft_deepdive_avatar_2_product_2_generator(user_table,company_name,product_2_name,avatar_2_preview):
-#     print("Launch Deep Dive Avatar function started")  
-#     # Launch the background task
-#     task = anvil.server.launch_background_task('draft_deepdive_avatar_2_product_2_generator', user_table,company_name,product_2_name,avatar_2_preview)
-#     # Return the task ID
-#     return task.get_id()  
-# @anvil.server.background_task
-# def draft_deepdive_avatar_2_product_2_generator(user_table,company_name,product_2_name,avatar_2_preview):
-#     print("Background task started for generating the avatar:", avatar_2_preview)
+# AVATARS, 1st DRAFT - AVATAR 2 / PRODUCT 2
+@anvil.server.callable
+def launch_draft_deepdive_avatar_2_product_2_generator(user_table,company_name,product_2_name,avatar_2_preview):
+    print("Launch Deep Dive Avatar function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('draft_deepdive_avatar_2_product_2_generator', user_table,company_name,product_2_name,avatar_2_preview)
+    # Return the task ID
+    return task.get_id()  
+@anvil.server.background_task
+def draft_deepdive_avatar_2_product_2_generator(user_table,company_name,product_2_name,avatar_2_preview):
+    print("Background task started for generating the avatar:", avatar_2_preview)
  
-#     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
-#     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
+    template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
-#     Company Context: The company, {company_name}, is selling {product_2_name}.
-#     Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_2_preview}
-#     Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
-#     ----
-#     FORMAT: 
-#     - Overview
-#     Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
+    Company Context: The company, {company_name}, is selling {product_2_name}.
+    Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_2_preview}
+    Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
+    ----
+    FORMAT: 
+    - Overview
+    Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
 
-#     - Demographic
-#     Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
+    - Demographic
+    Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
 
-#     - Psychographic
-#     Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
+    - Psychographic
+    Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
 
-#     - Goals & Aspirations
-#     Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
+    - Goals & Aspirations
+    Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
 
-#     - Pain Points
-#     Identify the specific problems, challenges, and frustrations the avatar is facing.
+    - Pain Points
+    Identify the specific problems, challenges, and frustrations the avatar is facing.
 
-#     - Personal Experience
-#     Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
+    - Personal Experience
+    Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
 
-#     RULES: 
-#     - Do not say "the target customer", instead, provide a fictional name, age, location.  
-#     - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
-#     - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
-#     -----
+    RULES: 
+    - Do not say "the target customer", instead, provide a fictional name, age, location.  
+    - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
+    - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
+    -----
    
-#     Chatbot:"""
+    Chatbot:"""
 
-#     prompt_avatar = PromptTemplate(
-#         input_variables=["company_name","product_2_name", "avatar_2_preview"],
-#         template=template_avatar
-#     )
+    prompt_avatar = PromptTemplate(
+        input_variables=["company_name","product_2_name", "avatar_2_preview"],
+        template=template_avatar
+    )
 
-#     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
-#     draft_avatar = chain_avatar.run(company_name=company_name, product_2_name=product_2_name, avatar_2_preview=avatar_2_preview)  # Pass in the combined context
-#     anvil.server.task_state['result']  = draft_avatar
+    chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
+    draft_avatar = chain_avatar.run(company_name=company_name, product_2_name=product_2_name, avatar_2_preview=avatar_2_preview)  # Pass in the combined context
+    anvil.server.task_state['result']  = draft_avatar
 
-#     # Save this generated version as the latest version
-#     row_avatar_2_latest = user_table.search(variable='avatar_2_product_2_latest')
-#     first_row_avatar_2_latest = row_avatar_2_latest[0]
-#     first_row_avatar_2_latest['variable_value'] = draft_avatar
-#     first_row_avatar_2_latest.update()
-#     print("Avatar Draft Research Complete")
+    # Save this generated version as the latest version
+    row_avatar_2_latest = user_table.search(variable='avatar_2_product_2_latest')
+    first_row_avatar_2_latest = row_avatar_2_latest[0]
+    first_row_avatar_2_latest['variable_value'] = draft_avatar
+    first_row_avatar_2_latest.update()
+    print("Avatar Draft Research Complete")
 
-# # AVATARS, 1st DRAFT - AVATAR 3 / PRODUCT 2
-# @anvil.server.callable
-# def launch_draft_deepdive_avatar_3_product_2_generator(user_table,company_name,product_2_name,avatar_3_preview):
-#     print("Launch Deep Dive Avatar function started")  
-#     # Launch the background task
-#     task = anvil.server.launch_background_task('draft_deepdive_avatar_3_product_2_generator', user_table,company_name,product_2_name,avatar_3_preview)
-#     # Return the task ID
-#     return task.get_id()
+# AVATARS, 1st DRAFT - AVATAR 3 / PRODUCT 2
+@anvil.server.callable
+def launch_draft_deepdive_avatar_3_product_2_generator(user_table,company_name,product_2_name,avatar_3_preview):
+    print("Launch Deep Dive Avatar function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('draft_deepdive_avatar_3_product_2_generator', user_table,company_name,product_2_name,avatar_3_preview)
+    # Return the task ID
+    return task.get_id()
   
-# @anvil.server.background_task
-# def draft_deepdive_avatar_3_product_2_generator(user_table,company_name,product_2_name,avatar_3_preview):
-#     print("Background task started for generating the avatar:", avatar_3_preview)
+@anvil.server.background_task
+def draft_deepdive_avatar_3_product_2_generator(user_table,company_name,product_2_name,avatar_3_preview):
+    print("Background task started for generating the avatar:", avatar_3_preview)
  
-#     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
-#     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
+    template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
-#     Company Context: The company, {company_name}, is selling {product_2_name}.
-#     Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_3_preview}
-#     Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
-#     ----
-#     FORMAT: 
-#     - Overview
-#     Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
+    Company Context: The company, {company_name}, is selling {product_2_name}.
+    Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_3_preview}
+    Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
+    ----
+    FORMAT: 
+    - Overview
+    Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
 
-#     - Demographic
-#     Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
+    - Demographic
+    Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
 
-#     - Psychographic
-#     Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
+    - Psychographic
+    Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
 
-#     - Goals & Aspirations
-#     Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
+    - Goals & Aspirations
+    Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
 
-#     - Pain Points
-#     Identify the specific problems, challenges, and frustrations the avatar is facing.
+    - Pain Points
+    Identify the specific problems, challenges, and frustrations the avatar is facing.
 
-#     - Personal Experience
-#     Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
+    - Personal Experience
+    Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
 
-#     RULES: 
-#     - Do not say "the target customer", instead, provide a fictional name, age, location.  
-#     - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
-#     - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
-#     -----
+    RULES: 
+    - Do not say "the target customer", instead, provide a fictional name, age, location.  
+    - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
+    - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
+    -----
    
-#     Chatbot:"""
+    Chatbot:"""
 
-#     prompt_avatar = PromptTemplate(
-#         input_variables=["company_name","product_2_name", "avatar_3_preview"],
-#         template=template_avatar
-#     )
+    prompt_avatar = PromptTemplate(
+        input_variables=["company_name","product_2_name", "avatar_3_preview"],
+        template=template_avatar
+    )
 
-#     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
-#     draft_avatar = chain_avatar.run(company_name=company_name, product_2_name=product_2_name, avatar_3_preview=avatar_3_preview)  # Pass in the combined context
-#     anvil.server.task_state['result']  = draft_avatar
+    chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
+    draft_avatar = chain_avatar.run(company_name=company_name, product_2_name=product_2_name, avatar_3_preview=avatar_3_preview)  # Pass in the combined context
+    anvil.server.task_state['result']  = draft_avatar
 
-#     # Save this generated version as the latest version
-#     row_avatar_3_latest = user_table.search(variable='avatar_3_product_2_latest')
-#     first_row_avatar_3_latest = row_avatar_3_latest[0]
-#     first_row_avatar_3_latest['variable_value'] = draft_avatar
-#     first_row_avatar_3_latest.update()
-#     print("Avatar Draft Research Complete")
+    # Save this generated version as the latest version
+    row_avatar_3_latest = user_table.search(variable='avatar_3_product_2_latest')
+    first_row_avatar_3_latest = row_avatar_3_latest[0]
+    first_row_avatar_3_latest['variable_value'] = draft_avatar
+    first_row_avatar_3_latest.update()
+    print("Avatar Draft Research Complete")
 
-# #------AVATARS, 1st DRAFT - AVATAR 1 / PRODUCT 3 -----------------##################
-# @anvil.server.callable
-# def launch_draft_deepdive_avatar_1_product_3_generator(user_table,company_name,product_3_name,avatar_1_preview):
-#     print("Launch Deep Dive Avatar function started")  
-#     # Launch the background task
-#     task = anvil.server.launch_background_task('draft_deepdive_avatar_1_product_3_generator', user_table,company_name,product_3_name,avatar_1_preview)
-#     # Return the task ID
-#     return task.get_id()
-# @anvil.server.background_task
-# def draft_deepdive_avatar_1_product_3_generator(user_table,company_name,product_3_name,avatar_1_preview):
-#     print("Background task started for generating the avatar:", avatar_1_preview)
+#------AVATARS, 1st DRAFT - AVATAR 1 / PRODUCT 3 -----------------##################
+@anvil.server.callable
+def launch_draft_deepdive_avatar_1_product_3_generator(user_table,company_name,product_3_name,avatar_1_preview):
+    print("Launch Deep Dive Avatar function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('draft_deepdive_avatar_1_product_3_generator', user_table,company_name,product_3_name,avatar_1_preview)
+    # Return the task ID
+    return task.get_id()
+@anvil.server.background_task
+def draft_deepdive_avatar_1_product_3_generator(user_table,company_name,product_3_name,avatar_1_preview):
+    print("Background task started for generating the avatar:", avatar_1_preview)
  
-#     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
-#     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
+    template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
-#     Company Context: The company, {company_name}, is selling {product_3_name}.
-#     Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_1_preview}
-#     Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
-#     ----
-#     FORMAT: 
-#     - Overview
-#     Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
+    Company Context: The company, {company_name}, is selling {product_3_name}.
+    Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_1_preview}
+    Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
+    ----
+    FORMAT: 
+    - Overview
+    Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
 
-#     - Demographic
-#     Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
+    - Demographic
+    Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
 
-#     - Psychographic
-#     Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
+    - Psychographic
+    Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
 
-#     - Goals & Aspirations
-#     Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
+    - Goals & Aspirations
+    Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
 
-#     - Pain Points
-#     Identify the specific problems, challenges, and frustrations the avatar is facing.
+    - Pain Points
+    Identify the specific problems, challenges, and frustrations the avatar is facing.
 
-#     - Personal Experience
-#     Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
+    - Personal Experience
+    Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
 
-#     RULES: 
-#     - Do not say "the target customer", instead, provide a fictional name, age, location.  
-#     - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
-#     - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
-#     -----
+    RULES: 
+    - Do not say "the target customer", instead, provide a fictional name, age, location.  
+    - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
+    - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
+    -----
    
-#     Chatbot:"""
+    Chatbot:"""
 
-#     prompt_avatar = PromptTemplate(
-#         input_variables=["company_name","product_3_name", "avatar_1_preview"],
-#         template=template_avatar
-#     )
+    prompt_avatar = PromptTemplate(
+        input_variables=["company_name","product_3_name", "avatar_1_preview"],
+        template=template_avatar
+    )
 
-#     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
-#     draft_avatar = chain_avatar.run(company_name=company_name, product_3_name=product_3_name, avatar_1_preview=avatar_1_preview)  # Pass in the combined context
-#     anvil.server.task_state['result']  = draft_avatar
+    chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
+    draft_avatar = chain_avatar.run(company_name=company_name, product_3_name=product_3_name, avatar_1_preview=avatar_1_preview)  # Pass in the combined context
+    anvil.server.task_state['result']  = draft_avatar
 
-#     # Save this generated version as the latest version
-#     row_avatar_1_latest = user_table.search(variable='avatar_1_product_3_latest')
-#     first_row_avatar_1_latest = row_avatar_1_latest[0]
-#     first_row_avatar_1_latest['variable_value'] = draft_avatar
-#     first_row_avatar_1_latest.update()
-#     print("Avatar Draft Research Complete")
+    # Save this generated version as the latest version
+    row_avatar_1_latest = user_table.search(variable='avatar_1_product_3_latest')
+    first_row_avatar_1_latest = row_avatar_1_latest[0]
+    first_row_avatar_1_latest['variable_value'] = draft_avatar
+    first_row_avatar_1_latest.update()
+    print("Avatar Draft Research Complete")
 
-# # AVATARS, 1st DRAFT - AVATAR 2 / PRODUCT 3
-# @anvil.server.callable
-# def launch_draft_deepdive_avatar_2_product_3_generator(user_table,company_name,product_3_name,avatar_2_preview):
-#     print("Launch Deep Dive Avatar function started")  
-#     # Launch the background task
-#     task = anvil.server.launch_background_task('draft_deepdive_avatar_2_product_3_generator', user_table,company_name,product_3_name,avatar_2_preview)
-#     # Return the task ID
-#     return task.get_id()  
-# @anvil.server.background_task
-# def draft_deepdive_avatar_2_product_3_generator(user_table,company_name,product_3_name,avatar_2_preview):
-#     print("Background task started for generating the avatar:", avatar_2_preview)
+# AVATARS, 1st DRAFT - AVATAR 2 / PRODUCT 3
+@anvil.server.callable
+def launch_draft_deepdive_avatar_2_product_3_generator(user_table,company_name,product_3_name,avatar_2_preview):
+    print("Launch Deep Dive Avatar function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('draft_deepdive_avatar_2_product_3_generator', user_table,company_name,product_3_name,avatar_2_preview)
+    # Return the task ID
+    return task.get_id()  
+@anvil.server.background_task
+def draft_deepdive_avatar_2_product_3_generator(user_table,company_name,product_3_name,avatar_2_preview):
+    print("Background task started for generating the avatar:", avatar_2_preview)
  
-#     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
-#     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
+    template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
-#     Company Context: The company, {company_name}, is selling {product_3_name}.
-#     Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_2_preview}
-#     Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
-#     ----
-#     FORMAT: 
-#     - Overview
-#     Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
+    Company Context: The company, {company_name}, is selling {product_3_name}.
+    Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_2_preview}
+    Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
+    ----
+    FORMAT: 
+    - Overview
+    Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
 
-#     - Demographic
-#     Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
+    - Demographic
+    Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
 
-#     - Psychographic
-#     Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
+    - Psychographic
+    Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
 
-#     - Goals & Aspirations
-#     Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
+    - Goals & Aspirations
+    Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
 
-#     - Pain Points
-#     Identify the specific problems, challenges, and frustrations the avatar is facing.
+    - Pain Points
+    Identify the specific problems, challenges, and frustrations the avatar is facing.
 
-#     - Personal Experience
-#     Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
+    - Personal Experience
+    Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
 
-#     RULES: 
-#     - Do not say "the target customer", instead, provide a fictional name, age, location.  
-#     - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
-#     - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
-#     -----
+    RULES: 
+    - Do not say "the target customer", instead, provide a fictional name, age, location.  
+    - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
+    - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
+    -----
    
-#     Chatbot:"""
+    Chatbot:"""
 
-#     prompt_avatar = PromptTemplate(
-#         input_variables=["company_name","product_3_name", "avatar_2_preview"],
-#         template=template_avatar
-#     )
+    prompt_avatar = PromptTemplate(
+        input_variables=["company_name","product_3_name", "avatar_2_preview"],
+        template=template_avatar
+    )
 
-#     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
-#     draft_avatar = chain_avatar.run(company_name=company_name, product_3_name=product_3_name, avatar_2_preview=avatar_2_preview)  # Pass in the combined context
-#     anvil.server.task_state['result']  = draft_avatar
+    chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
+    draft_avatar = chain_avatar.run(company_name=company_name, product_3_name=product_3_name, avatar_2_preview=avatar_2_preview)  # Pass in the combined context
+    anvil.server.task_state['result']  = draft_avatar
 
-#     # Save this generated version as the latest version
-#     row_avatar_2_latest = user_table.search(variable='avatar_2_product_3_latest')
-#     first_row_avatar_2_latest = row_avatar_2_latest[0]
-#     first_row_avatar_2_latest['variable_value'] = draft_avatar
-#     first_row_avatar_2_latest.update()
-#     print("Avatar Draft Research Complete")
+    # Save this generated version as the latest version
+    row_avatar_2_latest = user_table.search(variable='avatar_2_product_3_latest')
+    first_row_avatar_2_latest = row_avatar_2_latest[0]
+    first_row_avatar_2_latest['variable_value'] = draft_avatar
+    first_row_avatar_2_latest.update()
+    print("Avatar Draft Research Complete")
 
-# # AVATARS, 1st DRAFT - AVATAR 3 / PRODUCT 3
-# @anvil.server.callable
-# def launch_draft_deepdive_avatar_3_product_3_generator(user_table,company_name,product_3_name,avatar_3_preview):
-#     print("Launch Deep Dive Avatar function started")  
-#     # Launch the background task
-#     task = anvil.server.launch_background_task('draft_deepdive_avatar_3_product_3_generator', user_table,company_name,product_3_name,avatar_3_preview)
-#     # Return the task ID
-#     return task.get_id()
+# AVATARS, 1st DRAFT - AVATAR 3 / PRODUCT 3
+@anvil.server.callable
+def launch_draft_deepdive_avatar_3_product_3_generator(user_table,company_name,product_3_name,avatar_3_preview):
+    print("Launch Deep Dive Avatar function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('draft_deepdive_avatar_3_product_3_generator', user_table,company_name,product_3_name,avatar_3_preview)
+    # Return the task ID
+    return task.get_id()
   
-# @anvil.server.background_task
-# def draft_deepdive_avatar_3_product_3_generator(user_table,company_name,product_3_name,avatar_3_preview):
-#     print("Background task started for generating the avatar:", avatar_3_preview)
+@anvil.server.background_task
+def draft_deepdive_avatar_3_product_3_generator(user_table,company_name,product_3_name,avatar_3_preview):
+    print("Background task started for generating the avatar:", avatar_3_preview)
  
-#     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
-#     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
+    template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
-#     Company Context: The company, {company_name}, is selling {product_3_name}.
-#     Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_3_preview}
-#     Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
-#     ----
-#     FORMAT: 
-#     - Overview
-#     Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
+    Company Context: The company, {company_name}, is selling {product_3_name}.
+    Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_3_preview}
+    Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
+    ----
+    FORMAT: 
+    - Overview
+    Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
 
-#     - Demographic
-#     Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
+    - Demographic
+    Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
 
-#     - Psychographic
-#     Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
+    - Psychographic
+    Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
 
-#     - Goals & Aspirations
-#     Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
+    - Goals & Aspirations
+    Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
 
-#     - Pain Points
-#     Identify the specific problems, challenges, and frustrations the avatar is facing.
+    - Pain Points
+    Identify the specific problems, challenges, and frustrations the avatar is facing.
 
-#     - Personal Experience
-#     Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
+    - Personal Experience
+    Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
 
-#     RULES: 
-#     - Do not say "the target customer", instead, provide a fictional name, age, location.  
-#     - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
-#     - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
-#     -----
+    RULES: 
+    - Do not say "the target customer", instead, provide a fictional name, age, location.  
+    - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
+    - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
+    -----
    
-#     Chatbot:"""
+    Chatbot:"""
 
-#     prompt_avatar = PromptTemplate(
-#         input_variables=["company_name","product_3_name", "avatar_3_preview"],
-#         template=template_avatar
-#     )
+    prompt_avatar = PromptTemplate(
+        input_variables=["company_name","product_3_name", "avatar_3_preview"],
+        template=template_avatar
+    )
 
-#     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
-#     draft_avatar = chain_avatar.run(company_name=company_name, product_3_name=product_3_name, avatar_3_preview=avatar_3_preview)  # Pass in the combined context
-#     anvil.server.task_state['result']  = draft_avatar
+    chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
+    draft_avatar = chain_avatar.run(company_name=company_name, product_3_name=product_3_name, avatar_3_preview=avatar_3_preview)  # Pass in the combined context
+    anvil.server.task_state['result']  = draft_avatar
 
-#     # Save this generated version as the latest version
-#     row_avatar_3_latest = user_table.search(variable='avatar_3_product_3_latest')
-#     first_row_avatar_3_latest = row_avatar_3_latest[0]
-#     first_row_avatar_3_latest['variable_value'] = draft_avatar
-#     first_row_avatar_3_latest.update()
-#     print("Avatar Draft Research Complete")
+    # Save this generated version as the latest version
+    row_avatar_3_latest = user_table.search(variable='avatar_3_product_3_latest')
+    first_row_avatar_3_latest = row_avatar_3_latest[0]
+    first_row_avatar_3_latest['variable_value'] = draft_avatar
+    first_row_avatar_3_latest.update()
+    print("Avatar Draft Research Complete")
 
-# # AVATARS, 1st DRAFT - AVATAR 1 / PRODUCT 4
-# @anvil.server.callable
-# def launch_draft_deepdive_avatar_1_product_4_generator(user_table,company_name,product_4_name,avatar_1_preview):
-#     print("Launch Deep Dive Avatar function started")  
-#     # Launch the background task
-#     task = anvil.server.launch_background_task('draft_deepdive_avatar_1_product_4_generator', user_table,company_name,product_4_name,avatar_1_preview)
-#     # Return the task ID
-#     return task.get_id()
-# @anvil.server.background_task
-# def draft_deepdive_avatar_1_product_4_generator(user_table,company_name,product_4_name,avatar_1_preview):
-#     print("Background task started for generating the avatar:", avatar_1_preview)
+# AVATARS, 1st DRAFT - AVATAR 1 / PRODUCT 4
+@anvil.server.callable
+def launch_draft_deepdive_avatar_1_product_4_generator(user_table,company_name,product_4_name,avatar_1_preview):
+    print("Launch Deep Dive Avatar function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('draft_deepdive_avatar_1_product_4_generator', user_table,company_name,product_4_name,avatar_1_preview)
+    # Return the task ID
+    return task.get_id()
+@anvil.server.background_task
+def draft_deepdive_avatar_1_product_4_generator(user_table,company_name,product_4_name,avatar_1_preview):
+    print("Background task started for generating the avatar:", avatar_1_preview)
  
-#     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
-#     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
+    template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
-#     Company Context: The company, {company_name}, is selling {product_4_name}.
-#     Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_1_preview}
-#     Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
-#     ----
-#     FORMAT: 
-#     - Overview
-#     Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
+    Company Context: The company, {company_name}, is selling {product_4_name}.
+    Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_1_preview}
+    Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
+    ----
+    FORMAT: 
+    - Overview
+    Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
 
-#     - Demographic
-#     Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
+    - Demographic
+    Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
 
-#     - Psychographic
-#     Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
+    - Psychographic
+    Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
 
-#     - Goals & Aspirations
-#     Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
+    - Goals & Aspirations
+    Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
 
-#     - Pain Points
-#     Identify the specific problems, challenges, and frustrations the avatar is facing.
+    - Pain Points
+    Identify the specific problems, challenges, and frustrations the avatar is facing.
 
-#     - Personal Experience
-#     Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
+    - Personal Experience
+    Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
 
-#     RULES: 
-#     - Do not say "the target customer", instead, provide a fictional name, age, location.  
-#     - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
-#     - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
-#     -----
+    RULES: 
+    - Do not say "the target customer", instead, provide a fictional name, age, location.  
+    - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
+    - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
+    -----
    
-#     Chatbot:"""
+    Chatbot:"""
 
-#     prompt_avatar = PromptTemplate(
-#         input_variables=["company_name","product_4_name", "avatar_1_preview"],
-#         template=template_avatar
-#     )
+    prompt_avatar = PromptTemplate(
+        input_variables=["company_name","product_4_name", "avatar_1_preview"],
+        template=template_avatar
+    )
 
-#     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
-#     draft_avatar = chain_avatar.run(company_name=company_name, product_4_name=product_4_name, avatar_1_preview=avatar_1_preview)  # Pass in the combined context
-#     anvil.server.task_state['result']  = draft_avatar
+    chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
+    draft_avatar = chain_avatar.run(company_name=company_name, product_4_name=product_4_name, avatar_1_preview=avatar_1_preview)  # Pass in the combined context
+    anvil.server.task_state['result']  = draft_avatar
 
-#     # Save this generated version as the latest version
-#     row_avatar_1_latest = user_table.search(variable='avatar_1_product_4_latest')
-#     first_row_avatar_1_latest = row_avatar_1_latest[0]
-#     first_row_avatar_1_latest['variable_value'] = draft_avatar
-#     first_row_avatar_1_latest.update()
-#     print("Avatar Draft Research Complete")
+    # Save this generated version as the latest version
+    row_avatar_1_latest = user_table.search(variable='avatar_1_product_4_latest')
+    first_row_avatar_1_latest = row_avatar_1_latest[0]
+    first_row_avatar_1_latest['variable_value'] = draft_avatar
+    first_row_avatar_1_latest.update()
+    print("Avatar Draft Research Complete")
 
-# # AVATARS, 1st DRAFT - AVATAR 2 / PRODUCT 4
-# @anvil.server.callable
-# def launch_draft_deepdive_avatar_2_product_4_generator(user_table,company_name,product_4_name,avatar_2_preview):
-#     print("Launch Deep Dive Avatar function started")  
-#     # Launch the background task
-#     task = anvil.server.launch_background_task('draft_deepdive_avatar_2_product_4_generator', user_table,company_name,product_4_name,avatar_2_preview)
-#     # Return the task ID
-#     return task.get_id()  
-# @anvil.server.background_task
-# def draft_deepdive_avatar_2_product_4_generator(user_table,company_name,product_4_name,avatar_2_preview):
-#     print("Background task started for generating the avatar:", avatar_2_preview)
+# AVATARS, 1st DRAFT - AVATAR 2 / PRODUCT 4
+@anvil.server.callable
+def launch_draft_deepdive_avatar_2_product_4_generator(user_table,company_name,product_4_name,avatar_2_preview):
+    print("Launch Deep Dive Avatar function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('draft_deepdive_avatar_2_product_4_generator', user_table,company_name,product_4_name,avatar_2_preview)
+    # Return the task ID
+    return task.get_id()  
+@anvil.server.background_task
+def draft_deepdive_avatar_2_product_4_generator(user_table,company_name,product_4_name,avatar_2_preview):
+    print("Background task started for generating the avatar:", avatar_2_preview)
  
-#     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
-#     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
+    template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
-#     Company Context: The company, {company_name}, is selling {product_4_name}.
-#     Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_2_preview}
-#     Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
-#     ----
-#     FORMAT: 
-#     - Overview
-#     Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
+    Company Context: The company, {company_name}, is selling {product_4_name}.
+    Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_2_preview}
+    Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
+    ----
+    FORMAT: 
+    - Overview
+    Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
 
-#     - Demographic
-#     Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
+    - Demographic
+    Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
 
-#     - Psychographic
-#     Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
+    - Psychographic
+    Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
 
-#     - Goals & Aspirations
-#     Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
+    - Goals & Aspirations
+    Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
 
-#     - Pain Points
-#     Identify the specific problems, challenges, and frustrations the avatar is facing.
+    - Pain Points
+    Identify the specific problems, challenges, and frustrations the avatar is facing.
 
-#     - Personal Experience
-#     Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
+    - Personal Experience
+    Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
 
-#     RULES: 
-#     - Do not say "the target customer", instead, provide a fictional name, age, location.  
-#     - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
-#     - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
-#     -----
+    RULES: 
+    - Do not say "the target customer", instead, provide a fictional name, age, location.  
+    - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
+    - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
+    -----
    
-#     Chatbot:"""
+    Chatbot:"""
 
-#     prompt_avatar = PromptTemplate(
-#         input_variables=["company_name","product_4_name", "avatar_2_preview"],
-#         template=template_avatar
-#     )
+    prompt_avatar = PromptTemplate(
+        input_variables=["company_name","product_4_name", "avatar_2_preview"],
+        template=template_avatar
+    )
 
-#     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
-#     draft_avatar = chain_avatar.run(company_name=company_name, product_4_name=product_4_name, avatar_2_preview=avatar_2_preview)  # Pass in the combined context
-#     anvil.server.task_state['result']  = draft_avatar
+    chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
+    draft_avatar = chain_avatar.run(company_name=company_name, product_4_name=product_4_name, avatar_2_preview=avatar_2_preview)  # Pass in the combined context
+    anvil.server.task_state['result']  = draft_avatar
 
-#     # Save this generated version as the latest version
-#     row_avatar_2_latest = user_table.search(variable='avatar_2_product_4_latest')
-#     first_row_avatar_2_latest = row_avatar_2_latest[0]
-#     first_row_avatar_2_latest['variable_value'] = draft_avatar
-#     first_row_avatar_2_latest.update()
-#     print("Avatar Draft Research Complete")
+    # Save this generated version as the latest version
+    row_avatar_2_latest = user_table.search(variable='avatar_2_product_4_latest')
+    first_row_avatar_2_latest = row_avatar_2_latest[0]
+    first_row_avatar_2_latest['variable_value'] = draft_avatar
+    first_row_avatar_2_latest.update()
+    print("Avatar Draft Research Complete")
 
-# # AVATARS, 1st DRAFT - AVATAR 3 / PRODUCT 4
-# @anvil.server.callable
-# def launch_draft_deepdive_avatar_3_product_4_generator(user_table,company_name,product_4_name,avatar_3_preview):
-#     print("Launch Deep Dive Avatar function started")  
-#     # Launch the background task
-#     task = anvil.server.launch_background_task('draft_deepdive_avatar_3_product_4_generator', user_table,company_name,product_4_name,avatar_3_preview)
-#     # Return the task ID
-#     return task.get_id()
+# AVATARS, 1st DRAFT - AVATAR 3 / PRODUCT 4
+@anvil.server.callable
+def launch_draft_deepdive_avatar_3_product_4_generator(user_table,company_name,product_4_name,avatar_3_preview):
+    print("Launch Deep Dive Avatar function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('draft_deepdive_avatar_3_product_4_generator', user_table,company_name,product_4_name,avatar_3_preview)
+    # Return the task ID
+    return task.get_id()
   
-# @anvil.server.background_task
-# def draft_deepdive_avatar_3_product_4_generator(user_table,company_name,product_4_name,avatar_3_preview):
-#     print("Background task started for generating the avatar:", avatar_3_preview)
+@anvil.server.background_task
+def draft_deepdive_avatar_3_product_4_generator(user_table,company_name,product_4_name,avatar_3_preview):
+    print("Background task started for generating the avatar:", avatar_3_preview)
  
-#     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
-#     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
+    template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
-#     Company Context: The company, {company_name}, is selling {product_4_name}.
-#     Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_3_preview}
-#     Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
-#     ----
-#     FORMAT: 
-#     - Overview
-#     Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
+    Company Context: The company, {company_name}, is selling {product_4_name}.
+    Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_3_preview}
+    Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
+    ----
+    FORMAT: 
+    - Overview
+    Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
 
-#     - Demographic
-#     Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
+    - Demographic
+    Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
 
-#     - Psychographic
-#     Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
+    - Psychographic
+    Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
 
-#     - Goals & Aspirations
-#     Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
+    - Goals & Aspirations
+    Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
 
-#     - Pain Points
-#     Identify the specific problems, challenges, and frustrations the avatar is facing.
+    - Pain Points
+    Identify the specific problems, challenges, and frustrations the avatar is facing.
 
-#     - Personal Experience
-#     Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
+    - Personal Experience
+    Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
 
-#     RULES: 
-#     - Do not say "the target customer", instead, provide a fictional name, age, location.  
-#     - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
-#     - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
-#     -----
+    RULES: 
+    - Do not say "the target customer", instead, provide a fictional name, age, location.  
+    - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
+    - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
+    -----
    
-#     Chatbot:"""
+    Chatbot:"""
 
-#     prompt_avatar = PromptTemplate(
-#         input_variables=["company_name","product_4_name", "avatar_3_preview"],
-#         template=template_avatar
-#     )
+    prompt_avatar = PromptTemplate(
+        input_variables=["company_name","product_4_name", "avatar_3_preview"],
+        template=template_avatar
+    )
 
-#     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
-#     draft_avatar = chain_avatar.run(company_name=company_name, product_4_name=product_4_name, avatar_3_preview=avatar_3_preview)  # Pass in the combined context
-#     anvil.server.task_state['result']  = draft_avatar
+    chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
+    draft_avatar = chain_avatar.run(company_name=company_name, product_4_name=product_4_name, avatar_3_preview=avatar_3_preview)  # Pass in the combined context
+    anvil.server.task_state['result']  = draft_avatar
 
-#     # Save this generated version as the latest version
-#     row_avatar_3_latest = user_table.search(variable='avatar_3_product_4_latest')
-#     first_row_avatar_3_latest = row_avatar_3_latest[0]
-#     first_row_avatar_3_latest['variable_value'] = draft_avatar
-#     first_row_avatar_3_latest.update()
-#     print("Avatar Draft Research Complete")
+    # Save this generated version as the latest version
+    row_avatar_3_latest = user_table.search(variable='avatar_3_product_4_latest')
+    first_row_avatar_3_latest = row_avatar_3_latest[0]
+    first_row_avatar_3_latest['variable_value'] = draft_avatar
+    first_row_avatar_3_latest.update()
+    print("Avatar Draft Research Complete")
 
-# # AVATARS, 1st DRAFT - AVATAR 1 / PRODUCT 5
-# @anvil.server.callable
-# def launch_draft_deepdive_avatar_1_product_5_generator(user_table,company_name,product_5_name,avatar_1_preview):
-#     print("Launch Deep Dive Avatar function started")  
-#     # Launch the background task
-#     task = anvil.server.launch_background_task('draft_deepdive_avatar_1_product_5_generator', user_table,company_name,product_5_name,avatar_1_preview)
-#     # Return the task ID
-#     return task.get_id()
-# @anvil.server.background_task
-# def draft_deepdive_avatar_1_product_5_generator(user_table,company_name,product_5_name,avatar_1_preview):
-#     print("Background task started for generating the avatar:", avatar_1_preview)
+# AVATARS, 1st DRAFT - AVATAR 1 / PRODUCT 5
+@anvil.server.callable
+def launch_draft_deepdive_avatar_1_product_5_generator(user_table,company_name,product_5_name,avatar_1_preview):
+    print("Launch Deep Dive Avatar function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('draft_deepdive_avatar_1_product_5_generator', user_table,company_name,product_5_name,avatar_1_preview)
+    # Return the task ID
+    return task.get_id()
+@anvil.server.background_task
+def draft_deepdive_avatar_1_product_5_generator(user_table,company_name,product_5_name,avatar_1_preview):
+    print("Background task started for generating the avatar:", avatar_1_preview)
  
-#     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
-#     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
+    template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
-#     Company Context: The company, {company_name}, is selling {product_5_name}.
-#     Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_1_preview}
-#     Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
-#     ----
-#     FORMAT: 
-#     - Overview
-#     Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
+    Company Context: The company, {company_name}, is selling {product_5_name}.
+    Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_1_preview}
+    Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
+    ----
+    FORMAT: 
+    - Overview
+    Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
 
-#     - Demographic
-#     Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
+    - Demographic
+    Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
 
-#     - Psychographic
-#     Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
+    - Psychographic
+    Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
 
-#     - Goals & Aspirations
-#     Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
+    - Goals & Aspirations
+    Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
 
-#     - Pain Points
-#     Identify the specific problems, challenges, and frustrations the avatar is facing.
+    - Pain Points
+    Identify the specific problems, challenges, and frustrations the avatar is facing.
 
-#     - Personal Experience
-#     Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
+    - Personal Experience
+    Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
 
-#     RULES: 
-#     - Do not say "the target customer", instead, provide a fictional name, age, location.  
-#     - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
-#     - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
-#     -----
+    RULES: 
+    - Do not say "the target customer", instead, provide a fictional name, age, location.  
+    - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
+    - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
+    -----
    
-#     Chatbot:"""
+    Chatbot:"""
 
-#     prompt_avatar = PromptTemplate(
-#         input_variables=["company_name","product_5_name", "avatar_1_preview"],
-#         template=template_avatar
-#     )
+    prompt_avatar = PromptTemplate(
+        input_variables=["company_name","product_5_name", "avatar_1_preview"],
+        template=template_avatar
+    )
 
-#     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
-#     draft_avatar = chain_avatar.run(company_name=company_name, product_5_name=product_5_name, avatar_1_preview=avatar_1_preview)  # Pass in the combined context
-#     anvil.server.task_state['result']  = draft_avatar
+    chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
+    draft_avatar = chain_avatar.run(company_name=company_name, product_5_name=product_5_name, avatar_1_preview=avatar_1_preview)  # Pass in the combined context
+    anvil.server.task_state['result']  = draft_avatar
 
-#     # Save this generated version as the latest version
-#     row_avatar_1_latest = user_table.search(variable='avatar_1_product_5_latest')
-#     first_row_avatar_1_latest = row_avatar_1_latest[0]
-#     first_row_avatar_1_latest['variable_value'] = draft_avatar
-#     first_row_avatar_1_latest.update()
-#     print("Avatar Draft Research Complete")
+    # Save this generated version as the latest version
+    row_avatar_1_latest = user_table.search(variable='avatar_1_product_5_latest')
+    first_row_avatar_1_latest = row_avatar_1_latest[0]
+    first_row_avatar_1_latest['variable_value'] = draft_avatar
+    first_row_avatar_1_latest.update()
+    print("Avatar Draft Research Complete")
 
-# # AVATARS, 1st DRAFT - AVATAR 2 / PRODUCT 5
-# @anvil.server.callable
-# def launch_draft_deepdive_avatar_2_product_5_generator(user_table,company_name,product_5_name,avatar_2_preview):
-#     print("Launch Deep Dive Avatar function started")  
-#     # Launch the background task
-#     task = anvil.server.launch_background_task('draft_deepdive_avatar_2_product_5_generator', user_table,company_name,product_5_name,avatar_2_preview)
-#     # Return the task ID
-#     return task.get_id()  
-# @anvil.server.background_task
-# def draft_deepdive_avatar_2_product_5_generator(user_table,company_name,product_5_name,avatar_2_preview):
-#     print("Background task started for generating the avatar:", avatar_2_preview)
+# AVATARS, 1st DRAFT - AVATAR 2 / PRODUCT 5
+@anvil.server.callable
+def launch_draft_deepdive_avatar_2_product_5_generator(user_table,company_name,product_5_name,avatar_2_preview):
+    print("Launch Deep Dive Avatar function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('draft_deepdive_avatar_2_product_5_generator', user_table,company_name,product_5_name,avatar_2_preview)
+    # Return the task ID
+    return task.get_id()  
+@anvil.server.background_task
+def draft_deepdive_avatar_2_product_5_generator(user_table,company_name,product_5_name,avatar_2_preview):
+    print("Background task started for generating the avatar:", avatar_2_preview)
  
-#     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
-#     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
+    template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
-#     Company Context: The company, {company_name}, is selling {product_5_name}.
-#     Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_2_preview}
-#     Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
-#     ----
-#     FORMAT: 
-#     - Overview
-#     Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
+    Company Context: The company, {company_name}, is selling {product_5_name}.
+    Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_2_preview}
+    Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
+    ----
+    FORMAT: 
+    - Overview
+    Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
 
-#     - Demographic
-#     Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
+    - Demographic
+    Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
 
-#     - Psychographic
-#     Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
+    - Psychographic
+    Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
 
-#     - Goals & Aspirations
-#     Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
+    - Goals & Aspirations
+    Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
 
-#     - Pain Points
-#     Identify the specific problems, challenges, and frustrations the avatar is facing.
+    - Pain Points
+    Identify the specific problems, challenges, and frustrations the avatar is facing.
 
-#     - Personal Experience
-#     Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
+    - Personal Experience
+    Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
 
-#     RULES: 
-#     - Do not say "the target customer", instead, provide a fictional name, age, location.  
-#     - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
-#     - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
-#     -----
+    RULES: 
+    - Do not say "the target customer", instead, provide a fictional name, age, location.  
+    - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
+    - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
+    -----
    
-#     Chatbot:"""
+    Chatbot:"""
 
-#     prompt_avatar = PromptTemplate(
-#         input_variables=["company_name","product_5_name", "avatar_2_preview"],
-#         template=template_avatar
-#     )
+    prompt_avatar = PromptTemplate(
+        input_variables=["company_name","product_5_name", "avatar_2_preview"],
+        template=template_avatar
+    )
 
-#     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
-#     draft_avatar = chain_avatar.run(company_name=company_name, product_5_name=product_5_name, avatar_2_preview=avatar_2_preview)  # Pass in the combined context
-#     anvil.server.task_state['result']  = draft_avatar
+    chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
+    draft_avatar = chain_avatar.run(company_name=company_name, product_5_name=product_5_name, avatar_2_preview=avatar_2_preview)  # Pass in the combined context
+    anvil.server.task_state['result']  = draft_avatar
 
-#     # Save this generated version as the latest version
-#     row_avatar_2_latest = user_table.search(variable='avatar_2_product_5_latest')
-#     first_row_avatar_2_latest = row_avatar_2_latest[0]
-#     first_row_avatar_2_latest['variable_value'] = draft_avatar
-#     first_row_avatar_2_latest.update()
-#     print("Avatar Draft Research Complete")
+    # Save this generated version as the latest version
+    row_avatar_2_latest = user_table.search(variable='avatar_2_product_5_latest')
+    first_row_avatar_2_latest = row_avatar_2_latest[0]
+    first_row_avatar_2_latest['variable_value'] = draft_avatar
+    first_row_avatar_2_latest.update()
+    print("Avatar Draft Research Complete")
 
-# # AVATARS, 1st DRAFT - AVATAR 3 / PRODUCT 5
-# @anvil.server.callable
-# def launch_draft_deepdive_avatar_3_product_5_generator(user_table,company_name,product_5_name,avatar_3_preview):
-#     print("Launch Deep Dive Avatar function started")  
-#     # Launch the background task
-#     task = anvil.server.launch_background_task('draft_deepdive_avatar_3_product_5_generator', user_table,company_name,product_5_name,avatar_3_preview)
-#     # Return the task ID
-#     return task.get_id()
+# AVATARS, 1st DRAFT - AVATAR 3 / PRODUCT 5
+@anvil.server.callable
+def launch_draft_deepdive_avatar_3_product_5_generator(user_table,company_name,product_5_name,avatar_3_preview):
+    print("Launch Deep Dive Avatar function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('draft_deepdive_avatar_3_product_5_generator', user_table,company_name,product_5_name,avatar_3_preview)
+    # Return the task ID
+    return task.get_id()
   
-# @anvil.server.background_task
-# def draft_deepdive_avatar_3_product_5_generator(user_table,company_name,product_5_name,avatar_3_preview):
-#     print("Background task started for generating the avatar:", avatar_3_preview)
+@anvil.server.background_task
+def draft_deepdive_avatar_3_product_5_generator(user_table,company_name,product_5_name,avatar_3_preview):
+    print("Background task started for generating the avatar:", avatar_3_preview)
  
-#     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
-#     template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
+    template_avatar = """You are AvatarAI, the most advanced marketing consultant in the world. You are advising a company, {company_name}, who is looking to grow their presence online, attract customers and sell more units. To help them do this, you reference and abide by the concepts of Russell Brunson, the founder of ClickFunnels, in his book "Dotcom Secrets", and approach our exercise the same way Russell Brunson would build a customer avatar. Please prepare the ideal customer avatar, that is, the ideal 'dream' customer who would purchase the below product or service. 
 
-#     Company Context: The company, {company_name}, is selling {product_5_name}.
-#     Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_3_preview}
-#     Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
-#     ----
-#     FORMAT: 
-#     - Overview
-#     Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
+    Company Context: The company, {company_name}, is selling {product_5_name}.
+    Here's a quick snapshot of the description of this ideal customer avatar you are to expand on to develop into a detailed avatar: {avatar_3_preview}
+    Your task is to provide the company with a detailed customer avatar based on the short avatar preview details below, as it best relates to their business, broken down as follows:
+    ----
+    FORMAT: 
+    - Overview
+    Provide a comprehensive summary of the typical customer for the company, outlining their key characteristics.
 
-#     - Demographic
-#     Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
+    - Demographic
+    Provide specific demographic data on the target customer, including age, gender, location, income level, education level, and occupation.
 
-#     - Psychographic
-#     Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
+    - Psychographic
+    Provide detailed information about the psychological attributes of the avatar, such as their interests, attitudes, values, and lifestyle preferences. Use exampples, not hypotheticals.
 
-#     - Goals & Aspirations
-#     Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
+    - Goals & Aspirations
+    Provide a brief synopsis of the avatars personal and professional goals, dreams, and aspirations.
 
-#     - Pain Points
-#     Identify the specific problems, challenges, and frustrations the avatar is facing.
+    - Pain Points
+    Identify the specific problems, challenges, and frustrations the avatar is facing.
 
-#     - Personal Experience
-#     Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
+    - Personal Experience
+    Provide insights into the personal experiences of the avatar that shapes their preferences, behaviors, and decisions, including their past interactions with similar products or services. Provide real world examples.
 
-#     RULES: 
-#     - Do not say "the target customer", instead, provide a fictional name, age, location.  
-#     - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
-#     - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
-#     -----
+    RULES: 
+    - Do not say "the target customer", instead, provide a fictional name, age, location.  
+    - Don't be general...we are looking for very specific avatars! If you don't know the answer, make an educated creative guess. Be as detailed and specific as possible!
+    - Do not explain theory...paint us a picture with an example. This isn't an education lesson, it's a practical exercise.
+    -----
    
-#     Chatbot:"""
+    Chatbot:"""
 
-#     prompt_avatar = PromptTemplate(
-#         input_variables=["company_name","product_5_name", "avatar_3_preview"],
-#         template=template_avatar
-#     )
+    prompt_avatar = PromptTemplate(
+        input_variables=["company_name","product_5_name", "avatar_3_preview"],
+        template=template_avatar
+    )
 
-#     chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
-#     draft_avatar = chain_avatar.run(company_name=company_name, product_5_name=product_5_name, avatar_3_preview=avatar_3_preview)  # Pass in the combined context
-#     anvil.server.task_state['result']  = draft_avatar
+    chain_avatar = LLMChain(llm=llm_agents, prompt=prompt_avatar)
+    draft_avatar = chain_avatar.run(company_name=company_name, product_5_name=product_5_name, avatar_3_preview=avatar_3_preview)  # Pass in the combined context
+    anvil.server.task_state['result']  = draft_avatar
 
-#     # Save this generated version as the latest version
-#     row_avatar_3_latest = user_table.search(variable='avatar_3_product_5_latest')
-#     first_row_avatar_3_latest = row_avatar_3_latest[0]
-#     first_row_avatar_3_latest['variable_value'] = draft_avatar
-#     first_row_avatar_3_latest.update()
-#     print("Avatar Draft Research Complete")
+    # Save this generated version as the latest version
+    row_avatar_3_latest = user_table.search(variable='avatar_3_product_5_latest')
+    first_row_avatar_3_latest = row_avatar_3_latest[0]
+    first_row_avatar_3_latest['variable_value'] = draft_avatar
+    first_row_avatar_3_latest.update()
+    print("Avatar Draft Research Complete")
   
-# # BRAND TONE 1st DRAFT 
-# @anvil.server.callable
-# def launch_draft_brand_tone_research(user_table,brand_tone_url):
-#     # Launch the background task
-#     task = anvil.server.launch_background_task('draft_brand_tone_research',user_table,brand_tone_url)
-#     # Return the task ID
-#     return task.get_id()
+# BRAND TONE 1st DRAFT 
+@anvil.server.callable
+def launch_draft_brand_tone_research(user_table,brand_tone_url):
+    # Launch the background task
+    task = anvil.server.launch_background_task('draft_brand_tone_research',user_table,brand_tone_url)
+    # Return the task ID
+    return task.get_id()
 
-# @anvil.server.background_task
-# def draft_brand_tone_research(user_table,brand_tone_url):
-#     print("Background task started for extracting brand tone:", user_table,brand_tone_url)
+@anvil.server.background_task
+def draft_brand_tone_research(user_table,brand_tone_url):
+    print("Background task started for extracting brand tone:", user_table,brand_tone_url)
  
-#     llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-4', openai_api_key=openai_api_key)
-#     agent_tone_extraction = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
+    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-4', openai_api_key=openai_api_key)
+    agent_tone_extraction = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
  
-#     tone_research = agent_tone_extraction({
-#       "input":f"""You are CopywriterAI, the best copywriter on the planet. We are looking to generate a description 
-#       of the tone that best describes the copywriting style and tone of an existing web page. Go and research this URL 
-#       {brand_tone_url}, and provide your analysis.
+    tone_research = agent_tone_extraction({
+      "input":f"""You are CopywriterAI, the best copywriter on the planet. We are looking to generate a description 
+      of the tone that best describes the copywriting style and tone of an existing web page. Go and research this URL 
+      {brand_tone_url}, and provide your analysis.
 
-#       For example, for PROFESSIONAL / ENTERPRISE, it would be described as:
-#         - 'Formal and Polished': (sophisticated language and complex sentence structures).
-#         - 'Objective and Analytical': (incorporates data and facts, prioritizing logical arguments).
-#         - 'Business-like': Efficient, frequently employs industry-specific jargon and business terminology).
-#         - 'Trustworthy and Reliable': Underscoring credibility, reliability, and accuracy.
-#         - 'Instructional and Informative': (providing clear, direct instructions or information).
-#         - 'Respectful and Considerate': (acknowledging the audience's needs and viewpoints while avoiding excessive casualness).
-#         - 'Controlled and Consistent': (providing coherence, ensuring careful, consistent writing).
+      For example, for PROFESSIONAL / ENTERPRISE, it would be described as:
+        - 'Formal and Polished': (sophisticated language and complex sentence structures).
+        - 'Objective and Analytical': (incorporates data and facts, prioritizing logical arguments).
+        - 'Business-like': Efficient, frequently employs industry-specific jargon and business terminology).
+        - 'Trustworthy and Reliable': Underscoring credibility, reliability, and accuracy.
+        - 'Instructional and Informative': (providing clear, direct instructions or information).
+        - 'Respectful and Considerate': (acknowledging the audience's needs and viewpoints while avoiding excessive casualness).
+        - 'Controlled and Consistent': (providing coherence, ensuring careful, consistent writing).
 
-#         For Russell Brunson, sales page style, it would be described as:
-#         - 'Conversational': (friendly, casual, and approachable).
-#         - 'Storytelling': (using compelling stories to illustrate his points).
-#         - 'Educational': (being informative, teaching something new).
-#         - 'Persuasive': (being compelling and enticing, using ideas of scarcity (limited time offers), social proof (testimonials), and authority (expertise and success).
-#         - 'Inspiring': (motivating and inspiring, encouraging the reader to take action).
-#         - 'Clear and Direct': (providing clarity and simplicity, avoiding jargon).
+        For Russell Brunson, sales page style, it would be described as:
+        - 'Conversational': (friendly, casual, and approachable).
+        - 'Storytelling': (using compelling stories to illustrate his points).
+        - 'Educational': (being informative, teaching something new).
+        - 'Persuasive': (being compelling and enticing, using ideas of scarcity (limited time offers), social proof (testimonials), and authority (expertise and success).
+        - 'Inspiring': (motivating and inspiring, encouraging the reader to take action).
+        - 'Clear and Direct': (providing clarity and simplicity, avoiding jargon).
 
-#         However, it is up to you to go and review the website, think about the tone of the existing copy, and return 5-6 descriptors, in the similar format as above. They don't have to be listed above- they can be new!
+        However, it is up to you to go and review the website, think about the tone of the existing copy, and return 5-6 descriptors, in the similar format as above. They don't have to be listed above- they can be new!
         
-#         OUTPUT TEMPLATE: AN EXAMPLE OUTPUT SHOULD BE AS BELOW:
-#         'The businesstone can be described as': 
-#         - 'Conversational': (friendly, casual, and approachable).
-#         - 'Storytelling': (using compelling stories to illustrate his points).
-#         - 'Educational': (being informative, teaching something new).
-#         - 'Persuasive': (being compelling and enticing, using ideas of scarcity (limited time offers), social proof (testimonials), and authority (expertise and success).
-#         - 'Inspiring': (motivating and inspiring, encouraging the reader to take action).
-#         - 'Clear and Direct': (providing clarity and simplicity, avoiding jargon).Conversational, Storytelling, Educational, Persuasive, Inspiring, Clear and Direct'
+        OUTPUT TEMPLATE: AN EXAMPLE OUTPUT SHOULD BE AS BELOW:
+        'The businesstone can be described as': 
+        - 'Conversational': (friendly, casual, and approachable).
+        - 'Storytelling': (using compelling stories to illustrate his points).
+        - 'Educational': (being informative, teaching something new).
+        - 'Persuasive': (being compelling and enticing, using ideas of scarcity (limited time offers), social proof (testimonials), and authority (expertise and success).
+        - 'Inspiring': (motivating and inspiring, encouraging the reader to take action).
+        - 'Clear and Direct': (providing clarity and simplicity, avoiding jargon).Conversational, Storytelling, Educational, Persuasive, Inspiring, Clear and Direct'
         
-#         FINAL RULES: Don't mention the business name, or source. Just say "the business" and refer to it as 'company tone' or 'the business tone'
-#         """})
+        FINAL RULES: Don't mention the business name, or source. Just say "the business" and refer to it as 'company tone' or 'the business tone'
+        """})
 
-#     extracted_tone = tone_research['output']
-#     anvil.server.task_state['result'] = extracted_tone
+    extracted_tone = tone_research['output']
+    anvil.server.task_state['result'] = extracted_tone
   
-#     # Save the brand tone 
-#     brand_tone_latest_row = list(user_table.search(variable='brand_tone'))
-#     first_row_brand_tone_latest =  brand_tone_latest_row[0]
-#     first_row_brand_tone_latest['variable_value'] = extracted_tone
-#     first_row_brand_tone_latest['variable_title'] = brand_tone_url
-#     first_row_brand_tone_latest.update()
-#     print("Brand Tone Research Complete")
+    # Save the brand tone 
+    brand_tone_latest_row = list(user_table.search(variable='brand_tone'))
+    first_row_brand_tone_latest =  brand_tone_latest_row[0]
+    first_row_brand_tone_latest['variable_value'] = extracted_tone
+    first_row_brand_tone_latest['variable_title'] = brand_tone_url
+    first_row_brand_tone_latest.update()
+    print("Brand Tone Research Complete")
 
-# # Function to get the status of a background task
-# @anvil.server.callable
-# def get_status_function(task_id):
-#     # Retrieve the task status from the Data Table (assuming you have a Data Table named 'tasks')
-#     task_table = app_tables.tasks  # Replace 'tasks' with your actual Data Table name
-#     task_row = task_table.get(task_id=task_id)
-#     status = task_row['status']
-#     return status
+# Function to get the status of a background task
+@anvil.server.callable
+def get_status_function(task_id):
+    # Retrieve the task status from the Data Table (assuming you have a Data Table named 'tasks')
+    task_table = app_tables.tasks  # Replace 'tasks' with your actual Data Table name
+    task_row = task_table.get(task_id=task_id)
+    status = task_row['status']
+    return status
   
-# ####### -------------------------------- COMPANY ----------------------------------------------------###########
-# @anvil.server.callable
-# def launch_company_summary(company_name, company_url):
-#     # Launch the background task
-#     print("Launch task started for researching company:",company_name,company_url)
-#     task = anvil.server.launch_background_task('company_summary', company_name, company_url)
-#     # Return the task ID
-#     return task.get_id()
+####### -------------------------------- COMPANY ----------------------------------------------------###########
+@anvil.server.callable
+def launch_company_summary(company_name, company_url):
+    # Launch the background task
+    print("Launch task started for researching company:",company_name,company_url)
+    task = anvil.server.launch_background_task('company_summary', company_name, company_url)
+    # Return the task ID
+    return task.get_id()
   
-# @anvil.server.background_task
-# def company_summary(company_name, company_url):
-#     print("Background task started for researching company:", company_name,company_url)
-#     # Here, you should write the code that uses the company_name and company_url
-#     # to research the company and generate a context. For example:
+@anvil.server.background_task
+def company_summary(company_name, company_url):
+    print("Background task started for researching company:", company_name,company_url)
+    # Here, you should write the code that uses the company_name and company_url
+    # to research the company and generate a context. For example:
   
-#     llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
-#     agent_company_context = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True) #max_execution_time=300,max_iterations=300
-#     company_research = agent_company_context({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive analysis to build an informational company profile of {company_name}. \
-#                     Leverage all necessary resources, primarily the company's website {company_url}, but also news articles, and any other relevant sources.  \
-#                     to gather the following details about {company_name}. Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful research and findings. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
-#                     \n \
-#                     Overview: Provide a comprehensive introduction to the company. What are the unique features or value propositions of the company's offerings? What does the company aim to achieve? \n \
-#                     \n \
-#                      Unique Value Proposition: What is the company unique value proposition? What are they uniquely positioned to do? How does their main offer differ from their competitors? \n \
-#                     \n \
-#                     Founding Story: What inspired the founders to start the company? Are there any unique or interesting anecdotes about the early days of the company? How has the company evolved since its founding? \n \
-#                     \n \
-#                     Competitors: Who are the likely competitors of this company? What are their strengths and weaknesses? How does your company compare to its competitors in terms of offerings, market share, or other relevant factors?  \n \
-#                     \n \                
-#                     Mission & Vision: What is the company's mission statement or core purpose? What are the long-term goals and aspirations of the company? \n \
-#                     Values: What does the company value? What do they emphasize in their mission? What do they care about or prioritize? \n \
-#                     \n \
+    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    agent_company_context = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True) #max_execution_time=300,max_iterations=300
+    company_research = agent_company_context({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive analysis to build an informational company profile of {company_name}. \
+                    Leverage all necessary resources, primarily the company's website {company_url}, but also news articles, and any other relevant sources.  \
+                    to gather the following details about {company_name}. Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful research and findings. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
+                    \n \
+                    Overview: Provide a comprehensive introduction to the company. What are the unique features or value propositions of the company's offerings? What does the company aim to achieve? \n \
+                    \n \
+                     Unique Value Proposition: What is the company unique value proposition? What are they uniquely positioned to do? How does their main offer differ from their competitors? \n \
+                    \n \
+                    Founding Story: What inspired the founders to start the company? Are there any unique or interesting anecdotes about the early days of the company? How has the company evolved since its founding? \n \
+                    \n \
+                    Competitors: Who are the likely competitors of this company? What are their strengths and weaknesses? How does your company compare to its competitors in terms of offerings, market share, or other relevant factors?  \n \
+                    \n \                
+                    Mission & Vision: What is the company's mission statement or core purpose? What are the long-term goals and aspirations of the company? \n \
+                    Values: What does the company value? What do they emphasize in their mission? What do they care about or prioritize? \n \
+                    \n \
                   
-#                     NOTES ON FORMAT:
-#                     This should be at least 800 words. Be confident, do not say there is incomplete information, or there is not information. If you can't answer elements from the above, ignore it! Speak as if you are the authority of the subject. If you don't know the answer, don't talk about it. Do not say "I was unable to find information on XYZ". 
-#                     Ensure you keep the headers with the '--': 
-#                     -- Overview
-#                     (your overview)
+                    NOTES ON FORMAT:
+                    This should be at least 800 words. Be confident, do not say there is incomplete information, or there is not information. If you can't answer elements from the above, ignore it! Speak as if you are the authority of the subject. If you don't know the answer, don't talk about it. Do not say "I was unable to find information on XYZ". 
+                    Ensure you keep the headers with the '--': 
+                    -- Overview
+                    (your overview)
                    
-#                     --Unique Value Proposition
-#                     (your response)
+                    --Unique Value Proposition
+                    (your response)
                     
-#                     --Competitors
-#                     (your response)
+                    --Competitors
+                    (your response)
                     
-#                     -- Founding Story
-#                     (your response)
+                    -- Founding Story
+                    (your response)
                     
-#                     --Mission & Vision
-#                     (your response)
+                    --Mission & Vision
+                    (your response)
 
-#                    --Values
-#                     (your response)
-#                     """})
+                   --Values
+                    (your response)
+                    """})
 
-#     company_context = company_research['output']
-#     # Check if the output indicates insufficient information
-#     if "I couldn't find more information" in company_context:
-#         company_context = "Insufficient information. Please write the company description yourself."
-#     # Store the result in the task's state instead of returning it
-#     anvil.server.task_state['result'] = company_context
+    company_context = company_research['output']
+    # Check if the output indicates insufficient information
+    if "I couldn't find more information" in company_context:
+        company_context = "Insufficient information. Please write the company description yourself."
+    # Store the result in the task's state instead of returning it
+    anvil.server.task_state['result'] = company_context
 
-# ####### -------- PRODUCT --------###################################################
+####### -------- PRODUCT --------###################################################
 
-# @anvil.server.callable
-# def launch_all_products_generator(company_profile, company_url):
-#     print("Launch all products research function started")  
-#     # Launch the background task
-#     task = anvil.server.launch_background_task('all_products_generator', company_profile, company_url)
-#     # Return the task ID
-#     return task.get_id()
+@anvil.server.callable
+def launch_all_products_generator(company_profile, company_url):
+    print("Launch all products research function started")  
+    # Launch the background task
+    task = anvil.server.launch_background_task('all_products_generator', company_profile, company_url)
+    # Return the task ID
+    return task.get_id()
 
-# @anvil.server.background_task
-# def all_products_generator(company_profile, company_url):
-#     print("Background task started for generating all the products:", company_profile, company_url)
+@anvil.server.background_task
+def all_products_generator(company_profile, company_url):
+    print("Background task started for generating all the products:", company_profile, company_url)
 
-#     llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-4', openai_api_key=openai_api_key)
-#     agent_products_research = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
-#     all_products_research = agent_products_research({"input": f""" You are ProductFinderAI, an advanced marketing consultant, your role is to guide a company determine their most popular and obvious products they should sell in order to boost their online presence, attract a larger customer base, and increase sales. You will employ the strategies of Russell Brunson, the founder of ClickFunnels, as detailed in his book "Dotcom Secrets". 
-#     Your mission is to pinpoint five potential products or services that align best with the company's business. You should also rank these products or services based on their value to the company.
-#     For each product or service, provide a title and a single sentence description that includes any other pertinent details (like pricing, access, special features, etc.) 
-#     The output should be formatted as follows, and include "->" as a seperator which is very important!
+    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-4', openai_api_key=openai_api_key)
+    agent_products_research = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
+    all_products_research = agent_products_research({"input": f""" You are ProductFinderAI, an advanced marketing consultant, your role is to guide a company determine their most popular and obvious products they should sell in order to boost their online presence, attract a larger customer base, and increase sales. You will employ the strategies of Russell Brunson, the founder of ClickFunnels, as detailed in his book "Dotcom Secrets". 
+    Your mission is to pinpoint five potential products or services that align best with the company's business. You should also rank these products or services based on their value to the company.
+    For each product or service, provide a title and a single sentence description that includes any other pertinent details (like pricing, access, special features, etc.) 
+    The output should be formatted as follows, and include "->" as a seperator which is very important!
 
-#     'Title' -> Description of Product/Service 1. 
-#     'Title' -> Description of Product/Service 2
-#     'Title' -> Description of Product/Service 3
-#     'Title' -> Description of Product/Service 4
-#     'Title' -> Description of Product/Service 5
+    'Title' -> Description of Product/Service 1. 
+    'Title' -> Description of Product/Service 2
+    'Title' -> Description of Product/Service 3
+    'Title' -> Description of Product/Service 4
+    'Title' -> Description of Product/Service 5
    
-#     For instance: 
-#     -- Freshsales Free CRM -> This plan is free for up to 3 users and includes a visual sales pipeline, automation via workflows and sales sequences, and built-in email, phone, and chat for contextual engagement. It provides everything you need to engage leads across phone, email & SMS.
-#     -- Freshsales Growth ->Priced at $15/user/month when billed annually or $18/user/month when billed monthly, the Growth plan includes everything in the Free CRM plan, plus AI-powered contact scoring, up to 2,000 bot sessions per month, and sales sequences. It also includes 1 CPQ license. This plan is designed to help growing sales teams avoid repetitive work and spend more time selling.
-#     -- Freshsales Pro -> Priced at $39/user/month when billed annually or $47/user/month when billed monthly, the Pro plan includes everything in the Growth plan, plus multiple sales pipelines, time-based workflows, AI-powered deal insights & next best action, up to 3,000 bot sessions per month, and sales teams & territory management. This plan is designed for managing multiple sales teams and growing revenue.
-#     -- Freshsales Enterprise -> Priced at $69/user/month when billed annually or $83/user/month when billed monthly, the Enterprise plan includes everything in the Pro plan, plus custom modules, AI-based forecasting insights, audit logs, up to 5,000 bot sessions per month, and a dedicated account manager. This plan offers advanced customization, governance, and controls.
+    For instance: 
+    -- Freshsales Free CRM -> This plan is free for up to 3 users and includes a visual sales pipeline, automation via workflows and sales sequences, and built-in email, phone, and chat for contextual engagement. It provides everything you need to engage leads across phone, email & SMS.
+    -- Freshsales Growth ->Priced at $15/user/month when billed annually or $18/user/month when billed monthly, the Growth plan includes everything in the Free CRM plan, plus AI-powered contact scoring, up to 2,000 bot sessions per month, and sales sequences. It also includes 1 CPQ license. This plan is designed to help growing sales teams avoid repetitive work and spend more time selling.
+    -- Freshsales Pro -> Priced at $39/user/month when billed annually or $47/user/month when billed monthly, the Pro plan includes everything in the Growth plan, plus multiple sales pipelines, time-based workflows, AI-powered deal insights & next best action, up to 3,000 bot sessions per month, and sales teams & territory management. This plan is designed for managing multiple sales teams and growing revenue.
+    -- Freshsales Enterprise -> Priced at $69/user/month when billed annually or $83/user/month when billed monthly, the Enterprise plan includes everything in the Pro plan, plus custom modules, AI-based forecasting insights, audit logs, up to 5,000 bot sessions per month, and a dedicated account manager. This plan offers advanced customization, governance, and controls.
   
-#     FORMAT: 
-#     CONTEXTUAL INFORMATION:
-#     COMPANY CONTEXT: {company_profile}
-#     COMPANY WEBSITE: {company_url}
-#     Chatbot:
-#                     """})
+    FORMAT: 
+    CONTEXTUAL INFORMATION:
+    COMPANY CONTEXT: {company_profile}
+    COMPANY WEBSITE: {company_url}
+    Chatbot:
+                    """})
 
-#     all_products_grouped = all_products_research['output']
-#     print("all_products_grouped:", all_products_grouped)
-#     # # Check if the output indicates insufficient information
-#     # if "I couldn't find more information" in all_products_research:
-#     #     all_products_research = "Insufficient information. Please write the company description yourself."
-#     # # Store the result in the task's state instead of returning it
+    all_products_grouped = all_products_research['output']
+    print("all_products_grouped:", all_products_grouped)
+    # # Check if the output indicates insufficient information
+    # if "I couldn't find more information" in all_products_research:
+    #     all_products_research = "Insufficient information. Please write the company description yourself."
+    # # Store the result in the task's state instead of returning it
    
-#     all_product_lines = all_products_grouped.split("\n")
+    all_product_lines = all_products_grouped.split("\n")
 
-#     # Initialize an empty dictionary
-#     all_products = {}
+    # Initialize an empty dictionary
+    all_products = {}
 
-#     # Loop over each line
-#     i = 1
-#     for product_line in all_product_lines:
-#         # Ignore empty lines
-#         if not product_line.strip():
-#             continue
+    # Loop over each line
+    i = 1
+    for product_line in all_product_lines:
+        # Ignore empty lines
+        if not product_line.strip():
+            continue
     
-#         # Check if the line starts with 'Ranking:'
-#         if product_line.startswith('Ranking:'):
-#             all_products['ranking'] = product_line.strip()
-#         else:
-#             # Split the line into title and description using '->' as the separator, if possible
-#             line_parts = product_line.strip().split(' -> ')
-#             if len(line_parts) >= 2:
-#                 title, description = line_parts
-#             else:
-#                 # If the line doesn't contain the separator, consider the entire line as the title
-#                 title = product_line.strip()
-#                 description = ""  # Set description to an empty string or any default value
+        # Check if the line starts with 'Ranking:'
+        if product_line.startswith('Ranking:'):
+            all_products['ranking'] = product_line.strip()
+        else:
+            # Split the line into title and description using '->' as the separator, if possible
+            line_parts = product_line.strip().split(' -> ')
+            if len(line_parts) >= 2:
+                title, description = line_parts
+            else:
+                # If the line doesn't contain the separator, consider the entire line as the title
+                title = product_line.strip()
+                description = ""  # Set description to an empty string or any default value
     
-#             key = f"product_{i}"
-#             value = f"{title} -> {description}"
+            key = f"product_{i}"
+            value = f"{title} -> {description}"
     
-#             # Add to dictionary
-#             all_products[key] = value
-#             i += 1
+            # Add to dictionary
+            all_products[key] = value
+            i += 1
 
-#       # # Return the resulting dictionary
-#       # anvil.server.task_state['result'] = all_avatars
+      # # Return the resulting dictionary
+      # anvil.server.task_state['result'] = all_avatars
 
-#     # Convert the dictionary to a JSON string
-#     all_products_json = json.dumps(all_products)
+    # Convert the dictionary to a JSON string
+    all_products_json = json.dumps(all_products)
 
-#     # Return the resulting JSON string
-#     anvil.server.task_state['result'] = all_products_json
+    # Return the resulting JSON string
+    anvil.server.task_state['result'] = all_products_json
 
 #### LAUNCH THE PRODUCT DEEP DIVES
 

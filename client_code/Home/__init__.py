@@ -321,75 +321,72 @@ class Home(HomeTemplate):
             self.undertaken_tasks.append('company_profile_latest')
             print(f"Added to undertaken_tasks: company_profile_latest")
 
-            
-            
             # task_id_brand_tone = anvil.server.call('launch_draft_brand_tone_research', user_table, company_url)
             # print("Brand Tone Launch function called")
             # task_ids.append(task_id_brand_tone)
 
             tasks_product_research = []
             tasks_avatar = []
-            
                       
-            # for i in range(1, 6):
-            #     # Get the product name and url from the textboxes
-            #     product_name_input = getattr(self, f"product_{i}_name_input").text
-            #     product_url_input = getattr(self, f"product_{i}_url_input").text
+            for i in range(1, 6):
+                # Get the product name and url from the textboxes
+                product_name_input = getattr(self, f"product_{i}_name_input").text
+                product_url_input = getattr(self, f"product_{i}_url_input").text
 
-            #     # Check if the product name is not empty and save it to the user table
-            #     if product_name_input:
-            #         product_name_row = user_table.get(variable=f"product_{i}_latest")
-            #         product_name_row['variable_title'] = product_name_input
-            #         product_name_row.update()
+                # Check if the product name is not empty and save it to the user table
+                if product_name_input:
+                    product_name_row = user_table.get(variable=f"product_{i}_latest")
+                    product_name_row['variable_title'] = product_name_input
+                    product_name_row.update()
 
-            #         product_url_row = user_table.get(variable=f"product_{i}_url")
-            #         product_url_row['variable_value'] = product_url_input
-            #         product_url_row.update()
+                    product_url_row = user_table.get(variable=f"product_{i}_url")
+                    product_url_row['variable_value'] = product_url_input
+                    product_url_row.update()
 
-            #         self.undertaken_tasks.append(f"product_{i}_latest")
-            #         print(f"Added to undertaken_tasks: product_{i}_latest")
-            #         self.check_all_tasks_timer.enabled = True
-            #         self.check_all_tasks_timer.interval = 3
+                    self.undertaken_tasks.append(f"product_{i}_latest")
+                    print(f"Added to undertaken_tasks: product_{i}_latest")
+                    self.check_all_tasks_timer.enabled = True
+                    self.check_all_tasks_timer.interval = 3
 
-            #         task_product_research = anvil.server.call(f"launch_draft_deepdive_product_{i}_generator", user_table, company_name, product_name_input, product_url_input)
-            #         print(f"product_{i} analysis initiated")
+                    task_product_research = anvil.server.call(f"launch_draft_deepdive_product_{i}_generator", user_table, company_name, product_name_input, product_url_input)
+                    print(f"product_{i} analysis initiated")
 
-            #         getattr(self, f"task_check_timer_product_{i}").enabled = True
+                    getattr(self, f"task_check_timer_product_{i}").enabled = True
   
-            #        # Loop through avatars 1 to 3 for each product
-            #         for j in range(1, 4):
-            #             # Get the avatar description from the textbox
-            #             avatar_input = getattr(self, f"avatar_{j}_product_{i}_input").text
+                   # Loop through avatars 1 to 3 for each product
+                    for j in range(1, 4):
+                        # Get the avatar description from the textbox
+                        avatar_input = getattr(self, f"avatar_{j}_product_{i}_input").text
     
-            #             # Check if the avatar description is not empty and save it to the user table
+                        # Check if the avatar description is not empty and save it to the user table
                       
-            #             if avatar_input.strip():
-            #                 print(f"Avatar {j} for product {i} input: '{avatar_input}'")
-            #                 getattr(self, f"task_check_timer_product_{i}_avatar_{j}").enabled = True
+                        if avatar_input.strip():
+                            print(f"Avatar {j} for product {i} input: '{avatar_input}'")
+                            getattr(self, f"task_check_timer_product_{i}_avatar_{j}").enabled = True
 
-            #               # Launch the background task for Avatar
-            #                 task_id_avatar = anvil.server.call(f"launch_draft_deepdive_avatar_{j}_product_{i}_generator", user_table, company_name, getattr(self, f"product_{i}_name_input").text, avatar_input)
-            #                 print("Deep Dive Draft Avatar Research Started")
+                          # Launch the background task for Avatar
+                            task_id_avatar = anvil.server.call(f"launch_draft_deepdive_avatar_{j}_product_{i}_generator", user_table, company_name, getattr(self, f"product_{i}_name_input").text, avatar_input)
+                            print("Deep Dive Draft Avatar Research Started")
     
-            #                 # Save it as the preview
-            #                 variable_name = f"avatar_{j}_product_{i}_preview"
-            #                 print(f"Searching for: {variable_name}")
-            #                 avatar_preview_row = user_table.get(variable=variable_name)
+                            # Save it as the preview
+                            variable_name = f"avatar_{j}_product_{i}_preview"
+                            print(f"Searching for: {variable_name}")
+                            avatar_preview_row = user_table.get(variable=variable_name)
                     
-            #                 if avatar_preview_row is None:
-            #                     print(f"No data found for: {variable_name}")
-            #                     continue
-            #                 else:
-            #                   avatar_preview_row['variable_value'] = avatar_input
-            #                   avatar_preview_row.update()
+                            if avatar_preview_row is None:
+                                print(f"No data found for: {variable_name}")
+                                continue
+                            else:
+                              avatar_preview_row['variable_value'] = avatar_input
+                              avatar_preview_row.update()
 
-            #                 getattr(self, f"task_check_timer_product_{i}_avatar_{j}").enabled = True
-            #                 getattr(self, f"task_check_timer_product_{i}_avatar_{j}").interval = 3
+                            getattr(self, f"task_check_timer_product_{i}_avatar_{j}").enabled = True
+                            getattr(self, f"task_check_timer_product_{i}_avatar_{j}").interval = 3
                           
-            #                 # Step 2: Append the identifier to the list
-            #                 self.undertaken_tasks.append(f"avatar_{j}_product_{i}_latest")
-            #                 print(f"Added to undertaken_tasks: avatar_{j}_product_{i}_latest")
-            #                 pass
+                            # Step 2: Append the identifier to the list
+                            self.undertaken_tasks.append(f"avatar_{j}_product_{i}_latest")
+                            print(f"Added to undertaken_tasks: avatar_{j}_product_{i}_latest")
+                            pass
                          
 
   def check_status_company_summary(self, sender=None, **event_args):
