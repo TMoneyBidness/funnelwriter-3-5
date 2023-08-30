@@ -75,7 +75,7 @@ tools = Tool(
 #   return text_content
   
 @anvil.server.callable
-def launch_draft_company_summary(user_table,company_name, company_url):
+def launch_draft_company_summary_scraper(company_name, company_url):
     # Launch the background task
     current_user = anvil.users.get_user()
     user_table_name = current_user['user_id']
@@ -84,28 +84,33 @@ def launch_draft_company_summary(user_table,company_name, company_url):
     row = user_table.get(variable='company_profile_latest')
     company_dump_row = user_table.get(variable='company_page_dump')
 
-    #Perform the Webscraping
-    page_content = requests.get(company_url).content
+    # START THE WEB SCRAPING
+    headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0"}
+    page_content = requests.get(company_url, headers=headers).content
+
     soup = BeautifulSoup(page_content, "html.parser")
     # Extract all the text from the page
     bulky_text_content = soup.get_text()
    # Remove leading and trailing whitespaces, replace newlines and extra spaces
     company_context_scraped = bulky_text_content.strip().replace('\n', ' ').replace('\r', '').replace('  ', ' ')
-  
+
+    print("Scraped Information:",company_context_scraped)
+
     print("Launch task started for researching company:",company_url)
-    task = anvil.server.launch_background_task('draft_company_summary_scraper', company_name, company_url,company_context_scraped,row)
+    task = anvil.server.launch_background_task('draft_company_summary_scraper', company_name, company_url,row,company_context_scraped)
     # Return the task ID
     return task.get_id()
-
   
 @anvil.server.background_task
-def draft_company_summary(company_name, company_url,company_context_scraped,row):
+def draft_company_summary_scraper(company_name, company_url,row,company_context_scraped):
+    #Perform the Webscraping
     print("Background task started for generating the company summary:", company_url)
- 
-    llm_agents = ChatOpenAI(temperature=0.1, model_name='gpt-4', openai_api_key=openai_api_key)
+   
+    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-4', openai_api_key=openai_api_key)
     template_company_summary = """As a highly-skilled business analyst, your task is to conduct an exhaustive analysis to build an informational company profile of {company_name}. \
-                    Leverage the below provided company research context scraped from the company's website {company_url}, to create.  \
-                    to gather the following details about {company_name}.  Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful research and findings. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
+                    Leverage the below provided company research context scraped from the company's website {company_url}, to create a complete company profile.  \
+                    
+                    Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide a meaningful synopsis and findings. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
                     \n \
                     Overview: Provide a comprehensive introduction to the company. What are the unique features or value propositions of the company's offerings? What does the company aim to achieve? \n \
                     \n \
@@ -118,9 +123,9 @@ def draft_company_summary(company_name, company_url,company_context_scraped,row)
                     Mission & Vision: What is the company's mission statement or core purpose? What are the long-term goals and aspirations of the company? \n \
                     Values: What does the company value? What do they emphasize in their mission? What do they care about or prioritize? \n \
                     \n \
-                  
+
                     NOTES ON FORMAT:
-                    This should be at least 800 words. Be confident, do not say there is incomplete information, or there is not information. If you can't answer elements from the above, ignore it! Speak as if you are the authority of the subject. If you don't know the answer, don't talk about it. Do not say "I was unable to find information on XYZ". 
+                    This should be at least 800 words. Be confident. If there is incomplete information, please state "MORE INFORMATION NEEDED"! Speak as if you are the authority of the subject. If you don't know the answer, don't talk about it. Do not say "I was unable to find information on XYZ". 
                     Ensure you keep the headers with the '--': 
                     -- Overview
                     (your overview)
@@ -139,6 +144,10 @@ def draft_company_summary(company_name, company_url,company_context_scraped,row)
 
                   --Values
                     (your response)
+
+                  ** END OF FORMAT
+                  
+                  FINALLY, HERE IS THE COMPANY CONTEXT SCRAPED FROM THEIR WEBSITE: {company_context_scraped}
                     """
   
     prompt_company_summary = PromptTemplate(
@@ -147,14 +156,13 @@ def draft_company_summary(company_name, company_url,company_context_scraped,row)
     )
   
     chain_company_summary = LLMChain(llm=llm_agents, prompt=prompt_company_summary)
-    draft_company_summary = chain_avatar.run(company_name=company_name,company_url=company_url,company_context_scraped=company_context_scraped)  # Pass in the combined context
+    draft_company_summary = chain_company_summary.run(company_name=company_name,company_url=company_url,company_context_scraped=company_context_scraped)  # Pass in the combined context
 
   # Save this generated version as the latest version
     row['variable_value'] = draft_company_summary
     row.update()
     print("Company Research Complete")
   
-    anvil.server.task_state['result'] = draft_company_context
   
 # # COMPANY 1st DRAFT
 # @anvil.server.callable

@@ -314,7 +314,7 @@ class Home(HomeTemplate):
           
             # Launch the background tasks concurrently
             # COMPANY SUMMARY // BRAND TONE
-            task_id_company_summary = anvil.server.call('launch_draft_company_summary', user_table, company_name, company_url)
+            task_id_company_summary = anvil.server.call('launch_draft_company_summary_scraper', company_name, company_url)
             print("Company Summary Launch function called")
             self.check_status_timer_company_summary.enabled = True
             self.check_status_timer_company_summary.interval = 3
