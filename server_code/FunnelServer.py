@@ -21,6 +21,8 @@ from langchain.utilities import GoogleSearchAPIWrapper
 from langchain.utilities import SerpAPIWrapper
 import json
 
+from bs4 import BeautifulSoup
+
 ############################################################################################################################
 openai_api_key = anvil.secrets.get_secret('OPENAI_API_KEY')
 serpapi_api_key = anvil.secrets.get_secret('SERPAPI_API_KEY')
@@ -56,6 +58,76 @@ tools = Tool(
 
 ####### -------- PRELIMINARY / FIRST DRAFTS--------###########
 
+# USE WEBSCRAPER
+# COMPANY 1st DRAFT
+@anvil.server.callable
+def launch_draft_company_summary(user_table,company_name, company_url):
+    # Launch the background task
+    current_user = anvil.users.get_user()
+    user_table_name = current_user['user_id']
+    # Get the table for the current user
+    user_table = getattr(app_tables, user_table_name)
+    row = user_table.get(variable='company_profile_latest')
+    company_dump_row = user_table.get(variable='company_page_dump')
+  
+    print("Launch task started for researching company:",row, company_name,company_url,company_dump_row)
+    task = anvil.server.launch_background_task('draft_company_summary', row,company_name, company_url)
+    # Return the task ID
+    return task.get_id()
+  
+@anvil.server.background_task
+def draft_company_summary(row,company_name, company_url):
+    print("Background task started for researching company:", row,company_name,company_url)
+  
+    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    agent_company_context = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
+    company_research = agent_company_context({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive analysis to build an informational company profile of {company_name}. \
+                    Leverage all necessary resources, primarily the company's website {company_url}, but also news articles, and any other relevant sources.  \
+                    to gather the following details about {company_name}.  Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful research and findings. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
+                    \n \
+                    Overview: Provide a comprehensive introduction to the company. What are the unique features or value propositions of the company's offerings? What does the company aim to achieve? \n \
+                    \n \
+                    Unique Value Proposition: What is the company unique value proposition? What are they uniquely positioned to do? How does their main offer differ from their competitors? \n \
+                    \n \
+                    Founding Story: What inspired the founders to start the company? Are there any unique or interesting anecdotes about the early days of the company? How has the company evolved since its founding? \n \
+                    \n \
+                    Competitors: Who are the likely competitors of this company? What are their strengths and weaknesses? How does your company compare to its competitors in terms of offerings, market share, or other relevant factors?  \n \
+                    \n \                
+                    Mission & Vision: What is the company's mission statement or core purpose? What are the long-term goals and aspirations of the company? \n \
+                    Values: What does the company value? What do they emphasize in their mission? What do they care about or prioritize? \n \
+                    \n \
+                  
+                    NOTES ON FORMAT:
+                    This should be at least 800 words. Be confident, do not say there is incomplete information, or there is not information. If you can't answer elements from the above, ignore it! Speak as if you are the authority of the subject. If you don't know the answer, don't talk about it. Do not say "I was unable to find information on XYZ". 
+                    Ensure you keep the headers with the '--': 
+                    -- Overview
+                    (your overview)
+                  
+                    --Unique Value Proposition
+                    (your response)
+                    
+                    --Competitors
+                    (your response)
+                    
+                    -- Founding Story
+                    (your response)
+                    
+                    --Mission & Vision
+                    (your response)
+
+                  --Values
+                    (your response)
+                    """})
+
+    draft_company_context = company_research['output']
+
+  # Save this generated version as the latest version
+    row['variable_value'] = draft_company_context
+    row.update()
+    print("Company Research Complete")
+  
+    anvil.server.task_state['result'] = draft_company_context
+  
 # COMPANY 1st DRAFT
 @anvil.server.callable
 def launch_draft_company_summary(user_table,company_name, company_url):
