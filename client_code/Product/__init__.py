@@ -158,6 +158,7 @@ class Product(ProductTemplate):
 #           time.sleep(1)
 
 #-- FUNCTION TO DEEP DIVE EACH PRODUCT ------------#######################################################################
+  # PRODUCT 1 DEEP DIVE
   def generate_product_1_button_click(self, **event_args):
     with anvil.server.no_loading_indicator:
       # This method should handle the UI logic
@@ -178,9 +179,9 @@ class Product(ProductTemplate):
         user_table = getattr(app_tables, user_table_name)
 
         # Reset the Product Latest
-        product_1_latest_row = user_table.search(variable='product_1_latest')[0]
-        product_1_latest_row['variable_value'] = ""
-        product_1_latest_row.update()
+        product_latest_row = user_table.search(variable='product_1_latest')[0]
+        product_latest_row['variable_value'] = ""
+        product_latest_row.update()
         
           # COMPANY PROFILE
         company_name_row = user_table.search(variable='company_name')[0]
@@ -197,32 +198,31 @@ class Product(ProductTemplate):
         company_url = company_url_row['variable_value']
     
         # PRODUCT NAME
-        product_1_name = self.product_1_name_input.text
-        product_1_name_row = user_table.search(variable='product_1_name_latest')[0]
-        product_1_name_row['variable_value'] = product_1_name
-        product_1_name_row.update()
+        product_name = self.product_1_name_input.text
+        product_name_row = user_table.search(variable='product_1_name_latest')[0]
+        product_name_row['variable_value'] = product_name
+        product_name_row.update()
 
         # PRODUCT URL
-        product_1_url = self.product_1_url_input.text
-        product_1_url_row = user_table.get(variable=f"product_1_url")
-        product_1_url_row['variable_value'] = product_1_url
-        product_1_url_row.update()
+        product_url = self.product_1_url_input.text
+        product_url_row = user_table.get(variable=f"product_1_url")
+        product_url_row['variable_value'] = product_url
+        product_url_row.update()
             
         # PRODUCT EXCERPT / PREVIEW
-        product_1_preview = self.product_profile_1_textbox.text
+        product_preview = self.product_profile_1_textbox.text
         # product_1_latest = self.product_profile_1_textbox.text
-        product_1_preview_row = user_table.search(variable='product_1_preview')[0]
-        product_1_preview_row['variable_value'] = product_1_preview
-        product_1_preview_row.update()
+        product_preview_row = user_table.search(variable='product_1_preview')[0]
+        product_preview_row['variable_value'] = product_preview
+        product_preview_row.update()
         
         # Start the Check Status Timers
         self.check_status_timer_product_1.enabled = True
         self.check_status_timer_product_1.interval = 3
         
-        self.task_id = anvil.server.call('launch_deepdive_product_1_generator',user_table,company_name,product_1_name,product_1_url,product_1_preview)
+        self.task_id = anvil.server.call('launch_deepdive_product_1_generator',user_table,company_name,product_name,product_url,product_preview)
         print("Task ID:", self.task_id)
-
-        
+   
   def check_status_product_1_summary(self, sender=None, **event_args):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
@@ -243,376 +243,347 @@ class Product(ProductTemplate):
             # Update the box
             self.product_profile_1_textbox.text = row['variable_value']
             self.indeterminate_1.visible = False
-          
 
+  # PRODUCT 2 DEEP DIVE     
   def generate_product_2_button_click(self, **event_args):
     with anvil.server.no_loading_indicator:
-        # This method should handle the UI logic
-        print("Deep Product Generator Initiated")
-        # Start the progress bar with a small value
-       # Stop the Function if there's no product name
-        if not self.product_2_name_input.text:
-          anvil.js.window.alert("Please name your product before generating the full description.")
-          return
-        else:
-          self.indeterminate_2.visible = True
+      # This method should handle the UI logic
+      print("Deep Product Generator Initiated")
+    
+      self.nav_button_products_to_avatars.enabled = False
 
-          # Load stuff
-          current_user = anvil.users.get_user()
-          user_table_name = current_user['user_id']
-          # Get the table for the current user
-          user_table = getattr(app_tables, user_table_name)
-  
+      # Stop the Function if there's no product name
+      if not self.product_2_name_input.text:
+        anvil.js.window.alert("Please name your product before generating the full description.")
+        return
+      else:
+        self.indeterminate_1.visible = True
+        # Load stuff        
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+
+        # Reset the Product Latest
+        product_latest_row = user_table.search(variable='product_2_latest')[0]
+        product_latest_row['variable_value'] = ""
+        product_latest_row.update()
+        
           # COMPANY PROFILE
-          company_name_row = user_table.search(variable='company_name')[0]
-          company_name = company_name_row['variable_value']
-  
-          # COMPANY PROFILE
-          # Retrieve the row with 'variable' column containing 'company_profile'
-          company_profile_row = user_table.search(variable='company_profile')[0]
-          company_profile = company_profile_row['variable_value']
-  
-          # PRODUCT PROFILE
-          # Retrieve the row with 'variable' column containing 'company_profile'
-          company_url_row = user_table.search(variable='company_url')[0]
-          company_url = company_url_row['variable_value']
-  
-          # PRODUCT NAME
-          product_2_name = self.product_2_name_input.text
-          product_2_name_row = user_table.search(variable='product_2_name_latest')[0]
-          product_2_name_row['variable_value'] = product_2_name
+        company_name_row = user_table.search(variable='company_name')[0]
+        company_name= company_name_row['variable_value']
+        
+        # COMPANY PROFILE
+        # Retrieve the row with 'variable' column containing 'company_profile'
+        company_profile_row = user_table.search(variable='company_profile')[0]
+        company_profile = company_profile_row['variable_value']
+    
+        # COMPANY URL
+        # Retrieve the row with 'variable' column containing 'company_profile'
+        company_url_row = user_table.search(variable='company_url')[0]
+        company_url = company_url_row['variable_value']
+    
+        # PRODUCT NAME
+        product_name = self.product_2_name_input.text
+        product_name_row = user_table.search(variable='product_2_name_latest')[0]
+        product_name_row['variable_value'] = product_name
+        product_name_row.update()
 
-          # PRODUCT URL
-          product_2_url = self.product_2_url_input.text
-          product_2_url_row = user_table.get(variable=f"product_2_url")
-          product_2_url_row['variable_value'] = product_2_url
-          product_2_url_row.update()
-  
-          # PRODUCT EXCERPT / PREVIEW
-          product_2_preview = self.product_profile_2_textbox.text
-          product_2_latest = self.product_profile_2_textbox.text  
-          product_2_preview_row = user_table.search(variable='product_2_preview')[0]
-          product_2_preview_row['variable_value'] = product_2_preview
-          product_2_preview_row.update()
-          # Save it as the latest as well
-          product_2_latest_row = user_table.search(variable='product_2_latest')[0]
-          product_2_latest_row['variable_value'] = product_2_preview
-          product_2_latest_row.update()
-  
-          self.task_id = anvil.server.call('launch_deepdive_product_2_generator', company_name,product_1_name,product_1_url,product_1_preview)
-          print("Task ID:", self.task_id)
-  
-          # Loop to check the status of the background task
-          while True:
-              with anvil.server.no_loading_indicator:
-  
-                  # Check if the background task is complete
-                  task_status = anvil.server.call('get_task_status', self.task_id)
-                  print("Task status:", task_status)
-  
-                  if task_status is not None:
-                      if task_status == "completed":
-                          # Get the result of the background task
-                          product_2_generation = anvil.server.call('get_task_result', self.task_id)
-  
-                          # Update the textbox with the result
-                          print("Product:", product_2_generation)
-                          self.product_profile_2_textbox.text = product_2_generation
-  
-                          # Save it in the table:
-                          product_2_latest_row = user_table.search(variable='product_2_latest')[0]
-                          product_2_latest_row['variable_value'] = product_2_generation
-  
-                          self.indeterminate_2.visible = False
-                          break  # Exit the loop
-  
-                      elif task_status == "failed":
-                          # Get the error message
-                          task_error = anvil.server.call('get_task_result', self.task_id)
-                          print("Task error:", task_error)
-                          self.indeterminate_2.visible = False
-                          break  # Exit the loop
-  
-                  # Sleep for 1 second before checking again
-                  time.sleep(2)
+        # PRODUCT URL
+        product_url = self.product_2_url_input.text
+        product_url_row = user_table.get(variable=f"product_2_url")
+        product_url_row['variable_value'] = product_url
+        product_url_row.update()
+            
+        # PRODUCT EXCERPT / PREVIEW
+        product_preview = self.product_profile_2_textbox.text
+        product_preview_row = user_table.search(variable='product_2_preview')[0]
+        product_preview_row['variable_value'] = product_preview
+        product_preview_row.update()
+        
+        # Start the Check Status Timers
+        self.check_status_timer_product_2.enabled = True
+        self.check_status_timer_product_2.interval = 3
+        
+        self.task_id = anvil.server.call('launch_deepdive_product_2_generator',user_table,company_name,product_name,product_url,product_preview)
+        print("Task ID:", self.task_id)
+   
+  def check_status_product_2_summary(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Get the background task by its ID
+        
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='product_2_latest')
+     
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working on the Product Summary!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Product Summary Generated!")
+            self.check_status_timer_product_2.enabled = False
+            self.check_status_timer_product_2.interval = 0
+                          
+            # Update the box
+            self.product_profile_2_textbox.text = row['variable_value']
+            self.indeterminate_2.visible = False
 
+  # PRODUCT 3 DEEP DIVE     
   def generate_product_3_button_click(self, **event_args):
     with anvil.server.no_loading_indicator:
-        # This method should handle the UI logic
-        print("Deep Product Generator Initiated")
-        # Start the progress bar with a small value
-     
+      # This method should handle the UI logic
+      print("Deep Product Generator Initiated")
+    
+      self.nav_button_products_to_avatars.enabled = False
+
       # Stop the Function if there's no product name
-        if not self.product_3_name_input.text:
-          anvil.js.window.alert("Please name your product before generating the full description.")
-          return
-        else:
-          self.indeterminate_3.visible = True    
+      if not self.product_3_name_input.text:
+        anvil.js.window.alert("Please name your product before generating the full description.")
+        return
+      else:
+        self.indeterminate_3.visible = True
+        # Load stuff        
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
 
-          # Load stuff
-          current_user = anvil.users.get_user()
-          user_table_name = current_user['user_id']
-          # Get the table for the current user
-          user_table = getattr(app_tables, user_table_name)
-  
+        # Reset the Product Latest
+        product_latest_row = user_table.search(variable='product_3_latest')[0]
+        product_latest_row['variable_value'] = ""
+        product_latest_row.update()
+        
           # COMPANY PROFILE
-          company_name_row = user_table.search(variable='company_name')[0]
-          company_name = company_name_row['variable_value']
-  
-          # COMPANY PROFILE
-          # Retrieve the row with 'variable' column containing 'company_profile'
-          company_profile_row = user_table.search(variable='company_profile')[0]
-          company_profile = company_profile_row['variable_value']
-  
-          # PRODUCT PROFILE
-          # Retrieve the row with 'variable' column containing 'company_profile'
-          company_url_row = user_table.search(variable='company_url')[0]
-          company_url = company_url_row['variable_value']
-  
-          # PRODUCT NAME
-          product_3_name = self.product_3_name_input.text
-          product_3_name_row = user_table.search(variable='product_3_name_latest')[0]
-          product_3_name_row['variable_value'] = product_3_name
+        company_name_row = user_table.search(variable='company_name')[0]
+        company_name= company_name_row['variable_value']
+        
+        # COMPANY PROFILE
+        # Retrieve the row with 'variable' column containing 'company_profile'
+        company_profile_row = user_table.search(variable='company_profile')[0]
+        company_profile = company_profile_row['variable_value']
+    
+        # COMPANY URL
+        # Retrieve the row with 'variable' column containing 'company_profile'
+        company_url_row = user_table.search(variable='company_url')[0]
+        company_url = company_url_row['variable_value']
+    
+        # PRODUCT NAME
+        product_name = self.product_3_name_input.text
+        product_name_row = user_table.search(variable='product_3_name_latest')[0]
+        product_name_row['variable_value'] = product_name
+        product_name_row.update()
 
-         # PRODUCT URL
-          product_3_url = self.product_3_url_input.text
-          product_3_url_row = user_table.get(variable=f"product_3_url")
-          product_3_url_row['variable_value'] = product_3_url
-          product_3_url_row.update()
-          
-  
-          # PRODUCT EXCERPT / PREVIEW
-          product_3_preview = self.product_profile_3_textbox.text
-          product_3_latest = self.product_profile_3_textbox.text
-          product_3_preview_row = user_table.search(variable='product_3_preview')[0]
-          product_3_preview_row['variable_value'] = product_3_preview
-          product_3_preview_row.update()
-          # Save it as the latest as well
-          product_3_latest_row = user_table.search(variable='product_3_latest')[0]
-          product_3_latest_row['variable_value'] = product_3_preview
-          product_3_latest_row.update()
-  
-          self.task_id = anvil.server.call('launch_deepdive_product_3_generator',  company_name,product_3_name,product_3_url,product_3_preview)
-          print("Task ID:", self.task_id)
-  
-          # Loop to check the status of the background task
-          while True:
-              with anvil.server.no_loading_indicator:
-  
-                  # Check if the background task is complete
-                  task_status = anvil.server.call('get_task_status', self.task_id)
-                  print("Task status:", task_status)
-  
-                  if task_status is not None:
-                      if task_status == "completed":
-                          # Get the result of the background task
-                          product_3_generation = anvil.server.call('get_task_result', self.task_id)
-  
-                          # Update the textbox with the result
-                          print("Product:", product_3_generation)
-                          self.product_profile_3_textbox.text = product_3_generation
-  
-                          # Save it in the table:
-                          product_3_latest_row = user_table.search(variable='product_3_latest')[0]
-                          product_3_latest_row['variable_value'] = product_3_generation
-  
-                          self.indeterminate_3.visible = False
-                          break  # Exit the loop
-  
-                      elif task_status == "failed":
-                          # Get the error message
-                          task_error = anvil.server.call('get_task_result', self.task_id)
-                          print("Task error:", task_error)
-                          self.indeterminate_3.visible = False
-                          break  # Exit the loop
-  
-                  # Sleep for 1 second before checking again
-                  time.sleep(2)
+        # PRODUCT URL
+        product_url = self.product_3_url_input.text
+        product_url_row = user_table.get(variable=f"product_3_url")
+        product_url_row['variable_value'] = product_url
+        product_url_row.update()
+            
+        # PRODUCT EXCERPT / PREVIEW
+        product_preview = self.product_profile_3_textbox.text
+        product_preview_row = user_table.search(variable='product_3_preview')[0]
+        product_preview_row['variable_value'] = product_preview
+        product_preview_row.update()
+        
+        # Start the Check Status Timers
+        self.check_status_timer_product_3.enabled = True
+        self.check_status_timer_product_3.interval = 3
+        
+        self.task_id = anvil.server.call('launch_deepdive_product_3_generator',user_table,company_name,product_name,product_url,product_preview)
+        print("Task ID:", self.task_id)
+   
+  def check_status_product_3_summary(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Get the background task by its ID
+        
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='product_3_latest')
+     
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working on the Product Summary!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Product Summary Generated!")
+            self.check_status_timer_product_3.enabled = False
+            self.check_status_timer_product_3.interval = 0
+                          
+            # Update the box
+            self.product_profile_3_textbox.text = row['variable_value']
+            self.indeterminate_3.visible = False
 
+  # PRODUCT 4 DEEP DIVE     
   def generate_product_4_button_click(self, **event_args):
     with anvil.server.no_loading_indicator:
-        # This method should handle the UI logic
-        print("Deep Product Generator Initiated")
-        # Start the progress bar with a small value
-         # Stop the Function if there's no product name
-        if not self.product_4_name_input.text:
-          anvil.js.window.alert("Please name your product before generating the full description.")
-          return
-        else:
-          self.indeterminate_4.visible = True
+      # This method should handle the UI logic
+      print("Deep Product Generator Initiated")
+    
+      self.nav_button_products_to_avatars.enabled = False
 
-          # Load stuff
-          current_user = anvil.users.get_user()
-          user_table_name = current_user['user_id']
-          # Get the table for the current user
-          user_table = getattr(app_tables, user_table_name)
-  
-          # COMPANY PROFILE
-          company_name_row = user_table.search(variable='company_name')[0]
-          company_name = company_name_row['variable_value']
-  
-          # COMPANY PROFILE
-          # Retrieve the row with 'variable' column containing 'company_profile'
-          company_profile_row = user_table.search(variable='company_profile')[0]
-          company_profile = company_profile_row['variable_value']
-  
-          # PRODUCT PROFILE
-          # Retrieve the row with 'variable' column containing 'company_profile'
-          company_url_row = user_table.search(variable='company_url')[0]
-          company_url = company_url_row['variable_value']
-  
-          # PRODUCT NAME
-          product_4_name = self.product_4_name_input.text
-          product_4_name_row = user_table.search(variable='product_4_name_latest')[0]
-          product_4_name_row['variable_value'] = product_4_name
+      # Stop the Function if there's no product name
+      if not self.product_4_name_input.text:
+        anvil.js.window.alert("Please name your product before generating the full description.")
+        return
+      else:
+        self.indeterminate_4.visible = True
+        # Load stuff        
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
 
-             # PRODUCT URL
-          product_4_url = self.product_4_url_input.text
-          product_4_url_row = user_table.get(variable=f"product_4_url")
-          product_4_url_row['variable_value'] = product_4_url
-          product_4_url_row.update()
-  
-          # PRODUCT EXCERPT / PREVIEW
-          product_4_preview = self.product_profile_4_textbox.text
-          product_4_latest = self.product_profile_4_textbox.text
-          product_4_preview_row = user_table.search(variable='product_4_preview')[0]
-          product_4_preview_row['variable_value'] = product_4_preview
-          product_4_preview_row.update()
-          # Save it as the latest as well
-          product_4_latest_row = user_table.search(variable='product_4_latest')[0]
-          product_4_latest_row['variable_value'] = product_4_preview
-          product_4_latest_row.update()
-  
-          self.task_id = anvil.server.call('launch_deepdive_product_4_generator', company_name,product_4_name,product_4_url,product_4_preview)
-          print("Task ID:", self.task_id)
-  
-          # Loop to check the status of the background task
-          while True:
-              with anvil.server.no_loading_indicator:
-  
-                  # Check if the background task is complete
-                  task_status = anvil.server.call('get_task_status', self.task_id)
-                  print("Task status:", task_status)
-  
-                  if task_status is not None:
-                      if task_status == "completed":
-                          # Get the result of the background task
-                          product_4_generation = anvil.server.call('get_task_result', self.task_id)
-  
-                          # Update the textbox with the result
-                          print("Product:", product_4_generation)
-                          self.product_profile_4_textbox.text = product_4_generation
-  
-                          # Save it in the table:
-                          product_4_latest_row = user_table.search(variable='product_4_latest')[0]
-                          product_4_latest_row['variable_value'] = product_4_generation
-  
-                          self.indeterminate_4.visible = False
-                          break  # Exit the loop
-  
-                      elif task_status == "failed":
-                          # Get the error message
-                          task_error = anvil.server.call('get_task_result', self.task_id)
-                          print("Task error:", task_error)
-                          self.indeterminate_4.visible = False
-                          break  # Exit the loop
-  
-                  # Sleep for 1 second before checking again
-                  time.sleep(2)
-  
+        # Reset the Product Latest
+        product_latest_row = user_table.search(variable='product_4_latest')[0]
+        product_latest_row['variable_value'] = ""
+        product_latest_row.update()
+        
+          # COMPANY PROFILE
+        company_name_row = user_table.search(variable='company_name')[0]
+        company_name= company_name_row['variable_value']
+        
+        # COMPANY PROFILE
+        # Retrieve the row with 'variable' column containing 'company_profile'
+        company_profile_row = user_table.search(variable='company_profile')[0]
+        company_profile = company_profile_row['variable_value']
+    
+        # COMPANY URL 
+        # Retrieve the row with 'variable' column containing 'company_profile'
+        company_url_row = user_table.search(variable='company_url')[0]
+        company_url = company_url_row['variable_value']
+    
+        # PRODUCT NAME
+        product_name = self.product_4_name_input.text
+        product_name_row = user_table.search(variable='product_4_name_latest')[0]
+        product_name_row['variable_value'] = product_name
+        product_name_row.update()
+
+        # PRODUCT URL
+        product_url = self.product_4_url_input.text
+        product_url_row = user_table.get(variable=f"product_4_url")
+        product_url_row['variable_value'] = product_url
+        product_url_row.update()
+            
+        # PRODUCT EXCERPT / PREVIEW
+        product_preview = self.product_profile_4_textbox.text
+        product_preview_row = user_table.search(variable='product_4_preview')[0]
+        product_preview_row['variable_value'] = product_preview
+        product_preview_row.update()
+        
+        # Start the Check Status Timers
+        self.check_status_timer_product_4.enabled = True
+        self.check_status_timer_product_4.interval = 3
+        
+        self.task_id = anvil.server.call('launch_deepdive_product_4_generator',user_table,company_name,product_name,product_url,product_preview)
+        print("Task ID:", self.task_id)
+   
+  def check_status_product_4_summary(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Get the background task by its ID
+        
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='product_4_latest')
+     
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working on the Product Summary!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Product Summary Generated!")
+            self.check_status_timer_product_4.enabled = False
+            self.check_status_timer_product_4.interval = 0
+                          
+            # Update the box
+            self.product_profile_4_textbox.text = row['variable_value']
+            self.indeterminate_4.visible = False
+
+  # PRODUCT 5 DEEP DIVE     
   def generate_product_5_button_click(self, **event_args):
     with anvil.server.no_loading_indicator:
-        # This method should handle the UI logic
-        print("Deep Product Generator Initiated")
-       
-        # Stop the Function if there's no product name
-        if not self.product_5_name_input.text:
-          anvil.js.window.alert("Please name your product before generating the full description.")
-          return
-        else:
-          self.indeterminate_5.visible = True
+      # This method should handle the UI logic
+      print("Deep Product Generator Initiated")
+    
+      self.nav_button_products_to_avatars.enabled = False
 
-          # Load stuff
-          current_user = anvil.users.get_user()
-          user_table_name = current_user['user_id']
-          # Get the table for the current user
-          user_table = getattr(app_tables, user_table_name)
-  
+      # Stop the Function if there's no product name
+      if not self.product_5_name_input.text:
+        anvil.js.window.alert("Please name your product before generating the full description.")
+        return
+      else:
+        self.indeterminate_5.visible = True
+        # Load stuff        
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+
+        # Reset the Product Latest
+        product_latest_row = user_table.search(variable='product_5_latest')[0]
+        product_latest_row['variable_value'] = ""
+        product_latest_row.update()
+        
           # COMPANY PROFILE
-          company_name_row = user_table.search(variable='company_name')[0]
-          company_name = company_name_row['variable_value']
-  
-          # COMPANY PROFILE
-          # Retrieve the row with 'variable' column containing 'company_profile'
-          company_profile_row = user_table.search(variable='company_profile')[0]
-          company_profile = company_profile_row['variable_value']
-  
-          # PRODUCT PROFILE
-          # Retrieve the row with 'variable' column containing 'company_profile'
-          company_url_row = user_table.search(variable='company_url')[0]
-          company_url = company_url_row['variable_value']
-  
-          # PRODUCT NAME
-          product_5_name = self.product_5_name_input.text
-          product_5_name_row = user_table.search(variable='product_5_name_latest')[0]
-          product_5_name_row['variable_value'] = product_5_name
+        company_name_row = user_table.search(variable='company_name')[0]
+        company_name= company_name_row['variable_value']
+        
+        # COMPANY PROFILE
+        # Retrieve the row with 'variable' column containing 'company_profile'
+        company_profile_row = user_table.search(variable='company_profile')[0]
+        company_profile = company_profile_row['variable_value']
+    
+        # COMPANY URL
+        # Retrieve the row with 'variable' column containing 'company_profile'
+        company_url_row = user_table.search(variable='company_url')[0]
+        company_url = company_url_row['variable_value']
+    
+        # PRODUCT NAME
+        product_name = self.product_5_name_input.text
+        product_name_row = user_table.search(variable='product_5_name_latest')[0]
+        product_name_row['variable_value'] = product_name
+        product_name_row.update()
 
-          # PRODUCT URL
-          product_5_url = self.product_5_url_input.text
-          product_5_url_row = user_table.get(variable=f"product_5_url")
-          product_5_url_row['variable_value'] = product_5_url
-          product_5_url_row.update()
-  
-          # PRODUCT EXCERPT / PREVIEW
-          product_5_preview = self.product_profile_5_textbox.text
-          product_5_latest = self.product_profile_5_textbox.text
-          product_5_preview_row = user_table.search(variable='product_5_preview')[0]
-          product_5_preview_row['variable_value'] = product_5_preview
-          product_5_preview_row.update()
-          # Save it as the latest as well
-          product_5_latest_row = user_table.search(variable='product_5_latest')[0]
-          product_5_latest_row['variable_value'] = product_5_preview
-          product_5_latest_row.update()
-  
-          self.task_id = anvil.server.call('launch_deepdive_product_5_generator',  company_name,product_5_name,product_5_url,product_5_preview)
-          print("Task ID:", self.task_id)
-  
-          # Loop to check the status of the background task
-          while True:
-              with anvil.server.no_loading_indicator:
-  
-                  # Check if the background task is complete
-                  task_status = anvil.server.call('get_task_status', self.task_id)
-                  print("Task status:", task_status)
-  
-                  if task_status is not None:
-                      if task_status == "completed":
-                          # Get the result of the background task
-                          product_5_generation = anvil.server.call('get_task_result', self.task_id)
-  
-                          # Update the textbox with the result
-                          print("Product:", product_5_generation)
-                          self.product_profile_5_textbox.text = product_5_generation
-  
-                          # Save it in the table:
-                          product_5_latest_row = user_table.search(variable='product_5_latest')[0]
-                          product_5_latest_row['variable_value'] = product_5_generation
-  
-                          self.indeterminate_5.visible = False
-                          break  # Exit the loop
-  
-                      elif task_status == "failed":
-                          # Get the error message
-                          task_error = anvil.server.call('get_task_result', self.task_id)
-                          print("Task error:", task_error)
-                          self.indeterminate_5.visible = False
-                          break  # Exit the loop
-  
-                  # Sleep for 1 second before checking again
-                  time.sleep(2)
-
-  
-
+        # PRODUCT URL
+        product_url = self.product_5_url_input.text
+        product_url_row = user_table.get(variable=f"product_5_url")
+        product_url_row['variable_value'] = product_url
+        product_url_row.update()
+            
+        # PRODUCT EXCERPT / PREVIEW
+        product_preview = self.product_profile_5_textbox.text
+        product_preview_row = user_table.search(variable='product_5_preview')[0]
+        product_preview_row['variable_value'] = product_preview
+        product_preview_row.update()
+        
+        # Start the Check Status Timers
+        self.check_status_timer_product_5.enabled = True
+        self.check_status_timer_product_5.interval = 3
+        
+        self.task_id = anvil.server.call('launch_deepdive_product_5_generator',user_table,company_name,product_name,product_url,product_preview)
+        print("Task ID:", self.task_id)
+   
+  def check_status_product_5_summary(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Get the background task by its ID
+        
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='product_5_latest')
+     
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working on the Product Summary!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Product Summary Generated!")
+            self.check_status_timer_product_5.enabled = False
+            self.check_status_timer_product_5.interval = 0
+                          
+            # Update the box
+            self.product_profile_5_textbox.text = row['variable_value']
+            self.indeterminate_5.visible = False
+          
 #-- SAVE / LOAD EACH AVATAR ------------#######################################################################
 
   def save_product_1_button_click(self, **event_args):

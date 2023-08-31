@@ -101,7 +101,7 @@ class VSL_Elements(VSL_ElementsTemplate):
     self.brand_tone_dropdown.items = brand_tone_dropdown_items
 
    # SCRIPT FORMAT
-    self.script_format_dropdown.items = ['Who, What, Where, How - 1', 'Who, What, Where, How - 2', 'Star, Story, Solution']
+    self.script_format_dropdown.items = ['Who, What, Where, How', 'Star, Story, Solution']
 
 # LOCK IT ALL IN
   def save_funnel_settings_component_click(self, **event_args):
