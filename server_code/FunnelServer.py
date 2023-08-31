@@ -1750,7 +1750,7 @@ def company_summary(company_name, company_url):
 # PRODUCT 1
 
 @anvil.server.callable
-def launch_deepdive_product_1_generator(user_table,company_name,product_name,product_url):
+def launch_deepdive_product_1_generator(user_table,company_name,product_name,product_url,product_preview):
     # Launch the background task
 
   # START THE WEB SCRAPING
@@ -1810,7 +1810,7 @@ def deepdive_product_1_generator(user_table,company_name,product_name,product_ur
                   
                   FINALLY, HERE IS THE PRODUCT CONTEXT SCRAPED FROM THEIR PRODUCT WEBSITE: {product_webpage_scraped}
                   """
-  
+    
     prompt_product_summary = PromptTemplate(
         input_variables=["company_name", "product_name","product_url","product_preview","product_webpage_scraped"],
         template=template_product_summary
@@ -1818,7 +1818,9 @@ def deepdive_product_1_generator(user_table,company_name,product_name,product_ur
   
     chain_product_summary = LLMChain(llm=llm_agents, prompt=prompt_product_summary)
     product_summary = chain_product_summary.run(company_name=company_name,product_name=product_name,product_url=product_url,product_preview=product_preview,product_webpage_scraped=product_webpage_scraped)  # Pass in the combined context
-
+    
+    print("PRODUCT SUMMARY:",product_summary)
+  
    # Save it in the table:
     product_1_latest_row = user_table.search(variable='product_1_latest')[0]
     product_1_latest_row['variable_value'] = product_summary

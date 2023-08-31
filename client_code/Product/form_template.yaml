@@ -465,4 +465,7 @@ components:
       col_widths: {}
       grid_position: AVNJVD,YHHVEL
     event_bindings: {click: nav_button_products_to_avatars_click}
+- type: Timer
+  properties: {}
+  name: check_status_timer_product_1
 is_package: true

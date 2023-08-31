@@ -214,42 +214,29 @@ class Product(ProductTemplate):
         product_1_latest_row['variable_value'] = product_1_latest
         product_1_latest_row.update()
               
-        self.task_id = anvil.server.call('launch_deepdive_product_1_generator',company_name,product_1_name,product_1_url,product_1_preview)
+        self.task_id = anvil.server.call('launch_deepdive_product_1_generator',user_table,company_name,product_1_name,product_1_url,product_1_preview)
         print("Task ID:", self.task_id)
-    
-        # Loop to check the status of the background task
-      while True:
-        with anvil.server.no_loading_indicator:
-    
-        # Check if the background task is complete
-          task_status = anvil.server.call('get_task_status', self.task_id)
-          print("Task status:", task_status)
-    
-          if task_status is not None:
-            if task_status == "completed":
-          # Get the result of the background task
-              product_1_generation = anvil.server.call('get_task_result', self.task_id)
-              
-              # Update the textbox with the result
-              print("Product:", product_1_generation)
-              self.product_profile_1_textbox.text = product_1_generation
-    
-              # Save it in the table:
-              product_1_latest_row = user_table.search(variable='product_1_latest')[0]
-              product_1_latest_row['variable_value'] = product_1_generation
+
+  def check_status_product_1_summary(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Get the background task by its ID
         
-              self.indeterminate_1.visible = False
-              break  # Exit the loop
-              
-            elif task_status == "failed":
-              # Get the error message
-              task_error = anvil.server.call('get_task_result', self.task_id)
-              print("Task error:", task_error)
-              self.indeterminate_1.visible = False
-              break  # Exit the loop
-    
-          # Sleep for 1 second before checking again
-          time.sleep(2)
+        current_user = anvil.users.get_user()
+        user_table_name = current_user['user_id']
+        # Get the table for the current user
+        user_table = getattr(app_tables, user_table_name)
+        row = user_table.get(variable='product_1')
+     
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working on the draft company summary!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Draft Company Summary Generated!")
+            self.check_status_timer_company_summary.enabled = False
+            self.check_status_timer_company_summary.interval = 0
+                          
+            # Update the box
+            self.company_summary_status.text = "Research Complete!"
+          
 
   def generate_product_2_button_click(self, **event_args):
     with anvil.server.no_loading_indicator:
