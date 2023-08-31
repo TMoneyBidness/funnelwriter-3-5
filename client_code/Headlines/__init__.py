@@ -35,12 +35,18 @@ class Headlines(HeadlinesTemplate):
     self.indeterminate_progress_subheadlines.visible = False
     self.indeterminate_progress_vsl_themes.visible = False
     self.indeterminate_progress_vsl_themes_rewrites.visible = False
+
+    # Hide the main boxes
+    self.subheadlines_chooser_panel.visible = False
+    self.main_secondary_headline_box.visible = False
+    self.final_vsl_outline_box.visible = False
+    
     self.generate_headlines_vsl_button.enabled = True
     self.generate_vsl_themes_button.visible = False
     self.indeterminate_progress_vsl_excerpts.visible = False
     self.indeterminate_progress_vsl_script.visible = False
     self.rewrite_box.visible = False
-     
+    
     
     self.chosen_company_name = None
     self.chosen_product_name = None
@@ -130,6 +136,8 @@ class Headlines(HeadlinesTemplate):
     
   def generate_headlines_vsl_button_click(self, **event_args):
     with anvil.server.no_loading_indicator:
+        self.headlines_header.visible = True
+        self.main_secondary_headline_box.visible = True
         self.indeterminate_progress_main_headlines.visible = True
         self.indeterminate_progress_subheadlines.visible = True
 
@@ -215,7 +223,7 @@ class Headlines(HeadlinesTemplate):
     
             self.task_check_timer_vsl_themes.enabled = True
             self.task_check_timer_vsl_themes.interval = 3
-        
+ 
   def check_task_status_headlines(self, sender=None, **event_args):
     with anvil.server.no_loading_indicator:
         # Check if the background task is complete
@@ -292,7 +300,7 @@ class Headlines(HeadlinesTemplate):
           # Update the 'variable_value' column of the row
             subheadlines_row['variable_value'] = all_subheadlines_json
             subheadlines_row.update()
-   
+
   def check_task_status_vsl_script(self, sender=None, **event_args):
     with anvil.server.no_loading_indicator:
         # Check if the background task is complete
@@ -318,7 +326,7 @@ class Headlines(HeadlinesTemplate):
             self.task_check_timer_vsl_script.interval = 0
             self.generate_vsl_themes_button.visible = True
             self.indeterminate_progress_vsl_themes.visible = False
-
+ 
   def check_task_status_vsl_themes(self, sender=None, **event_args):
     with anvil.server.no_loading_indicator:
         # Check if the background task is complete
@@ -393,7 +401,7 @@ class Headlines(HeadlinesTemplate):
 
         self.task_check_timer_headlines.enabled = True
         self.task_check_timer_headlines.interval = 3  # Check every 2seconds
-      
+
   def check_task_status_regenerate_headlines(self, sender=None, **event_args):
     with anvil.server.no_loading_indicator:
         # Check if the background task is complete
@@ -598,7 +606,7 @@ class Headlines(HeadlinesTemplate):
             return
           
 ###---- GENERATE HEADLINES--------#########################################################################################################
-  #Use the saved values in other functions
+  # #Use the saved values in other functions
   # def generate_main_headlines_button_click(self, **event_args):
   #   with anvil.server.no_loading_indicator:
   #       print("Main Headlines Launch function was received!")
@@ -614,18 +622,17 @@ class Headlines(HeadlinesTemplate):
   #       self.task_check_timer_headlines.interval = 5  # Check every 5 seconds
 
             
-    #       #Define and save the final headlines and subheadlines
-      # self.chosen_final_headline = self.main_headline_textbox.text
-      # self.chosen_final_secondary_headline = self.secondary_headline_textbox.text
-      # chosen_final_headline_row = user_table.search(variable='chosen_final_headline')[0]
-    #   chosen_final_secondary_headline_row = user_table.search(variable='chosen_final_secondary_headline')[0]
+  #         #Define and save the final headlines and subheadlines
+  #     self.chosen_final_headline = self.main_headline_textbox.text
+  #     self.chosen_final_secondary_headline = self.secondary_headline_textbox.text
+  #     chosen_final_headline_row = user_table.search(variable='chosen_final_headline')[0]
+  #     chosen_final_secondary_headline_row = user_table.search(variable='chosen_final_secondary_headline')[0]
 
-    #   chosen_final_headline_row['variable_value'] = self.chosen_final_headline
-    #   chosen_final_secondary_headline_row['variable_value'] = self.chosen_final_secondary_headline
-    #   chosen_final_headline_row.update()
-    #   chosen_final_secondary_headline_row.update()
+  #     chosen_final_headline_row['variable_value'] = self.chosen_final_headline
+  #     chosen_final_secondary_headline_row['variable_value'] = self.chosen_final_secondary_headline
+  #     chosen_final_headline_row.update()
+  #     chosen_final_secondary_headline_row.update()
     
-  
               
   def check_task_status(self, sender=None, **event_args):
     with anvil.server.no_loading_indicator:
@@ -709,46 +716,58 @@ class Headlines(HeadlinesTemplate):
 
     # Set the text of the textbox
     self.main_headline_textbox.text = selected_headline
+    self.main_headline_textbox_2.text = selected_headline
+    self.main_headline_textbox_3.text = selected_headline
 
   def secondary_headline_1_clicked(self, **event_args):
     # Set the text of radiobutton2 to the text of radiobutton1
     self.secondary_headline_textbox.text = self.main_headline_1.text
+    self.secondary_headline_textbox_2.text = self.main_headline_1.text
 
   def secondary_headline_2_clicked(self, **event_args):
     # Set the text of radiobutton2 to the text of radiobutton1
     self.secondary_headline_textbox.text = self.main_headline_2.text
+    self.secondary_headline_textbox_2.text = self.main_headline_2.text
 
   def secondary_headline_3_clicked(self, **event_args):
   # Set the text of radiobutton2 to the text of radiobutton1
     self.secondary_headline_textbox.text = self.main_headline_3.text
+    self.secondary_headline_textbox_2.text = self.main_headline_3.text
 
   def secondary_headline_4_clicked(self, **event_args):
   # Set the text of radiobutton2 to the text of radiobutton1
     self.secondary_headline_textbox.text = self.main_headline_4.text
+    self.secondary_headline_textbox_2.text = self.main_headline_4.text
 
   def secondary_headline_5_clicked(self, **event_args):
   # Set the text of radiobutton2 to the text of radiobutton1
     self.secondary_headline_textbox.text = self.main_headline_5.text
+    self.secondary_headline_textbox_2.text = self.main_headline_5.text
 
   def secondary_headline_6_clicked(self, **event_args):
   # Set the text of radiobutton2 to the text of radiobutton1
     self.secondary_headline_textbox.text = self.main_headline_6.text
+    self.secondary_headline_textbox_2.text = self.main_headline_6.text
 
   def secondary_headline_7_clicked(self, **event_args):
   # Set the text of radiobutton2 to the text of radiobutton1
     self.secondary_headline_textbox.text = self.main_headline_7.text
+    self.secondary_headline_textbox_2.text = self.main_headline_7.text
 
   def secondary_headline_8_clicked(self, **event_args):
   # Set the text of radiobutton2 to the text of radiobutton1
     self.secondary_headline_textbox.text = self.main_headline_8.text
+    self.secondary_headline_textbox_2.text = self.main_headline_8.text
 
   def secondary_headline_9_clicked(self, **event_args):
   # Set the text of radiobutton2 to the text of radiobutton1
     self.secondary_headline_textbox.text = self.main_headline_9.text
+    self.secondary_headline_textbox_2.text = self.main_headline_9.text
 
   def secondary_headline_10_clicked(self, **event_args):
   # Set the text of radiobutton2 to the text of radiobutton1
     self.secondary_headline_textbox.text = self.main_headline_10.text
+    self.secondary_headline_textbox_2.text = self.main_headline_10.text
 
   ###### ----- SUBHEADLINE HANDLERS------------######
   # Event handler for the click event of the radio buttons
@@ -804,5 +823,41 @@ class Headlines(HeadlinesTemplate):
 
   def provide_feedback_button_click(self, **event_args):
     self.rewrite_box.visible = True
+
+  def save_main_headlines_click(self, **event_args):
+    # Check if the 'secondary_headline_textbox_2' is empty
+    if not self.secondary_headline_textbox_2.text or not self.main_headline_textbox_2.text:
+      # Display the alert box
+      anvil.js.window.alert("Please Choose or Write a Main and Secondary Headline before proceeding...")
+      return  # exit the function early
+  
+    # If the textbox is not empty, proceed with the rest of the code
+    self.main_headline_textbox_3.text = self.main_headline_textbox_2.text
+    self.secondary_headline_textbox_3.text = self.secondary_headline_textbox_2.text
+    
+    self.main_secondary_headline_box.visible = False
+    self.subheadlines_chooser_panel.visible = True
+
+
+  def save_all_headlines_to_vsl_click(self, **event_args):
+    if not self.subheadline_textbox_2.text or not self.main_headline_textbox_3.text or not self.secondary_headline_textbox_3.text:
+      # Display the alert box
+      anvil.js.window.alert("Please Choose a Main, Subheadline and Secondary headline before proceeding...")
+      return  # exit the function early
+      
+    # Set the text boxes
+    self.main_headline_textbox.text = self.main_headline_textbox_3.text
+    self.subheadline_textbox.text = self.subheadline_textbox_2.text
+    self.secondary_headline_textbox.text = self.secondary_headline_textbox_3.text
+
+    # Hide both previous panels
+    self.subheadlines_chooser_panel.visible = False
+    self.final_vsl_outline_box.visible = True
+    
+
+    
+    
+
+
     
 

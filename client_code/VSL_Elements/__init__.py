@@ -199,7 +199,6 @@ class VSL_Elements(VSL_ElementsTemplate):
     row_chosen_script[0]['variable_title'] = selected_script_title
     row_chosen_script[0].update()
 
-    
 
     # Call the navigation
     self.nav_button_VSL_Elements_to_headline()
