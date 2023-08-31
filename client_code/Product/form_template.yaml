@@ -466,6 +466,7 @@ components:
       grid_position: AVNJVD,YHHVEL
     event_bindings: {click: nav_button_products_to_avatars_click}
 - type: Timer
-  properties: {}
+  properties: {interval: 3}
   name: check_status_timer_product_1
+  event_bindings: {tick: check_status_product_1_summary}
 is_package: true

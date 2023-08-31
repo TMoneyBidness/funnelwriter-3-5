@@ -82,80 +82,80 @@ class Product(ProductTemplate):
             self.nav_button_products_to_avatars.enabled = False
 
   
-#-- GENERATE THE 5 PREVIEWS ------------#######################################################################
+# #-- GENERATE THE 5 PREVIEWS ------------#######################################################################
 
-  def all_products_button_click(self, **event_args):
-    with anvil.server.no_loading_indicator:
-      # This method should handle the UI logic
-      print("All Products Generator button clicked")
-      self.indeterminate_all_products.visible = True
-      # Start the progress bar with a small value
+#   def all_products_button_click(self, **event_args):
+#     with anvil.server.no_loading_indicator:
+#       # This method should handle the UI logic
+#       print("All Products Generator button clicked")
+#       self.indeterminate_all_products.visible = True
+#       # Start the progress bar with a small value
 
-      # Load stuff
-      current_user = anvil.users.get_user()
-      user_table_name = current_user['user_id']
-      # Get the table for the current user
-      user_table = getattr(app_tables, user_table_name)
+#       # Load stuff
+#       current_user = anvil.users.get_user()
+#       user_table_name = current_user['user_id']
+#       # Get the table for the current user
+#       user_table = getattr(app_tables, user_table_name)
 
-      # COMPANY PROFILE
-      # Retrieve the row with 'variable' column containing 'company_profile'
-      company_profile_row = user_table.search(variable='company_profile')[0]
-      company_profile = company_profile_row['variable_value']
+#       # COMPANY PROFILE
+#       # Retrieve the row with 'variable' column containing 'company_profile'
+#       company_profile_row = user_table.search(variable='company_profile')[0]
+#       company_profile = company_profile_row['variable_value']
 
-      # PRODUCT PROFILE
-      # Retrieve the row with 'variable' column containing 'company_profile'
-      company_url_row = user_table.search(variable='company_profile')[0]
-      company_url = company_url_row['variable_value']
+#       # PRODUCT PROFILE
+#       # Retrieve the row with 'variable' column containing 'company_profile'
+#       company_url_row = user_table.search(variable='company_profile')[0]
+#       company_url = company_url_row['variable_value']
 
-      products_grouped_row = user_table.get(variable='all_products_grouped')
+#       products_grouped_row = user_table.get(variable='all_products_grouped')
       
-      # Launch the background task
-      self.task_id = anvil.server.call('launch_all_products_generator', company_profile, company_url)
-      print("Task ID:", self.task_id)
+#       # Launch the background task
+#       self.task_id = anvil.server.call('launch_all_products_generator', company_profile, company_url)
+#       print("Task ID:", self.task_id)
 
-      # Loop to check the status of the background task
-      while True:
-        with anvil.server.no_loading_indicator:
-          # Check if the background task is complete
-          task_status = anvil.server.call('get_task_status', self.task_id)
-          print("Task status:", task_status)
+#       # Loop to check the status of the background task
+#       while True:
+#         with anvil.server.no_loading_indicator:
+#           # Check if the background task is complete
+#           task_status = anvil.server.call('get_task_status', self.task_id)
+#           print("Task status:", task_status)
 
-          if task_status is not None:
-            if task_status == "completed":
-              # Get the result of the background task
-              all_products_json = anvil.server.call('get_task_result', self.task_id)
-              print("All 5 Products Generated")
-              # Convert the JSON string back to a dictionary
-              all_products = json.loads(all_products_json)
-              # Update the text boxes with the products
-              self.product_profile_1_textbox.text = all_products['product_1']
-              self.product_profile_2_textbox.text = all_products['product_2']
-              self.product_profile_3_textbox.text = all_products['product_3']
-              self.product_profile_4_textbox.text = all_products['product_4']
-              self.product_profile_5_textbox.text = all_products['product_5']
+#           if task_status is not None:
+#             if task_status == "completed":
+#               # Get the result of the background task
+#               all_products_json = anvil.server.call('get_task_result', self.task_id)
+#               print("All 5 Products Generated")
+#               # Convert the JSON string back to a dictionary
+#               all_products = json.loads(all_products_json)
+#               # Update the text boxes with the products
+#               self.product_profile_1_textbox.text = all_products['product_1']
+#               self.product_profile_2_textbox.text = all_products['product_2']
+#               self.product_profile_3_textbox.text = all_products['product_3']
+#               self.product_profile_4_textbox.text = all_products['product_4']
+#               self.product_profile_5_textbox.text = all_products['product_5']
 
-              # Update the variable_table with the JSON string
-              products_grouped_row['variable_value'] = all_products_json
-              self.indeterminate_all_products.visible = False
-              products_grouped_row.update()
+#               # Update the variable_table with the JSON string
+#               products_grouped_row['variable_value'] = all_products_json
+#               self.indeterminate_all_products.visible = False
+#               products_grouped_row.update()
 
-              for product_number in range(1, 6):
-                product_latest_variable = f'product_{product_number}_latest'
-                product_variable_value = all_products[f'product_{product_number}']
+#               for product_number in range(1, 6):
+#                 product_latest_variable = f'product_{product_number}_latest'
+#                 product_variable_value = all_products[f'product_{product_number}']
         
-                product_latest_row = user_table.search(variable=product_latest_variable)[0]
-                product_latest_row['variable_value'] = product_variable_value
-                product_latest_row.update()
-              break  # Exit the loop
+#                 product_latest_row = user_table.search(variable=product_latest_variable)[0]
+#                 product_latest_row['variable_value'] = product_variable_value
+#                 product_latest_row.update()
+#               break  # Exit the loop
 
-            elif task_status == "failed":
-              # Handle the case where the background task failed
-              print("Task failed")
-              self.indeterminate_all_products.visible = False
-              break  # Exit the loop
+#             elif task_status == "failed":
+#               # Handle the case where the background task failed
+#               print("Task failed")
+#               self.indeterminate_all_products.visible = False
+#               break  # Exit the loop
 
-          # Sleep for 1 second before checking again
-          time.sleep(1)
+#           # Sleep for 1 second before checking again
+#           time.sleep(1)
 
 #-- FUNCTION TO DEEP DIVE EACH PRODUCT ------------#######################################################################
   def generate_product_1_button_click(self, **event_args):
@@ -176,7 +176,12 @@ class Product(ProductTemplate):
         user_table_name = current_user['user_id']
         # Get the table for the current user
         user_table = getattr(app_tables, user_table_name)
-    
+
+        # Reset the Product Latest
+        product_1_latest_row = user_table.search(variable='product_1_latest')[0]
+        product_1_latest_row['variable_value'] = ""
+        product_1_latest_row.update()
+        
           # COMPANY PROFILE
         company_name_row = user_table.search(variable='company_name')[0]
         company_name= company_name_row['variable_value']
@@ -205,18 +210,19 @@ class Product(ProductTemplate):
             
         # PRODUCT EXCERPT / PREVIEW
         product_1_preview = self.product_profile_1_textbox.text
-        product_1_latest = self.product_profile_1_textbox.text
+        # product_1_latest = self.product_profile_1_textbox.text
         product_1_preview_row = user_table.search(variable='product_1_preview')[0]
         product_1_preview_row['variable_value'] = product_1_preview
         product_1_preview_row.update()
-        # Save it it as the latest as well
-        product_1_latest_row = user_table.search(variable='product_1_latest')[0]
-        product_1_latest_row['variable_value'] = product_1_latest
-        product_1_latest_row.update()
-              
+        
+        # Start the Check Status Timers
+        self.check_status_timer_product_1.enabled = True
+        self.check_status_timer_product_1.interval = 3
+        
         self.task_id = anvil.server.call('launch_deepdive_product_1_generator',user_table,company_name,product_1_name,product_1_url,product_1_preview)
         print("Task ID:", self.task_id)
 
+        
   def check_status_product_1_summary(self, sender=None, **event_args):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
@@ -225,17 +231,18 @@ class Product(ProductTemplate):
         user_table_name = current_user['user_id']
         # Get the table for the current user
         user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='product_1')
+        row = user_table.get(variable='product_1_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
-            print("Still working on the draft company summary!")
+            print("Still working on the Product Summary!")
         elif row['variable_value'] is not None and row['variable_value'] != '':
-            print("Draft Company Summary Generated!")
-            self.check_status_timer_company_summary.enabled = False
-            self.check_status_timer_company_summary.interval = 0
+            print("Product Summary Generated!")
+            self.check_status_timer_product_1.enabled = False
+            self.check_status_timer_product_1.interval = 0
                           
             # Update the box
-            self.company_summary_status.text = "Research Complete!"
+            self.product_profile_1_textbox.text = row['variable_value']
+            self.indeterminate_1.visible = False
           
 
   def generate_product_2_button_click(self, **event_args):
