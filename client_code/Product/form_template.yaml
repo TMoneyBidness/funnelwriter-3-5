@@ -469,4 +469,20 @@ components:
   properties: {interval: 3}
   name: check_status_timer_product_1
   event_bindings: {tick: check_status_product_1_summary}
+- name: check_status_timer_product_2
+  type: Timer
+  properties: {interval: 3}
+  event_bindings: {tick: check_status_product_2_summary}
+- name: check_status_timer_product_3
+  type: Timer
+  properties: {interval: 3}
+  event_bindings: {tick: check_status_product_3_summary}
+- name: check_status_timer_product_4
+  type: Timer
+  properties: {interval: 3}
+  event_bindings: {tick: check_status_product_4_summary}
+- name: check_status_timer_product_5
+  type: Timer
+  properties: {interval: 3}
+  event_bindings: {tick: check_status_product_5_summary}
 is_package: true
