@@ -243,11 +243,11 @@ def launch_draft_deepdive_product_1_generator(user_table,company_name,product_na
 def deepdive_draft_product_1_generator(user_table,company_name,product_name,product_url,product_webpage_scraped):
     print("Background task started for the Deep Dive of Researching the Product:", product_name)
     llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-4', openai_api_key=openai_api_key)
-    print("Background task started for generating the company summary:", company_url)
+    print("Background task started for generating the Product summary:", product_url)
 
-    template_product_summary = """As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_1_name} \
-                  Leverage all necessary resources such as {company_name}'s' main product website {product_1_url}, web pages, and any other relevant sources \
-                  to gather the following details about company's product, {product_1_name}. Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful, actionable insights. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
+    template_product_summary = """As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_name} \
+                  Leverage the product information that has been scraped from {company_name}'s' product website {product_url} in order to build your synopsis. \
+                  Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful, actionable insights. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
                   \n \
                   Overview: Provide a comprehensive introduction to the product. What is its purpose, and what does the company aim to achieve with it? \n \
                   \n \
@@ -273,6 +273,9 @@ def deepdive_draft_product_1_generator(user_table,company_name,product_name,prod
                   \n \
                   NOTES ON FORMAT:
                   Be confident, do not say there is incomplete information, or there is not information. If you can't answer elements from the above, ignore it! Speak as if you are the authority of the subject. If you don't know the answer, don't talk about it. Do not say "I was unable to find information on XYZ". 
+                  ** END OF FORMAT
+                  
+                  FINALLY, HERE IS THE PRODUCT CONTEXT SCRAPED FROM THEIR PRODUCTWEBSITE: {product_webpage_scraped}
                   """
   
     prompt_product_summary = PromptTemplate(
@@ -281,14 +284,11 @@ def deepdive_draft_product_1_generator(user_table,company_name,product_name,prod
     )
   
     chain_product_summary = LLMChain(llm=llm_agents, prompt=prompt_product_summary)
-    draft_product_summary = chain_product_summary.run(company_name=company_name,company_url=company_url,company_context_scraped=company_context_scraped)  # Pass in the combined context
-    product_research_1 = product_research_context['output']
-    # if "I couldn't find more information" in product_research_context:
-    #       product_research_1= "Insufficient information. Please write the product description yourself."
-    anvil.server.task_state['result'] = product_research_1
+    product_summary = chain_product_summary.run(company_name=company_name,product_name=product_name,product_url=product_url,product_webpage_scraped=product_webpage_scraped)  # Pass in the combined context
+
    # Save it in the table:
     product_1_latest_row = user_table.search(variable='product_1_latest')[0]
-    product_1_latest_row['variable_value'] = product_research_1
+    product_1_latest_row['variable_value'] = product_summary
     product_1_latest_row.update()
     print("Product Research Complete")
   
