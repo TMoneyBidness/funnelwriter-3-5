@@ -290,9 +290,9 @@ class Home(HomeTemplate):
             self.undertaken_tasks.append('company_profile_latest')
             print(f"Added to undertaken_tasks: company_profile_latest")
 
-            # task_id_brand_tone = anvil.server.call('launch_draft_brand_tone_research', user_table, company_url)
-            # print("Brand Tone Launch function called")
-            # task_ids.append(task_id_brand_tone)
+            task_id_brand_tone = anvil.server.call('launch_draft_brand_tone_research', user_table, company_url)
+            print("Brand Tone Launch function called")
+            task_ids.append(task_id_brand_tone)
 
             tasks_product_research = []
             tasks_avatar = []
@@ -758,7 +758,6 @@ class Home(HomeTemplate):
   def check_all_tasks_status(self, sender=None, **event_args):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
-        print("check_all_tasks_status started!")
         current_user = anvil.users.get_user()
         user_table_name = current_user['user_id']
 

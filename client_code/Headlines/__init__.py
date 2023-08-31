@@ -117,7 +117,7 @@ class Headlines(HeadlinesTemplate):
     #     example_wwwh_2_row = app_tables.example_scripts.get(script='wwwh_2')
     #     example_script = example_wwwh_2_row['script_contents']
     #     self.example_script = example_script
-    elif self.chosen_script == 'Star, Story, Solution':
+    elif row_chosen_script and row_chosen_script[0]['variable_title'] == 'Star, Story, Solution':
         example_sss_row = app_tables.example_scripts.get(script='sss')
         example_script = example_sss_row['script_contents']
         self.example_script = example_script
@@ -140,6 +140,7 @@ class Headlines(HeadlinesTemplate):
         self.main_secondary_headline_box.visible = True
         self.indeterminate_progress_main_headlines.visible = True
         self.indeterminate_progress_subheadlines.visible = True
+        self.generate_headlines_vsl_button.visible - False
 
       # Delete whatever is in the table with existing headlines.
         current_user = anvil.users.get_user()
@@ -780,6 +781,7 @@ class Headlines(HeadlinesTemplate):
 
     # Set the text of the textbox
     self.subheadline_textbox.text = selected_subheadline
+    self.subheadline_textbox_2.text = selected_subheadline
 
     # Turn on the button
     # self.nav_button_headlines_to_vsl.enabled = True
