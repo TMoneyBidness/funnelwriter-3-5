@@ -12,9 +12,9 @@ services:
   client_config: {}
   server_config: {}
 - source: /runtime/services/anvil/users.yml
-  client_config: {allow_signup: false, enable_automatically: true, use_email: true,
-    confirm_email: false, use_google: false, use_facebook: false, allow_remember_me: false,
-    remember_me_days: 30}
+  client_config: {require_secure_passwords: true, use_email: true, allow_remember_me: false,
+    allow_signup: false, enable_automatically: true, confirm_email: false, remember_me_days: 30,
+    use_google: false, use_facebook: false}
   server_config: {user_table: users}
 - source: /runtime/services/google.yml
   client_config: {}
