@@ -23,9 +23,9 @@ services:
   client_config: {}
   server_config: {}
 startup: {type: form, module: Home}
-package_name: FunnelWriter_3_0
+package_name: FunnelWriter_2_9___Rewrite_for_User_Tables
 allow_embedding: false
-name: FunnelWriter 3.0
+name: FunnelWriter 2.9 - Rewrite for User Tables
 runtime_options:
   version: 2
   client_version: '3'
