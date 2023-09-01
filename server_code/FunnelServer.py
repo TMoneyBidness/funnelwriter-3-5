@@ -1526,9 +1526,9 @@ def draft_deepdive_avatar_3_product_5_generator(user_table,company_name,product_
   
 # BRAND TONE 1st DRAFT 
 @anvil.server.callable
-def launch_draft_brand_tone_research(user_table,brand_tone_url):
+def launch_draft_brand_tone_research(user_table,company_url):
     # Launch the background task
-    task = anvil.server.launch_background_task('draft_brand_tone_research',user_table,brand_tone_url)
+    task = anvil.server.launch_background_task('draft_brand_tone_research',user_table,company_url)
     # Return the task ID
     return task.get_id()
 

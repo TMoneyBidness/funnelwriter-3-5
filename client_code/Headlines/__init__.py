@@ -163,30 +163,30 @@ class Headlines(HeadlinesTemplate):
         vsl_script_row['variable_value'] = None
         vsl_script_row.update()
         
-      #  # Launch the background tasks concurrently
-      #   # MAIN HEADLINES 
-      #   task_id_main_headlines = anvil.server.call('launch_generate_main_headlines', self.chosen_product_name,self.chosen_company_profile,self.chosen_product_research, self.chosen_tone)
-      #   print("Main Headlines Launch function called")
-      #   self.indeterminate_progress_main_headlines.visible = True
+       # Launch the background tasks concurrently
+        # MAIN HEADLINES 
+        task_id_main_headlines = anvil.server.call('launch_generate_main_headlines', self.chosen_product_name,self.chosen_company_profile,self.chosen_product_research, self.chosen_tone)
+        print("Main Headlines Launch function called")
+        self.indeterminate_progress_main_headlines.visible = True
 
-      # # SUBHEADLINES 
-      #   task_id_subheadlines = anvil.server.call('launch_generate_subheadlines', self.chosen_product_name,self.chosen_company_profile,self.chosen_product_research, self.chosen_tone)
-      #   print("Subheadlines Launch function called")
-      #   self.indeterminate_progress_subheadlines.visible = True
+      # SUBHEADLINES 
+        task_id_subheadlines = anvil.server.call('launch_generate_subheadlines', self.chosen_product_name,self.chosen_company_profile,self.chosen_product_research, self.chosen_tone)
+        print("Subheadlines Launch function called")
+        self.indeterminate_progress_subheadlines.visible = True
      
-      #   self.task_id_vsl_script = anvil.server.call('launch_generate_vsl_script', self.chosen_product_name, self.chosen_company_profile, self.chosen_product_research,self.chosen_avatar, self.chosen_tone, self.example_script)
-      #   print("Video Sales Script function called")
-      #   self.indeterminate_progress_main_headlines.visible = True
-      #   self.indeterminate_progress_vsl_themes.visible = True
+        self.task_id_vsl_script = anvil.server.call('launch_generate_vsl_script', self.chosen_product_name, self.chosen_company_profile, self.chosen_product_research,self.chosen_avatar, self.chosen_tone, self.example_script)
+        print("Video Sales Script function called")
+        self.indeterminate_progress_main_headlines.visible = True
+        self.indeterminate_progress_vsl_themes.visible = True
 
-      #   self.task_check_timer_headlines.enabled = True
-      #   self.task_check_timer_headlines.interval = 3  # Check every 2seconds
+        self.task_check_timer_headlines.enabled = True
+        self.task_check_timer_headlines.interval = 3  # Check every 2seconds
       
-      #   self.task_check_timer_subheadlines.enabled = True
-      #   self.task_check_timer_subheadlines.interval = 3  # Check every 2seconds
+        self.task_check_timer_subheadlines.enabled = True
+        self.task_check_timer_subheadlines.interval = 3  # Check every 2seconds
 
-      #   self.task_check_timer_vsl_script.enabled = True
-      #   self.task_check_timer_vsl_script.interval = 3  # Check every 2seconds
+        self.task_check_timer_vsl_script.enabled = True
+        self.task_check_timer_vsl_script.interval = 3  # Check every 2seconds
   
   def generate_vsl_themes_button_click(self, **event_args):
     with anvil.server.no_loading_indicator:
