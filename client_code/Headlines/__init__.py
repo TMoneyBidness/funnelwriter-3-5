@@ -179,11 +179,11 @@ class Headlines(HeadlinesTemplate):
         self.indeterminate_progress_main_headlines.visible = True
         self.indeterminate_progress_vsl_themes.visible = True
 
-        self.task_check_timer_headlines.enabled = True
-        self.task_check_timer_headlines.interval = 3  # Check every 2seconds
+        # self.task_check_timer_headlines.enabled = True
+        # self.task_check_timer_headlines.interval = 3  # Check every 2seconds
       
-        self.task_check_timer_subheadlines.enabled = True
-        self.task_check_timer_subheadlines.interval = 3  # Check every 2seconds
+        # self.task_check_timer_subheadlines.enabled = True
+        # self.task_check_timer_subheadlines.interval = 3  # Check every 2seconds
 
         self.task_check_timer_vsl_script.enabled = True
         self.task_check_timer_vsl_script.interval = 3  # Check every 2seconds
@@ -205,6 +205,7 @@ class Headlines(HeadlinesTemplate):
             self.chosen_final_headline = self.main_headline_textbox.text
             self.chosen_final_subheadline = self.subheadline_textbox.text
             self.chosen_final_secondary_headline = self.secondary_headline_textbox.text
+            video_sales_script_textbox = self.video_sales_script_textbox.text
           
             chosen_final_headline_row = user_table.search(variable='chosen_final_headline')[0]
             chosen_final_subheadline_row = user_table.search(variable='chosen_final_subheadline')[0]
@@ -222,7 +223,7 @@ class Headlines(HeadlinesTemplate):
             vsl_theme_3_row = user_table.get(variable='vsl_theme_3')
             vsl_theme_4_row = user_table.get(variable='vsl_theme_4')
       
-            self.task_id = anvil.server.call('launch_generate_vsl_themes', self.chosen_final_headline, self.chosen_final_subheadline, self.chosen_product_name, self.chosen_product_research, self.chosen_tone,self.video_sales_script_textbox,row)
+            self.task_id = anvil.server.call('launch_generate_vsl_themes', self.chosen_final_headline, self.chosen_final_subheadline, self.chosen_product_name, self.chosen_product_research, self.chosen_tone,video_sales_script_textbox,row)
     
             self.task_check_timer_vsl_themes.enabled = True
             self.task_check_timer_vsl_themes.interval = 3

@@ -178,7 +178,7 @@ components:
               underline: false}
             name: main_headline_1
             layout_properties: {grid_position: 'AGESKX,ORHBDP'}
-            event_bindings: {clicked: radio_button_1_clicked}
+            event_bindings: {clicked: main_headline_button_click}
             data_bindings: []
           - type: RadioButton
             properties: {role: null, selected: false, align: left, tooltip: '', border: '',
@@ -765,7 +765,7 @@ components:
         properties: {role: null, align: center, height: '', tooltip: '', placeholder: 1ST HEADLINE - Your Attention Getting Headline Loads Here,
           border: '', enabled: true, foreground: '', visible: true, text: '', font_size: 24,
           auto_expand: true, font: '', spacing_above: small, spacing_below: small,
-          italic: false, background: '#e0f0ff', bold: true, underline: false}
+          italic: false, background: '', bold: true, underline: false}
         name: main_headline_textbox
         layout_properties: {grid_position: 'OUCXNB,ZQLXFW'}
         event_bindings: {change: main_headline_group_change}
@@ -774,7 +774,7 @@ components:
             here''s your subheadline to increase credibility and build interest ',
           border: '', enabled: true, foreground: '', visible: true, text: '', font_size: 20,
           auto_expand: true, font: '', spacing_above: small, spacing_below: small,
-          italic: false, background: '#e0f0ff', bold: true, underline: false}
+          italic: false, background: '', bold: true, underline: false}
         name: subheadline_textbox
         layout_properties: {grid_position: 'TSJQSD,HGLANS'}
       - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
@@ -787,7 +787,7 @@ components:
         properties: {role: null, align: left, height: 355, tooltip: '', placeholder: VIDEO SALES SCRIPT IS HERE (Next Step...),
           border: '', enabled: true, foreground: '', visible: true, text: '', font_size: 16,
           auto_expand: true, font: '', spacing_above: small, spacing_below: small,
-          italic: false, background: '#e0f0ff', bold: false, underline: false}
+          italic: false, background: '', bold: false, underline: false}
         name: video_sales_script_textbox
         layout_properties: {grid_position: 'LZWTET,KOGWGA'}
       - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
@@ -844,7 +844,7 @@ components:
         properties: {role: null, align: center, height: '', tooltip: '', placeholder: 2ND HEADLINE HERE - This entices the reader to continue reading...,
           border: '', enabled: true, foreground: '', visible: true, text: '', font_size: 20,
           auto_expand: true, font: '', spacing_above: small, spacing_below: small,
-          italic: false, background: '#e0f0ff', bold: true, underline: false}
+          italic: false, background: '', bold: true, underline: false}
         name: secondary_headline_textbox
         layout_properties:
           col_widths: {}
@@ -870,14 +870,14 @@ components:
         properties: {role: null, align: left, height: '', tooltip: '', placeholder: '',
           border: '', enabled: true, foreground: '', visible: true, text: EXCERPT 1 - Compelling Reason,
           font_size: null, auto_expand: true, font: '', spacing_above: small, spacing_below: small,
-          italic: true, background: '#e0f0ff', bold: false, underline: false}
+          italic: true, background: '', bold: false, underline: false}
         name: excerpt_textbox_1
         layout_properties: {grid_position: 'WYJUOA,CVCFIE'}
       - type: TextArea
         properties: {role: null, align: left, height: '', tooltip: '', placeholder: '',
           border: '', enabled: true, foreground: '', visible: true, text: EXCERPT 2 - Revealing Secret,
           font_size: null, auto_expand: true, font: '', spacing_above: small, spacing_below: small,
-          italic: true, background: '#e0f0ff', bold: false, underline: false}
+          italic: true, background: '', bold: false, underline: false}
         name: excerpt_textbox_2
         layout_properties:
           col_widths: {}
@@ -886,7 +886,7 @@ components:
         properties: {role: null, align: left, height: '', tooltip: '', placeholder: '',
           border: '', enabled: true, foreground: '', visible: true, text: EXCERPT 3 - Another Revealing Secret,
           font_size: null, auto_expand: true, font: '', spacing_above: small, spacing_below: small,
-          italic: true, background: '#e0f0ff', bold: false, underline: false}
+          italic: true, background: '', bold: false, underline: false}
         name: excerpt_textbox_3
         layout_properties:
           col_widths: {}
@@ -895,7 +895,7 @@ components:
         properties: {role: null, align: left, height: '', tooltip: '', placeholder: '',
           border: '', enabled: true, foreground: '', visible: true, text: EXCERPT 4 - Expected Results,
           font_size: null, auto_expand: true, font: '', spacing_above: small, spacing_below: small,
-          italic: true, background: '#e0f0ff', bold: false, underline: false}
+          italic: true, background: '', bold: false, underline: false}
         name: excerpt_textbox_4
         layout_properties:
           col_widths: {}
