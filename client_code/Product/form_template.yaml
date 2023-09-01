@@ -98,7 +98,7 @@ components:
     name: indeterminate_1
     layout_properties: {grid_position: 'JAALCJ,THPZCV'}
   - type: TextArea
-    properties: {role: null, align: left, height: 110, tooltip: '', placeholder: '',
+    properties: {role: null, align: left, height: 110, tooltip: '', placeholder: Provide a brief description of the product to help guide the research agent.,
       border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
       auto_expand: true, font: '', spacing_above: small, spacing_below: small, italic: false,
       background: '', bold: false, underline: false}
