@@ -3,7 +3,7 @@ container:
   properties: {col_widths: '{}'}
 components:
 - type: ColumnPanel
-  properties: {col_widths: '{"GGHOON":10,"EQBITN":50}'}
+  properties: {col_widths: '{}'}
   name: content_panel
   layout_properties: {grid_position: 'JGPTPY,TXHNPI'}
   components:
@@ -24,21 +24,30 @@ components:
         col_widths: {}
         grid_position: LXZVPW,LDDDBI
   - type: ColumnPanel
-    properties: {}
-    name: column_panel_2
-    layout_properties: {grid_position: 'WFZHET,GGHOON'}
-  - type: RichText
-    properties: {role: null, align: left, tooltip: '', enable_slots: true, border: '',
-      foreground: '', visible: true, font_size: 16, content: "**DIRECTIONS:**\n\n\
-        1 - Click 'Generate your Headlines and Script' button below\n\n2 - Click to\
-        \ select three headlines for placeholder positions: Headlines, Subheadlines,\
-        \ and Secondary Headlines\n\n3 - Edit your Video Sales Script. Note: You can\
-        \ even give new direction to FunnelWriter.AI then regenerate the script...\
-        \  \n\n4- Click 'Generate 4 Sales Themes' button.\n\n5 - Click 'Send Me My\
-        \ Sales Script' to receive it directly to your Email.", font: '', spacing_above: small,
-      spacing_below: small, data: null, background: '', format: markdown}
-    name: rich_text_1
-    layout_properties: {grid_position: 'WFZHET,EQBITN'}
+    properties: {col_widths: '{"ZPOENP":10,"MCQKQM":50}'}
+    name: intro_directions
+    layout_properties: {grid_position: 'WQCCJF,SOVRUL'}
+    components:
+    - type: ColumnPanel
+      properties: {}
+      name: column_panel_9
+      layout_properties: {grid_position: 'WFIIMW,ZPOENP'}
+    - type: RichText
+      properties: {role: null, align: left, tooltip: '', enable_slots: true, border: '',
+        foreground: '', visible: true, font_size: 16, content: "\ud83c\udf1f **DIRECTIONS:**\
+          \ \ud83c\udf1f\n\n\ud83d\udc49 **Step 1:**  Click the 'Generate your Headlines\
+          \ and Script' button below.\n\n\ud83d\udc49 **Step 2:** Click the bullets\
+          \ to select your headlines for the following placeholder positions:\n\n\
+          - Main Headlines\n- Subheadlines\n- Secondary Headlines\n\n\ud83d\udc49\
+          \ **Step 3:**  Edit your Video Sales Script.\n\n \ud83d\udca1 _Note: You\
+          \ can even give new directions to FunnelWriter.AI and then regenerate the\
+          \ script._\n\n\ud83d\udc49 **Step 4:**   Click the 'Generate 4 Sales Themes'\
+          \ button.\n\n\ud83d\udc49 **Step 5:**  Click '**Send Me My Sales Script**'\
+          \ to have it delivered directly to your email.\n\n\ud83c\udf89 **HAVE FUN!!**\
+          \ \ud83c\udf89\n\n", font: '', spacing_above: small, spacing_below: small,
+        data: null, background: '', format: markdown}
+      name: rich_text_1
+      layout_properties: {grid_position: 'WFIIMW,MCQKQM'}
   - type: ColumnPanel
     properties: {col_widths: '{}'}
     name: column_panel_1
@@ -64,6 +73,35 @@ components:
     components:
     - type: ColumnPanel
       properties: {col_widths: '{}'}
+      name: headlines_subheadlines_directions
+      layout_properties: {grid_position: 'NTVBWU,TPLUTD'}
+      components:
+      - type: ColumnPanel
+        properties: {col_widths: '{"ZPOENP":10,"MCQKQM":50}'}
+        name: headlines_and_subheadlines_directions
+        layout_properties:
+          col_widths: {}
+          grid_position: WKHLCL,PIUBZB
+        components:
+        - type: ColumnPanel
+          properties: {}
+          name: column_panel_9_copy
+          layout_properties: {grid_position: 'WFIIMW,ZPOENP'}
+        - type: RichText
+          properties: {role: null, align: left, tooltip: '', enable_slots: true, border: '',
+            foreground: '', visible: true, font_size: 16, content: "\ud83c\udf1f **HEADLINE\
+              \ DIRECTIONS:** \ud83c\udf1f\n\n\ud83d\udc49 **Step 1:**   Click the\
+              \ first column of 'select bullets' to select your **HEADLINES**\n\n\ud83d\
+              \udc49 **Step 2:**   Click the second column of 'select bullets' for\
+              \ your **SECONDARY HEADLINES**\n\n\ud83d\udc49 **Step 3:**   Type /\
+              \ Edit your headlines, as needed.\n\n\ud83d\udc49 **Step 4:**   Click\
+              \ \"**SAVE AND MOVE ON**\"\n\n\ud83d\udca1 *You can also click 'REGENERATE\
+              \ HEADLINES' for a new 10 headlines*....", font: '', spacing_above: small,
+            spacing_below: small, data: null, background: '', format: markdown}
+          name: rich_text_1_copy
+          layout_properties: {grid_position: 'WFIIMW,MCQKQM'}
+    - type: ColumnPanel
+      properties: {col_widths: '{}'}
       name: headlines_header
       layout_properties:
         col_widths: {}
@@ -80,7 +118,7 @@ components:
           grid_position: FLRRRX,DISHHR
       - type: Label
         properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
-          visible: true, text: Subheadlines, font_size: 32, font: '', spacing_above: small,
+          visible: true, text: VSL FINAL TEMPLATE, font_size: 32, font: '', spacing_above: small,
           icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
           underline: false, icon: ''}
         name: label_1_copy_2
@@ -430,8 +468,31 @@ components:
     name: subheadlines_chooser_panel
     layout_properties:
       col_widths: {}
-      grid_position: WESGXV,TXANEP
+      grid_position: TOCBXG,MJTTMR
     components:
+    - type: ColumnPanel
+      properties: {col_widths: '{"ZPOENP":10,"MCQKQM":50}'}
+      name: subheadlines_directions
+      layout_properties:
+        col_widths: {}
+        grid_position: ALJQRE,RPHOZI
+      components:
+      - type: ColumnPanel
+        properties: {}
+        name: column_panel_9_copy_2
+        layout_properties: {grid_position: 'WFIIMW,ZPOENP'}
+      - type: RichText
+        properties: {role: null, align: left, tooltip: '', enable_slots: true, border: '',
+          foreground: '', visible: true, font_size: 16, content: "\ud83c\udf1f **SUBHEADLINE\
+            \ DIRECTIONS:** \ud83c\udf1f\n\n\ud83d\udc49 **Step 1:**   Click the first\
+            \ column of 'select bullets' to select your **SUBHEADLINES*\n\n\ud83d\udc49\
+            \ **Step 2:**  Type / Edit your headlines, as needed.\n\n\ud83d\udc49\
+            \ **Step 3:**   Click \"**SAVE AND MOVE ON...VIDEO SALES LETTER**\"\n\n\
+            \ud83d\udca1 *You can also click 'REGENERATE SUBHEADLINES' for a new 10\
+            \ headlines*....", font: '', spacing_above: small, spacing_below: small,
+          data: null, background: '', format: markdown}
+        name: rich_text_1_copy_2
+        layout_properties: {grid_position: 'WFIIMW,MCQKQM'}
     - type: ColumnPanel
       properties: {col_widths: '{}'}
       name: secondary_headline_5_copy
@@ -579,7 +640,7 @@ components:
         grid_position: BSHUHU,YSUFJT ZAXCGG,HPVTXS
       event_bindings: {click: regenerate_subheadlines_button_click}
     - type: ColumnPanel
-      properties: {}
+      properties: {col_widths: '{}'}
       name: column_panel_3
       layout_properties: {grid_position: 'BSHUHU,XREOWW'}
       components:
@@ -652,6 +713,31 @@ components:
       grid_position: OAAZOG,SVYPNR
     components:
     - type: ColumnPanel
+      properties: {col_widths: '{"ZPOENP":10,"MCQKQM":50}'}
+      name: subheadlines_directions_copy
+      layout_properties:
+        col_widths: {}
+        grid_position: JVIKAZ,TOXURI
+      components:
+      - type: ColumnPanel
+        properties: {}
+        name: column_panel_9_copy_3
+        layout_properties: {grid_position: 'WFIIMW,ZPOENP'}
+      - type: RichText
+        properties: {role: null, align: left, tooltip: '', enable_slots: true, border: '',
+          foreground: '', visible: true, font_size: 16, content: "\ud83c\udf1f **DIRECTIONS:**\
+            \ \ud83c\udf1f\n\n\ud83d\udc49 **Step 1:**   Type / Edit your **Video\
+            \ Sales Letter Script** below.\n\n\ud83d\udc49 **Step 2:**  Click the\
+            \ \"*Provide Feedback / Direction to FunnelWriter.AI Bot*\" button to\
+            \ give notes or comments to our AI. Then click \"*REWRITE w/ FEEDBACK*\"\
+            \n\n\ud83d\udc49 **Step 3:**   Click \"*GENERATE 4 SALES THEMES*\" for\
+            \ the final templated themes.\n\n\ud83d\udca1  **Step 4:**   Click \"\
+            *SEND ME MY SALES SCRIPT\" to get your script to your inbox.", font: '',
+          spacing_above: small, spacing_below: small, data: null, background: '',
+          format: markdown}
+        name: rich_text_1_copy_3
+        layout_properties: {grid_position: 'WFIIMW,MCQKQM'}
+    - type: ColumnPanel
       properties: {role: elevated-card, tooltip: '', border: '', foreground: '', visible: true,
         wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}',
         spacing_below: small, background: 'theme:On Primary'}
@@ -677,18 +763,18 @@ components:
           grid_position: JGRCZW,VBCSYQ
       - type: TextArea
         properties: {role: null, align: center, height: '', tooltip: '', placeholder: 1ST HEADLINE - Your Attention Getting Headline Loads Here,
-          border: '', enabled: true, foreground: '', visible: true, text: '', font_size: 20,
+          border: '', enabled: true, foreground: '', visible: true, text: '', font_size: 24,
           auto_expand: true, font: '', spacing_above: small, spacing_below: small,
-          italic: false, background: '', bold: true, underline: false}
+          italic: false, background: '#e0f0ff', bold: true, underline: false}
         name: main_headline_textbox
         layout_properties: {grid_position: 'OUCXNB,ZQLXFW'}
         event_bindings: {change: main_headline_group_change}
       - type: TextArea
         properties: {role: null, align: center, height: '', tooltip: '', placeholder: 'Next,
             here''s your subheadline to increase credibility and build interest ',
-          border: '', enabled: true, foreground: '', visible: true, text: '', font_size: 18,
+          border: '', enabled: true, foreground: '', visible: true, text: '', font_size: 20,
           auto_expand: true, font: '', spacing_above: small, spacing_below: small,
-          italic: false, background: '', bold: true, underline: false}
+          italic: false, background: '#e0f0ff', bold: true, underline: false}
         name: subheadline_textbox
         layout_properties: {grid_position: 'TSJQSD,HGLANS'}
       - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
@@ -701,7 +787,7 @@ components:
         properties: {role: null, align: left, height: 355, tooltip: '', placeholder: VIDEO SALES SCRIPT IS HERE (Next Step...),
           border: '', enabled: true, foreground: '', visible: true, text: '', font_size: 16,
           auto_expand: true, font: '', spacing_above: small, spacing_below: small,
-          italic: false, background: '', bold: false, underline: false}
+          italic: false, background: '#e0f0ff', bold: false, underline: false}
         name: video_sales_script_textbox
         layout_properties: {grid_position: 'LZWTET,KOGWGA'}
       - type: form:C6ZZPAPN4YYF5NVJ:ProgressBar.Indeterminate
@@ -721,13 +807,14 @@ components:
         event_bindings: {click: provide_feedback_button_click}
       - type: Button
         properties: {role: outlined-button, align: right, tooltip: '', border: '',
-          enabled: true, foreground: '', visible: true, text: REGENERATE SUBHEADLINES,
+          enabled: true, foreground: '', visible: true, text: REGENERATE VIDEO SALES SCRIPT,
           font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
           italic: false, background: '', bold: false, underline: false, icon: 'fa:android'}
         name: regenerate_vsl_script_button
         layout_properties:
           col_widths: {}
           grid_position: SKSFEM,GDTXYU
+        event_bindings: {click: regenerate_vsl_button_click}
       - type: ColumnPanel
         properties: {col_widths: '{"QYJHNU":10}'}
         name: rewrite_box
@@ -744,7 +831,7 @@ components:
           layout_properties: {grid_position: 'UFRDRV,QYSTJE'}
         - type: Button
           properties: {role: elevated-button, align: center, tooltip: '', border: '',
-            enabled: true, foreground: 'theme:Error', visible: true, text: REWRITE,
+            enabled: true, foreground: 'theme:Error', visible: true, text: REWRITE w/ FEEDBACK,
             font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
             italic: false, background: 'theme:Secondary Container', bold: true, underline: false,
             icon: 'fa:pencil-square-o'}
@@ -757,7 +844,7 @@ components:
         properties: {role: null, align: center, height: '', tooltip: '', placeholder: 2ND HEADLINE HERE - This entices the reader to continue reading...,
           border: '', enabled: true, foreground: '', visible: true, text: '', font_size: 20,
           auto_expand: true, font: '', spacing_above: small, spacing_below: small,
-          italic: false, background: '', bold: true, underline: false}
+          italic: false, background: '#e0f0ff', bold: true, underline: false}
         name: secondary_headline_textbox
         layout_properties:
           col_widths: {}
@@ -783,14 +870,14 @@ components:
         properties: {role: null, align: left, height: '', tooltip: '', placeholder: '',
           border: '', enabled: true, foreground: '', visible: true, text: EXCERPT 1 - Compelling Reason,
           font_size: null, auto_expand: true, font: '', spacing_above: small, spacing_below: small,
-          italic: true, background: '', bold: false, underline: false}
+          italic: true, background: '#e0f0ff', bold: false, underline: false}
         name: excerpt_textbox_1
         layout_properties: {grid_position: 'WYJUOA,CVCFIE'}
       - type: TextArea
         properties: {role: null, align: left, height: '', tooltip: '', placeholder: '',
           border: '', enabled: true, foreground: '', visible: true, text: EXCERPT 2 - Revealing Secret,
           font_size: null, auto_expand: true, font: '', spacing_above: small, spacing_below: small,
-          italic: true, background: '', bold: false, underline: false}
+          italic: true, background: '#e0f0ff', bold: false, underline: false}
         name: excerpt_textbox_2
         layout_properties:
           col_widths: {}
@@ -799,7 +886,7 @@ components:
         properties: {role: null, align: left, height: '', tooltip: '', placeholder: '',
           border: '', enabled: true, foreground: '', visible: true, text: EXCERPT 3 - Another Revealing Secret,
           font_size: null, auto_expand: true, font: '', spacing_above: small, spacing_below: small,
-          italic: true, background: '', bold: false, underline: false}
+          italic: true, background: '#e0f0ff', bold: false, underline: false}
         name: excerpt_textbox_3
         layout_properties:
           col_widths: {}
@@ -808,22 +895,22 @@ components:
         properties: {role: null, align: left, height: '', tooltip: '', placeholder: '',
           border: '', enabled: true, foreground: '', visible: true, text: EXCERPT 4 - Expected Results,
           font_size: null, auto_expand: true, font: '', spacing_above: small, spacing_below: small,
-          italic: true, background: '', bold: false, underline: false}
+          italic: true, background: '#e0f0ff', bold: false, underline: false}
         name: excerpt_textbox_4
         layout_properties:
           col_widths: {}
-          grid_position: WREWNY,MAAURC
+          grid_position: WREWNY,QZVFZQ
       - type: Button
         properties: {role: outlined-button, align: center, tooltip: '', border: '',
           enabled: true, foreground: 'theme:On Primary Container', visible: true,
-          text: SEND ME MY SALES SCRIPT, font_size: 26, font: '', spacing_above: small,
+          text: SHOW ME MY SALES SCRIPT, font_size: 26, font: '', spacing_above: small,
           icon_align: right, spacing_below: small, italic: false, background: 'theme:Tertiary
             Container', bold: true, underline: false, icon: 'fa:briefcase'}
         name: email_my_script_button
         layout_properties:
           col_widths: {}
           grid_position: VFCDCM,HYVIIL
-        event_bindings: {click: email_my_script_click}
+        event_bindings: {click: show_me_the_script_click}
 - type: Timer
   properties: {interval: 3}
   name: task_check_timer_headlines

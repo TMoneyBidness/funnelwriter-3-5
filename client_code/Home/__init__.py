@@ -841,6 +841,10 @@ class Home(HomeTemplate):
     self.content_panel.clear()
     self.content_panel.add_component(vsl_elements)
 
+  def final_product_link_click(self, **event_args):
+    vsl_elements = VSL_Elements()
+    self.content_panel.clear()
+    self.content_panel.add_component(vsl_elements)
 
           
  # # CHECK THE STATUS OF THE TASKS

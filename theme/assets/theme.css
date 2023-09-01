@@ -1042,3 +1042,19 @@ div.plot-container.plotly svg.main-svg {
   box-shadow: 0px 0px 100px 100px %color:Surface Variant%;
 }
 
+::-webkit-input-placeholder {
+   font-style: italic;
+   color: gray !important;
+}
+:-moz-placeholder {
+   font-style: italic;
+   color: gray !important;
+}
+::-moz-placeholder {
+   font-style: italic;
+   color: gray !important;
+}
+:-ms-input-placeholder {  
+   font-style: italic;
+   color: gray !important;
+}

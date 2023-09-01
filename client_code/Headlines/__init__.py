@@ -13,6 +13,7 @@ from anvil.tables import app_tables
 from anvil import tables
 
 from ..VideoSalesLetter import VideoSalesLetter
+from ..FinalProduct_Export import FinalProduct_Export
 
 
 ############################################################################################################
@@ -140,8 +141,9 @@ class Headlines(HeadlinesTemplate):
         self.main_secondary_headline_box.visible = True
         self.indeterminate_progress_main_headlines.visible = True
         self.indeterminate_progress_subheadlines.visible = True
-        self.generate_headlines_vsl_button.visible - False
-
+        self.generate_headlines_vsl_button.visible = False
+        self.intro_directions.visible = False 
+   
       # Delete whatever is in the table with existing headlines.
         current_user = anvil.users.get_user()
         user_table_name = current_user['user_id']
@@ -161,30 +163,30 @@ class Headlines(HeadlinesTemplate):
         vsl_script_row['variable_value'] = None
         vsl_script_row.update()
         
-       # Launch the background tasks concurrently
-        # MAIN HEADLINES 
-        task_id_main_headlines = anvil.server.call('launch_generate_main_headlines', self.chosen_product_name,self.chosen_company_profile,self.chosen_product_research, self.chosen_tone)
-        print("Main Headlines Launch function called")
-        self.indeterminate_progress_main_headlines.visible = True
+      #  # Launch the background tasks concurrently
+      #   # MAIN HEADLINES 
+      #   task_id_main_headlines = anvil.server.call('launch_generate_main_headlines', self.chosen_product_name,self.chosen_company_profile,self.chosen_product_research, self.chosen_tone)
+      #   print("Main Headlines Launch function called")
+      #   self.indeterminate_progress_main_headlines.visible = True
 
-      # SUBHEADLINES 
-        task_id_subheadlines = anvil.server.call('launch_generate_subheadlines', self.chosen_product_name,self.chosen_company_profile,self.chosen_product_research, self.chosen_tone)
-        print("Subheadlines Launch function called")
-        self.indeterminate_progress_subheadlines.visible = True
+      # # SUBHEADLINES 
+      #   task_id_subheadlines = anvil.server.call('launch_generate_subheadlines', self.chosen_product_name,self.chosen_company_profile,self.chosen_product_research, self.chosen_tone)
+      #   print("Subheadlines Launch function called")
+      #   self.indeterminate_progress_subheadlines.visible = True
      
-        self.task_id_vsl_script = anvil.server.call('launch_generate_vsl_script', self.chosen_product_name, self.chosen_company_profile, self.chosen_product_research,self.chosen_avatar, self.chosen_tone, self.example_script)
-        print("Video Sales Script function called")
-        self.indeterminate_progress_main_headlines.visible = True
-        self.indeterminate_progress_vsl_themes.visible = True
+      #   self.task_id_vsl_script = anvil.server.call('launch_generate_vsl_script', self.chosen_product_name, self.chosen_company_profile, self.chosen_product_research,self.chosen_avatar, self.chosen_tone, self.example_script)
+      #   print("Video Sales Script function called")
+      #   self.indeterminate_progress_main_headlines.visible = True
+      #   self.indeterminate_progress_vsl_themes.visible = True
 
-        self.task_check_timer_headlines.enabled = True
-        self.task_check_timer_headlines.interval = 3  # Check every 2seconds
+      #   self.task_check_timer_headlines.enabled = True
+      #   self.task_check_timer_headlines.interval = 3  # Check every 2seconds
       
-        self.task_check_timer_subheadlines.enabled = True
-        self.task_check_timer_subheadlines.interval = 3  # Check every 2seconds
+      #   self.task_check_timer_subheadlines.enabled = True
+      #   self.task_check_timer_subheadlines.interval = 3  # Check every 2seconds
 
-        self.task_check_timer_vsl_script.enabled = True
-        self.task_check_timer_vsl_script.interval = 3  # Check every 2seconds
+      #   self.task_check_timer_vsl_script.enabled = True
+      #   self.task_check_timer_vsl_script.interval = 3  # Check every 2seconds
   
   def generate_vsl_themes_button_click(self, **event_args):
     with anvil.server.no_loading_indicator:
@@ -830,7 +832,7 @@ class Headlines(HeadlinesTemplate):
     # Check if the 'secondary_headline_textbox_2' is empty
     if not self.secondary_headline_textbox_2.text or not self.main_headline_textbox_2.text:
       # Display the alert box
-      anvil.js.window.alert("Please Choose or Write a Main and Secondary Headline before proceeding...")
+      anvil.js.window.alert("Please Choose (or Write) a Main and Secondary Headline from the two 'bullet selects' before proceeding...")
       return  # exit the function early
   
     # If the textbox is not empty, proceed with the rest of the code
@@ -839,6 +841,8 @@ class Headlines(HeadlinesTemplate):
     
     self.main_secondary_headline_box.visible = False
     self.subheadlines_chooser_panel.visible = True
+    
+    
 
 
   def save_all_headlines_to_vsl_click(self, **event_args):
@@ -855,6 +859,54 @@ class Headlines(HeadlinesTemplate):
     # Hide both previous panels
     self.subheadlines_chooser_panel.visible = False
     self.final_vsl_outline_box.visible = True
+
+  def show_me_the_script_click(self, **event_args):
+    current_user = anvil.users.get_user()
+    user_table_name = current_user['user_id']
+    # Get the table for the current user
+    user_table = getattr(app_tables, user_table_name)
+
+    chosen_final_headline = self.main_headline_textbox.text
+    chosen_final_subheadline = self.subheadline_textbox.text
+    chosen_final_secondary_headline = self.secondary_headline_textbox.text
+    chosen_final_video_sales_script = self.video_sales_script_textbox.text
+    chosen_theme_excerpt_1 = self.excerpt_textbox_1.text 
+    chosen_theme_excerpt_2 = self.excerpt_textbox_2.text 
+    chosen_theme_excerpt_3 = self.excerpt_textbox_3.text 
+    chosen_theme_excerpt_4 = self.excerpt_textbox_4.text 
+    
+    chosen_final_headline_row = user_table.search(variable='chosen_final_headline')[0]
+    chosen_final_subheadline_row = user_table.search(variable='chosen_final_subheadline')[0]
+    chosen_final_secondary_headline_row = user_table.search(variable='chosen_final_secondary_headline')[0]
+    chosen_final_video_sales_script_row = user_table.search(variable='vsl_script')[0]
+    chosen_theme_excerpt_1_row = user_table.search(variable='vsl_theme_1')[0]
+    chosen_theme_excerpt_2_row = user_table.search(variable='vsl_theme_2')[0]
+    chosen_theme_excerpt_3_row = user_table.search(variable='vsl_theme_3')[0]
+    chosen_theme_excerpt_4_row = user_table.search(variable='vsl_theme_4')[0]
+    
+    chosen_final_headline_row['variable_value'] = chosen_final_headline
+    chosen_final_subheadline_row['variable_value'] = chosen_final_subheadline
+    chosen_final_secondary_headline_row['variable_value'] = chosen_final_secondary_headline
+    chosen_final_video_sales_script_row['variable_value'] = chosen_final_video_sales_script
+    chosen_theme_excerpt_1_row['variable_value'] = chosen_theme_excerpt_1
+    chosen_theme_excerpt_2_row['variable_value'] = chosen_theme_excerpt_2
+    chosen_theme_excerpt_3_row['variable_value'] = chosen_theme_excerpt_3
+    chosen_theme_excerpt_4_row['variable_value'] = chosen_theme_excerpt_4
+    
+    chosen_final_headline_row.update()
+    chosen_final_subheadline_row.update()
+    chosen_final_secondary_headline_row.update()
+    chosen_final_video_sales_script_row.update()
+    chosen_theme_excerpt_1_row.update()
+    chosen_theme_excerpt_2_row.update()
+    chosen_theme_excerpt_3_row.update()
+    chosen_theme_excerpt_4_row.update()
+
+    final_product_export = FinalProduct_Export()
+    self.content_panel.clear()
+    self.content_panel.add_component(final_product_export)
+
+
     
 
     

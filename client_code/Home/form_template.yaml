@@ -136,8 +136,8 @@ components:
       grid_position: WNAOPT,JBUDGH
   - type: Link
     properties: {role: null, url: '', align: right, tooltip: '', border: '', foreground: '',
-      visible: true, text: Video Sales Letter, font_size: null, wrap_on: mobile, font: '',
-      col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '',
+      visible: true, text: Generate Video Sales Letter, font_size: null, wrap_on: mobile,
+      font: '', col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '',
       spacing_below: small, italic: false, background: '', bold: false, underline: false,
       icon: ''}
     name: vsl_page_link_sidebar
@@ -145,6 +145,16 @@ components:
       col_widths: {}
       grid_position: BXDVZV,GQCKOO
     event_bindings: {click: VSL_page_link_click}
+  - type: Link
+    properties: {role: null, url: '', align: right, tooltip: '', border: '', foreground: '',
+      visible: true, text: My Final VSL, font_size: null, wrap_on: mobile, font: '',
+      col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '',
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: final_product
+    layout_properties:
+      col_widths: {}
+      grid_position: QHHCOE,IGSLUH
 - type: Label
   properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
     text: FunnelWriter.AI, font_size: null, font: '', spacing_above: small, icon_align: left,
