@@ -82,10 +82,11 @@ class VSL_Elements(VSL_ElementsTemplate):
     user_table.search(variable='avatar_2_product_5_latest')[0],
     user_table.search(variable='avatar_3_product_5_latest')[0],
     ]
+    # CHANGE ALL THE 'VARIABLE_TITLE' to VARIABLE_VALUE
     # Filter out rows where 'variable_value' (avatar) is not empty
-    non_empty_rows = [row for row in avatar_rows_custom if row['variable_title']]
+    non_empty_rows = [row for row in avatar_rows_custom if row['variable_value']] # <<<<<<<<<<<<<<<<<-------------------------------------HERE
     # Extract the values from the non-empty rows
-    avatars_custom = [row['variable_title'] for row in non_empty_rows]
+    avatars_custom = [row['variable_value'] for row in non_empty_rows] # <<<<<<<<<<<<<<<<<-------------------------------------HERE
     # Create a list of tuples for the avatar_dropdown items
     avatar_dropdown_items = [(avatar, avatar) for avatar in avatars_custom]
     # Assign the values to the avatar_dropdown
@@ -102,7 +103,7 @@ class VSL_Elements(VSL_ElementsTemplate):
     self.brand_tone_dropdown.items = brand_tone_dropdown_items
 
    # SCRIPT FORMAT
-    self.script_format_dropdown.items = ['Who, What, Where, How', 'Star, Story, Solution']
+    self.script_format_dropdown.items = ['Who, What, Where, How', 'Star, Story, Solution', 'The Perfect Webinar']
 
 # LOCK IT ALL IN
   def save_funnel_settings_component_click(self, **event_args):

@@ -48,7 +48,6 @@ class Headlines(HeadlinesTemplate):
     self.indeterminate_progress_vsl_script.visible = False
     self.rewrite_box.visible = False
     
-    
     self.chosen_company_name = None
     self.chosen_product_name = None
     self.chosen_product_research = None
@@ -116,8 +115,13 @@ class Headlines(HeadlinesTemplate):
         self.example_script = example_script
 
     elif row_chosen_script[0]['variable_title'] == 'Star, Story, Solution':
-        example_sss_row = app_tables.example_scripts.search(script='sss_1')[0]
-        example_script = example_sss_row['script_contents']
+      example_sss_row = app_tables.example_scripts.search(script='sss_1')[0]
+      example_script = example_sss_row['script_contents']
+      self.example_script = example_script
+      
+    elif row_chosen_script[0]['variable_title'] == 'The Perfect Webinar':
+        example_tpw_row = app_tables.example_scripts.search(script='perfect_webinar')[0]
+        example_script = example_tpw_row['script_contents']
         self.example_script = example_script
 
     # Stop all Timers

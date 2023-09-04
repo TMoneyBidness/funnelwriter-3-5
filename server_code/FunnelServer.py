@@ -3711,8 +3711,9 @@ def launch_generate_main_headlines(chosen_product_name, chosen_company_profile, 
 
 @anvil.server.background_task
 def generate_main_headlines(chosen_product_name, chosen_company_profile, chosen_product_research, chosen_tone, row):
-  example_headlines_row = app_tables.example_scripts.get(script='example_headlines')
-  example_headlines = example_headlines_row['script_contents']
+  # example_headlines_row = app_tables.example_scripts.get(script='example_headlines')
+  # example_headlines = example_headlines_row['script_contents']
+  # HERE IS ARE SOME EXAMPLE HEADLINES: {example_headlines}
 
   llm_headline = ChatOpenAI(temperature=0.8, model_name='gpt-4', openai_api_key=openai_api_key)
   
@@ -3726,8 +3727,7 @@ def generate_main_headlines(chosen_product_name, chosen_company_profile, chosen_
 
     HERE IS SOME CONTEXT ABOUT THE PRODUCT: {chosen_product_research}
     
-    HERE IS ARE SOME EXAMPLE HEADLINES: {example_headlines}
-           
+             
     THE TONE IS: {chosen_tone}
 
     The output should be an unumbered list of 10 headlines, as per the tone I provide. Update the example headlines I gave according to the tone.
@@ -3740,12 +3740,12 @@ def generate_main_headlines(chosen_product_name, chosen_company_profile, chosen_
     """
 
   headline_prompt = PromptTemplate(
-      input_variables=["chosen_product_name", "chosen_company_profile", "chosen_product_research", "example_headlines", "chosen_tone"], 
+      input_variables=["chosen_product_name", "chosen_company_profile", "chosen_product_research", "chosen_tone"], 
       template=headline_template
   )
   
   chain_main_headlines = LLMChain(llm=llm_headline, prompt=headline_prompt)
-  headline_generator = chain_main_headlines.run(chosen_product_name=chosen_product_name, chosen_company_profile=chosen_company_profile, chosen_product_research=chosen_product_research, example_headlines=example_headlines, chosen_tone=chosen_tone)
+  headline_generator = chain_main_headlines.run(chosen_product_name=chosen_product_name, chosen_company_profile=chosen_company_profile, chosen_product_research=chosen_product_research, chosen_tone=chosen_tone)
   print("Here are the headlines", headline_generator) 
   headlines = headline_generator.split("\n")
 
@@ -3790,8 +3790,9 @@ def launch_generate_subheadlines(chosen_product_name, chosen_company_profile, ch
 
 @anvil.server.background_task
 def generate_subheadlines(chosen_product_name, chosen_company_profile, chosen_product_research, chosen_tone,row):
-  example_headlines_row = app_tables.example_scripts.get(script='example_headlines')
-  example_headlines = example_headlines_row['script_contents']
+  # example_headlines_row = app_tables.example_scripts.get(script='example_headlines')
+  # example_headlines = example_headlines_row['script_contents'] 
+  # HERE IS ARE SOME EXAMPLE HEADLINES, HOWEVER, YOU MUST UPDATE THEM TO MATCH THE TONE: {example_headlines}
 
   llm_subheadline = ChatOpenAI(temperature=0.8, model_name='gpt-4', openai_api_key=openai_api_key)
   
@@ -3809,16 +3810,14 @@ def generate_subheadlines(chosen_product_name, chosen_company_profile, chosen_pr
 
     When generating these headlines just remember that people didn’t come looking for our product… instead we are interrupting them in their daily journey. The only way to get them to stop scrolling online is to grab their attention with an irresistible headline!
 
-
     HERE IS SOME CONTEXT ABOUT THE COMPANY: {chosen_company_profile}
 
     HERE IS SOME CONTEXT ABOUT THE PRODUCT: {chosen_product_research}
     
-    HERE IS ARE SOME EXAMPLE HEADLINES, HOWEVER, YOU MUST UPDATE THEM TO MATCH THE TONE: {example_headlines}
-
+   
     THE TONE IS: {chosen_tone}
     
-    The output should be a list of 10 SUBHEADLINES that relate to the final existing main headline.
+    The output should be a list of 10 SUBHEADLINES, in the tone above, that relate to the final existing main headline.
     
     No "" quotation marks.
     No itemized numbers. 
@@ -3827,14 +3826,13 @@ def generate_subheadlines(chosen_product_name, chosen_company_profile, chosen_pr
     (no introduction or outro needed, just an itemized list of 10 subheadlines)
     """
 
-
   subheadline_prompt = PromptTemplate(
-      input_variables=["chosen_product_name", "chosen_company_profile", "chosen_product_research", "example_headlines", "chosen_tone"], 
+      input_variables=["chosen_product_name", "chosen_company_profile", "chosen_product_research", "chosen_tone"], 
       template=subheadline_template
   )
 
   chain_subheadlines = LLMChain(llm=llm_subheadline, prompt=subheadline_prompt)
-  subheadline_generator = chain_subheadlines.run(chosen_product_name=chosen_product_name, chosen_company_profile=chosen_company_profile, chosen_product_research=chosen_product_research, example_headlines=example_headlines, chosen_tone=chosen_tone)
+  subheadline_generator = chain_subheadlines.run(chosen_product_name=chosen_product_name, chosen_company_profile=chosen_company_profile, chosen_product_research=chosen_product_research, chosen_tone=chosen_tone)
   print("Here are the subheadlines", subheadline_generator) 
   subheadlines = subheadline_generator.split("\n")
 

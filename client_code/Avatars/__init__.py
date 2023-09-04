@@ -1915,13 +1915,13 @@ class Avatars(AvatarsTemplate):
         avatar_description = getattr(self, f'avatar_{j}_product_1_input').text
         avatar_name = getattr(self, f'avatar_{j}_product_1_name').text
       
-        # Check if both are empty for this iteration
-        if not avatar_description.strip() and not avatar_name.strip():
-            continue  # Skip this iteration
-        # If either is empty, show alert and break
-        if not avatar_description.strip() or not avatar_name.strip():
-            anvil.js.window.alert("Please name the avatar, and ensure there's an avatar description.")
-            break
+        # # Check if both are empty for this iteration
+        # if not avatar_description.strip() and not avatar_name.strip():
+        #     continue  # Skip this iteration
+        # # If either is empty, show alert and break
+        # if not avatar_description.strip() or not avatar_name.strip():
+        #     anvil.js.window.alert("Please name Avatar 1, and ensure there's an avatar description.")
+        #     break
       
         avatar_description_row = user_table.get(variable=f'avatar_{j}_product_1_latest')
         avatar_description_row['variable_value'] = avatar_description
@@ -1948,13 +1948,13 @@ class Avatars(AvatarsTemplate):
         avatar_description = getattr(self, f'avatar_{j}_product_2_input').text
         avatar_name = getattr(self, f'avatar_{j}_product_2_name').text
       
-        # Check if both are empty for this iteration
-        if not avatar_description.strip() and not avatar_name.strip():
-            continue  # Skip this iteration
-        # If either is empty, show alert and break
-        if not avatar_description.strip() or not avatar_name.strip():
-            anvil.js.window.alert("Avatar Name and Description cannot be empty.")
-            break
+        # # Check if both are empty for this iteration
+        # if not avatar_description.strip() and not avatar_name.strip():
+        #     continue  # Skip this iteration
+        # # If either is empty, show alert and break
+        # if not avatar_description.strip() or not avatar_name.strip():
+        #     anvil.js.window.alert("Please name Avatar 2 and provide a description.")
+        #     break
       
         avatar_description_row = user_table.get(variable=f'avatar_{j}_product_2_latest')
         avatar_description_row['variable_value'] = avatar_description
@@ -1981,13 +1981,13 @@ class Avatars(AvatarsTemplate):
           avatar_description = getattr(self, f'avatar_{j}_product_3_input').text
           avatar_name = getattr(self, f'avatar_{j}_product_3_name').text
         
-          # Check if both are empty for this iteration
-          if not avatar_description.strip() and not avatar_name.strip():
-              continue  # Skip this iteration
-          # If either is empty, show alert and break
-          if not avatar_description.strip() or not avatar_name.strip():
-              anvil.js.window.alert("Avatar Name and Description cannot be empty.")
-              break
+          # # Check if both are empty for this iteration
+          # if not avatar_description.strip() and not avatar_name.strip():
+          #     continue  # Skip this iteration
+          # # If either is empty, show alert and break
+          # if not avatar_description.strip() or not avatar_name.strip():
+          #     anvil.js.window.alert("Please name Avatar 3, and ensure description is not empty.")
+          #     break
         
           avatar_description_row = user_table.get(variable=f'avatar_{j}_product_3_latest')
           avatar_description_row['variable_value'] = avatar_description
@@ -2014,13 +2014,13 @@ class Avatars(AvatarsTemplate):
           avatar_description = getattr(self, f'avatar_{j}_product_4_input').text
           avatar_name = getattr(self, f'avatar_{j}_product_4_name').text
         
-          # Check if both are empty for this iteration
-          if not avatar_description.strip() and not avatar_name.strip():
-              continue  # Skip this iteration
-          # If either is empty, show alert and break
-          if not avatar_description.strip() or not avatar_name.strip():
-              anvil.js.window.alert("Avatar Name and Description cannot be empty.")
-              break
+          # # Check if both are empty for this iteration
+          # if not avatar_description.strip() and not avatar_name.strip():
+          #     continue  # Skip this iteration
+          # # If either is empty, show alert and break
+          # if not avatar_description.strip() or not avatar_name.strip():
+          #     anvil.js.window.alert("Please name Avatar 4, and ensure description is not empty.")
+          #     break
         
           avatar_description_row = user_table.get(variable=f'avatar_{j}_product_4_latest')
           avatar_description_row['variable_value'] = avatar_description
@@ -2047,13 +2047,13 @@ class Avatars(AvatarsTemplate):
           avatar_description = getattr(self, f'avatar_{j}_product_5_input').text
           avatar_name = getattr(self, f'avatar_{j}_product_5_name').text
         
-          # Check if both are empty for this iteration
-          if not avatar_description.strip() and not avatar_name.strip():
-              continue  # Skip this iteration
-          # If either is empty, show alert and break
-          if not avatar_description.strip() or not avatar_name.strip():
-              anvil.js.window.alert("Avatar Name and Description cannot be empty.")
-              break
+          # # Check if both are empty for this iteration
+          # if not avatar_description.strip() and not avatar_name.strip():
+          #     continue  # Skip this iteration
+          # # If either is empty, show alert and break
+          # if not avatar_description.strip() or not avatar_name.strip():
+          #     anvil.js.window.alert("Please name Avatar 5, and ensure description is not empty.")
+          #     break
         
           avatar_description_row = user_table.get(variable=f'avatar_{j}_product_5_latest')
           avatar_description_row['variable_value'] = avatar_description
@@ -2070,15 +2070,25 @@ class Avatars(AvatarsTemplate):
 
 ###----------NAVIGATION---------------####
 
-  def nav_button_avatars_to_brand_tone_click(self, **event_args):
-    for i in range(1, 6):
-        if getattr(self, f'avatar_1_product_{i}_input').text:
-            getattr(self, f'save_product_{i}_avatars_button_click')()
-        else:
-            self.navigate_to_brand_tone()
+  # def nav_button_avatars_to_brand_tone_click(self, **event_args):
+  #   for i in range(1, 6):
+  #       if getattr(self, f'avatar_1_product_{i}_input').text:
+  #           getattr(self, f'save_product_{i}_avatars_button_click')()
+  #       else:
+  #         brandtone = BrandTone()
+  #         self.content_panel.clear()
+  #         self.content_panel.add_component(brandtone)
+  #   brandtone = BrandTone()
+  #   self.content_panel.clear()
+  #   self.content_panel.add_component(brandtone)
 
+  def nav_button_avatars_to_brand_tone_click(self, **event_args):
+      brandtone = BrandTone()
+      self.content_panel.clear()
+      self.content_panel.add_component(brandtone)
     
-  def navigate_to_brand_tone(self):
+    
+  def navigate_to_brand_tone(self, **event_args):
       brandtone = BrandTone()
       self.content_panel.clear()
       self.content_panel.add_component(brandtone)
