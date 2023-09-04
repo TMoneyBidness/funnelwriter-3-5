@@ -33,6 +33,7 @@ class VSL_Elements(VSL_ElementsTemplate):
     self.chosen_script = None
     self.chosen_final_headline = None
     self.chosen_final_subheadline = None
+    self.loading_info.visible = False
    
     # Initialize task_id attribute
     self.task_id = None
@@ -109,6 +110,9 @@ class VSL_Elements(VSL_ElementsTemplate):
     if not self.submit_button_click():
         return  # Stop the function execution if validation failed
 
+    self.loading_info.visible = True
+    self.save_funnel_settings_component.visible = False
+    
     # Get the current user
     current_user = anvil.users.get_user()
     user_table_name = current_user['user_id']

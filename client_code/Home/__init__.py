@@ -131,6 +131,7 @@ class Home(HomeTemplate):
       self.avatars_asset_link_sidebar.visible = False
       self.funnels_label.visible = False
       self.vsl_page_link_sidebar.visible = False
+      self.final_product.visible = False
       print(f"SOME CELLS ARE EMPTY")
 
     ## LOAD THE LATEST
@@ -795,6 +796,7 @@ class Home(HomeTemplate):
             self.avatars_asset_link_sidebar.visible = True
             self.funnels_label.visible = True
             self.vsl_page_link_sidebar.visible = True
+            self.final_product.visible = True
         
             self.nav_button_company_to_products.visible = True
           

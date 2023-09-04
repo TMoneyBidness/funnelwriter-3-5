@@ -30,7 +30,7 @@ class BrandTone(BrandToneTemplate):
     user_table = getattr(app_tables, user_table_name)
 
   # Load the latest brand tone
-    brand_tone_url_row = user_table.search(variable='brand_tone_url')
+    brand_tone_url_row = user_table.search(variable='company_url')
     brand_tone_row = user_table.search(variable='brand_tone')
     if brand_tone_url_row:
         brand_tone_url = brand_tone_url_row[0]['variable_value']

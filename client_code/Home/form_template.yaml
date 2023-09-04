@@ -179,10 +179,9 @@ components:
     layout_properties: {grid_position: 'PFSHDG,DYFNVO'}
   - type: Label
     properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: 'AI agents will browse your site, LinkedIn, Wikipedia and
-        more to get all the info we need about your company.', font_size: 18, font: '',
-      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false, icon: ''}
+      visible: true, text: AI agents will browse your site to get all the info we need about your company.,
+      font_size: 18, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+      italic: false, background: '', bold: false, underline: false, icon: ''}
     name: label_3_copy_4
     layout_properties: {grid_position: 'ONQIRL,VATXSE'}
   - type: Spacer
@@ -245,7 +244,7 @@ components:
       name: label_2_copy_2
       layout_properties: {grid_position: 'TVDGMC,WBZYIA'}
     - type: TextBox
-      properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: (Required)....ie.      www.apple.com,
+      properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '(Required)....ie.      https://www.apple.com/',
         border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
         font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
         background: '', bold: false, underline: false}
@@ -282,14 +281,12 @@ components:
     - type: Label
       properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
         visible: true, text: "Please enter your:\n-  existing product name that you\
-          \ want the agent to research\n- the info or sales page url to collect the\
-          \ product details from\n- Add a short avatar description outline of the\
-          \ primary buyer of the product. \n\nIf you do not have an info page, or\
-          \ you'd prefer the agent to generate an avatar, leave blank and the agent\
-          \ will do its best to find details. \n\nYou may add up to 5 products to\
-          \ research.", font_size: 16, font: '', spacing_above: none, icon_align: left,
-        spacing_below: small, italic: false, background: '', bold: false, underline: false,
-        icon: ''}
+          \ want the agent to research\n-  the info or sales page website\n- Add a\
+          \ short avatar description outline of the primary buyer of the product.\
+          \ \n\nIf you do not have an info page, you can input a competitors page\
+          \ to build the product.\n\nYou may add up to 5 products to research.", font_size: 16,
+        font: '', spacing_above: none, icon_align: left, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false, icon: ''}
       name: label_4_copy_3
       layout_properties:
         col_widths: {}
@@ -340,7 +337,7 @@ components:
         col_widths: {}
         grid_position: JOAWHT,MMOSXR
     - type: TextArea
-      properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+      properties: {role: null, align: left, height: '', tooltip: '', placeholder: Provide a brief description of your ideal avatar.,
         border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
         auto_expand: true, font: '', spacing_above: small, spacing_below: small, italic: false,
         background: '', bold: false, underline: false}
@@ -372,7 +369,7 @@ components:
           col_widths: {}
           grid_position: XZEMTO,FGXNBI
       - type: TextArea
-        properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+        properties: {role: null, align: left, height: '', tooltip: '', placeholder: Provide a brief description of your ideal avatar.  (Optional).                                           ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
           border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
           auto_expand: true, font: '', spacing_above: small, spacing_below: small,
           italic: false, background: '', bold: false, underline: false}
@@ -405,7 +402,7 @@ components:
           col_widths: {}
           grid_position: XZEMTO,FGXNBI
       - type: TextArea
-        properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+        properties: {role: null, align: left, height: '', tooltip: '', placeholder: Provide a brief description of your ideal avatar.  (Optional).                                           ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
           border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
           auto_expand: true, font: '', spacing_above: small, spacing_below: small,
           italic: false, background: '', bold: false, underline: false}
@@ -469,7 +466,7 @@ components:
           grid_position: MSJVAJ,STGMYH
       - type: Label
         properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
-          visible: true, text: Customer Avatar 2 (Primary Buyer), font_size: 16, font: '',
+          visible: true, text: Customer Avatar 1 (Primary Buyer), font_size: 16, font: '',
           spacing_above: small, icon_align: left, spacing_below: small, italic: false,
           background: '', bold: true, underline: false, icon: ''}
         name: label_2_copy_8
@@ -477,7 +474,7 @@ components:
           col_widths: {}
           grid_position: UGVSDG,JDKYLZ
       - type: TextArea
-        properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+        properties: {role: null, align: left, height: '', tooltip: '', placeholder: Provide a brief description of your ideal avatar.  (Optional).                                           ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
           border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
           auto_expand: true, font: '', spacing_above: small, spacing_below: small,
           italic: false, background: '', bold: false, underline: false}
@@ -508,7 +505,7 @@ components:
             col_widths: {}
             grid_position: XZEMTO,FGXNBI
         - type: TextArea
-          properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+          properties: {role: null, align: left, height: '', tooltip: '', placeholder: Provide a brief description of your ideal avatar.  (Optional).                                           ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
             border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
             auto_expand: true, font: '', spacing_above: small, spacing_below: small,
             italic: false, background: '', bold: false, underline: false}
@@ -541,7 +538,7 @@ components:
             col_widths: {}
             grid_position: XZEMTO,FGXNBI
         - type: TextArea
-          properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+          properties: {role: null, align: left, height: '', tooltip: '', placeholder: Provide a brief description of your ideal avatar.  (Optional).                                           ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
             border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
             auto_expand: true, font: '', spacing_above: small, spacing_below: small,
             italic: false, background: '', bold: false, underline: false}
@@ -612,7 +609,7 @@ components:
           col_widths: {}
           grid_position: UGVSDG,JDKYLZ
       - type: TextArea
-        properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+        properties: {role: null, align: left, height: '', tooltip: '', placeholder: Provide a brief description of your ideal avatar.  (Optional).                                           ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
           border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
           auto_expand: true, font: '', spacing_above: small, spacing_below: small,
           italic: false, background: '', bold: false, underline: false}
@@ -643,7 +640,7 @@ components:
             col_widths: {}
             grid_position: XZEMTO,FGXNBI
         - type: TextArea
-          properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+          properties: {role: null, align: left, height: '', tooltip: '', placeholder: Provide a brief description of your ideal avatar.  (Optional).                                           ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
             border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
             auto_expand: true, font: '', spacing_above: small, spacing_below: small,
             italic: false, background: '', bold: false, underline: false}
@@ -676,7 +673,7 @@ components:
             col_widths: {}
             grid_position: XZEMTO,FGXNBI
         - type: TextArea
-          properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+          properties: {role: null, align: left, height: '', tooltip: '', placeholder: Provide a brief description of your ideal avatar.  (Optional).                                           ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
             border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
             auto_expand: true, font: '', spacing_above: small, spacing_below: small,
             italic: false, background: '', bold: false, underline: false}
@@ -749,7 +746,7 @@ components:
           col_widths: {}
           grid_position: UGVSDG,JDKYLZ
       - type: TextArea
-        properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+        properties: {role: null, align: left, height: '', tooltip: '', placeholder: Provide a brief description of your ideal avatar.  (Optional).                                           ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
           border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
           auto_expand: true, font: '', spacing_above: small, spacing_below: small,
           italic: false, background: '', bold: false, underline: false}
@@ -782,7 +779,7 @@ components:
             col_widths: {}
             grid_position: XZEMTO,FGXNBI
         - type: TextArea
-          properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+          properties: {role: null, align: left, height: '', tooltip: '', placeholder: Provide a brief description of your ideal avatar.  (Optional).                                           ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
             border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
             auto_expand: true, font: '', spacing_above: small, spacing_below: small,
             italic: false, background: '', bold: false, underline: false}
@@ -813,7 +810,7 @@ components:
             col_widths: {}
             grid_position: XZEMTO,FGXNBI
         - type: TextArea
-          properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+          properties: {role: null, align: left, height: '', tooltip: '', placeholder: Provide a brief description of your ideal avatar.  (Optional).                                           ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
             border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
             auto_expand: true, font: '', spacing_above: small, spacing_below: small,
             italic: false, background: '', bold: false, underline: false}
@@ -884,7 +881,7 @@ components:
           col_widths: {}
           grid_position: UGVSDG,JDKYLZ
       - type: TextArea
-        properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+        properties: {role: null, align: left, height: '', tooltip: '', placeholder: Provide a brief description of your ideal avatar.  (Optional).                                           ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
           border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
           auto_expand: true, font: '', spacing_above: small, spacing_below: small,
           italic: false, background: '', bold: false, underline: false}
@@ -915,7 +912,7 @@ components:
             col_widths: {}
             grid_position: XZEMTO,FGXNBI
         - type: TextArea
-          properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+          properties: {role: null, align: left, height: '', tooltip: '', placeholder: Provide a brief description of your ideal avatar.  (Optional).                                           ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
             border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
             auto_expand: true, font: '', spacing_above: small, spacing_below: small,
             italic: false, background: '', bold: false, underline: false}
@@ -948,7 +945,7 @@ components:
             col_widths: {}
             grid_position: XZEMTO,FGXNBI
         - type: TextArea
-          properties: {role: null, align: left, height: '', tooltip: '', placeholder: (Optional)...ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technolog.,
+          properties: {role: null, align: left, height: '', tooltip: '', placeholder: Provide a brief description of your ideal avatar.  (Optional).                                           ie..      Tech-savvy creatives seeking top-tier performance and versatility. They value premium quality and are willing to invest in the latest technology.,
             border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
             auto_expand: true, font: '', spacing_above: small, spacing_below: small,
             italic: false, background: '', bold: false, underline: false}

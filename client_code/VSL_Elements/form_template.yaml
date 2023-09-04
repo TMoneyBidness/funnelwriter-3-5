@@ -180,6 +180,13 @@ components:
     layout_properties:
       col_widths: {}
       grid_position: YWTNEU,DALFEF
+  - type: RichText
+    properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
+      foreground: '', visible: true, font_size: 22, content: _**Saving Variables. Wait 10 seconds...**_,
+      font: '', spacing_above: small, spacing_below: small, data: null, background: '',
+      format: markdown}
+    name: loading_info
+    layout_properties: {grid_position: 'LYURIZ,GKZYEU'}
   - type: Button
     properties: {role: outlined-button, align: center, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: LOCK IN FUNNEL TO START, font_size: 26,

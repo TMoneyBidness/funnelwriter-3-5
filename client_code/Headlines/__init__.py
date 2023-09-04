@@ -110,16 +110,13 @@ class Headlines(HeadlinesTemplate):
             # Stop the timer by setting its interval to None
             component.interval = None
           
-    if row_chosen_script and row_chosen_script[0]['variable_title'] == 'Who, What, Where, How':
-        example_wwwh_1_row = app_tables.example_scripts.get(script='wwwh_1')
+    if  row_chosen_script[0]['variable_title'] == 'Who, What, Where, How':
+        example_wwwh_1_row = app_tables.example_scripts.search(script='wwwh_1')[0]
         example_script = example_wwwh_1_row['script_contents']
         self.example_script = example_script
-    # elif row_chosen_script and row_chosen_script[0]['variable_title'] == 'Who, What, Where, How - 2':
-    #     example_wwwh_2_row = app_tables.example_scripts.get(script='wwwh_2')
-    #     example_script = example_wwwh_2_row['script_contents']
-    #     self.example_script = example_script
-    elif row_chosen_script and row_chosen_script[0]['variable_title'] == 'Star, Story, Solution':
-        example_sss_row = app_tables.example_scripts.get(script='sss')
+
+    elif row_chosen_script[0]['variable_title'] == 'Star, Story, Solution':
+        example_sss_row = app_tables.example_scripts.search(script='sss_1')[0]
         example_script = example_sss_row['script_contents']
         self.example_script = example_script
 
@@ -179,11 +176,11 @@ class Headlines(HeadlinesTemplate):
         self.indeterminate_progress_main_headlines.visible = True
         self.indeterminate_progress_vsl_themes.visible = True
 
-        # self.task_check_timer_headlines.enabled = True
-        # self.task_check_timer_headlines.interval = 3  # Check every 2seconds
+        self.task_check_timer_headlines.enabled = True
+        self.task_check_timer_headlines.interval = 3  # Check every 2seconds
       
-        # self.task_check_timer_subheadlines.enabled = True
-        # self.task_check_timer_subheadlines.interval = 3  # Check every 2seconds
+        self.task_check_timer_subheadlines.enabled = True
+        self.task_check_timer_subheadlines.interval = 3  # Check every 2seconds
 
         self.task_check_timer_vsl_script.enabled = True
         self.task_check_timer_vsl_script.interval = 3  # Check every 2seconds

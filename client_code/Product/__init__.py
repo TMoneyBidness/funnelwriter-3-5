@@ -31,6 +31,13 @@ class Product(ProductTemplate):
     self.indeterminate_4.visible = False
     self.indeterminate_5.visible = False
 
+    # Hide the 'Load' Buttons
+    self.load_avatar1_component.visible = False 
+    self.load_avatar2_component.visible = False 
+    self.load_avatar3_component.visible = False 
+    self.load_avatar4_component.visible = False 
+    self.load_avatar5_component.visible = False 
+
      # Hide Generate all 5 Products Button
     self.column_panel_5_products.visible = False 
 
@@ -49,13 +56,17 @@ class Product(ProductTemplate):
     # Load the latest info for products 1 to 5
     for i in range(1, 6):
         row_product_latest = user_table.search(variable=f'product_{i}_latest')
+        row_product_url = user_table.search(variable=f'product_{i}_url')
     
         if row_product_latest:
             product_latest_description = row_product_latest[0]['variable_value']
             product_latest_title = row_product_latest[0]['variable_title']
+            product_url = row_product_url[0]['variable_value']
+          
             # Update the text box for the current product
             getattr(self, f'product_profile_{i}_textbox').text = product_latest_description
             getattr(self, f'product_{i}_name_input').text = product_latest_title
+            getattr(self, f'product_{i}_url_input').text = product_url
     
         else:
             # Handle case where the row does not exist for the current user

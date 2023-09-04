@@ -294,6 +294,7 @@ def deepdive_draft_product_1_generator(user_table,company_name,product_name,prod
     print("Product Research Complete")
   
 # PRODUCT 2, 1st DRAFT
+@anvil.server.callable
 def launch_draft_deepdive_product_2_generator(user_table,company_name,product_name,product_url):
     # Launch the background task
 
@@ -363,11 +364,12 @@ def deepdive_draft_product_2_generator(user_table,company_name,product_name,prod
 
    # Save it in the table:
     product_2_latest_row = user_table.search(variable='product_2_latest')[0]
-    product_2_latest_row_latest_row['variable_value'] = product_summary
+    product_2_latest_row['variable_value'] = product_summary
     product_2_latest_row.update()
     print("Product Research Complete")
 
 # PRODUCT 3, 1st DRAFT
+@anvil.server.callable
 def launch_draft_deepdive_product_3_generator(user_table,company_name,product_name,product_url):
     # Launch the background task
 
@@ -442,6 +444,7 @@ def deepdive_draft_product_3_generator(user_table,company_name,product_name,prod
     print("Product Research Complete")
 
 # PRODUCT 4, 1st DRAFT
+@anvil.server.callable
 def launch_draft_deepdive_product_4_generator(user_table,company_name,product_name,product_url):
     # Launch the background task
 
@@ -516,6 +519,7 @@ def deepdive_draft_product_4_generator(user_table,company_name,product_name,prod
     print("Product Research Complete")
 
 # PRODUCT 5, 1st DRAFT
+@anvil.server.callable
 def launch_draft_deepdive_product_5_generator(user_table,company_name,product_name,product_url):
     # Launch the background task
 
@@ -2138,7 +2142,7 @@ def brand_tone_research(brand_tone_url):
         However, it is up to you to go and review the website, think about the tone of the existing copy, and return 5-6 descriptors, in the similar format as above. They don't have to be listed above- they can be new!
         
         OUTPUT TEMPLATE: AN EXAMPLE OUTPUT SHOULD BE AS BELOW:
-        'The businesstone can be described as': 
+        'The business tone for {brand_tone_url} can be described as': 
         - 'Conversational': (friendly, casual, and approachable).
         - 'Storytelling': (using compelling stories to illustrate his points).
         - 'Educational': (being informative, teaching something new).

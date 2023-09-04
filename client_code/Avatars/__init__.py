@@ -2071,7 +2071,11 @@ class Avatars(AvatarsTemplate):
 ###----------NAVIGATION---------------####
 
   def nav_button_avatars_to_brand_tone_click(self, **event_args):
-      self.navigate_to_brand_tone()
+    for i in range(1, 6):
+        if getattr(self, f'avatar_1_product_{i}_input').text:
+            getattr(self, f'save_product_{i}_avatars_button_click')()
+        else:
+            self.navigate_to_brand_tone()
 
     
   def navigate_to_brand_tone(self):

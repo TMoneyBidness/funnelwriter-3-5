@@ -21,8 +21,7 @@ components:
     layout_properties: {grid_position: 'PFSHDG,DYFNVO'}
   - type: Label
     properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: 'Our Funnelwriter.AI agents will scour your website and
-        the internet to discover 5 of your potential products, and their profiles.',
+      visible: true, text: Our Funnelwriter.AI agents will scrape your website to build your product profile.,
       font_size: 18, font: '', spacing_above: small, icon_align: left, spacing_below: small,
       italic: false, background: '', bold: false, underline: false, icon: ''}
     name: label_4
@@ -47,16 +46,17 @@ components:
       properties: {}
       name: indeterminate_all_products
       layout_properties: {grid_position: 'NPQFLE,XZOTSJ'}
-    - type: Label
-      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: "Instructions: \n1 - Click 'Generate 5 Product Description\
-          \ Previews'\n2 - Once populated, edit the high-level summary before generating\
-          \ the deep dive product description\n3 - Save the final name and comprehensive\
-          \ summary by hitting 'SAVE'", font_size: 16, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_3
-      layout_properties: {grid_position: 'HXDSPH,LMPVJZ'}
+    - type: RichText
+      properties: {role: null, align: left, tooltip: '', enable_slots: true, border: '',
+        foreground: '', visible: true, font_size: null, content: "**Instructions:**\
+          \ \n1 -Provide the product name, URL, and a brief description of the product\n\
+          2 - Click 'Generate Full Product Description' to and our research agent\
+          \ will scrape and compile your product website.\n3 - Make edits or add details\
+          \ to the populated product, as needed.\n4 - Save the final name and comprehensive\
+          \ summary by hitting 'SAVE'", font: '', spacing_above: small, spacing_below: small,
+        data: null, background: '', format: markdown}
+      name: rich_text_1
+      layout_properties: {grid_position: 'HXDSPH,XWBOFS'}
   - type: Label
     properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
       visible: true, text: 'Product 1 Name:', font_size: 16, font: '', spacing_above: small,
@@ -85,7 +85,7 @@ components:
       col_widths: {}
       grid_position: BUQCQU,QGJAYI
   - type: TextBox
-    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: (Optional)....ie.       www.apple.com/iphone-14/,
+    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: (Required)....ie.       www.apple.com/iphone-14/,
       border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
       font: '', spacing_above: small, type: text, spacing_below: small, italic: true,
       background: '', bold: false, underline: false}
@@ -161,7 +161,7 @@ components:
       col_widths: {}
       grid_position: PKWDLB,QSGOZK
   - type: TextBox
-    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: (Optional)....ie.       www.apple.com/iphone-14/,
+    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: (Required)....ie.       www.apple.com/iphone-14/,
       border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
       font: '', spacing_above: small, type: text, spacing_below: small, italic: true,
       background: '', bold: false, underline: false}
@@ -176,7 +176,7 @@ components:
       col_widths: {}
       grid_position: IBEWUQ,UEQDPV
   - type: TextArea
-    properties: {role: null, align: left, height: 102, tooltip: '', placeholder: '',
+    properties: {role: null, align: left, height: 102, tooltip: '', placeholder: Provide a brief description of the product to help guide the research agent.,
       border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
       auto_expand: true, font: '', spacing_above: small, spacing_below: small, italic: false,
       background: '', bold: false, underline: false}
@@ -199,7 +199,7 @@ components:
       foreground: '', visible: true, text: LOAD, font_size: null, font: '', spacing_above: small,
       icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
       underline: false, icon: 'fa:file-o'}
-    name: load_avatar1_componen2
+    name: load_avatar2_component
     layout_properties:
       col_widths: {}
       grid_position: KFBKTU,OMOIIC
@@ -239,7 +239,7 @@ components:
       col_widths: {}
       grid_position: ELBLZC,PBLNVA
   - type: TextBox
-    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: (Optional)....ie.       www.apple.com/iphone-14/,
+    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: (Required)....ie.       www.apple.com/iphone-14/,
       border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
       font: '', spacing_above: small, type: text, spacing_below: small, italic: true,
       background: '', bold: false, underline: false}
@@ -254,7 +254,7 @@ components:
       col_widths: {}
       grid_position: AOCZDU,AYNUKJ
   - type: TextArea
-    properties: {role: null, align: left, height: 119, tooltip: '', placeholder: '',
+    properties: {role: null, align: left, height: 119, tooltip: '', placeholder: Provide a brief description of the product to help guide the research agent.,
       border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
       auto_expand: true, font: '', spacing_above: small, spacing_below: small, italic: false,
       background: '', bold: false, underline: false}
@@ -317,7 +317,7 @@ components:
       col_widths: {}
       grid_position: JSYFBO,JSQKCB
   - type: TextBox
-    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: (Optional)....ie.       www.apple.com/iphone-14/,
+    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: (Required)....ie.       www.apple.com/iphone-14/,
       border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
       font: '', spacing_above: small, type: text, spacing_below: small, italic: true,
       background: '', bold: false, underline: false}
@@ -332,7 +332,7 @@ components:
       col_widths: {}
       grid_position: CCEQHE,PZEPQE
   - type: TextArea
-    properties: {role: null, align: left, height: 108, tooltip: '', placeholder: '',
+    properties: {role: null, align: left, height: 108, tooltip: '', placeholder: Provide a brief description of the product to help guide the research agent.,
       border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
       auto_expand: true, font: '', spacing_above: small, spacing_below: small, italic: false,
       background: '', bold: false, underline: false}
@@ -395,7 +395,7 @@ components:
       col_widths: {}
       grid_position: KQXXZA,FXRLXZ
   - type: TextBox
-    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: (Optional)....ie.       www.apple.com/iphone-14/,
+    properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: (Required)....ie.       www.apple.com/iphone-14/,
       border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
       font: '', spacing_above: small, type: text, spacing_below: small, italic: true,
       background: '', bold: false, underline: false}
@@ -410,7 +410,7 @@ components:
       col_widths: {}
       grid_position: PSXGCA,SBHHZT
   - type: TextArea
-    properties: {role: null, align: left, height: 106, tooltip: '', placeholder: '',
+    properties: {role: null, align: left, height: 106, tooltip: '', placeholder: Provide a brief description of the product to help guide the research agent.,
       border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
       auto_expand: true, font: '', spacing_above: small, spacing_below: small, italic: false,
       background: '', bold: false, underline: false}
