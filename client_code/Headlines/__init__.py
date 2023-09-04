@@ -125,14 +125,14 @@ class Headlines(HeadlinesTemplate):
         self.example_script = example_script
 
     # Stop all Timers
-    # self.task_check_timer_headlines.enabled = False
-    # self.task_check_timer_headlines.interval = 0
+    self.task_check_timer_headlines.enabled = False
+    self.task_check_timer_headlines.interval = 0
   
-    # self.task_check_timer_subheadlines.enabled = False
-    # self.task_check_timer_subheadlines.interval = 0  # Check every 2seconds
+    self.task_check_timer_subheadlines.enabled = False
+    self.task_check_timer_subheadlines.interval = 0  # Check every 2seconds
 
-    # self.task_check_timer_vsl_script.enabled = False
-    # self.task_check_timer_vsl_script.interval = 0 # Check every 2seconds
+    self.task_check_timer_vsl_script.enabled = False
+    self.task_check_timer_vsl_script.interval = 0 # Check every 2seconds
       
     self.task_ids = []  # List to store all task IDs
     
@@ -165,7 +165,7 @@ class Headlines(HeadlinesTemplate):
         vsl_script_row.update()
         
        # Launch the background tasks concurrently
-        # MAIN HEADLINES 
+      #   # MAIN HEADLINES 
         task_id_main_headlines = anvil.server.call('launch_generate_main_headlines', self.chosen_product_name,self.chosen_company_profile,self.chosen_product_research, self.chosen_tone)
         print("Main Headlines Launch function called")
         self.indeterminate_progress_main_headlines.visible = True

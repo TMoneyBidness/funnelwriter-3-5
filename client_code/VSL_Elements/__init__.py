@@ -161,7 +161,7 @@ class VSL_Elements(VSL_ElementsTemplate):
     # AVATARS
     selected_avatar_value = self.avatar_dropdown.selected_value
     # Check if the selected avatar value is from the stock avatars table
-    self.chosen_avatar = anvil.server.call('get_chosen_variable_value', user_table, selected_avatar_value)
+    self.chosen_avatar = anvil.server.call('get_chosen_variable_avatar', user_table, selected_avatar_value)
     print('Avatar:', self.chosen_avatar)
 
     row_chosen_avatar = user_table.search(variable='chosen_avatar')

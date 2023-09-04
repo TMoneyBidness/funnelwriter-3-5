@@ -3682,6 +3682,15 @@ def get_chosen_variable_value(user_table, selected_variable_title):
     return chosen_variable_value
 
 @anvil.server.callable
+def get_chosen_variable_avatar(user_table, selected_variable_value):
+    chosen_variable_value = None
+    if selected_variable_value:
+        matching_rows = user_table.search(variable_value=selected_variable_value)
+        if matching_rows:
+            chosen_variable_value = matching_rows[0]['variable_value']
+    return chosen_variable_value
+
+@anvil.server.callable
 def save_funnel_settings_component(user_table_name, selected_company_profile_value, selected_product_name_value):
     user_table = getattr(tables, user_table_name)
     chosen_company_profile = get_chosen_variable_value(user_table, selected_company_profile_value)
