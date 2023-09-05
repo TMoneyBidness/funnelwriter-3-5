@@ -787,7 +787,7 @@ class Home(HomeTemplate):
                 component.interval = None
         
             self.indeterminate_1.visible = False
-
+              
             self.avatar_research_status.text = 'All Avatar Research Complete'
             self.company_assets_label.visible = True
             self.company_asset_link_sidebar.visible = True
