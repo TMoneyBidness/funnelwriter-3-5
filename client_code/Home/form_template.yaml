@@ -1033,7 +1033,7 @@ components:
           grid_position: PSYKWE,GUQYLG
     - type: YouTubeVideo
       properties: {role: null, loop: false, height: '500', autoplay: false, mute: false,
-        border: '', foreground: '', visible: false, youtube_id: rtgHlD7cW98, spacing_above: small,
+        border: '', foreground: '', visible: false, youtube_id: dVKImMweHAI, spacing_above: small,
         duration: 0, spacing_below: small, state: UNKNOWN, volume: 0, current_time: 0,
         background: ''}
       name: youtube_intro_video
