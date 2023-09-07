@@ -319,7 +319,7 @@ components:
         col_widths: {}
         grid_position: TVYOUO,YSCTOH
     - type: TextBox
-      properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: (Optional)....ie.       www.apple.com/iphone-14/,
+      properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '(Required)....ie.      https://www.apple.com/',
         border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
         font: '', spacing_above: small, type: text, spacing_below: small, italic: true,
         background: '', bold: false, underline: false}
