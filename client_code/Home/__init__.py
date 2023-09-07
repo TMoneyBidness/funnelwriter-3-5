@@ -778,7 +778,7 @@ class Home(HomeTemplate):
                 break  # No need to check other tasks if one is found to be incomplete
                 
         if all_tasks_completed:
-            print(f"All Tasks completed.!")
+            print(f"All Tasks completed!")
        
             for component in self.get_components():
             # Check if the component is a Timer
