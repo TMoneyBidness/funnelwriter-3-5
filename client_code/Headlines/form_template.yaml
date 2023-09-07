@@ -797,7 +797,7 @@ components:
       - type: Button
         properties: {role: elevated-button, align: right, tooltip: '', border: '',
           enabled: true, foreground: 'theme:Error', visible: true, text: Provide Feedback / Direction to FunnelWriter.AI Bot,
-          font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+          font_size: 20, font: '', spacing_above: small, icon_align: left, spacing_below: small,
           italic: false, background: 'theme:Secondary Container', bold: true, underline: false,
           icon: 'fa:pencil'}
         name: provide_feedback_button
