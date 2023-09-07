@@ -266,7 +266,7 @@ class Product(ProductTemplate):
         anvil.js.window.alert("Please name your product before generating the full description.")
         return
       else:
-        self.indeterminate_1.visible = True
+        self.indeterminate_2.visible = True
         # Load stuff        
         current_user = anvil.users.get_user()
         user_table_name = current_user['user_id']

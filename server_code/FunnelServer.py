@@ -1790,7 +1790,6 @@ def company_summary(company_name, company_url):
 #### LAUNCH THE PRODUCT DEEP DIVES
 
 # PRODUCT 1
-
 @anvil.server.callable
 def launch_deepdive_product_1_generator(user_table,company_name,product_name,product_url,product_preview):
     # Launch the background task
@@ -1869,82 +1868,39 @@ def deepdive_product_1_generator(user_table,company_name,product_name,product_ur
     product_1_latest_row.update()
     print("Product Research Complete")
 
-# HEre's the old way of searching by agents
-# @anvil.server.callable
-# def launch_deepdive_product_1_generator(company_name,product_1_name,product_1_url,product_1_preview):
-#     # Launch the background task
-#     task = anvil.server.launch_background_task('deepdive_product_1_generator',company_name,product_1_name,product_1_url,product_1_preview)
-#     # Return the task ID
-#     return task.get_id()
-  
-# @anvil.server.background_task
-# def deepdive_product_1_generator(company_name,product_1_name,product_1_url,product_1_preview):
-#     print("Background task started for the Deep Dive of Researching the Product:", product_1_name)
 
-#     llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
-#     agent_product_research = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
-  
-#     product_research_context = agent_product_research({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_1_name}. \
-#                   Leverage all necessary resources such as {company_name}'s' main product website {product_1_url}, web pages, and any other relevant sources. \
-#                   to gather the following details about company's product, {product_1_name}. \
-
-#                   To help guide you, I'll provide a brief context about the product here: {product_1_preview}
-                  
-#                   Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful, actionable insights. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
-#                   \n \
-#                   Overview: Provide a comprehensive introduction to the product. What is its purpose, and what does the company aim to achieve with it? \n \
-#                   \n \
-#                   Description: Deeply describe the product. What does it look like, feel like, and what experience does it offer? \n \
-#                   \n \
-#                   Price: Detail the pricing structure. What is the cost, and are there any variations or tiers in pricing? \n \
-#                   \n \
-#                   Features: Elucidate the key features of the product. What distinguishes this product from others in the market? I would like around 15 differences between the product offers, if possible. \n \
-#                   \n \
-#                   Benefits: Explicate on how the product will benefit the customer. How can it change their life or improve their situation? \n \
-#                   \n \
-#                   Why people buy it: Analyze the consumer's pain points and desires before purchasing this product. Why might someone be drawn to this product, and what needs does it fulfill? \n \
-#                   \n \
-#                   Expected results: What are the anticipated outcomes or gains after using this product? How will the customer's situation improve or change? \n \
-#                   \n \
-#                   Guarantees: Discuss any guarantees the company offers with this product. Are there any assurances of product performance, or return policies in place? \n \
-#                   \n \
-#                   Bonuses: List any additional bonuses or incentives that come along with the product. What additional value does the company provide to sweeten the deal? \n \
-#                   \n \
-#                   Possible objections: Predict potential objections or concerns a customer may have about the product. How might the company address these? \n \
-#                   \n \
-#                   Ensure to provide an in-depth report with approximately 800-1000 words on the product, making it as detailed and specific as possible. Your aim is to capture the full essence of the product.
-#                   \n \
-#                   NOTES ON FORMAT:
-#                   Be confident, do not say there is incomplete information, or there is not information. If you can't answer elements from the above, ignore it! Speak as if you are the authority of the subject. If you don't know the answer, don't talk about it. Do not say "I was unable to find information on XYZ". 
-#                   """})
-
-#     product_research_1 = product_research_context['output']
-#     # if "I couldn't find more information" in product_research_context:
-#     #       product_research_1= "Insufficient information. Please write the product description yourself."
-#     anvil.server.task_state['result'] = product_research_1
-  
 # PRODUCT 2
 @anvil.server.callable
-def launch_deepdive_product_2_generator(company_name,product_2_name,product_2_url,product_2_preview):
+def launch_deepdive_product_2_generator(user_table,company_name,product_name,product_url,product_preview):
     # Launch the background task
-    task = anvil.server.launch_background_task('deepdive_product_2_generator',company_name,product_2_name,product_2_url,product_2_preview)
+
+  # START THE WEB SCRAPING
+    headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0"}
+    page_content = requests.get(product_url, headers=headers).content
+
+    soup = BeautifulSoup(page_content, "html.parser")
+    # Extract all the text from the page
+    bulky_text_content = soup.get_text()
+   # Remove leading and trailing whitespaces, replace newlines and extra spaces
+    product_webpage_scraped = bulky_text_content.strip().replace('\n', ' ').replace('\r', '').replace('  ', ' ')
+
+    print("Scraped Information:",product_webpage_scraped)
+  
+    task = anvil.server.launch_background_task('deepdive_draft_product_2_generator',user_table,company_name,product_name,product_url,product_webpage_scraped)
     # Return the task ID
     return task.get_id()
   
 @anvil.server.background_task
-def deepdive_product_2_generator(company_name,product_2_name,product_2_url,product_2_preview):
-    print("Background task started for the Deep Dive of Researching the Product:", product_2_name)
+def deepdive_product_2_generator(user_table,company_name,product_name,product_url,product_preview,product_webpage_scraped):
+    print("Background task started for the Deep Dive of Researching the Product:", product_name)
+    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-3.5-turbo-16k', openai_api_key=openai_api_key)
+    print("Background task started for generating the Product summary:", product_url)
 
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo-16k', openai_api_key=openai_api_key)
-    agent_product_research = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
-  
-    product_research_context = agent_product_research({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_2_name}. \
-                  Leverage all necessary resources such as {company_name}'s' main product website {product_2_url}, web pages, and any other relevant sources. \
-                  to gather the following details about company's product, {product_2_name}. \
-
-                  To help guide you, I'll provide a brief context about the product here: {product_2_preview}
+    template_product_summary = """As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_name} \
+                  Leverage the product information that has been scraped from {company_name}'s' product website {product_url} in order to build your synopsis. However, note that there may be other products listed within the scraped information, so be diligent about your listed features. \
+                  Lastly, be very specific! To help guide you, I'll provide a brief context about the product here: {product_preview}
                   
-                  Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful, actionable insights. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
+                  This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful, actionable insights. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
                   \n \
                   Overview: Provide a comprehensive introduction to the product. What is its purpose, and what does the company aim to achieve with it? \n \
                   \n \
@@ -1969,36 +1925,61 @@ def deepdive_product_2_generator(company_name,product_2_name,product_2_url,produ
                   Ensure to provide an in-depth report with approximately 800-1000 words on the product, making it as detailed and specific as possible. Your aim is to capture the full essence of the product.
                   \n \
                   NOTES ON FORMAT:
-                  Be confident, do not say there is incomplete information, or there is not information. If you can't answer elements from the above, ignore it! Speak as if you are the authority of the subject. If you don't know the answer, don't talk about it. Do not say "I was unable to find information on XYZ". 
-                  """})
+                  Be confident. However, if there is incomplete information, please state "MORE INFORMATION NEEDED"! Speak as if you are the authority of the subject. 
 
-    product_research_2 = product_research_context['output']
-    # if "I couldn't find more information" in product_research_context:
-    #       product_research_2= "Insufficient information. Please write the product description yourself."
-    anvil.server.task_state['result'] = product_research_2
+                  ** END OF FORMAT
+                  
+                  FINALLY, HERE IS THE PRODUCT CONTEXT SCRAPED FROM THEIR PRODUCT WEBSITE: {product_webpage_scraped}
+                  """
+    
+    prompt_product_summary = PromptTemplate(
+        input_variables=["company_name", "product_name","product_url","product_preview","product_webpage_scraped"],
+        template=template_product_summary
+    )
+  
+    chain_product_summary = LLMChain(llm=llm_agents, prompt=prompt_product_summary)
+    product_summary = chain_product_summary.run(company_name=company_name,product_name=product_name,product_url=product_url,product_preview=product_preview,product_webpage_scraped=product_webpage_scraped)  # Pass in the combined context
+    
+    print("PRODUCT SUMMARY:",product_summary)
+  
+   # Save it in the table:
+    product_2_latest_row = user_table.search(variable='product_2_latest')[0]
+    product_2_latest_row['variable_value'] = product_summary
+    product_2_latest_row.update()
+    print("Product Research Complete")
 
 # PRODUCT 3
 @anvil.server.callable
-def launch_deepdive_product_3_generator(company_name,product_3_name,product_3_url,product_3_preview):
+def launch_deepdive_product_3_generator(user_table,company_name,product_name,product_url,product_preview):
     # Launch the background task
-    task = anvil.server.launch_background_task('deepdive_product_3_generator',company_name,product_3_name,product_3_url,product_3_preview)
+
+  # START THE WEB SCRAPING
+    headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0"}
+    page_content = requests.get(product_url, headers=headers).content
+
+    soup = BeautifulSoup(page_content, "html.parser")
+    # Extract all the text from the page
+    bulky_text_content = soup.get_text()
+   # Remove leading and trailing whitespaces, replace newlines and extra spaces
+    product_webpage_scraped = bulky_text_content.strip().replace('\n', ' ').replace('\r', '').replace('  ', ' ')
+
+    print("Scraped Information:",product_webpage_scraped)
+  
+    task = anvil.server.launch_background_task('deepdive_draft_product_3_generator',user_table,company_name,product_name,product_url,product_webpage_scraped)
     # Return the task ID
     return task.get_id()
   
 @anvil.server.background_task
-def deepdive_product_3_generator(company_name,product_3_name,product_3_url,product_3_preview):
-    print("Background task started for the Deep Dive of Researching the Product:", product_3_name)
+def deepdive_product_3_generator(user_table,company_name,product_name,product_url,product_preview,product_webpage_scraped):
+    print("Background task started for the Deep Dive of Researching the Product:", product_name)
+    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-3.5-turbo-16k', openai_api_key=openai_api_key)
+    print("Background task started for generating the Product summary:", product_url)
 
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo-16k', openai_api_key=openai_api_key)
-    agent_product_research = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
-  
-    product_research_context = agent_product_research({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_3_name}. \
-                  Leverage all necessary resources such as {company_name}'s' main product website {product_3_url}, web pages, and any other relevant sources. \
-                  to gather the following details about company's product, {product_3_name}. \
-
-                  To help guide you, I'll provide a brief context about the product here: {product_3_preview}
+    template_product_summary = """As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_name} \
+                  Leverage the product information that has been scraped from {company_name}'s' product website {product_url} in order to build your synopsis. However, note that there may be other products listed within the scraped information, so be diligent about your listed features. \
+                  Lastly, be very specific! To help guide you, I'll provide a brief context about the product here: {product_preview}
                   
-                  Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful, actionable insights. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
+                  This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful, actionable insights. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
                   \n \
                   Overview: Provide a comprehensive introduction to the product. What is its purpose, and what does the company aim to achieve with it? \n \
                   \n \
@@ -2023,36 +2004,61 @@ def deepdive_product_3_generator(company_name,product_3_name,product_3_url,produ
                   Ensure to provide an in-depth report with approximately 800-1000 words on the product, making it as detailed and specific as possible. Your aim is to capture the full essence of the product.
                   \n \
                   NOTES ON FORMAT:
-                  Be confident, do not say there is incomplete information, or there is not information. If you can't answer elements from the above, ignore it! Speak as if you are the authority of the subject. If you don't know the answer, don't talk about it. Do not say "I was unable to find information on XYZ". 
-                  """})
+                  Be confident. However, if there is incomplete information, please state "MORE INFORMATION NEEDED"! Speak as if you are the authority of the subject. 
 
-    product_research_3 = product_research_context['output']
-    # if "I couldn't find more information" in product_research_context:
-    #       product_research_3= "Insufficient information. Please write the product description yourself."
-    anvil.server.task_state['result'] = product_research_3
+                  ** END OF FORMAT
+                  
+                  FINALLY, HERE IS THE PRODUCT CONTEXT SCRAPED FROM THEIR PRODUCT WEBSITE: {product_webpage_scraped}
+                  """
+    
+    prompt_product_summary = PromptTemplate(
+        input_variables=["company_name", "product_name","product_url","product_preview","product_webpage_scraped"],
+        template=template_product_summary
+    )
+  
+    chain_product_summary = LLMChain(llm=llm_agents, prompt=prompt_product_summary)
+    product_summary = chain_product_summary.run(company_name=company_name,product_name=product_name,product_url=product_url,product_preview=product_preview,product_webpage_scraped=product_webpage_scraped)  # Pass in the combined context
+    
+    print("PRODUCT SUMMARY:",product_summary)
+  
+   # Save it in the table:
+    product_3_latest_row = user_table.search(variable='product_3_latest')[0]
+    product_3_latest_row['variable_value'] = product_summary
+    product_3_latest_row.update()
+    print("Product Research Complete")
 
 # PRODUCT 4
 @anvil.server.callable
-def launch_deepdive_product_4_generator(company_name,product_4_name,product_4_url,product_4_preview):
+def launch_deepdive_product_4_generator(user_table,company_name,product_name,product_url,product_preview):
     # Launch the background task
-    task = anvil.server.launch_background_task('deepdive_product_4_generator',company_name,product_4_name,product_4_url,product_4_preview)
+
+  # START THE WEB SCRAPING
+    headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0"}
+    page_content = requests.get(product_url, headers=headers).content
+
+    soup = BeautifulSoup(page_content, "html.parser")
+    # Extract all the text from the page
+    bulky_text_content = soup.get_text()
+   # Remove leading and trailing whitespaces, replace newlines and extra spaces
+    product_webpage_scraped = bulky_text_content.strip().replace('\n', ' ').replace('\r', '').replace('  ', ' ')
+
+    print("Scraped Information:",product_webpage_scraped)
+  
+    task = anvil.server.launch_background_task('deepdive_draft_product_4_generator',user_table,company_name,product_name,product_url,product_webpage_scraped)
     # Return the task ID
     return task.get_id()
   
 @anvil.server.background_task
-def deepdive_product_4_generator(company_name,product_4_name,product_4_url,product_4_preview):
-    print("Background task started for the Deep Dive of Researching the Product:", product_4_name)
+def deepdive_product_4_generator(user_table,company_name,product_name,product_url,product_preview,product_webpage_scraped):
+    print("Background task started for the Deep Dive of Researching the Product:", product_name)
+    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-3.5-turbo-16k', openai_api_key=openai_api_key)
+    print("Background task started for generating the Product summary:", product_url)
 
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo-16k', openai_api_key=openai_api_key)
-    agent_product_research = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
-  
-    product_research_context = agent_product_research({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_4_name}. \
-                  Leverage all necessary resources such as {company_name}'s' main product website {product_4_url}, web pages, and any other relevant sources. \
-                  to gather the following details about company's product, {product_4_name}. \
-
-                  To help guide you, I'll provide a brief context about the product here: {product_4_preview}
+    template_product_summary = """As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_name} \
+                  Leverage the product information that has been scraped from {company_name}'s' product website {product_url} in order to build your synopsis. However, note that there may be other products listed within the scraped information, so be diligent about your listed features. \
+                  Lastly, be very specific! To help guide you, I'll provide a brief context about the product here: {product_preview}
                   
-                  Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful, actionable insights. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
+                  This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful, actionable insights. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
                   \n \
                   Overview: Provide a comprehensive introduction to the product. What is its purpose, and what does the company aim to achieve with it? \n \
                   \n \
@@ -2077,36 +2083,61 @@ def deepdive_product_4_generator(company_name,product_4_name,product_4_url,produ
                   Ensure to provide an in-depth report with approximately 800-1000 words on the product, making it as detailed and specific as possible. Your aim is to capture the full essence of the product.
                   \n \
                   NOTES ON FORMAT:
-                  Be confident, do not say there is incomplete information, or there is not information. If you can't answer elements from the above, ignore it! Speak as if you are the authority of the subject. If you don't know the answer, don't talk about it. Do not say "I was unable to find information on XYZ". 
-                  """})
+                  Be confident. However, if there is incomplete information, please state "MORE INFORMATION NEEDED"! Speak as if you are the authority of the subject. 
 
-    product_research_4 = product_research_context['output']
-    # if "I couldn't find more information" in product_research_context:
-    #       product_research_4= "Insufficient information. Please write the product description yourself."
-    anvil.server.task_state['result'] = product_research_4
+                  ** END OF FORMAT
+                  
+                  FINALLY, HERE IS THE PRODUCT CONTEXT SCRAPED FROM THEIR PRODUCT WEBSITE: {product_webpage_scraped}
+                  """
+    
+    prompt_product_summary = PromptTemplate(
+        input_variables=["company_name", "product_name","product_url","product_preview","product_webpage_scraped"],
+        template=template_product_summary
+    )
+  
+    chain_product_summary = LLMChain(llm=llm_agents, prompt=prompt_product_summary)
+    product_summary = chain_product_summary.run(company_name=company_name,product_name=product_name,product_url=product_url,product_preview=product_preview,product_webpage_scraped=product_webpage_scraped)  # Pass in the combined context
+    
+    print("PRODUCT SUMMARY:",product_summary)
+  
+   # Save it in the table:
+    product_4_latest_row = user_table.search(variable='product_4_latest')[0]
+    product_4_latest_row['variable_value'] = product_summary
+    product_4_latest_row.update()
+    print("Product Research Complete")
 
 # PRODUCT 5
 @anvil.server.callable
-def launch_deepdive_product_5_generator(company_name,product_5_name,product_5_url,product_5_preview):
+def launch_deepdive_product_5_generator(user_table,company_name,product_name,product_url,product_preview):
     # Launch the background task
-    task = anvil.server.launch_background_task('deepdive_product_5_generator',company_name,product_5_name,product_5_url,product_5_preview)
+
+  # START THE WEB SCRAPING
+    headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0"}
+    page_content = requests.get(product_url, headers=headers).content
+
+    soup = BeautifulSoup(page_content, "html.parser")
+    # Extract all the text from the page
+    bulky_text_content = soup.get_text()
+   # Remove leading and trailing whitespaces, replace newlines and extra spaces
+    product_webpage_scraped = bulky_text_content.strip().replace('\n', ' ').replace('\r', '').replace('  ', ' ')
+
+    print("Scraped Information:",product_webpage_scraped)
+  
+    task = anvil.server.launch_background_task('deepdive_draft_product_5_generator',user_table,company_name,product_name,product_url,product_webpage_scraped)
     # Return the task ID
     return task.get_id()
   
 @anvil.server.background_task
-def deepdive_product_5_generator(company_name,product_5_name,product_5_url,product_5_preview):
-    print("Background task started for the Deep Dive of Researching the Product:", product_5_name)
+def deepdive_product_5_generator(user_table,company_name,product_name,product_url,product_preview,product_webpage_scraped):
+    print("Background task started for the Deep Dive of Researching the Product:", product_name)
+    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-3.5-turbo-16k', openai_api_key=openai_api_key)
+    print("Background task started for generating the Product summary:", product_url)
 
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo-16k', openai_api_key=openai_api_key)
-    agent_product_research = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
-  
-    product_research_context = agent_product_research({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_5_name}. \
-                  Leverage all necessary resources such as {company_name}'s' main product website {product_5_url}, web pages, and any other relevant sources. \
-                  to gather the following details about company's product, {product_5_name}. \
-
-                  To help guide you, I'll provide a brief context about the product here: {product_5_preview}
+    template_product_summary = """As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_name} \
+                  Leverage the product information that has been scraped from {company_name}'s' product website {product_url} in order to build your synopsis. However, note that there may be other products listed within the scraped information, so be diligent about your listed features. \
+                  Lastly, be very specific! To help guide you, I'll provide a brief context about the product here: {product_preview}
                   
-                  Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful, actionable insights. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
+                  This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful, actionable insights. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
                   \n \
                   Overview: Provide a comprehensive introduction to the product. What is its purpose, and what does the company aim to achieve with it? \n \
                   \n \
@@ -2131,14 +2162,29 @@ def deepdive_product_5_generator(company_name,product_5_name,product_5_url,produ
                   Ensure to provide an in-depth report with approximately 800-1000 words on the product, making it as detailed and specific as possible. Your aim is to capture the full essence of the product.
                   \n \
                   NOTES ON FORMAT:
-                  Be confident, do not say there is incomplete information, or there is not information. If you can't answer elements from the above, ignore it! Speak as if you are the authority of the subject. If you don't know the answer, don't talk about it. Do not say "I was unable to find information on XYZ". 
-                  """})
+                  Be confident. However, if there is incomplete information, please state "MORE INFORMATION NEEDED"! Speak as if you are the authority of the subject. 
 
-    product_research_5 = product_research_context['output']
-    # if "I couldn't find more information" in product_research_context:
-    #       product_research_3= "Insufficient information. Please write the product description yourself."
-    anvil.server.task_state['result'] = product_research_5
-
+                  ** END OF FORMAT
+                  
+                  FINALLY, HERE IS THE PRODUCT CONTEXT SCRAPED FROM THEIR PRODUCT WEBSITE: {product_webpage_scraped}
+                  """
+    
+    prompt_product_summary = PromptTemplate(
+        input_variables=["company_name", "product_name","product_url","product_preview","product_webpage_scraped"],
+        template=template_product_summary
+    )
+  
+    chain_product_summary = LLMChain(llm=llm_agents, prompt=prompt_product_summary)
+    product_summary = chain_product_summary.run(company_name=company_name,product_name=product_name,product_url=product_url,product_preview=product_preview,product_webpage_scraped=product_webpage_scraped)  # Pass in the combined context
+    
+    print("PRODUCT SUMMARY:",product_summary)
+  
+   # Save it in the table:
+    product_5_latest_row = user_table.search(variable='product_5_latest')[0]
+    product_5_latest_row['variable_value'] = product_summary
+    product_5_latest_row.update()
+    print("Product Research Complete")
+  
 ####### -------- BRAND TONE --------###################################################
 
 @anvil.server.callable
