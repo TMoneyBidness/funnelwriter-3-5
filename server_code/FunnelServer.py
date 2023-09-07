@@ -20,6 +20,8 @@ from langchain.tools import StructuredTool
 from langchain.utilities import GoogleSearchAPIWrapper
 from langchain.utilities import SerpAPIWrapper
 import json
+import re
+from collections import OrderedDict
 
 import requests
 from bs4 import BeautifulSoup
@@ -79,8 +81,11 @@ def launch_draft_company_summary_scraper(company_name, company_url):
     # Extract all the text from the page
     bulky_text_content = soup.get_text()
    # Remove leading and trailing whitespaces, replace newlines and extra spaces
-    company_context_scraped = bulky_text_content.strip().replace('\n', ' ').replace('\r', '').replace('  ', ' ')
+    company_context_scraped_bulky = bulky_text_content.strip().replace('\n', ' ').replace('\r', '').replace('  ', ' ')
 
+    # Further remove extra white spaces
+    company_context_scraped = re.sub(r'\s+', ' ', company_context_scraped_bulky.strip())
+  
     print("Scraped Information:",company_context_scraped)
 
     print("Launch task started for researching company:",company_url)
@@ -93,7 +98,7 @@ def draft_company_summary_scraper(company_name, company_url,row,company_context_
     #Perform the Webscraping
     print("Background task started for generating the company summary:", company_url)
    
-    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-4', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-3.5-turbo-16k', openai_api_key=openai_api_key)
     template_company_summary = """As a highly-skilled business analyst, your task is to conduct an exhaustive analysis to build an informational company profile of {company_name}. \
                     Leverage the below provided company research context scraped from the company's website {company_url}, to create a complete company profile.  \
                     
@@ -217,8 +222,26 @@ def draft_company_summary_scraper(company_name, company_url,row,company_context_
 #     print("Company Research Complete")
   
 #     anvil.server.task_state['result'] = draft_company_context
-        
+
+  
 # PRODUCT 1st DRAFT
+@anvil.server.callable
+def remove_duplicate_substrings(text, min_len=20):
+    seen = OrderedDict()
+    output_list = []
+    n = len(text)
+
+    for i in range(n - min_len + 1):
+        substring = text[i:i + min_len]
+
+        if substring not in seen:
+            seen[substring] = i  # Save the starting index of this substring
+            output_list.append(substring)
+
+    # Join the substrings to get the final string
+    return ''.join(output_list)
+
+# HERE'S THE FUNCTION
 @anvil.server.callable
 def launch_draft_deepdive_product_1_generator(user_table,company_name,product_name,product_url):
     # Launch the background task
@@ -231,7 +254,10 @@ def launch_draft_deepdive_product_1_generator(user_table,company_name,product_na
     # Extract all the text from the page
     bulky_text_content = soup.get_text()
    # Remove leading and trailing whitespaces, replace newlines and extra spaces
-    product_webpage_scraped = bulky_text_content.strip().replace('\n', ' ').replace('\r', '').replace('  ', ' ')
+    product_webpage_scraped_bulky = bulky_text_content.strip().replace('\n', ' ').replace('\r', '').replace('  ', ' ')
+
+    # Further remove extra white spaces
+    product_webpage_scraped = re.sub(r'\s+', ' ', product_webpage_scraped_bulky.strip())
 
     print("Scraped Information:",product_webpage_scraped)
   
@@ -242,7 +268,7 @@ def launch_draft_deepdive_product_1_generator(user_table,company_name,product_na
 @anvil.server.background_task
 def deepdive_draft_product_1_generator(user_table,company_name,product_name,product_url,product_webpage_scraped):
     print("Background task started for the Deep Dive of Researching the Product:", product_name)
-    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-4', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-3.5-turbo-16k', openai_api_key=openai_api_key)
     print("Background task started for generating the Product summary:", product_url)
 
     template_product_summary = """As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_name} \
@@ -305,8 +331,11 @@ def launch_draft_deepdive_product_2_generator(user_table,company_name,product_na
     soup = BeautifulSoup(page_content, "html.parser")
     # Extract all the text from the page
     bulky_text_content = soup.get_text()
-   # Remove leading and trailing whitespaces, replace newlines and extra spaces
-    product_webpage_scraped = bulky_text_content.strip().replace('\n', ' ').replace('\r', '').replace('  ', ' ')
+  # Remove leading and trailing whitespaces, replace newlines and extra spaces
+    product_webpage_scraped_bulky = bulky_text_content.strip().replace('\n', ' ').replace('\r', '').replace('  ', ' ')
+
+    # Further remove extra white spaces
+    product_webpage_scraped = re.sub(r'\s+', ' ', product_webpage_scraped_bulky.strip())
 
     print("Scraped Information:",product_webpage_scraped)
   
@@ -317,7 +346,7 @@ def launch_draft_deepdive_product_2_generator(user_table,company_name,product_na
 @anvil.server.background_task
 def deepdive_draft_product_2_generator(user_table,company_name,product_name,product_url,product_webpage_scraped):
     print("Background task started for the Deep Dive of Researching the Product:", product_name)
-    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-4', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-3.5-turbo-16k', openai_api_key=openai_api_key)
     print("Background task started for generating the Product summary:", product_url)
 
     template_product_summary = """As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_name} \
@@ -380,8 +409,11 @@ def launch_draft_deepdive_product_3_generator(user_table,company_name,product_na
     soup = BeautifulSoup(page_content, "html.parser")
     # Extract all the text from the page
     bulky_text_content = soup.get_text()
-   # Remove leading and trailing whitespaces, replace newlines and extra spaces
-    product_webpage_scraped = bulky_text_content.strip().replace('\n', ' ').replace('\r', '').replace('  ', ' ')
+     # Remove leading and trailing whitespaces, replace newlines and extra spaces
+    product_webpage_scraped_bulky = bulky_text_content.strip().replace('\n', ' ').replace('\r', '').replace('  ', ' ')
+
+    # Further remove extra white spaces
+    product_webpage_scraped = re.sub(r'\s+', ' ', product_webpage_scraped_bulky.strip())
 
     print("Scraped Information:",product_webpage_scraped)
   
@@ -392,7 +424,7 @@ def launch_draft_deepdive_product_3_generator(user_table,company_name,product_na
 @anvil.server.background_task
 def deepdive_draft_product_3_generator(user_table,company_name,product_name,product_url,product_webpage_scraped):
     print("Background task started for the Deep Dive of Researching the Product:", product_name)
-    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-4', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-3.5-turbo-16k', openai_api_key=openai_api_key)
     print("Background task started for generating the Product summary:", product_url)
 
     template_product_summary = """As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_name} \
@@ -455,8 +487,11 @@ def launch_draft_deepdive_product_4_generator(user_table,company_name,product_na
     soup = BeautifulSoup(page_content, "html.parser")
     # Extract all the text from the page
     bulky_text_content = soup.get_text()
-   # Remove leading and trailing whitespaces, replace newlines and extra spaces
-    product_webpage_scraped = bulky_text_content.strip().replace('\n', ' ').replace('\r', '').replace('  ', ' ')
+     # Remove leading and trailing whitespaces, replace newlines and extra spaces
+    product_webpage_scraped_bulky = bulky_text_content.strip().replace('\n', ' ').replace('\r', '').replace('  ', ' ')
+
+    # Further remove extra white spaces
+    product_webpage_scraped = re.sub(r'\s+', ' ', product_webpage_scraped_bulky.strip())
 
     print("Scraped Information:",product_webpage_scraped)
   
@@ -467,7 +502,7 @@ def launch_draft_deepdive_product_4_generator(user_table,company_name,product_na
 @anvil.server.background_task
 def deepdive_draft_product_4_generator(user_table,company_name,product_name,product_url,product_webpage_scraped):
     print("Background task started for the Deep Dive of Researching the Product:", product_name)
-    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-4', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-3.5-turbo-16k', openai_api_key=openai_api_key)
     print("Background task started for generating the Product summary:", product_url)
 
     template_product_summary = """As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_name} \
@@ -530,8 +565,11 @@ def launch_draft_deepdive_product_5_generator(user_table,company_name,product_na
     soup = BeautifulSoup(page_content, "html.parser")
     # Extract all the text from the page
     bulky_text_content = soup.get_text()
-   # Remove leading and trailing whitespaces, replace newlines and extra spaces
-    product_webpage_scraped = bulky_text_content.strip().replace('\n', ' ').replace('\r', '').replace('  ', ' ')
+    # Remove leading and trailing whitespaces, replace newlines and extra spaces
+    product_webpage_scraped_bulky = bulky_text_content.strip().replace('\n', ' ').replace('\r', '').replace('  ', ' ')
+
+    # Further remove extra white spaces
+    product_webpage_scraped = re.sub(r'\s+', ' ', product_webpage_scraped_bulky.strip())
 
     print("Scraped Information:",product_webpage_scraped)
   
@@ -542,7 +580,7 @@ def launch_draft_deepdive_product_5_generator(user_table,company_name,product_na
 @anvil.server.background_task
 def deepdive_draft_product_5_generator(user_table,company_name,product_name,product_url,product_webpage_scraped):
     print("Background task started for the Deep Dive of Researching the Product:", product_name)
-    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-4', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-3.5-turbo-16k', openai_api_key=openai_api_key)
     print("Background task started for generating the Product summary:", product_url)
 
     template_product_summary = """As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_name} \
@@ -1614,7 +1652,7 @@ def company_summary(company_name, company_url):
     # Here, you should write the code that uses the company_name and company_url
     # to research the company and generate a context. For example:
   
-    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-3.5-turbo', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-3.5-turbo-16k', openai_api_key=openai_api_key)
     agent_company_context = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True) #max_execution_time=300,max_iterations=300
     company_research = agent_company_context({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive analysis to build an informational company profile of {company_name}. \
                     Leverage all necessary resources, primarily the company's website {company_url}, but also news articles, and any other relevant sources.  \
@@ -1776,7 +1814,7 @@ def launch_deepdive_product_1_generator(user_table,company_name,product_name,pro
 @anvil.server.background_task
 def deepdive_product_1_generator(user_table,company_name,product_name,product_url,product_preview,product_webpage_scraped):
     print("Background task started for the Deep Dive of Researching the Product:", product_name)
-    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-4', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-3.5-turbo-16k', openai_api_key=openai_api_key)
     print("Background task started for generating the Product summary:", product_url)
 
     template_product_summary = """As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_name} \
@@ -1897,7 +1935,7 @@ def launch_deepdive_product_2_generator(company_name,product_2_name,product_2_ur
 def deepdive_product_2_generator(company_name,product_2_name,product_2_url,product_2_preview):
     print("Background task started for the Deep Dive of Researching the Product:", product_2_name)
 
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo-16k', openai_api_key=openai_api_key)
     agent_product_research = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
   
     product_research_context = agent_product_research({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_2_name}. \
@@ -1951,7 +1989,7 @@ def launch_deepdive_product_3_generator(company_name,product_3_name,product_3_ur
 def deepdive_product_3_generator(company_name,product_3_name,product_3_url,product_3_preview):
     print("Background task started for the Deep Dive of Researching the Product:", product_3_name)
 
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo-16k', openai_api_key=openai_api_key)
     agent_product_research = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
   
     product_research_context = agent_product_research({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_3_name}. \
@@ -2005,7 +2043,7 @@ def launch_deepdive_product_4_generator(company_name,product_4_name,product_4_ur
 def deepdive_product_4_generator(company_name,product_4_name,product_4_url,product_4_preview):
     print("Background task started for the Deep Dive of Researching the Product:", product_4_name)
 
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo-16k', openai_api_key=openai_api_key)
     agent_product_research = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
   
     product_research_context = agent_product_research({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_4_name}. \
@@ -2059,7 +2097,7 @@ def launch_deepdive_product_5_generator(company_name,product_5_name,product_5_ur
 def deepdive_product_5_generator(company_name,product_5_name,product_5_url,product_5_preview):
     print("Background task started for the Deep Dive of Researching the Product:", product_5_name)
 
-    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-4', openai_api_key=openai_api_key)
+    llm_agents = ChatOpenAI(temperature=0.5, model_name='gpt-3.5-turbo-16k', openai_api_key=openai_api_key)
     agent_product_research = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
   
     product_research_context = agent_product_research({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive report and analysis of the company's product, {product_5_name}. \
