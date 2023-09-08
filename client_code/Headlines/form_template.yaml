@@ -35,13 +35,13 @@ components:
     - type: RichText
       properties: {role: null, align: left, tooltip: '', enable_slots: true, border: '',
         foreground: '', visible: true, font_size: 16, content: "\ud83c\udf1f **DIRECTIONS:**\
-          \ \ud83c\udf1f\n\n\ud83d\udc49 **Step 1:**  Click the 'Generate your Headlines\
-          \ and Script' button below.\n\n\ud83d\udc49 **Step 2:** Click the bullets\
-          \ to select your headlines for the following placeholder positions:\n\n\
-          - Main Headlines\n- Subheadlines\n- Secondary Headlines\n\n\ud83d\udc49\
+          \ \ud83c\udf1f\n\n\ud83d\udc49 **Step 1:**  Click the 'GENERATE HEADLINES\
+          \ & VIDEO SALES SCRIPT' button below.\n\n\ud83d\udc49 **Step 2:** Click\
+          \ the bullets to select your headlines for the following placeholder positions:\n\
+          \n- Main Headlines\n- Subheadlines\n- Secondary Headlines\n\n\ud83d\udc49\
           \ **Step 3:**  Edit your Video Sales Script.\n\n \ud83d\udca1 _Note: You\
           \ can even give new directions to FunnelWriter.AI and then regenerate the\
-          \ script._\n\n\ud83d\udc49 **Step 4:**   Click the 'Generate 4 Sales Themes'\
+          \ script._\n\n\ud83d\udc49 **Step 4:**   Click the 'GENERATE 4 SALES THEMES'\
           \ button.\n\n\ud83d\udc49 **Step 5:**  Click '**Send Me My Sales Script**'\
           \ to have it delivered directly to your email.\n\n\ud83c\udf89 **HAVE FUN!!**\
           \ \ud83c\udf89\n\n", font: '', spacing_above: small, spacing_below: small,
