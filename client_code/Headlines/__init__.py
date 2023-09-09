@@ -46,7 +46,7 @@ class Headlines(HeadlinesTemplate):
     self.generate_vsl_themes_button.visible = False
     self.indeterminate_progress_vsl_excerpts.visible = False
     self.indeterminate_progress_vsl_script.visible = False
-    self.rewrite_box.visible = False
+    self.rewrite_box.visible = True   #<<<<---------------------------FEEDBACKBOX
     
     self.chosen_company_name = None
     self.chosen_product_name = None
