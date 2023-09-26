@@ -33,7 +33,7 @@ class Home(HomeTemplate):
     self.free_navigate_label.visible = False
     # self.status.text = 'Idle'
     self.youtube_intro_video.visible = False
-    self.nav_button_company_to_products.visible = False
+    self.nav_button_home_to_company.visible = False
     self.research_status_bar.visible = False
     self.intro_panel.visible = False
     
@@ -122,18 +122,7 @@ class Home(HomeTemplate):
         product_latest_name = None
         print(f"No PRODUCT LATEST row")
 
-    # Check to see if it's done a complete 1 time runthrough
-    try:
-        row_first_run_complete = user_table.search(variable='first_run_complete')
-        first_run_complete = row_first_run_complete[0]['variable_value']
-        print(f"Have you completed a entire runthrough of the operation yet?: {first_run_complete}")
-        
-        # Check if first_run_complete is an empty string and set to None if so
-        if first_run_complete == "":
-            first_run_complete = None
-            print(f"Empty first_run_complete cell")
-    
-    # Check if all variables are either None or empty strings
+   # Check if all variables are either None or empty strings
     if not company_name or not company_url or not product_latest_name:
       self.company_assets_label.visible = False
       self.company_asset_link_sidebar.visible = False
@@ -145,16 +134,31 @@ class Home(HomeTemplate):
       self.final_product.visible = False
       print(f"SOME CELLS ARE EMPTY")
 
-    # if first_run_complete:
-    #   self.company_assets_label.visible = True
-    #   self.company_asset_link_sidebar.visible = True
-    #   self.product_asset_link_sidebar.visible = True
-    #   self.brand_tone_asset_link_sidebar.visible = True
-    #   self.avatars_asset_link_sidebar.visible = True
-    #   self.funnels_label.visible = True
-    #   self.vsl_page_link_sidebar.visible = True
-    #   self.final_product.visible = True
-    #   print(f"SOME CELLS ARE EMPTY")
+    #  Check to see if it's done a complete 1 time runthrough
+    try:
+        row_first_run_complete = user_table.search(variable='first_run_complete')
+        first_run_complete = row_first_run_complete[0]['variable_value']
+        print(f"Have you completed a entire runthrough of the operation yet?: {first_run_complete}")
+        
+        # Check if company_name is an empty string and set to None if so
+        if first_run_complete == "":
+            first_run_complete = None
+            print(f"first_run_complete cell")
+        
+    except IndexError:
+        first_run_complete = None
+        print(f"No first time runthrough row")
+          
+    if first_run_complete:
+      self.company_assets_label.visible = True
+      self.company_asset_link_sidebar.visible = True
+      self.product_asset_link_sidebar.visible = True
+      self.brand_tone_asset_link_sidebar.visible = True
+      self.avatars_asset_link_sidebar.visible = True
+      self.funnels_label.visible = True
+      self.vsl_page_link_sidebar.visible = True
+      self.final_product.visible = True
+   
     
     ## LOAD THE LATEST
     # Load the latest company name
@@ -403,7 +407,7 @@ class Home(HomeTemplate):
                           
             # Update the box
             self.company_summary_status.text = "Research Complete!"
-
+            
 # PRODUCT 1 DRAFTS
   def check_status_product_profile_1(self, sender=None, **event_args):
     with anvil.server.no_loading_indicator:
@@ -821,7 +825,7 @@ class Home(HomeTemplate):
             # self.vsl_page_link_sidebar.visible = True
             # self.final_product.visible = True
         
-            self.nav_button_company_to_products.visible = True
+            self.nav_button_home_to_company.visible = True
           
         else:
             print(f"Still working on all tasks...")
