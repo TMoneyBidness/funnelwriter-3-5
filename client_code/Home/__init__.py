@@ -145,16 +145,16 @@ class Home(HomeTemplate):
       self.final_product.visible = False
       print(f"SOME CELLS ARE EMPTY")
 
-    if first_run_complete:
-      self.company_assets_label.visible = True
-      self.company_asset_link_sidebar.visible = True
-      self.product_asset_link_sidebar.visible = True
-      self.brand_tone_asset_link_sidebar.visible = True
-      self.avatars_asset_link_sidebar.visible = True
-      self.funnels_label.visible = True
-      self.vsl_page_link_sidebar.visible = True
-      self.final_product.visible = True
-      print(f"SOME CELLS ARE EMPTY")
+    # if first_run_complete:
+    #   self.company_assets_label.visible = True
+    #   self.company_asset_link_sidebar.visible = True
+    #   self.product_asset_link_sidebar.visible = True
+    #   self.brand_tone_asset_link_sidebar.visible = True
+    #   self.avatars_asset_link_sidebar.visible = True
+    #   self.funnels_label.visible = True
+    #   self.vsl_page_link_sidebar.visible = True
+    #   self.final_product.visible = True
+    #   print(f"SOME CELLS ARE EMPTY")
     
     ## LOAD THE LATEST
     # Load the latest company name
