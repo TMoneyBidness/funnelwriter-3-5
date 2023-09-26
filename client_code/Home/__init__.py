@@ -816,8 +816,8 @@ class Home(HomeTemplate):
 
             self.product_research_status.text = 'All Product Research Complete'
             self.avatar_research_status.text = 'All Avatar Research Complete'
-            self.company_assets_label.visible = True
-            self.company_asset_link_sidebar.visible = True
+            # self.company_assets_label.visible = True
+            # self.company_asset_link_sidebar.visible = True
             # self.product_asset_link_sidebar.visible = True
             # self.brand_tone_asset_link_sidebar.visible = True
             # self.avatars_asset_link_sidebar.visible = True
