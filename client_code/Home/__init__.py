@@ -125,7 +125,7 @@ class Home(HomeTemplate):
     # Check to see if it's done a complete 1 time runthrough
     try:
         row_first_run_complete = user_table.search(variable='first_run_complete')
-        first_run_complete = row_irst_run_complete[0]['variable_value']
+        first_run_complete = row_first_run_complete[0]['variable_value']
         print(f"Have you completed a entire runthrough of the operation yet?: {first_run_complete}")
         
         # Check if first_run_complete is an empty string and set to None if so
@@ -145,16 +145,16 @@ class Home(HomeTemplate):
       self.final_product.visible = False
       print(f"SOME CELLS ARE EMPTY")
 
-    if first_run_complete:
-      self.company_assets_label.visible = True
-      self.company_asset_link_sidebar.visible = True
-      self.product_asset_link_sidebar.visible = True
-      self.brand_tone_asset_link_sidebar.visible = True
-      self.avatars_asset_link_sidebar.visible = True
-      self.funnels_label.visible = True
-      self.vsl_page_link_sidebar.visible = True
-      self.final_product.visible = True
-      print(f"SOME CELLS ARE EMPTY")
+    # if first_run_complete:
+    #   self.company_assets_label.visible = True
+    #   self.company_asset_link_sidebar.visible = True
+    #   self.product_asset_link_sidebar.visible = True
+    #   self.brand_tone_asset_link_sidebar.visible = True
+    #   self.avatars_asset_link_sidebar.visible = True
+    #   self.funnels_label.visible = True
+    #   self.vsl_page_link_sidebar.visible = True
+    #   self.final_product.visible = True
+    #   print(f"SOME CELLS ARE EMPTY")
     
     ## LOAD THE LATEST
     # Load the latest company name
