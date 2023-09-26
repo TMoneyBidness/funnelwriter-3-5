@@ -792,12 +792,12 @@ class Home(HomeTemplate):
             self.avatar_research_status.text = 'All Avatar Research Complete'
             self.company_assets_label.visible = True
             self.company_asset_link_sidebar.visible = True
-            self.product_asset_link_sidebar.visible = True
-            self.brand_tone_asset_link_sidebar.visible = True
-            self.avatars_asset_link_sidebar.visible = True
-            self.funnels_label.visible = True
-            self.vsl_page_link_sidebar.visible = True
-            self.final_product.visible = True
+            # self.product_asset_link_sidebar.visible = True
+            # self.brand_tone_asset_link_sidebar.visible = True
+            # self.avatars_asset_link_sidebar.visible = True
+            # self.funnels_label.visible = True
+            # self.vsl_page_link_sidebar.visible = True
+            # self.final_product.visible = True
         
             self.nav_button_company_to_products.visible = True
           
