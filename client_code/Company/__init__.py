@@ -39,6 +39,9 @@ class Company(CompanyTemplate):
     # Get the table for the current user
     user_table = getattr(app_tables, user_table_name)
 
+    # Check if all variables are either None or empty strings
+       
+
     # Load the latest company profile
     row_company_profile_latest = user_table.search(variable='company_profile_latest')
     if row_company_profile_latest:
