@@ -135,6 +135,18 @@ class Headlines(HeadlinesTemplate):
     self.task_check_timer_vsl_script.interval = 0 # Check every 2seconds
       
     self.task_ids = []  # List to store all task IDs
+
+    # LOAD THE VSL SCRIPT TITLES
+    vsl_script_rows = [
+    user_table.search(variable='saved_vsl_script_1')[0],
+    user_table.search(variable='saved_vsl_script_2')[0],
+    user_table.search(variable='saved_vsl_script_3')[0]
+    ]
+     # Extract the values from the non-empty rows
+    saved_vsl_script_names = [row['variable_title'] for row in vsl_script_rows]
+    # Assign the values to the company_profile_dropdown
+    self.save_vsl_script_name_dropdown.items = saved_vsl_script_names
+    
     
   def generate_headlines_vsl_button_click(self, **event_args):
     with anvil.server.no_loading_indicator:
@@ -862,12 +874,40 @@ class Headlines(HeadlinesTemplate):
     self.subheadlines_chooser_panel.visible = False
     self.final_vsl_outline_box.visible = True
 
-  def show_me_the_script_click(self, **event_args):
+  def save_the_script_click(self, **event_args):
     current_user = anvil.users.get_user()
     user_table_name = current_user['user_id']
     # Get the table for the current user
     user_table = getattr(app_tables, user_table_name)
 
+    # Fetch the current selected dropdown item
+    selected_item_index = self.save_vsl_script_name_dropdown.selected_value
+    selected_variable = f'saved_vsl_script_{selected_item_index + 1}'
+    
+    # Display an alert to get the new title from the user
+    new_title = anvil.js.window.prompt("Enter the new title or this VSL Product:")
+    
+    if new_title:  # If the user provided a title
+        # Update the appropriate slot in the user_table
+        user_table.update_rows(variable=selected_variable, variable_title=new_title)
+    
+        # Fetch updated VSL script rows
+        vsl_script_rows = [
+            user_table.search(variable='saved_vsl_script_1')[0],
+            user_table.search(variable='saved_vsl_script_2')[0],
+            user_table.search(variable='saved_vsl_script_3')[0]
+        ]
+    
+        # Extract the values from the non-empty rows
+        saved_vsl_script_names = [row['variable_title'] for row in vsl_script_rows]
+        
+        # Update the dropdown items
+        self.save_vsl_script_name_dropdown.items = saved_vsl_script_names
+      
+    else:
+      anvil.js.window.alert("Please select a new name...")
+      
+    ##  
     chosen_final_headline = self.main_headline_textbox.text
     chosen_final_subheadline = self.subheadline_textbox.text
     chosen_final_secondary_headline = self.secondary_headline_textbox.text

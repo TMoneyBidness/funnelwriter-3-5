@@ -821,11 +821,11 @@ components:
         layout_properties: {grid_position: 'NHRDDL,DOAHMI'}
         components:
         - type: TextArea
-          properties: {role: null, align: left, height: '', tooltip: '', placeholder: 'ie.
+          properties: {role: null, align: left, height: 77, tooltip: '', placeholder: 'ie.
               This sounds too stiff. Make it funnier, and add the term "There''s no
               better time than now!"', border: '', enabled: true, foreground: '',
             visible: true, text: '', font_size: null, auto_expand: true, font: '',
-            spacing_above: small, spacing_below: small, italic: true, background: '',
+            spacing_above: small, spacing_below: small, italic: true, background: '#a599e1',
             bold: false, underline: false}
           name: feedback_box
           layout_properties: {grid_position: 'UFRDRV,QYSTJE'}
@@ -903,14 +903,38 @@ components:
       - type: Button
         properties: {role: outlined-button, align: center, tooltip: '', border: '',
           enabled: true, foreground: 'theme:On Primary Container', visible: true,
-          text: SHOW ME MY SALES SCRIPT, font_size: 26, font: '', spacing_above: small,
+          text: SAVE MY VIDEO SALES SCRIPT, font_size: 26, font: '', spacing_above: small,
           icon_align: right, spacing_below: small, italic: false, background: 'theme:Tertiary
             Container', bold: true, underline: false, icon: 'fa:briefcase'}
-        name: email_my_script_button
+        name: save_my_script_button
         layout_properties:
           col_widths: {}
           grid_position: VFCDCM,HYVIIL
-        event_bindings: {click: show_me_the_script_click}
+        event_bindings: {click: save_my_the_script_click}
+      - type: DropDown
+        properties:
+          role: null
+          align: full
+          tooltip: ''
+          placeholder: SAVE AS
+          border: ''
+          enabled: true
+          foreground: theme:On Primary Container
+          items: []
+          visible: true
+          font_size: 26
+          font: ''
+          spacing_above: small
+          spacing_below: small
+          italic: false
+          background: theme:Tertiary Container
+          bold: true
+          underline: false
+          include_placeholder: true
+        name: save_vsl_script_name_dropdown
+        layout_properties:
+          col_widths: {}
+          grid_position: VFCDCM,ZKZLXK
 - type: Timer
   properties: {interval: 3}
   name: task_check_timer_headlines
