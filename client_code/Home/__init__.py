@@ -125,7 +125,7 @@ class Home(HomeTemplate):
     # Check to see if it's done a complete 1 time runthrough
     try:
         row_first_run_complete = user_table.search(variable='first_run_complete')
-        first_run_complete = row_irst_run_complete[0]['variable_value']
+        first_run_complete = row_first_run_complete[0]['variable_value']
         print(f"Have you completed a entire runthrough of the operation yet?: {first_run_complete}")
         
         # Check if first_run_complete is an empty string and set to None if so
