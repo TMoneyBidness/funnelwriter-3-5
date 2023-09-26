@@ -173,9 +173,23 @@ class BrandTone(BrandToneTemplate):
     
   # Define the event handler for nav_button_tone_to_VSL_elements click
   def nav_button_tone_to_VSL_elements_click(self, **event_args):
-        vsl_elements = VSL_Elements()
-        self.content_panel.clear()
-        self.content_panel.add_component(vsl_elements)
+
+     # Get the current user
+    current_user = anvil.users.get_user()
+    user_table_name = current_user['user_id']
+    
+    # Get the table for the current user
+    user_table = getattr(app_tables, user_table_name)
+
+    row_first_run_complete = user_table.get(variable='first_run_complete')
+    row_first_run_complete['variable_value'] = 'Yes' 
+    row_first_run_complete.update()
+    
+    self.nav_button_tone_to_VSL_elements.enabled = True
+  
+    vsl_elements = VSL_Elements()
+    self.content_panel.clear()
+    self.content_panel.add_component(vsl_elements)
 
 
 
@@ -218,6 +232,7 @@ class BrandTone(BrandToneTemplate):
  #        self.nav_button_tone_to_VSL_elements.enabled = False
 
   def nav_button_tone_to_VSL_elements(self, **event_args):
+    
     vsl_elements = VSL_Elements()
     self.content_panel.clear()
     self.content_panel.add_component(vsl_elements)
