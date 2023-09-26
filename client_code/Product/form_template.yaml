@@ -349,24 +349,33 @@ components:
       name: spacer_3
       layout_properties: {grid_position: 'ADNYKL,XLEHLJ'}
   - type: ColumnPanel
-    properties: {}
+    properties: {col_widths: '{}'}
     name: column_panel_3
     layout_properties: {grid_position: 'QCKUVZ,ZUMZQI'}
-  - type: Label
-    properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
-      visible: true, text: 'Product 4 Name:', font_size: 16, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
-      underline: false, icon: ''}
-    name: label_2_copy_7
-    layout_properties:
-      col_widths: {}
-      grid_position: IPHMZI,UJOBZN
-  - type: TextBox
-    properties: {}
-    name: product_4_name_input
-    layout_properties:
-      col_widths: {}
-      grid_position: IPHMZI,FQZQKY
+    components:
+    - type: Spacer
+      properties: {height: 32}
+      name: spacer_5
+      layout_properties: {grid_position: 'QOHRPY,TIRGOK'}
+    - type: Label
+      properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'Product 4 Name:', font_size: 16, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
+        underline: false, icon: ''}
+      name: label_2_copy_7
+      layout_properties:
+        col_widths: {}
+        grid_position: TWLGWY,WILLOG
+    - type: TextBox
+      properties: {}
+      name: product_4_name_input
+      layout_properties:
+        col_widths: {}
+        grid_position: TWLGWY,IRCGVJ
+    - type: Spacer
+      properties: {height: 32}
+      name: spacer_4
+      layout_properties: {grid_position: 'EWLZUZ,JCNBCJ'}
   - type: Label
     properties: {role: null, align: right, tooltip: '', border: '', foreground: '',
       visible: true, text: 'Product 4 URL:', font_size: 16, font: '', spacing_above: small,
