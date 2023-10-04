@@ -21,7 +21,7 @@ from ..VideoSalesLetter import VideoSalesLetter
 from ..FinalProduct import FinalProduct
 from ..FinalProduct_Export import FinalProduct_Export
 
-
+active_workspace = 'workspace_2'
 ####################
 
 class Home(HomeTemplate):
@@ -51,7 +51,8 @@ class Home(HomeTemplate):
 
     ### $$ Get the User Table
     self.user_table = self.get_user_table()
-    print(f"CURRENT USER TABLE IS: {self.user_table}")
+    user_table = self.user_table
+    print(f"CURRENT USER TABLE IS: {user_table}")
     
     # Get the current user
     # current_user = anvil.users.get_user()
@@ -212,25 +213,28 @@ class Home(HomeTemplate):
         self.active_workspace = 'workspace_2'
 
   def button_workspace_1_click(self, **event_args):
-    set_active_workspace('workspace_1')
+      global active_workspace
+      active_workspace = 'workspace_1'
 
   def button_workspace_2_click(self, **event_args):
-    set_active_workspace('workspace_2')
+      global active_workspace
+      active_workspace = 'workspace_2'
 
   def button_workspace_3_click(self, **event_args):
-    set_active_workspace('workspace_3')
+      global active_workspace
+      active_workspace = 'workspace_3'
 
-  def get_user_table():
+  def get_user_table(self):
     current_user = anvil.users.get_user()
-    workspace_id = get_active_workspace()
+    workspace_id = self.get_active_workspace()
     user_table_name = current_user[workspace_id]
     return getattr(app_tables, user_table_name)
 
-  def set_active_workspace(workspace_id):
+  def set_active_workspace(self, workspace_id):
     """Set the active workspace for the current session."""
     anvil.server.session['active_workspace'] = workspace_id
 
-  def get_active_workspace():
+  def get_active_workspace(self):
     """Get the active workspace for the current session."""
     return anvil.server.session.get('active_workspace')
     
