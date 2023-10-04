@@ -36,13 +36,13 @@ class Home(HomeTemplate):
     if anvil.users.get_user():
         self.initialize_default_workspace()
      
-    # self.indeterminate_1.visible = False
-    # self.free_navigate_label.visible = False
-    # # self.status.text = 'Idle'
-    # self.youtube_intro_video.visible = False
-    # self.nav_button_home_to_company.visible = False
-    # self.research_status_bar.visible = False
-    # self.intro_panel.visible = False
+    self.indeterminate_1.visible = False
+    self.free_navigate_label.visible = False
+    # self.status.text = 'Idle'
+    self.youtube_intro_video.visible = False
+    self.nav_button_home_to_company.visible = False
+    self.research_status_bar.visible = False
+    self.intro_panel.visible = False
     
     for component in self.get_components():
         # Check if the component is a Timer
@@ -50,10 +50,10 @@ class Home(HomeTemplate):
             # Stop the timer by setting its interval to None
             component.interval = None
 
-    # Create an instance of Company_new and add it to content_panel
-    company_form_copy = Company_copy()
-    self.content_panel.clear()  # Clear the content panel
-    self.content_panel.add_component(company_form_copy)  # Add the new component
+    # # # Create an instance of Company_new and add it to content_panel
+    # company_form = Company_copy()
+    # self.content_panel.clear()  # Clear the content panel
+    # self.content_panel.add_component(company_form)  # Add the new component
     
     self.undertaken_tasks = []
 
@@ -221,7 +221,9 @@ class Home(HomeTemplate):
   def button_workspace_1_click(self, **event_args):
       global active_workspace
       active_workspace = 'workspace_1'
-      self.reload_home_form()
+      company_form = Company_copy()
+      self.content_panel.clear()  # Clear the content panel
+      self.content_panel.add_component(company_form)  # Add the new component
   
   def button_workspace_2_click(self, **event_args):
       global active_workspace

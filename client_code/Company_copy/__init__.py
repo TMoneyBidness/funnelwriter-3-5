@@ -21,12 +21,10 @@ from ..VideoSalesLetter import VideoSalesLetter
 from ..FinalProduct import FinalProduct
 from ..FinalProduct_Export import FinalProduct_Export
 
-active_workspace = None
-active_workspace = "workspace_2"
+active_workspace = "workspace_1"
+
 
 ############################################################################################################
-
-PROMPT_TITLE = "FunnelWriter.AI needs a title to SAVE AS"
 
 ## LOADING
 class Company_copy(Company_copyTemplate):
@@ -54,10 +52,7 @@ class Company_copy(Company_copyTemplate):
             # Stop the timer by setting its interval to None
             component.interval = None
 
-    # Create an instance of Company_new and add it to content_panel
-    company_new_form = Company_copy()
-    self.content_panel.add_component(company_new_form)
-    
+  
     self.undertaken_tasks = []
 
     ### $$ Get the User Table
@@ -143,16 +138,16 @@ class Company_copy(Company_copyTemplate):
         print(f"No PRODUCT LATEST row")
 
    # Check if all variables are either None or empty strings
-    if not company_name or not company_url or not product_latest_name:
-      self.company_assets_label.visible = False
-      self.company_asset_link_sidebar.visible = False
-      self.product_asset_link_sidebar.visible = False
-      self.brand_tone_asset_link_sidebar.visible = False
-      self.avatars_asset_link_sidebar.visible = False
-      self.funnels_label.visible = False
-      self.vsl_page_link_sidebar.visible = False
-      self.final_product.visible = False
-      print(f"SOME CELLS ARE EMPTY")
+    # if not company_name or not company_url or not product_latest_name:
+    #   self.company_assets_label.visible = False
+    #   self.company_asset_link_sidebar.visible = False
+    #   self.product_asset_link_sidebar.visible = False
+    #   self.brand_tone_asset_link_sidebar.visible = False
+    #   self.avatars_asset_link_sidebar.visible = False
+    #   self.funnels_label.visible = False
+    #   self.vsl_page_link_sidebar.visible = False
+    #   self.final_product.visible = False
+    #   print(f"SOME CELLS ARE EMPTY")
 
     #  Check to see if it's done a complete 1 time runthrough
     try:
@@ -169,15 +164,15 @@ class Company_copy(Company_copyTemplate):
         first_run_complete = None
         print(f"No first time runthrough row")
           
-    if first_run_complete:
-      self.company_assets_label.visible = True
-      self.company_asset_link_sidebar.visible = True
-      self.product_asset_link_sidebar.visible = True
-      self.brand_tone_asset_link_sidebar.visible = True
-      self.avatars_asset_link_sidebar.visible = True
-      self.funnels_label.visible = True
-      self.vsl_page_link_sidebar.visible = True
-      self.final_product.visible = True
+    # if first_run_complete:
+    #   self.company_assets_label.visible = True
+    #   self.company_asset_link_sidebar.visible = True
+    #   self.product_asset_link_sidebar.visible = True
+    #   self.brand_tone_asset_link_sidebar.visible = True
+    #   self.avatars_asset_link_sidebar.visible = True
+    #   self.funnels_label.visible = True
+    #   self.vsl_page_link_sidebar.visible = True
+    #   self.final_product.visible = True
    
     
     ## LOAD THE LATEST
