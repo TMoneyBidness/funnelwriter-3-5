@@ -144,6 +144,10 @@ class Headlines(HeadlinesTemplate):
     ]
      # Extract the values from the non-empty rows
     saved_vsl_script_names = [row['variable_title'] for row in vsl_script_rows]
+
+    # Ensure all values in the list are strings
+    saved_vsl_script_names = [str(name) for name in saved_vsl_script_names] #<-- NEW LINE HERE
+
     # Assign the values to the company_profile_dropdown
     self.save_vsl_script_name_dropdown.items = saved_vsl_script_names
     
