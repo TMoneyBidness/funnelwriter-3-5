@@ -280,13 +280,13 @@ components:
         grid_position: RSCYKG,KXHMDV
     - type: Label
       properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: "Please enter your:\n-  existing product name that you\
-          \ want the agent to research\n-  the info or sales page website\n- Add a\
-          \ short avatar description outline of the primary buyer of the product.\
-          \ \n\nIf you do not have an info page, you can input a competitors page\
-          \ to build the product.\n\nYou may add up to 5 products to research.", font_size: 16,
-        font: '', spacing_above: none, icon_align: left, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false, icon: ''}
+        visible: true, text: "Please enter your:\n-  existing product name\n-  the\
+          \ info or sales page website\n- Add a short avatar description outline of\
+          \ the primary buyer of the product. \n\nIf you do not have an info page,\
+          \ you can input a competitors page to build the product.\n\nYou may add\
+          \ up to 5 products to research.", font_size: 16, font: '', spacing_above: none,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
       name: label_4_copy_3
       layout_properties:
         col_widths: {}
