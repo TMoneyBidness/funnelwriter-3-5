@@ -91,6 +91,7 @@ components:
       underline: false, icon: 'fa:desktop'}
     name: workspace_1_button
     layout_properties: {grid_position: 'GJDXTW,QDOGWF'}
+    event_bindings: {click: button_workspace_1_click}
   - type: Button
     properties: {role: elevated-button, align: center, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: WORKSPACE 2, font_size: 16, font: '', spacing_above: small,
@@ -98,6 +99,7 @@ components:
       underline: false, icon: 'fa:desktop'}
     name: workspace_2_button
     layout_properties: {grid_position: 'MSKRTL,UQEPCN'}
+    event_bindings: {click: button_workspace_2_click}
   - type: Button
     properties: {role: elevated-button, align: center, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: WORKSPACE 3, font_size: 16, font: '', spacing_above: small,
@@ -105,6 +107,7 @@ components:
       underline: false, icon: 'fa:desktop'}
     name: workspace_3_button
     layout_properties: {grid_position: 'CCEXOR,FNRGMB'}
+    event_bindings: {click: button_workspace_3_click}
   - type: Label
     properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
       visible: true, text: COMPANY ASSETS, font_size: null, font: '', spacing_above: small,

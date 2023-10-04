@@ -21,14 +21,17 @@ from ..VideoSalesLetter import VideoSalesLetter
 from ..FinalProduct import FinalProduct
 from ..FinalProduct_Export import FinalProduct_Export
 
-active_workspace = 'workspace_2'
+active_workspace = None
+active_workspace = "workspace_2"
 ####################
 
 class Home(HomeTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    anvil.users.login_with_form()
+    if not anvil.users.get_user():  # Only prompt login if user isn't already logged in
+        anvil.users.login_with_form()
+   
     # Check if user is logged in
     if anvil.users.get_user():
         self.initialize_default_workspace()
@@ -208,24 +211,32 @@ class Home(HomeTemplate):
 ##### USER MANAGEMENT
 
   def initialize_default_workspace(self):
-        # This can be a simple client-side function or variable setting.
-        # For example:
-        self.active_workspace = 'workspace_2'
+      self.active_workspace = 'workspace_2'
 
   def button_workspace_1_click(self, **event_args):
       global active_workspace
       active_workspace = 'workspace_1'
-
+      self.reload_home_form()
+  
   def button_workspace_2_click(self, **event_args):
       global active_workspace
       active_workspace = 'workspace_2'
-
+      self.reload_home_form()
+  
   def button_workspace_3_click(self, **event_args):
       global active_workspace
       active_workspace = 'workspace_3'
+      self.reload_home_form()
+  
+  def reload_home_form(self):
+      home = Home()
+      self.content_panel.clear()
+      self.sidebar_nav_menu.clear()
+      self.content_panel.add_component(home)
 
   def get_user_table(self):
     current_user = anvil.users.get_user()
+    global active_workspace
     workspace_id = self.get_active_workspace()
     user_table_name = current_user[workspace_id]
     return getattr(app_tables, user_table_name)
@@ -879,15 +890,15 @@ class Home(HomeTemplate):
     self.content_panel.clear()
     self.content_panel.add_component(home)
 
-  def product_asset_link_click(self, **event_args):
-    product=Product()
-    self.content_panel.clear()
-    self.content_panel.add_component(product)
-
   def company_asset_link_click(self, **event_args):
     company_form = Company()
     self.content_panel.clear()  # Clear the content panel
     self.content_panel.add_component(company_form)  # Add the new component
+
+  def product_asset_link_click(self, **event_args):
+    product=Product()
+    self.content_panel.clear()
+    self.content_panel.add_component(product)
 
   def brand_tone_asset_link_click(self, **event_args):
     brandtone=BrandTone()
