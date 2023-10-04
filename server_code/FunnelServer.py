@@ -68,7 +68,22 @@ def get_active_workspace():
     """Get the active workspace for the current session."""
     return anvil.server.session.get('active_workspace', 'workspace_1')
 
-ce_1')
+# Unified Table Access Function: 
+def get_user_table():
+    current_user = anvil.users.get_user()
+    workspace_id = get_active_workspace()
+    user_table_name = current_user[workspace_id]
+    return getattr(app_tables, user_table_name)
+
+# Workspace Switching Buttons:
+# def button_workspace_1_click(self, **event_args):
+#     set_active_workspace('workspace_1')
+
+# def button_workspace_2_click(self, **event_args):
+#     set_active_workspace('workspace_2')
+
+# def button_workspace_3_click(self, **event_args):
+#     set_active_workspace('workspace_3')
 
 
 ####### -------- PRELIMINARY / FIRST DRAFTS--------###########

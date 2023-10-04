@@ -29,6 +29,10 @@ class Home(HomeTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     anvil.users.login_with_form()
+    # Check if user is logged in
+    if anvil.users.get_user():
+        self.initialize_default_workspace()
+      
     self.indeterminate_1.visible = False
     self.free_navigate_label.visible = False
     # self.status.text = 'Idle'
@@ -196,6 +200,12 @@ class Home(HomeTemplate):
               # Handle case where the row does not exist for the current user
               print(f"No row found for 'avatar_{j}_product_{i}_latest'")
         
+##### USER MANAGEMENT
+
+  def initialize_default_workspace(self):
+        # This can be a simple client-side function or variable setting.
+        # For example:
+        self.active_workspace = 'workspace_2'
     
 # ADDING PRODUCTS / AVATAR PANELS
 

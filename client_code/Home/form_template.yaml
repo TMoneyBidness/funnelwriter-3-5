@@ -86,10 +86,10 @@ components:
     components: []
   - type: Button
     properties: {role: elevated-button, align: center, tooltip: '', border: '', enabled: true,
-      foreground: '', visible: true, text: WORKSPACE 1, font_size: 16, font: '', spacing_above: small,
+      foreground: '', visible: true, text: WORKSPACE 2, font_size: 16, font: '', spacing_above: small,
       icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
       underline: false, icon: 'fa:desktop'}
-    name: workspace_1_button
+    name: workspace_2_button
     layout_properties: {grid_position: 'MSKRTL,UQEPCN'}
   - type: Label
     properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
