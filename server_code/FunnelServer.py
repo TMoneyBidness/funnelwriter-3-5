@@ -60,15 +60,18 @@ tools = Tool(
 ####### -------- USER MANAGEMENT --------###########
 
 # ACTIVE WORKSPACE SESSION
+@anvil.server.callable
 def set_active_workspace(workspace_id):
     """Set the active workspace for the current session."""
     anvil.server.session['active_workspace'] = workspace_id
 
+@anvil.server.callable
 def get_active_workspace():
     """Get the active workspace for the current session."""
     return anvil.server.session.get('active_workspace', 'workspace_1')
 
 # Unified Table Access Function: 
+@anvil.server.callable
 def get_user_table():
     current_user = anvil.users.get_user()
     workspace_id = get_active_workspace()

@@ -49,11 +49,15 @@ class Home(HomeTemplate):
 
     self.undertaken_tasks = []
 
+    ### $$ Get the User Table
+    self.user_table = self.get_user_table()
+    print(f"CURRENT USER TABLE IS: {company_name}")
+    
     # Get the current user
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
     
     # HIDE ALL PANELS OFF THE TOP
     # Hide Product 1, Avatars 2 and 3
@@ -206,6 +210,29 @@ class Home(HomeTemplate):
         # This can be a simple client-side function or variable setting.
         # For example:
         self.active_workspace = 'workspace_2'
+
+  def button_workspace_1_click(self, **event_args):
+    set_active_workspace('workspace_1')
+
+  def button_workspace_2_click(self, **event_args):
+    set_active_workspace('workspace_2')
+
+  def button_workspace_3_click(self, **event_args):
+    set_active_workspace('workspace_3')
+
+  def get_user_table():
+    current_user = anvil.users.get_user()
+    workspace_id = get_active_workspace()
+    user_table_name = current_user[workspace_id]
+    return getattr(app_tables, user_table_name)
+
+  def set_active_workspace(workspace_id):
+    """Set the active workspace for the current session."""
+    anvil.server.session['active_workspace'] = workspace_id
+
+  def get_active_workspace():
+    """Get the active workspace for the current session."""
+    return anvil.server.session.get('active_workspace')
     
 # ADDING PRODUCTS / AVATAR PANELS
 
