@@ -15,7 +15,7 @@ components:
   components:
   - type: Label
     properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: Let's build your business assets - COMPANY COPY, font_size: 42,
+      visible: true, text: Let's build your business assets - WORKSPACE 1, font_size: 42,
       font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
       background: '', bold: true, underline: false, icon: ''}
     name: label_1

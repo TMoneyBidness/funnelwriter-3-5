@@ -1,4 +1,4 @@
-from ._anvil_designer import Company_copyTemplate
+from ._anvil_designer import Workspace_1Template
 from anvil import *
 import plotly.graph_objects as go
 import time
@@ -23,11 +23,10 @@ from ..FinalProduct_Export import FinalProduct_Export
 
 active_workspace = "workspace_1"
 
-
 ############################################################################################################
 
 ## LOADING
-class Company_copy(Company_copyTemplate):
+class Workspace_1(Workspace_1Template):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -38,34 +37,27 @@ class Company_copy(Company_copyTemplate):
     if anvil.users.get_user():
         self.initialize_default_workspace()
      
-    # self.indeterminate_1.visible = False
-    # self.free_navigate_label.visible = False
-    # # self.status.text = 'Idle'
-    # self.youtube_intro_video.visible = False
-    # self.nav_button_home_to_company.visible = False
-    # self.research_status_bar.visible = False
-    # self.intro_panel.visible = False
+    self.indeterminate_1.visible = False
+    self.free_navigate_label.visible = False
+    # self.status.text = 'Idle'
+    self.youtube_intro_video.visible = False
+    self.nav_button_home_to_company.visible = False
+    self.research_status_bar.visible = False
+    self.intro_panel.visible = False
     
     for component in self.get_components():
         # Check if the component is a Timer
         if isinstance(component, anvil.Timer):
             # Stop the timer by setting its interval to None
             component.interval = None
-
   
     self.undertaken_tasks = []
 
     ### $$ Get the User Table
     self.user_table = self.get_user_table()
-    user_table = self.user_table
-    print(f"CURRENT USER TABLE IS: {user_table}")
+    print(f"CURRENT USER TABLE IS: {self.user_table}")
     
-    # Get the current user
-    # current_user = anvil.users.get_user()
-    # user_table_name = current_user['user_id']
-    # # Get the table for the current user
-    # user_table = getattr(app_tables, user_table_name)
-    
+   
     # HIDE ALL PANELS OFF THE TOP
     # Hide Product 1, Avatars 2 and 3
     
@@ -96,7 +88,7 @@ class Company_copy(Company_copyTemplate):
     
     # Try to retrieve company name or set to None if not available
     try:
-        row_company_name = user_table.search(variable='company_name')
+        row_company_name = self.user_table.search(variable='company_name')
         company_name = row_company_name[0]['variable_value']
         print(f"Retrieved COMPANY NAME: {company_name}")
         
@@ -111,7 +103,7 @@ class Company_copy(Company_copyTemplate):
     
     # Try to retrieve company URL or set to None if not available
     try:
-        row_company_url = user_table.search(variable='company_url')
+        row_company_url = self.user_table.search(variable='company_url')
         company_url = row_company_url[0]['variable_value']
         
         # Check if company_url is an empty string and set to None if so
@@ -125,7 +117,7 @@ class Company_copy(Company_copyTemplate):
     
     # Try to retrieve product latest name or set to None if not available
     try:
-        row_product_latest = user_table.search(variable=f'product_1_latest')
+        row_product_latest = self.user_table.search(variable=f'product_1_latest')
         product_latest_name = row_product_latest[0]['variable_title']
         
         # Check if product_latest_name is an empty string and set to None if so
@@ -151,7 +143,7 @@ class Company_copy(Company_copyTemplate):
 
     #  Check to see if it's done a complete 1 time runthrough
     try:
-        row_first_run_complete = user_table.search(variable='first_run_complete')
+        row_first_run_complete = self.user_table.search(variable='first_run_complete')
         first_run_complete = row_first_run_complete[0]['variable_value']
         print(f"Have you completed a entire runthrough of the operation yet?: {first_run_complete}")
         
@@ -188,8 +180,8 @@ class Company_copy(Company_copyTemplate):
       
    # Load the latest info for products 1 to 5
     for i in range(1, 6):
-      row_product_latest = user_table.search(variable=f'product_{i}_latest')
-      row_product_url_latest = user_table.search(variable=f'product_{i}_url')
+      row_product_latest = self.user_table.search(variable=f'product_{i}_latest')
+      row_product_url_latest = self.user_table.search(variable=f'product_{i}_url')
         
       if row_product_latest:
           # Update the text box for the current product
@@ -201,7 +193,7 @@ class Company_copy(Company_copyTemplate):
         
           # Now, load the avatars associated with that product. There may be 1 avatar only, or there are 3. The cells might be empty!
           for j in range(1, 4):
-              row_avatar_product_latest = user_table.get(variable=f'avatar_{j}_product_{i}_latest')
+              row_avatar_product_latest = self.user_table.get(variable=f'avatar_{j}_product_{i}_latest')
               
               if row_avatar_product_latest:  # Check if it's not None
                   avatar_product_latest = row_avatar_product_latest['variable_value']
@@ -342,25 +334,25 @@ class Company_copy(Company_copyTemplate):
 
             # Load stuff
             current_user = anvil.users.get_user()
-            user_table_name = current_user['user_id']
+            self.user_table_name = current_user['user_id']
             # Get the table for the current user
-            user_table = getattr(app_tables, user_table_name)
+            self.user_table = getattr(app_tables, self.user_table_name)
 
-            first_run_complete_row = user_table.get(variable='first_run_complete')
+            first_run_complete_row = self.user_table.get(variable='first_run_complete')
             first_run_complete_row['variable_value'] = 'yes'
             first_run_complete_row.update()
 
             # COMPANY NAME
             company_name = self.company_name_input.text
             # Save company name
-            company_name_row = user_table.get(variable='company_name')
+            company_name_row = self.user_table.get(variable='company_name')
             company_name_row['variable_value'] = company_name
             company_name_row.update()
 
             # COMPANY URL
             company_url = self.company_url_input.text
             # Save company url
-            company_url_row = user_table.get(variable='company_url')
+            company_url_row = self.user_table.get(variable='company_url')
             company_url_row['variable_value'] = company_url
             company_url_row.update()
 
@@ -376,7 +368,7 @@ class Company_copy(Company_copyTemplate):
             self.undertaken_tasks.append('company_profile_latest')
             print(f"Added to undertaken_tasks: company_profile_latest")
 
-            task_id_brand_tone = anvil.server.call('launch_draft_brand_tone_research', user_table, company_url)
+            task_id_brand_tone = anvil.server.call('launch_draft_brand_tone_research', self.user_table, company_url)
             print("Brand Tone Launch function called")
             task_ids.append(task_id_brand_tone)
 
@@ -390,11 +382,11 @@ class Company_copy(Company_copyTemplate):
 
                 # Check if the product name is not empty and save it to the user table
                 if product_name_input:
-                    product_name_row = user_table.get(variable=f"product_{i}_latest")
+                    product_name_row = self.user_table.get(variable=f"product_{i}_latest")
                     product_name_row['variable_title'] = product_name_input
                     product_name_row.update()
 
-                    product_url_row = user_table.get(variable=f"product_{i}_url")
+                    product_url_row = self.user_table.get(variable=f"product_{i}_url")
                     product_url_row['variable_value'] = product_url_input
                     product_url_row.update()
 
@@ -403,7 +395,7 @@ class Company_copy(Company_copyTemplate):
                     self.check_all_tasks_timer.enabled = True
                     self.check_all_tasks_timer.interval = 3
 
-                    task_product_research = anvil.server.call(f"launch_draft_deepdive_product_{i}_generator", user_table, company_name, product_name_input, product_url_input)
+                    task_product_research = anvil.server.call(f"launch_draft_deepdive_product_{i}_generator", self.user_table, company_name, product_name_input, product_url_input)
                     print(f"product_{i} analysis initiated")
 
                     getattr(self, f"task_check_timer_product_{i}").enabled = True
@@ -420,13 +412,13 @@ class Company_copy(Company_copyTemplate):
                             getattr(self, f"task_check_timer_product_{i}_avatar_{j}").enabled = True
 
                           # Launch the background task for Avatar
-                            task_id_avatar = anvil.server.call(f"launch_draft_deepdive_avatar_{j}_product_{i}_generator", user_table, company_name, getattr(self, f"product_{i}_name_input").text, avatar_input)
+                            task_id_avatar = anvil.server.call(f"launch_draft_deepdive_avatar_{j}_product_{i}_generator", self.user_table, company_name, getattr(self, f"product_{i}_name_input").text, avatar_input)
                             print("Deep Dive Draft Avatar Research Started")
     
                             # Save it as the preview
                             variable_name = f"avatar_{j}_product_{i}_preview"
                             print(f"Searching for: {variable_name}")
-                            avatar_preview_row = user_table.get(variable=variable_name)
+                            avatar_preview_row = self.user_table.get(variable=variable_name)
                     
                             if avatar_preview_row is None:
                                 print(f"No data found for: {variable_name}")
@@ -442,17 +434,17 @@ class Company_copy(Company_copyTemplate):
                             self.undertaken_tasks.append(f"avatar_{j}_product_{i}_latest")
                             print(f"Added to undertaken_tasks: avatar_{j}_product_{i}_latest")
                             pass
-                         
+                
 
   def check_status_company_summary(self, sender=None, **event_args):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
         current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
+        self.user_table_name = current_user['user_id']
         # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='company_profile_latest')
+        self.user_table = getattr(app_tables, self.user_table_name)
+        row = self.user_table.get(variable='company_profile_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on the draft company summary!")
@@ -470,10 +462,10 @@ class Company_copy(Company_copyTemplate):
         # Get the background task by its ID
         
         current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
+        self.user_table_name = current_user['user_id']
         # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='product_1_latest')
+        self.user_table = getattr(app_tables, self.user_table_name)
+        row = self.user_table.get(variable='product_1_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on the draft company summary!")
@@ -490,10 +482,10 @@ class Company_copy(Company_copyTemplate):
         # Get the background task by its ID
         
         current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
+        self.user_table_name = current_user['user_id']
         # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='avatar_1_product_1_latest')
+        self.user_table = getattr(app_tables, self.user_table_name)
+        row = self.user_table.get(variable='avatar_1_product_1_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on Avatar 1 Product 1 Generation...")
@@ -508,10 +500,10 @@ class Company_copy(Company_copyTemplate):
         # Get the background task by its ID
         
         current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
+        self.user_table_name = current_user['user_id']
         # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='avatar_2_product_1_latest')
+        self.user_table = getattr(app_tables, self.user_table_name)
+        row = self.user_table.get(variable='avatar_2_product_1_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on Avatar 2 Product 1 Generation...")
@@ -526,10 +518,10 @@ class Company_copy(Company_copyTemplate):
         # Get the background task by its ID
         
         current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
+        self.user_table_name = current_user['user_id']
         # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='avatar_3_product_1_latest')
+        self.user_table = getattr(app_tables, self.user_table_name)
+        row = self.user_table.get(variable='avatar_3_product_1_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on Avatar 3 Product 1 Generation...")
@@ -545,10 +537,10 @@ class Company_copy(Company_copyTemplate):
         # Get the background task by its ID
         
         current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
+        self.user_table_name = current_user['user_id']
         # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='product_2_latest')
+        self.user_table = getattr(app_tables, self.user_table_name)
+        row = self.user_table.get(variable='product_2_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on the draft company summary!")
@@ -565,10 +557,10 @@ class Company_copy(Company_copyTemplate):
         # Get the background task by its ID
         
         current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
+        self.user_table_name = current_user['user_id']
         # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='avatar_1_product_2_latest')
+        self.user_table = getattr(app_tables, self.user_table_name)
+        row = self.user_table.get(variable='avatar_1_product_2_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on Avatar 1 Product 2 Generation...")
@@ -583,10 +575,10 @@ class Company_copy(Company_copyTemplate):
         # Get the background task by its ID
         
         current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
+        self.user_table_name = current_user['user_id']
         # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='avatar_2_product_2_latest')
+        self.user_table = getattr(app_tables, self.user_table_name)
+        row = self.user_table.get(variable='avatar_2_product_2_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on Avatar 2 Product 2 Generation...")
@@ -601,10 +593,10 @@ class Company_copy(Company_copyTemplate):
         # Get the background task by its ID
         
         current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
+        self.user_table_name = current_user['user_id']
         # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='avatar_3_product_2_latest')
+        self.user_table = getattr(app_tables, self.user_table_name)
+        row = self.user_table.get(variable='avatar_3_product_2_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on Avatar 3 Product 2 Generation...")
@@ -620,10 +612,10 @@ class Company_copy(Company_copyTemplate):
         # Get the background task by its ID
         
         current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
+        self.user_table_name = current_user['user_id']
         # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='product_3_latest')
+        self.user_table = getattr(app_tables, self.user_table_name)
+        row = self.user_table.get(variable='product_3_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on the draft company summary!")
@@ -640,10 +632,10 @@ class Company_copy(Company_copyTemplate):
         # Get the background task by its ID
         
         current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
+        self.user_table_name = current_user['user_id']
         # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='avatar_1_product_3_latest')
+        self.user_table = getattr(app_tables, self.user_table_name)
+        row = self.user_table.get(variable='avatar_1_product_3_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on Avatar 1 Product 3 Generation...")
@@ -658,10 +650,10 @@ class Company_copy(Company_copyTemplate):
         # Get the background task by its ID
         
         current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
+        self.user_table_name = current_user['user_id']
         # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='avatar_2_product_3_latest')
+        self.user_table = getattr(app_tables, self.user_table_name)
+        row = self.user_table.get(variable='avatar_2_product_3_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on Avatar 2 Product 3 Generation...")
@@ -676,10 +668,10 @@ class Company_copy(Company_copyTemplate):
         # Get the background task by its ID
         
         current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
+        self.user_table_name = current_user['user_id']
         # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='avatar_3_product_3_latest')
+        self.user_table = getattr(app_tables, self.user_table_name)
+        row = self.user_table.get(variable='avatar_3_product_3_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on Avatar 3 Product 3 Generation...")
@@ -695,10 +687,10 @@ class Company_copy(Company_copyTemplate):
         # Get the background task by its ID
         
         current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
+        self.user_table_name = current_user['user_id']
         # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='product_4_latest')
+        self.user_table = getattr(app_tables, self.user_table_name)
+        row = self.user_table.get(variable='product_4_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on the draft company summary!")
@@ -715,10 +707,10 @@ class Company_copy(Company_copyTemplate):
         # Get the background task by its ID
         
         current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
+        self.user_table_name = current_user['user_id']
         # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='avatar_1_product_4_latest')
+        self.user_table = getattr(app_tables, self.user_table_name)
+        row = self.user_table.get(variable='avatar_1_product_4_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on Avatar 1 Product 4 Generation...")
@@ -733,10 +725,10 @@ class Company_copy(Company_copyTemplate):
         # Get the background task by its ID
         
         current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
+        self.user_table_name = current_user['user_id']
         # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='avatar_2_product_4_latest')
+        self.user_table = getattr(app_tables, self.user_table_name)
+        row = self.user_table.get(variable='avatar_2_product_4_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on Avatar 2 Product 4 Generation...")
@@ -751,10 +743,10 @@ class Company_copy(Company_copyTemplate):
         # Get the background task by its ID
         
         current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
+        self.user_table_name = current_user['user_id']
         # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='avatar_3_product_4_latest')
+        self.user_table = getattr(app_tables, self.user_table_name)
+        row = self.user_table.get(variable='avatar_3_product_4_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on Avatar 3 Product 4 Generation...")
@@ -770,10 +762,10 @@ class Company_copy(Company_copyTemplate):
         # Get the background task by its ID
         
         current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
+        self.user_table_name = current_user['user_id']
         # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='product_5_latest')
+        self.user_table = getattr(app_tables, self.user_table_name)
+        row = self.user_table.get(variable='product_5_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on the draft company summary!")
@@ -790,10 +782,10 @@ class Company_copy(Company_copyTemplate):
         # Get the background task by its ID
         
         current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
+        self.user_table_name = current_user['user_id']
         # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='avatar_1_product_5_latest')
+        self.user_table = getattr(app_tables, self.user_table_name)
+        row = self.user_table.get(variable='avatar_1_product_5_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on Avatar 1 Product 5 Generation...")
@@ -808,10 +800,10 @@ class Company_copy(Company_copyTemplate):
         # Get the background task by its ID
         
         current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
+        self.user_table_name = current_user['user_id']
         # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='avatar_2_product_5_latest')
+        self.user_table = getattr(app_tables, self.user_table_name)
+        row = self.user_table.get(variable='avatar_2_product_5_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on Avatar 2 Product 5 Generation...")
@@ -826,10 +818,10 @@ class Company_copy(Company_copyTemplate):
         # Get the background task by its ID
         
         current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
+        self.user_table_name = current_user['user_id']
         # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='avatar_3_product_5_latest')
+        self.user_table = getattr(app_tables, self.user_table_name)
+        row = self.user_table.get(variable='avatar_3_product_5_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on Avatar 3 Product 5 Generation...")
@@ -845,15 +837,15 @@ class Company_copy(Company_copyTemplate):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
+        self.user_table_name = current_user['user_id']
 
         # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
+        self.user_table = getattr(app_tables, self.user_table_name)
         
         all_tasks_completed = True  # Start with the assumption that all tasks are completed
 
         for task in self.undertaken_tasks:  # Loop through each identifier in the list
-            row = user_table.get(variable=task)
+            row = self.user_table.get(variable=task)
             
             if row['variable_value'] is None or row['variable_value'] == '':
                 all_tasks_completed = False  # If any task is not done, set the flag to False
