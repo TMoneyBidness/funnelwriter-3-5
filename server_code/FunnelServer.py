@@ -57,8 +57,21 @@ tools = Tool(
 
 ############################################################################################################################
 
-####### -------- PRELIMINARY / FIRST DRAFTS--------###########
+####### -------- USER MANAGEMENT --------###########
 
+# ACTIVE WORKSPACE SESSION
+def set_active_workspace(workspace_id):
+    """Set the active workspace for the current session."""
+    anvil.server.session['active_workspace'] = workspace_id
+
+def get_active_workspace():
+    """Get the active workspace for the current session."""
+    return anvil.server.session.get('active_workspace', 'workspace_1')
+
+ce_1')
+
+
+####### -------- PRELIMINARY / FIRST DRAFTS--------###########
 # COMPANY 1st DRAFT
 
 # USE WEBSCRAPER
