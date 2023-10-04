@@ -235,8 +235,9 @@ class Home(HomeTemplate):
     anvil.server.session['active_workspace'] = workspace_id
 
   def get_active_workspace(self):
-    """Get the active workspace for the current session."""
-    return anvil.server.session.get('active_workspace')
+    global active_workspace
+    return active_workspace
+
     
 # ADDING PRODUCTS / AVATAR PANELS
 
