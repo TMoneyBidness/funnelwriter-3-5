@@ -24,7 +24,6 @@ from ..FinalProduct import FinalProduct
 from ..FinalProduct_Export import FinalProduct_Export
 
 active_workspace = None
-active_workspace = "workspace_1"
 ####################
 
 class Home(HomeTemplate):
@@ -33,11 +32,12 @@ class Home(HomeTemplate):
     self.init_components(**properties)
     if not anvil.users.get_user():  # Only prompt login if user isn't already logged in
         anvil.users.login_with_form()
-   
+
+      
     # Check if user is logged in
     if anvil.users.get_user():
         self.initialize_default_workspace()
-
+    
     for component in self.get_components():
       # Check if the component is a Timer
       if isinstance(component, anvil.Timer):
@@ -205,12 +205,31 @@ class Home(HomeTemplate):
    #        else:
    #            # Handle case where the row does not exist for the current user
    #            print(f"No row found for 'avatar_{j}_product_{i}_latest'")
+
+  def update_company_assets_box_visibility(self):
+    user = anvil.users.get_user()
+    if user and 'active_workspace' in user:
+        workspace_id = user['active_workspace']
+        workspace_table = getattr(app_tables, workspace_id)  # Get the table corresponding to the active workspace
+
+        # Assuming 'first_run_complete' is a column in the workspace table.
+        # Retrieve the first (and likely only) row.
+        row = workspace_table.search().first()
         
+        if row and 'first_run_complete' in row:
+            if row['first_run_complete'] == 'yes':
+                self.company_assets_box.visible = True
+            else:
+                self.company_assets_box.visible = False
+
+  
 ##### USER MANAGEMENT
 
   def initialize_default_workspace(self):
     # Get the current user
     current_user = anvil.users.get_user()
+
+    self.update_company_assets_box_visibility()
     
     # Determine the workspace ID
     if current_user and 'active_workspace' in current_user and current_user['active_workspace']:
@@ -223,8 +242,7 @@ class Home(HomeTemplate):
             current_user['active_workspace'] = workspace_id
             # Update the user table with the changes
             current_user.update()
-            
-    # Load the appropriate workspace form
+        # Load the appropriate workspace form
     if workspace_id == 'workspace_1':
         Workspace_form = Workspace_1()
     elif workspace_id == 'workspace_2':
@@ -232,7 +250,7 @@ class Home(HomeTemplate):
     elif workspace_id == 'workspace_3':
         Workspace_form = Workspace_3()
     else:
-        raise ValueError(f"Unknown workspace: {workspace_id}")
+        raise ValueError(f"Unknown workspace: {workspace_id}")        
 
     # Display the workspace form in the content panel
     self.content_panel.clear()
