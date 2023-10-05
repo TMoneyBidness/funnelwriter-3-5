@@ -229,16 +229,16 @@ class Headlines(HeadlinesTemplate):
         
        # Launch the background tasks concurrently
       #   # MAIN HEADLINES 
-        task_id_main_headlines = anvil.server.call('launch_generate_main_headlines', self.chosen_product_name,self.chosen_company_profile,self.chosen_product_research, self.chosen_tone)
+        task_id_main_headlines = anvil.server.call('launch_generate_main_headlines', self.chosen_product_name,self.chosen_company_profile,self.chosen_product_research, self.chosen_tone,self.user_table)
         print("Main Headlines Launch function called")
         self.indeterminate_progress_main_headlines.visible = True
 
       # SUBHEADLINES 
-        task_id_subheadlines = anvil.server.call('launch_generate_subheadlines', self.chosen_product_name,self.chosen_company_profile,self.chosen_product_research, self.chosen_tone)
+        task_id_subheadlines = anvil.server.call('launch_generate_subheadlines', self.chosen_product_name,self.chosen_company_profile,self.chosen_product_research, self.chosen_tone,self.user_table)
         print("Subheadlines Launch function called")
         self.indeterminate_progress_subheadlines.visible = True
      
-        self.task_id_vsl_script = anvil.server.call('launch_generate_vsl_script', self.chosen_product_name, self.chosen_company_profile, self.chosen_product_research,self.chosen_avatar, self.chosen_tone, self.example_script)
+        self.task_id_vsl_script = anvil.server.call('launch_generate_vsl_script', self.chosen_product_name, self.chosen_company_profile, self.chosen_product_research,self.chosen_avatar, self.chosen_tone, self.example_script,self.user_table)
         print("Video Sales Script function called")
         self.indeterminate_progress_main_headlines.visible = True
         self.indeterminate_progress_vsl_themes.visible = True
@@ -639,7 +639,7 @@ class Headlines(HeadlinesTemplate):
         
        # Launch the background tasks concurrently
       # REGENERATE VSL SCRIPT     
-        self.task_id_vsl_script_feedback = anvil.server.call('launch_generate_vsl_script_with_feedback', self.chosen_product_name, self.chosen_product_research,vsl_script_feedback)
+        self.task_id_vsl_script_feedback = anvil.server.call('launch_generate_vsl_script_with_feedback', self.chosen_product_name, self.chosen_product_research,vsl_script_feedback, self.user_table)
         print("Video Sales Script For Feedback function called")
     
         self.task_check_timer_regenerate_vsl_script_with_feedback.enabled = True

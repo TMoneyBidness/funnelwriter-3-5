@@ -2243,22 +2243,23 @@ def brand_tone_research(brand_tone_url):
     extracted_tone = tone_research['output']
     anvil.server.task_state['result'] = extracted_tone
 
-@anvil.server.callable
-def save_brand_tone_component_click(self, **event_args):
-    # Get the current user
-    current_user = anvil.users.get_user()
-    # Get the email of the current user
-    owner = current_user['email']
+# @anvil.server.callable
+# def save_brand_tone_component_click(self, **event_args):
+#     # Get the current user
+#     current_user = anvil.users.get_user()
+#     active_workspace = current_user['active_workspace']
+#     user_table_name = current_user[active_workspace]
+#     return getattr(app_tables, user_table_name)
 
-    # Get the row for the current user from the variable_table
-    row = app_tables.variable_table.get(owner=owner)  # Replace user_email with owner
-    if row:
-        text = self.brand_tonetextbox.text
-        row['brand_tone'] = text
-        row.update()
-    else:
-        # Handle case where the row does not exist for the current user
-        print("No row found for the current user")
+#     # Get the row for the current user from the variable_table
+#     row = app_tables.variable_table.get(owner=owner)  # Replace user_email with owner
+#     if row:
+#         text = self.brand_tonetextbox.text
+#         row['brand_tone'] = text
+#         row.update()
+#     else:
+#         # Handle case where the row does not exist for the current user
+#         print("No row found for the current user")
 
 ####### -------- AVATARS --------###################################################
 
@@ -2419,14 +2420,14 @@ def deepdive_avatar_1_product_1_generator(product_1_name,product_1_profile,avata
 
 # AVATAR 2, PRODUCT 1 -----##
 @anvil.server.callable
-def launch_deepdive_avatar_2_product_1_generator(product_1_name,product_1_profile,avatar_2_product_1_name_preview,avatar_2_product_1_preview):
+def launch_deepdive_avatar_2_product_1_generator(product_1_name,product_1_profile,avatar_2_product_1_name_preview,avatar_2_product_1_preview,user_table):
     print("Launch Deep Dive Avatar function started")  
     # Launch the background task
     
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
     row = user_table.get(variable='avatar_2_product_1_latest')
     
     task = anvil.server.launch_background_task('deepdive_avatar_2_product_1_generator', product_1_name,product_1_profile,avatar_2_product_1_name_preview,avatar_2_product_1_preview,row)
@@ -2491,14 +2492,14 @@ def deepdive_avatar_2_product_1_generator(product_1_name,product_1_profile,avata
 
 # AVATAR 3, PRODUCT 1 -----##
 @anvil.server.callable
-def launch_deepdive_avatar_3_product_1_generator(product_1_name,product_1_profile,avatar_3_product_1_name_preview,avatar_3_product_1_preview):
+def launch_deepdive_avatar_3_product_1_generator(product_1_name,product_1_profile,avatar_3_product_1_name_preview,avatar_3_product_1_preview,user_table):
     print("Launch Deep Dive Avatar function started")  
     # Launch the background task
   
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
     row = user_table.get(variable='avatar_3_product_1_latest')
     
     task = anvil.server.launch_background_task('deepdive_avatar_3_product_1_generator', product_1_name,product_1_profile,avatar_3_product_1_name_preview,avatar_3_product_1_preview,row)
@@ -2566,14 +2567,14 @@ def deepdive_avatar_3_product_1_generator(product_1_name,product_1_profile,avata
 
 # AVATAR 1, PRODUCT 2 -----##
 @anvil.server.callable
-def launch_deepdive_avatar_1_product_2_generator(product_2_name,product_2_profile,avatar_1_product_2_name_preview,avatar_1_product_2_preview):
+def launch_deepdive_avatar_1_product_2_generator(product_2_name,product_2_profile,avatar_1_product_2_name_preview,avatar_1_product_2_preview,user_table):
     print("Launch Deep Dive Avatar function started")  
     # Launch the background task
     
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
     row = user_table.get(variable='avatar_1_product_2_latest')
    
     task = anvil.server.launch_background_task('deepdive_avatar_1_product_2_generator', product_2_name,product_2_profile,avatar_1_product_2_name_preview,avatar_1_product_2_preview, row)
@@ -2639,13 +2640,13 @@ def deepdive_avatar_1_product_2_generator(product_2_name,product_2_profile,avata
 
 # AVATAR 2, PRODUCT 2 -----##
 @anvil.server.callable
-def launch_deepdive_avatar_2_product_2_generator(product_2_name,product_2_profile,avatar_2_product_2_name_preview,avatar_2_product_2_preview):
+def launch_deepdive_avatar_2_product_2_generator(product_2_name,product_2_profile,avatar_2_product_2_name_preview,avatar_2_product_2_preview,user_table):
     print("Launch Deep Dive Avatar function started")  
      
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
     row = user_table.get(variable='avatar_2_product_2_latest')
   
     # Launch the background task
@@ -2712,13 +2713,13 @@ def deepdive_avatar_2_product_2_generator(product_2_name,product_2_profile,avata
 
 # AVATAR 3, PRODUCT 2 ---------------##
 @anvil.server.callable
-def launch_deepdive_avatar_3_product_2_generator(product_2_name,product_2_profile,avatar_3_product_2_name_preview,avatar_3_product_2_preview):
+def launch_deepdive_avatar_3_product_2_generator(product_2_name,product_2_profile,avatar_3_product_2_name_preview,avatar_3_product_2_preview,user_table):
     print("Launch Deep Dive Avatar function started")  
 
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
     row = user_table.get(variable='avatar_3_product_2_latest')
   
     # Launch the background task
@@ -2787,13 +2788,13 @@ def deepdive_avatar_3_product_2_generator(product_2_name,product_2_profile,avata
 
 # AVATAR 1, PRODUCT 3 -----##
 @anvil.server.callable
-def launch_deepdive_avatar_1_product_3_generator(product_3_name,product_3_profile,avatar_1_product_3_name_preview,avatar_1_product_3_preview):
+def launch_deepdive_avatar_1_product_3_generator(product_3_name,product_3_profile,avatar_1_product_3_name_preview,avatar_1_product_3_preview,user_table):
     print("Launch Deep Dive Avatar function started") 
     
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
     row = user_table.get(variable='avatar_1_product_3_latest')
 
     # Launch the background task
@@ -2860,13 +2861,13 @@ def deepdive_avatar_1_product_3_generator(product_3_name,product_3_profile,avata
 
 # AVATAR 2, PRODUCT 3 -----##
 @anvil.server.callable
-def launch_deepdive_avatar_2_product_3_generator(product_3_name,product_3_profile,avatar_2_product_3_name_preview,avatar_2_product_3_preview):
+def launch_deepdive_avatar_2_product_3_generator(product_3_name,product_3_profile,avatar_2_product_3_name_preview,avatar_2_product_3_preview,user_table):
     print("Launch Deep Dive Avatar function started") 
 
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
     row = user_table.get(variable='avatar_2_product_3_latest')
 
     # Launch the background task
@@ -2933,13 +2934,13 @@ def deepdive_avatar_2_product_3_generator(product_3_name,product_3_profile,avata
 
 # AVATAR 3, PRODUCT 3 ---------------##
 @anvil.server.callable
-def launch_deepdive_avatar_3_product_3_generator(product_3_name,product_3_profile,avatar_3_product_3_name_preview,avatar_3_product_3_preview):
+def launch_deepdive_avatar_3_product_3_generator(product_3_name,product_3_profile,avatar_3_product_3_name_preview,avatar_3_product_3_preview,user_table):
     print("Launch Deep Dive Avatar function started")
 
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
     row = user_table.get(variable='avatar_3_product_3_latest')
 
     # Launch the background task
@@ -3008,13 +3009,13 @@ def deepdive_avatar_3_product_3_generator(product_3_name,product_2_profile,avata
 
 # AVATAR 1, PRODUCT 4 -----##
 @anvil.server.callable
-def launch_deepdive_avatar_1_product_4_generator(product_4_name,product_4_profile,avatar_1_product_4_name_preview,avatar_1_product_4_preview):
+def launch_deepdive_avatar_1_product_4_generator(product_4_name,product_4_profile,avatar_1_product_4_name_preview,avatar_1_product_4_preview,user_table):
     print("Launch Deep Dive Avatar function started")  
 
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
     row = user_table.get(variable='avatar_1_product_4_latest')
 
     # Launch the background task
@@ -3081,13 +3082,13 @@ def deepdive_avatar_1_product_4_generator(product_4_name,product_4_profile,avata
 
 # AVATAR 2, PRODUCT 4 -----##
 @anvil.server.callable
-def launch_deepdive_avatar_2_product_4_generator(product_4_name,product_4_profile,avatar_2_product_4_name_preview,avatar_2_product_4_preview):
+def launch_deepdive_avatar_2_product_4_generator(product_4_name,product_4_profile,avatar_2_product_4_name_preview,avatar_2_product_4_preview,user_table):
     print("Launch Deep Dive Avatar function started")  
 
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
     row = user_table.get(variable='avatar_2_product_4_latest')
 
     # Launch the background task
@@ -3154,13 +3155,13 @@ def deepdive_avatar_2_product_4_generator(product_4_name,product_4_profile,avata
 
 # AVATAR 3, PRODUCT 4 ---------------##
 @anvil.server.callable
-def launch_deepdive_avatar_3_product_4_generator(product_4_name,product_4_profile,avatar_3_product_4_name_preview,avatar_3_product_4_preview):
+def launch_deepdive_avatar_3_product_4_generator(product_4_name,product_4_profile,avatar_3_product_4_name_preview,avatar_3_product_4_preview,user_table):
     print("Launch Deep Dive Avatar function started")  
 
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
     row = user_table.get(variable='avatar_3_product_4_latest')
 
     # Launch the background task
@@ -3229,13 +3230,13 @@ def deepdive_avatar_3_product_4_generator(product_4_name,product_2_profile,avata
 
 # AVATAR 1, PRODUCT 5 -----------------------#################
 @anvil.server.callable
-def launch_deepdive_avatar_1_product_5_generator(product_5_name,product_5_profile,avatar_1_product_5_name_preview,avatar_1_product_5_preview):
+def launch_deepdive_avatar_1_product_5_generator(product_5_name,product_5_profile,avatar_1_product_5_name_preview,avatar_1_product_5_preview,user_table):
     print("Launch Deep Dive Avatar function started")  
 
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
     row = user_table.get(variable='avatar_1_product_5_latest')
 
     # Launch the background task
@@ -3302,13 +3303,13 @@ def deepdive_avatar_1_product_5_generator(product_5_name,product_5_profile,avata
 
 # AVATAR 2, PRODUCT 5-----##
 @anvil.server.callable
-def launch_deepdive_avatar_2_product_5_generator(product_5_name,product_5_profile,avatar_2_product_5_name_preview,avatar_2_product_5_preview):
+def launch_deepdive_avatar_2_product_5_generator(product_5_name,product_5_profile,avatar_2_product_5_name_preview,avatar_2_product_5_preview,user_table):
     print("Launch Deep Dive Avatar function started")  
     
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
     row = user_table.get(variable='avatar_2_product_5_latest')
 
     # Launch the background task
@@ -3375,13 +3376,13 @@ def deepdive_avatar_2_product_5_generator(product_5_name,product_5_profile,avata
 
 # AVATAR 3, PRODUCT 5 -----##
 @anvil.server.callable
-def launch_deepdive_avatar_3_product_5_generator(product_5_name,product_5_profile,avatar_3_product_5_name_preview,avatar_3_product_5_preview):
+def launch_deepdive_avatar_3_product_5_generator(product_5_name,product_5_profile,avatar_3_product_5_name_preview,avatar_3_product_5_preview,user_table):
     print("Launch Deep Dive Avatar function started")  
 
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
     row = user_table.get(variable='avatar_3_product_5_latest')
 
     # Launch the background task
@@ -3745,17 +3746,17 @@ def deepdive_avatar_5_generator(owner_company_profile,avatar_5_preview):
 
 
 ### SAVING
-@anvil.server.callable
-def save_avatar(owner, avatar_number, avatar):
-    # Get the row for the current user from the variable_table
-    row = app_tables.variable_table.get(owner=owner)
-    if row:
-        text = avatar
-        row[avatar_number] = text  # Use the variable avatar_number directly
-        row.update()
-    else:
-        # Handle case where the row does not exist for the current user
-        print("No row found for the current user")
+# @anvil.server.callable
+# def save_avatar(owner, avatar_number, avatar):
+#     # Get the row for the current user from the variable_table
+#     row = app_tables.variable_table.get(owner=owner)
+#     if row:
+#         text = avatar
+#         row[avatar_number] = text  # Use the variable avatar_number directly
+#         row.update()
+#     else:
+#         # Handle case where the row does not exist for the current user
+#         print("No row found for the current user")
 
 ####### -------- LOCK IN VARIABLES --------###################################################
 
@@ -3790,16 +3791,15 @@ def save_funnel_settings_component(user_table_name, selected_company_profile_val
 
 # This is the headline generator that will return a string of 10 of the best headlines
 @anvil.server.callable
-def launch_generate_main_headlines(chosen_product_name, chosen_company_profile, chosen_product_research, chosen_tone):
+def launch_generate_main_headlines(chosen_product_name, chosen_company_profile, chosen_product_research, chosen_tone,user_table):
     print("Launch Generate Main Headlines Function") 
 
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
     row = user_table.get(variable='main_headlines')
-  
-  
+    
     # Launch the background task
     task = anvil.server.launch_background_task('generate_main_headlines',chosen_product_name, chosen_company_profile, chosen_product_research, chosen_tone,row)
     # Return the task ID
@@ -3872,13 +3872,13 @@ def generate_main_headlines(chosen_product_name, chosen_company_profile, chosen_
 
 # This is the subheadline generator that will return a string of 10 of the best subheadlines
 @anvil.server.callable
-def launch_generate_subheadlines(chosen_product_name, chosen_company_profile, chosen_product_research, chosen_tone):
+def launch_generate_subheadlines(chosen_product_name, chosen_company_profile, chosen_product_research, chosen_tone,user_table):
     print("Launch Generate SubHeadlines Function") 
     
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
     row = user_table.get(variable='subheadlines')
     task = anvil.server.launch_background_task('generate_subheadlines', chosen_product_name, chosen_company_profile, chosen_product_research, chosen_tone,row)
     # Return the task ID
@@ -3958,12 +3958,12 @@ def generate_subheadlines(chosen_product_name, chosen_company_profile, chosen_pr
 ####### --------VIDEO SALES SCRIPT --------###################################################
 
 @anvil.server.callable
-def launch_generate_vsl_script(chosen_product_name, chosen_company_profile, chosen_product_research, chosen_avatar, chosen_tone, example_script):
+def launch_generate_vsl_script(chosen_product_name, chosen_company_profile, chosen_product_research, chosen_avatar, chosen_tone, example_script,user_table):
     print("Launch Generate Video Sales Letter Script Function")
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
     row = user_table.get(variable='vsl_script')
   
     # Launch the background task
@@ -4023,12 +4023,12 @@ def generate_vsl_script(chosen_product_name, chosen_company_profile, chosen_prod
 ####### --------VIDEO SALES SCRIPT WITH FEEDBACK
 
 @anvil.server.callable
-def launch_generate_vsl_script_with_feedback(chosen_product_name, chosen_product_research,vsl_script_feedback):
+def launch_generate_vsl_script_with_feedback(chosen_product_name, chosen_product_research,vsl_script_feedback,user_table):
     print("Launch Generate Video Sales Letter Script Function")
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
     row = user_table.get(variable='vsl_script')
   
     # Launch the background task

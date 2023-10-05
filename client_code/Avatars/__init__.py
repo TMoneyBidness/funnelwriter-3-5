@@ -326,7 +326,7 @@ class Avatars(AvatarsTemplate):
                     print(f"No database entry for {variable_name}")
 
             # Launch the background task
-            task_id = anvil.server.call(f'launch_deepdive_avatar_{i}_product_1_generator', product_1_name, product_1_profile, getattr(self, f'avatar_{i}_product_1_name').text, avatar_input_text)
+            task_id = anvil.server.call(f'launch_deepdive_avatar_{i}_product_1_generator', product_1_name, product_1_profile, getattr(self, f'avatar_{i}_product_1_name').text, avatar_input_text,self.user_table)
             print(f"Task ID for avatar_{i}_product_1:", task_id)
             self.task_info.append((task_id, i))
 
@@ -442,7 +442,7 @@ class Avatars(AvatarsTemplate):
       avatar_1_product_1_preview_row.update()
                 
       # Launch the background task                                                 
-      task_id = anvil.server.call(f'launch_deepdive_avatar_1_product_1_generator', product_1_name, product_1_profile, self.avatar_1_product_1_name.text, self.avatar_1_product_1_input.text)
+      task_id = anvil.server.call(f'launch_deepdive_avatar_1_product_1_generator', product_1_name, product_1_profile, self.avatar_1_product_1_name.text, self.avatar_1_product_1_input.text,self.user_table)
       print(f"Task ID for avatar_1_product_1:", task_id)
 
       self.indeterminate_10.visible = True
@@ -511,7 +511,7 @@ class Avatars(AvatarsTemplate):
       avatar_2_product_1_preview_row.update()
                 
       # Launch the background task                                                 
-      task_id = anvil.server.call(f'launch_deepdive_avatar_2_product_1_generator', product_1_name, product_1_profile, self.avatar_2_product_1_name.text, self.avatar_2_product_1_input.text)
+      task_id = anvil.server.call(f'launch_deepdive_avatar_2_product_1_generator', product_1_name, product_1_profile, self.avatar_2_product_1_name.text, self.avatar_2_product_1_input.text,self.user_table)
       print(f"Task ID for avatar_2_product_1:", task_id)
 
       self.indeterminate_10.visible = True
@@ -580,7 +580,7 @@ class Avatars(AvatarsTemplate):
       avatar_3_product_1_preview_row.update()
                 
       # Launch the background task                                                 
-      task_id = anvil.server.call(f'launch_deepdive_avatar_3_product_1_generator', product_1_name, product_1_profile, self.avatar_3_product_1_name.text, self.avatar_3_product_1_input.text)
+      task_id = anvil.server.call(f'launch_deepdive_avatar_3_product_1_generator', product_1_name, product_1_profile, self.avatar_3_product_1_name.text, self.avatar_3_product_1_input.text, self.user_table)
       print(f"Task ID for avatar_3_product_1:", task_id)
 
       self.indeterminate_10.visible = True
@@ -660,7 +660,7 @@ class Avatars(AvatarsTemplate):
                     print(f"No database entry for {variable_name}")
   
             # Launch the background task
-            task_id = anvil.server.call(f'launch_deepdive_avatar_{i}_product_2_generator', product_2_name, product_2_profile, getattr(self, f'avatar_{i}_product_2_name').text, avatar_input_text)
+            task_id = anvil.server.call(f'launch_deepdive_avatar_{i}_product_2_generator', product_2_name, product_2_profile, getattr(self, f'avatar_{i}_product_2_name').text, avatar_input_text,self.user_table)
             print(f"Task ID for avatar_{i}_product_2:", task_id)
             self.task_info.append((task_id, i))
   
@@ -777,7 +777,7 @@ class Avatars(AvatarsTemplate):
       avatar_1_product_2_preview_row.update()
                 
       # Launch the background task                                                 
-      task_id = anvil.server.call(f'launch_deepdive_avatar_1_product_2_generator', product_2_name, product_2_profile, self.avatar_1_product_2_name.text, self.avatar_1_product_2_input.text)
+      task_id = anvil.server.call(f'launch_deepdive_avatar_1_product_2_generator', product_2_name, product_2_profile, self.avatar_1_product_2_name.text, self.avatar_1_product_2_input.text,self.user_table)
       print(f"Task ID for avatar_1_product_2:", task_id)
 
       self.indeterminate_20.visible = True
@@ -846,7 +846,7 @@ class Avatars(AvatarsTemplate):
       avatar_2_product_2_preview_row.update()
                 
       # Launch the background task                                                 
-      task_id = anvil.server.call(f'launch_deepdive_avatar_2_product_2_generator', product_2_name, product_2_profile, self.avatar_2_product_2_name.text, self.avatar_2_product_2_input.text)
+      task_id = anvil.server.call(f'launch_deepdive_avatar_2_product_2_generator', product_2_name, product_2_profile, self.avatar_2_product_2_name.text, self.avatar_2_product_2_input.text,self.user_table)
       print(f"Task ID for avatar_2_product_2:", task_id)
 
       self.indeterminate_20.visible = True
@@ -915,7 +915,7 @@ class Avatars(AvatarsTemplate):
       avatar_3_product_2_preview_row.update()
                 
       # Launch the background task                                                 
-      task_id = anvil.server.call(f'launch_deepdive_avatar_3_product_2_generator', product_2_name, product_2_profile, self.avatar_3_product_2_name.text, self.avatar_3_product_2_input.text)
+      task_id = anvil.server.call(f'launch_deepdive_avatar_3_product_2_generator', product_2_name, product_2_profile, self.avatar_3_product_2_name.text, self.avatar_3_product_2_input.text,self.user_table)
       print(f"Task ID for avatar_3_product_2:", task_id)
 
       self.indeterminate_20.visible = True
@@ -995,7 +995,7 @@ class Avatars(AvatarsTemplate):
                     print(f"No database entry for {variable_name}")
 
             # Launch the background task
-            task_id = anvil.server.call(f'launch_deepdive_avatar_{i}_product_3_generator', product_3_name, product_3_profile, getattr(self, f'avatar_{i}_product_3_name').text, avatar_input_text)
+            task_id = anvil.server.call(f'launch_deepdive_avatar_{i}_product_3_generator', product_3_name, product_3_profile, getattr(self, f'avatar_{i}_product_3_name').text, avatar_input_text,self.user_table)
             print(f"Task ID for avatar_{i}_product_3:", task_id)
             self.task_info.append((task_id, i))
 
@@ -1112,7 +1112,7 @@ class Avatars(AvatarsTemplate):
       avatar_1_product_3_preview_row.update()
                 
       # Launch the background task                                                 
-      task_id = anvil.server.call(f'launch_deepdive_avatar_1_product_3_generator', product_3_name, product_3_profile, self.avatar_1_product_3_name.text, self.avatar_1_product_3_input.text)
+      task_id = anvil.server.call(f'launch_deepdive_avatar_1_product_3_generator', product_3_name, product_3_profile, self.avatar_1_product_3_name.text, self.avatar_1_product_3_input.text,self.user_table)
       print(f"Task ID for avatar_1_product_3:", task_id)
 
       self.indeterminate_30.visible = True
@@ -1181,7 +1181,7 @@ class Avatars(AvatarsTemplate):
       avatar_2_product_3_preview_row.update()
                 
       # Launch the background task                                                 
-      task_id = anvil.server.call(f'launch_deepdive_avatar_2_product_3_generator', product_3_name, product_3_profile, self.avatar_2_product_3_name.text, self.avatar_2_product_3_input.text)
+      task_id = anvil.server.call(f'launch_deepdive_avatar_2_product_3_generator', product_3_name, product_3_profile, self.avatar_2_product_3_name.text, self.avatar_2_product_3_input.text,self.user_table)
       print(f"Task ID for avatar_2_product_3:", task_id)
 
       self.indeterminate_20.visible = True
@@ -1250,7 +1250,7 @@ class Avatars(AvatarsTemplate):
       avatar_3_product_3_preview_row.update()
                 
       # Launch the background task                                                 
-      task_id = anvil.server.call(f'launch_deepdive_avatar_3_product_3_generator', product_3_name, product_3_profile, self.avatar_3_product_3_name.text, self.avatar_3_product_3_input.text)
+      task_id = anvil.server.call(f'launch_deepdive_avatar_3_product_3_generator', product_3_name, product_3_profile, self.avatar_3_product_3_name.text, self.avatar_3_product_3_input.text,self.user_table)
       print(f"Task ID for avatar_3_product_3:", task_id)
 
       self.indeterminate_30.visible = True
@@ -1331,7 +1331,7 @@ class Avatars(AvatarsTemplate):
                     print(f"No database entry for {variable_name}")
 
             # Launch the background task
-            task_id = anvil.server.call(f'launch_deepdive_avatar_{i}_product_4_generator', product_4_name, product_4_profile, getattr(self, f'avatar_{i}_product_4_name').text, avatar_input_text)
+            task_id = anvil.server.call(f'launch_deepdive_avatar_{i}_product_4_generator', product_4_name, product_4_profile, getattr(self, f'avatar_{i}_product_4_name').text, avatar_input_text,self.user_table)
             print(f"Task ID for avatar_{i}_product_4:", task_id)
             self.task_info.append((task_id, i))
 
@@ -1448,7 +1448,7 @@ class Avatars(AvatarsTemplate):
       avatar_1_product_4_preview_row.update()
                 
       # Launch the background task                                                 
-      task_id = anvil.server.call(f'launch_deepdive_avatar_1_product_4_generator', product_4_name, product_4_profile, self.avatar_1_product_4_name.text, self.avatar_1_product_4_input.text)
+      task_id = anvil.server.call(f'launch_deepdive_avatar_1_product_4_generator', product_4_name, product_4_profile, self.avatar_1_product_4_name.text, self.avatar_1_product_4_input.text,self.user_table)
       print(f"Task ID for avatar_1_product_2:", task_id)
 
       self.indeterminate_40.visible = True
@@ -1517,7 +1517,7 @@ class Avatars(AvatarsTemplate):
       avatar_2_product_4_preview_row.update()
                 
       # Launch the background task                                                 
-      task_id = anvil.server.call(f'launch_deepdive_avatar_2_product_2_generator', product_4_name, product_4_profile, self.avatar_2_product_4_name.text, self.avatar_2_product_4_input.text)
+      task_id = anvil.server.call(f'launch_deepdive_avatar_2_product_4_generator', product_4_name, product_4_profile, self.avatar_2_product_4_name.text, self.avatar_2_product_4_input.text,self.user_table)
       print(f"Task ID for avatar_2_product_4:", task_id)
 
       self.indeterminate_40.visible = True
@@ -1586,7 +1586,7 @@ class Avatars(AvatarsTemplate):
       avatar_3_product_4_preview_row.update()
                 
       # Launch the background task                                                 
-      task_id = anvil.server.call(f'launch_deepdive_avatar_3_product_4_generator', product_4_name, product_4_profile, self.avatar_3_product_4_name.text, self.avatar_3_product_4_input.text)
+      task_id = anvil.server.call(f'launch_deepdive_avatar_3_product_4_generator', product_4_name, product_4_profile, self.avatar_3_product_4_name.text, self.avatar_3_product_4_input.text,self.user_table)
       print(f"Task ID for avatar_3_product_4:", task_id)
 
       self.indeterminate_40.visible = True
@@ -1666,7 +1666,7 @@ class Avatars(AvatarsTemplate):
                     print(f"No database entry for {variable_name}")
 
             # Launch the background task
-            task_id = anvil.server.call(f'launch_deepdive_avatar_{i}_product_5_generator', product_5_name, product_5_profile, getattr(self, f'avatar_{i}_product_5_name').text, avatar_input_text)
+            task_id = anvil.server.call(f'launch_deepdive_avatar_{i}_product_5_generator', product_5_name, product_5_profile, getattr(self, f'avatar_{i}_product_5_name').text, avatar_input_text,self.user_table)
             print(f"Task ID for avatar_{i}_product_5:", task_id)
             self.task_info.append((task_id, i))
 
@@ -1783,7 +1783,7 @@ class Avatars(AvatarsTemplate):
       avatar_1_product_5_preview_row.update()
                 
       # Launch the background task                                                 
-      task_id = anvil.server.call(f'launch_deepdive_avatar_1_product_5_generator', product_5_name, product_5_profile, self.avatar_1_product_5_name.text, self.avatar_1_product_5_input.text)
+      task_id = anvil.server.call(f'launch_deepdive_avatar_1_product_5_generator', product_5_name, product_5_profile, self.avatar_1_product_5_name.text, self.avatar_1_product_5_input.text,self.user_table)
       print(f"Task ID for avatar_1_product_5:", task_id)
 
       self.indeterminate_50.visible = True
@@ -1852,7 +1852,7 @@ class Avatars(AvatarsTemplate):
       avatar_2_product_5_preview_row.update()
                 
       # Launch the background task                                                 
-      task_id = anvil.server.call(f'launch_deepdive_avatar_2_product_2_generator', product_5_name, product_5_profile, self.avatar_2_product_5_name.text, self.avatar_2_product_5_input.text)
+      task_id = anvil.server.call(f'launch_deepdive_avatar_2_product_5_generator', product_5_name, product_5_profile, self.avatar_2_product_5_name.text, self.avatar_2_product_5_input.text,self.user_table)
       print(f"Task ID for avatar_2_product_5:", task_id)
 
       self.indeterminate_20.visible = True
@@ -1920,7 +1920,7 @@ class Avatars(AvatarsTemplate):
       avatar_3_product_5_preview_row.update()
                 
       # Launch the background task                                                 
-      task_id = anvil.server.call(f'launch_deepdive_avatar_3_product_5_generator', product_5_name, product_5_profile, self.avatar_3_product_5_name.text, self.avatar_3_product_5_input.text)
+      task_id = anvil.server.call(f'launch_deepdive_avatar_3_product_5_generator', product_5_name, product_5_profile, self.avatar_3_product_5_name.text, self.avatar_3_product_5_input.text,self.user_table)
       print(f"Task ID for avatar_3_product_5:", task_id)
 
       self.indeterminate_50.visible = True
