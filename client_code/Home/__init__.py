@@ -30,9 +30,9 @@ class Home(HomeTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    
     if not anvil.users.get_user():  # Only prompt login if user isn't already logged in
         anvil.users.login_with_form()
-
    
     self.update_company_assets_box_visibility()
       
@@ -47,6 +47,7 @@ class Home(HomeTemplate):
           component.interval = None
 
     self.update_workspace_button_text()
+    
       
    # #  # self.indeterminate_1.visible = False
    # #  # self.free_navigate_label.visible = False
@@ -278,10 +279,6 @@ class Home(HomeTemplate):
         self.workspace_3_button.text = "WORKSPACE 3"
 
 
-    
-
-
-
 
               
 ##### USER MANAGEMENT
@@ -413,6 +410,9 @@ class Home(HomeTemplate):
     self.content_panel.clear()
     self.content_panel.add_component(brandtone)
 
+
+
+  
   def avatars_asset_link_click(self, **event_args):
     avatars=Avatars()
     self.content_panel.clear()

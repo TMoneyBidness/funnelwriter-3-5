@@ -24,6 +24,10 @@ class BrandTone(BrandToneTemplate):
      # Set the click event handler for nav_button_tone_to_VSL_elements
     self.nav_button_tone_to_VSL_elements.set_event_handler('click', self.nav_button_tone_to_VSL_elements_click)
 
+    #$
+    self.home_form = None  # Initialize as None
+    #$
+
     # WORKSPACE MANAGEMENT
     # Load the active workspace:
     self.load_active_workspace()
@@ -45,7 +49,10 @@ class BrandTone(BrandToneTemplate):
         # Handle case where the row does not exist for the current user
         print("No row found for 'brand_tone_url'")
         self.nav_button_tone_to_VSL_elements.enabled = False
-    
+#$
+  def set_home_form_reference(self, home_form):
+        self.home_form = home_form
+  #$
   
   def form_show(self, **event_args):
     # Load the brand tone profile on form show
@@ -154,23 +161,19 @@ class BrandTone(BrandToneTemplate):
 
   def save_brand_tone_component_click(self, **event_args):
     variable_title = anvil.js.window.prompt("What would you like to call this Brand Tone?")
-    
-    # # Get the current user
-    # current_user = anvil.users.get_user()
-    # user_table_name = current_user['user_id']
-    
-    # # Get the table for the current user
-    # user_table = getattr(app_tables, user_table_name)
-    
-    brand_tone_lookup = "brand_tone"
+
     brand_tone = self.brand_tone_textbox.text
     
+    brand_tone_lookup = "brand_tone"
     brand_tone_row = self.user_table.get(variable=brand_tone_lookup)
+    
+    company_name_row = self.user_table.get(variable='company_name')
+    brand_tone_title = company_name_row['variable_value'] 
     
     if brand_tone_row:
         brand_tone_row['variable_value'] = brand_tone
         if variable_title:
-            brand_tone_row['variable_title'] = variable_title
+            brand_tone_row['variable_title'] = brand_tone_title
         brand_tone_row.update()
         self.nav_button_tone_to_VSL_elements.enabled = True
     else:
@@ -217,22 +220,21 @@ class BrandTone(BrandToneTemplate):
             self.brand_tone_textbox.text = "No value available"
 
   ###----------NAVIGATION---------------####
-  # def nav_button_tone_to_VSL_elements_click(self, **event_args):
-  #   self.nav_button_tone_to_VSL_elements()
+
+  # def nav_button_tone_to_VSL_elements(self, **event_args):
+    
+  #   vsl_elements = VSL_Elements()
+  #   self.content_panel.clear()
+  #   self.content_panel.add_component(vsl_elements)
     
   # Define the event handler for nav_button_tone_to_VSL_elements click
   def nav_button_tone_to_VSL_elements_click(self, **event_args):
 
-     # Get the current user
-    # current_user = anvil.users.get_user()
-    # user_table_name = current_user['user_id']
-    
-    # # Get the table for the current user
-    # user_table = getattr(app_tables, user_table_name)
-
     row_first_run_complete = self.user_table.get(variable='first_run_complete')
     row_first_run_complete['variable_value'] = 'Yes' 
     row_first_run_complete.update()
+
+    self.update_company_assets_box_visibility()
     
     self.nav_button_tone_to_VSL_elements.enabled = True
   
@@ -240,9 +242,35 @@ class BrandTone(BrandToneTemplate):
     self.content_panel.clear()
     self.content_panel.add_component(vsl_elements)
 
+  def update_company_assets_box_visibility(self):
+    if self.home_form:
+        # Show the company_assets_box on the Home form sidebar
+        self.home_form.company_assets_box.visible = True
+    else:
+        print("Home form reference is missing.")
 
+    
+  # def update_company_assets_box_visibility(self):
+  #   user = anvil.users.get_user()
 
+  #   if user:
+  #       # Get the column name from the 'active_workspace' value
+  #       workspace_column_name = user['active_workspace']
+        
+  #       # Use the column name to fetch the actual table name
+  #       actual_table_name = user[workspace_column_name]
+  #       workspace_table = getattr(app_tables, actual_table_name)
 
+  #       # Retrieve the first (and likely only) row.
+        
+  #       first_run_row = workspace_table.search(variable='first_run_complete')
+  #       should_display_box = first_run_row[0]['variable_value']
+  #       if should_display_box == 'Yes':
+  #           self.company_assets_box.visible = True
+  #       else:
+  #           self.company_assets_box.visible = False
+  #   else:
+  #       print("User not logged in or active_workspace not in user")  # Check if this gets printed
 
 
 
@@ -280,11 +308,7 @@ class BrandTone(BrandToneTemplate):
  #        print("No row found for 'brand_tone_url'")
  #        self.nav_button_tone_to_VSL_elements.enabled = False
 
-  def nav_button_tone_to_VSL_elements(self, **event_args):
-    
-    vsl_elements = VSL_Elements()
-    self.content_panel.clear()
-    self.content_panel.add_component(vsl_elements)
+  
 
 
 

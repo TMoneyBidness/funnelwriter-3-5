@@ -125,5 +125,5 @@ components:
     layout_properties:
       col_widths: {}
       grid_position: FOLIJZ,LCIEIB
-    event_bindings: {click: nav_button_tone_to_VSL_elements}
+    event_bindings: {click: nav_button_tone_to_VSL_elements_click}
 is_package: true
