@@ -33,10 +33,6 @@ class Workspace_2(Workspace_2Template):
     if not anvil.users.get_user():  # Only prompt login if user isn't already logged in
       anvil.users.login_with_form()
 
-    # Check if user is logged in
-    if anvil.users.get_user():
-      self.initialize_default_workspace()
-
     self.indeterminate_1.visible = False
     self.free_navigate_label.visible = False
     self.youtube_intro_video.visible = False

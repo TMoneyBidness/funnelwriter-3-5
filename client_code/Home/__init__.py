@@ -228,6 +228,7 @@ class Home(HomeTemplate):
   def button_workspace_2_click(self, **event_args):
       global active_workspace
       active_workspace = 'workspace_2'
+      self.set_active_workspace('workspace_2')  # Reset active workspace to 'workspace_2'
       Workspace_2_form = Workspace_2()
       self.content_panel.clear()  # Clear the content panel
       self.content_panel.add_component(Workspace_2_form)  # Add the new component
@@ -235,6 +236,7 @@ class Home(HomeTemplate):
   def button_workspace_3_click(self, **event_args):
       global active_workspace
       active_workspace = 'workspace_3'
+      self.set_active_workspace('workspace_3')  # Reset active workspace to 'workspace_3'
       Workspace_3_form = Workspace_3()
       self.content_panel.clear()  # Clear the content panel
       self.content_panel.add_component(Workspace_3_form)  # Add the new component

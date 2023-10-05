@@ -55,38 +55,39 @@ class Headlines(HeadlinesTemplate):
     self.chosen_tone = None
     self.chosen_script = None
 
-    # Load stuff
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # WORKSPACE MANAGEMENT
+    # Load the active workspace:
+    self.load_active_workspace()
+    # Get the User Table
+    self.user_table = self.get_user_table()
+    print(f"CURRENT USER TABLE IS: {self.user_table}")   
 
     # COMPANY NAME
-    chosen_company_name_row = user_table.search(variable='chosen_company_name')[0]
+    chosen_company_name_row = self.user_table.search(variable='chosen_company_name')[0]
     self.chosen_company_name = chosen_company_name_row['variable_value']
 
     # COMPANY PROFILE
-    chosen_company_profile_row = user_table.search(variable='chosen_company_profile')[0]
+    chosen_company_profile_row = self.user_table.search(variable='chosen_company_profile')[0]
     self.chosen_company_profile = chosen_company_profile_row['variable_value']
     
     # PRODUCT NAME
-    chosen_product_name_row = user_table.search(variable='chosen_product_name')[0]
+    chosen_product_name_row = self.user_table.search(variable='chosen_product_name')[0]
     self.chosen_product_name = chosen_product_name_row['variable_value']
 
     # PRODUCT PROFILE
-    chosen_product_research_row = user_table.search(variable='chosen_product_research')[0]
+    chosen_product_research_row = self.user_table.search(variable='chosen_product_research')[0]
     self.chosen_product_research = chosen_product_research_row['variable_value']
 
     # AVATARS
-    chosen_avatar_row = user_table.search(variable='chosen_avatar')[0]
+    chosen_avatar_row = self.user_table.search(variable='chosen_avatar')[0]
     self.chosen_avatar = chosen_avatar_row['variable_value']
 
     # BRAND TONE
-    chosen_tone_row = user_table.search(variable='chosen_tone')[0]
+    chosen_tone_row = self.user_table.search(variable='chosen_tone')[0]
     self.chosen_tone = chosen_tone_row['variable_value']
 
     # SCRIPT FORMAT
-    chosen_script_row = user_table.search(variable='chosen_script')[0]
+    chosen_script_row = self.user_table.search(variable='chosen_script')[0]
     self.chosen_script = chosen_script_row['variable_value']
 
     # Call set_saved_values to store the retrieved values in class-level variables
@@ -101,7 +102,7 @@ class Headlines(HeadlinesTemplate):
     )
 
     # Find the example script
-    row_chosen_script = user_table.search(variable='chosen_script')
+    row_chosen_script = self.user_table.search(variable='chosen_script')
 
     for component in self.get_components():
         # Check if the component is a Timer
@@ -138,9 +139,9 @@ class Headlines(HeadlinesTemplate):
 
     # LOAD THE VSL SCRIPT TITLES
     vsl_script_rows = [
-    user_table.search(variable='saved_vsl_script_1')[0],
-    user_table.search(variable='saved_vsl_script_2')[0],
-    user_table.search(variable='saved_vsl_script_3')[0]
+    self.user_table.search(variable='saved_vsl_script_1')[0],
+    self.user_table.search(variable='saved_vsl_script_2')[0],
+    self.user_table.search(variable='saved_vsl_script_3')[0]
     ]
      # Extract the values from the non-empty rows
     saved_vsl_script_names = [row['variable_title'] for row in vsl_script_rows]
@@ -150,7 +151,53 @@ class Headlines(HeadlinesTemplate):
 
     # Assign the values to the company_profile_dropdown
     self.save_vsl_script_name_dropdown.items = saved_vsl_script_names
-    
+
+  ########----------------- USER MANAGEMENT
+
+  def initialize_default_workspace(self):
+    global active_workspace
+    active_workspace = 'workspace_1'
+    self.active_workspace = 'workspace_1'
+
+  def button_workspace_1_click(self, **event_args):
+    global active_workspace
+    active_workspace = 'workspace_1'
+    self.reload_home_form()
+
+  def button_workspace_2_click(self, **event_args):
+    global active_workspace
+    active_workspace = 'workspace_2'
+    self.reload_home_form()
+
+  def button_workspace_3_click(self, **event_args):
+    global active_workspace
+    active_workspace = 'workspace_3'
+    self.reload_home_form()
+
+  def get_user_table(self):
+    current_user = anvil.users.get_user()
+    global active_workspace
+    workspace_id = self.get_active_workspace()
+    user_table_name = current_user[workspace_id]
+    return getattr(app_tables, user_table_name)
+
+  def set_active_workspace(self, workspace_id):
+    """Set the active workspace for the current session."""
+    anvil.server.session['active_workspace'] = workspace_id
+
+  def get_active_workspace(self):
+    global active_workspace
+    return active_workspace
+
+  def load_active_workspace(self):
+    global active_workspace
+    # Get the active workspace from the user's table
+    current_user = anvil.users.get_user()
+    active_workspace = current_user['active_workspace']
+    # Update the global variable
+    self.active_workspace = active_workspace
+
+########----------------- 
     
   def generate_headlines_vsl_button_click(self, **event_args):
     with anvil.server.no_loading_indicator:
@@ -162,21 +209,21 @@ class Headlines(HeadlinesTemplate):
         self.intro_directions.visible = False 
    
       # Delete whatever is in the table with existing headlines.
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
         
       # Delete all the existing boxes and start fresh
-        headline_row = user_table.get(variable='main_headlines')
+        headline_row = self.user_table.get(variable='main_headlines')
         headline_row['variable_value'] = None
         headline_row.update()
         
-        subheadline_row = user_table.get(variable='subheadlines')
+        subheadline_row = self.user_table.get(variable='subheadlines')
         subheadline_row['variable_value'] = None
         subheadline_row.update()
         
-        vsl_script_row = user_table.get(variable='vsl_script')
+        vsl_script_row = self.user_table.get(variable='vsl_script')
         vsl_script_row['variable_value'] = None
         vsl_script_row.update()
         
@@ -213,10 +260,10 @@ class Headlines(HeadlinesTemplate):
             anvil.js.window.alert("Please Populate All Fields Before Generating your themes.")
             return
         else:
-            current_user = anvil.users.get_user()
-            user_table_name = current_user['user_id']
-            # Get the table for the current user
-            user_table = getattr(app_tables, user_table_name)
+            # current_user = anvil.users.get_user()
+            # user_table_name = current_user['user_id']
+            # # Get the table for the current user
+            # user_table = getattr(app_tables, user_table_name)
 
             #Define and save the final headlines and subheadlines
             self.chosen_final_headline = self.main_headline_textbox.text
@@ -224,9 +271,9 @@ class Headlines(HeadlinesTemplate):
             self.chosen_final_secondary_headline = self.secondary_headline_textbox.text
             video_sales_script_textbox = self.video_sales_script_textbox.text
           
-            chosen_final_headline_row = user_table.search(variable='chosen_final_headline')[0]
-            chosen_final_subheadline_row = user_table.search(variable='chosen_final_subheadline')[0]
-            chosen_final_secondary_headline_row = user_table.search(variable='chosen_final_secondary_headline')[0]
+            chosen_final_headline_row = self.user_table.search(variable='chosen_final_headline')[0]
+            chosen_final_subheadline_row = self.user_table.search(variable='chosen_final_subheadline')[0]
+            chosen_final_secondary_headline_row = self.user_table.search(variable='chosen_final_secondary_headline')[0]
           
             chosen_final_headline_row['variable_value'] = self.chosen_final_headline
             chosen_final_subheadline_row['variable_value'] = self.chosen_final_subheadline
@@ -234,11 +281,11 @@ class Headlines(HeadlinesTemplate):
             chosen_final_headline_row.update()
             chosen_final_secondary_headline_row.update()
             
-            row = user_table.get(variable='vsl_themes')
-            vsl_theme_1_row = user_table.get(variable='vsl_theme_1')
-            vsl_theme_2_row = user_table.get(variable='vsl_theme_2')
-            vsl_theme_3_row = user_table.get(variable='vsl_theme_3')
-            vsl_theme_4_row = user_table.get(variable='vsl_theme_4')
+            row = self.user_table.get(variable='vsl_themes')
+            vsl_theme_1_row = self.user_table.get(variable='vsl_theme_1')
+            vsl_theme_2_row = self.user_table.get(variable='vsl_theme_2')
+            vsl_theme_3_row = self.user_table.get(variable='vsl_theme_3')
+            vsl_theme_4_row = self.user_table.get(variable='vsl_theme_4')
       
             self.task_id = anvil.server.call('launch_generate_vsl_themes', self.chosen_final_headline, self.chosen_final_subheadline, self.chosen_product_name, self.chosen_product_research, self.chosen_tone,video_sales_script_textbox,row)
     
@@ -249,11 +296,11 @@ class Headlines(HeadlinesTemplate):
     with anvil.server.no_loading_indicator:
         # Check if the background task is complete
 
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='main_headlines')
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
+        row = self.user_table.get(variable='main_headlines')
 
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on Headlines!")
@@ -287,11 +334,11 @@ class Headlines(HeadlinesTemplate):
     with anvil.server.no_loading_indicator:
         # Check if the background task is complete
 
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        subheadlines_row = user_table.get(variable='subheadlines')
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
+        subheadlines_row = self.user_table.get(variable='subheadlines')
 
         if subheadlines_row['variable_value'] is None or subheadlines_row['variable_value'] == '':
             print("Still working on Subheadlines!")
@@ -326,11 +373,11 @@ class Headlines(HeadlinesTemplate):
     with anvil.server.no_loading_indicator:
         # Check if the background task is complete
 
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='vsl_script')
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
+        row = self.user_table.get(variable='vsl_script')
 
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working!")
@@ -352,16 +399,16 @@ class Headlines(HeadlinesTemplate):
     with anvil.server.no_loading_indicator:
         # Check if the background task is complete
 
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='vsl_themes')
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
+        row = self.user_table.get(variable='vsl_themes')
 
-        vsl_theme_1_row = user_table.get(variable='vsl_theme_1')
-        vsl_theme_2_row = user_table.get(variable='vsl_theme_2')
-        vsl_theme_3_row = user_table.get(variable='vsl_theme_3')
-        vsl_theme_4_row = user_table.get(variable='vsl_theme_4')
+        vsl_theme_1_row = self.user_table.get(variable='vsl_theme_1')
+        vsl_theme_2_row = self.user_table.get(variable='vsl_theme_2')
+        vsl_theme_3_row = self.user_table.get(variable='vsl_theme_3')
+        vsl_theme_4_row = self.user_table.get(variable='vsl_theme_4')
 
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on the Video Sales Script!")
@@ -405,13 +452,13 @@ class Headlines(HeadlinesTemplate):
         self.indeterminate_progress_main_headlines.visible = True
       
       # Delete whatever is in the table with existing headlines.
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
         
       # Delete all the existing boxes and start fresh
-        headline_row = user_table.get(variable='main_headlines')
+        headline_row = self.user_table.get(variable='main_headlines')
         headline_row['variable_value'] = None
         headline_row.update()
 
@@ -427,11 +474,11 @@ class Headlines(HeadlinesTemplate):
     with anvil.server.no_loading_indicator:
         # Check if the background task is complete
 
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='main_headlines')
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
+        row = self.user_table.get(variable='main_headlines')
         row['variable_value'] = None
         row.update()
       
@@ -468,12 +515,12 @@ class Headlines(HeadlinesTemplate):
         self.indeterminate_progress_subheadlines.visible = True
 
       # Delete whatever is in the table with existing headlines.
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
               
-        subheadline_row = user_table.get(variable='subheadlines')
+        subheadline_row = self.user_table.get(variable='subheadlines')
         subheadline_row['variable_value'] = None
         subheadline_row.update()
         
@@ -489,12 +536,12 @@ class Headlines(HeadlinesTemplate):
   def check_task_status_regenerate_subheadlines(self, sender=None, **event_args):
     with anvil.server.no_loading_indicator:
         # Check if the background task is complete
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
       
-        subheadlines_row = user_table.get(variable='subheadlines')
+        subheadlines_row = self.user_table.get(variable='subheadlines')
         subheadlines_row['variable_value'] = None
         subheadlines_row.update()
 
@@ -532,12 +579,12 @@ class Headlines(HeadlinesTemplate):
         self.indeterminate_progress_vsl_script.visible = True
 
       # Delete whatever is in the table with existing headlines.
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
         
-        vsl_script_row = user_table.get(variable='vsl_script')
+        vsl_script_row = self.user_table.get(variable='vsl_script')
         vsl_script_row['variable_value'] = None
         vsl_script_row.update()
         
@@ -553,11 +600,11 @@ class Headlines(HeadlinesTemplate):
     with anvil.server.no_loading_indicator:
         # Check if the background task is complete
 
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='vsl_script')
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
+        row = self.user_table.get(variable='vsl_script')
 
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working!")
@@ -581,12 +628,12 @@ class Headlines(HeadlinesTemplate):
         self.indeterminate_progress_vsl_themes_rewrites.visible = True
         vsl_script_feedback = self.feedback_box.text
       
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
         
-        vsl_script_row = user_table.get(variable='vsl_script')
+        vsl_script_row = self.user_table.get(variable='vsl_script')
         vsl_script_row['variable_value'] = None
         vsl_script_row.update()
         
@@ -603,11 +650,11 @@ class Headlines(HeadlinesTemplate):
     with anvil.server.no_loading_indicator:
         # Check if the background task is complete
 
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='vsl_script')
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
+        row = self.user_table.get(variable='vsl_script')
 
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working!")
@@ -661,11 +708,11 @@ class Headlines(HeadlinesTemplate):
         task_status = anvil.server.call('get_task_status', self.task_id)
         print("Task status:", task_status)
       
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='main_headlines')
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
+        row = self.user_table.get(variable='main_headlines')
       
         if task_status is not None:
             if task_status == "completed":
@@ -810,10 +857,10 @@ class Headlines(HeadlinesTemplate):
   def nav_button_headlines_to_vsl_click(self, **event_args):
     
     # SAVE THE CHOSEN HEADLINES
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
 
       # Check if any of the textboxes are empty
     if not self.main_headline_textbox.text or not self.subheadline_textbox.text or not self.secondary_headline_textbox.text:
@@ -825,9 +872,9 @@ class Headlines(HeadlinesTemplate):
       self.chosen_final_subheadline = self.subheadline_textbox.text
       self.chosen_final_secondary_headline = self.secondary_headline_textbox.text
       
-      chosen_final_headline_row = user_table.search(variable='chosen_final_headline')[0]
-      chosen_final_subheadline_row = user_table.search(variable='chosen_final_subheadline')[0]
-      chosen_final_secondary_headline_row = user_table.search(variable='chosen_final_secondary_headline')[0]
+      chosen_final_headline_row = self.user_table.search(variable='chosen_final_headline')[0]
+      chosen_final_subheadline_row = self.user_table.search(variable='chosen_final_subheadline')[0]
+      chosen_final_secondary_headline_row = self.user_table.search(variable='chosen_final_secondary_headline')[0]
         
       chosen_final_headline_row['variable_value'] = self.chosen_final_headline
       chosen_final_subheadline_row['variable_value'] = self.chosen_final_subheadline
@@ -879,10 +926,10 @@ class Headlines(HeadlinesTemplate):
     self.final_vsl_outline_box.visible = True
 
   def save_the_script_click(self, **event_args):
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
 
     # Fetch the current selected dropdown item
     selected_item_index = self.save_vsl_script_name_dropdown.selected_value
@@ -893,13 +940,13 @@ class Headlines(HeadlinesTemplate):
     
     if new_title:  # If the user provided a title
         # Update the appropriate slot in the user_table
-        user_table.update_rows(variable=selected_variable, variable_title=new_title)
+        self.user_table.update_rows(variable=selected_variable, variable_title=new_title)
     
         # Fetch updated VSL script rows
         vsl_script_rows = [
-            user_table.search(variable='saved_vsl_script_1')[0],
-            user_table.search(variable='saved_vsl_script_2')[0],
-            user_table.search(variable='saved_vsl_script_3')[0]
+            self.user_table.search(variable='saved_vsl_script_1')[0],
+            self.user_table.search(variable='saved_vsl_script_2')[0],
+            self.user_table.search(variable='saved_vsl_script_3')[0]
         ]
     
         # Extract the values from the non-empty rows
@@ -921,14 +968,14 @@ class Headlines(HeadlinesTemplate):
     chosen_theme_excerpt_3 = self.excerpt_textbox_3.text 
     chosen_theme_excerpt_4 = self.excerpt_textbox_4.text 
     
-    chosen_final_headline_row = user_table.search(variable='chosen_final_headline')[0]
-    chosen_final_subheadline_row = user_table.search(variable='chosen_final_subheadline')[0]
-    chosen_final_secondary_headline_row = user_table.search(variable='chosen_final_secondary_headline')[0]
-    chosen_final_video_sales_script_row = user_table.search(variable='vsl_script')[0]
-    chosen_theme_excerpt_1_row = user_table.search(variable='vsl_theme_1')[0]
-    chosen_theme_excerpt_2_row = user_table.search(variable='vsl_theme_2')[0]
-    chosen_theme_excerpt_3_row = user_table.search(variable='vsl_theme_3')[0]
-    chosen_theme_excerpt_4_row = user_table.search(variable='vsl_theme_4')[0]
+    chosen_final_headline_row = self.user_table.search(variable='chosen_final_headline')[0]
+    chosen_final_subheadline_row = self.user_table.search(variable='chosen_final_subheadline')[0]
+    chosen_final_secondary_headline_row = self.user_table.search(variable='chosen_final_secondary_headline')[0]
+    chosen_final_video_sales_script_row = self.user_table.search(variable='vsl_script')[0]
+    chosen_theme_excerpt_1_row = self.user_table.search(variable='vsl_theme_1')[0]
+    chosen_theme_excerpt_2_row = self.user_table.search(variable='vsl_theme_2')[0]
+    chosen_theme_excerpt_3_row = self.user_table.search(variable='vsl_theme_3')[0]
+    chosen_theme_excerpt_4_row = self.user_table.search(variable='vsl_theme_4')[0]
     
     chosen_final_headline_row['variable_value'] = chosen_final_headline
     chosen_final_subheadline_row['variable_value'] = chosen_final_subheadline

@@ -25,10 +25,12 @@ class Avatars(AvatarsTemplate):
     task_info = []
     anvil.users.login_with_form()
 
-    # Get the table for the current user
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    user_table = getattr(app_tables, user_table_name)
+    # WORKSPACE MANAGEMENT
+    # Load the active workspace:
+    self.load_active_workspace()
+    # Get the User Table
+    self.user_table = self.get_user_table()
+    print(f"CURRENT USER TABLE IS: {self.user_table}")   
 
     self.all_avatars_product_1_button.visible = False
     self.all_avatars_product_2_button.visible = False
@@ -81,11 +83,11 @@ class Avatars(AvatarsTemplate):
     self.task_check_timer_regenerate_avatar_2_product_5.interval = 0
     self.task_check_timer_regenerate_avatar_3_product_5.interval = 0
 
-    # Get the current user
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # # Get the current user
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
 
     # Show Panels
     self.whole_panel.visible=True
@@ -98,7 +100,7 @@ class Avatars(AvatarsTemplate):
     self.product_5_input_section.visible = False
         
     for i in range(1, 6):
-      row_product_latest = user_table.search(variable=f'product_{i}_latest')
+      row_product_latest = self.user_table.search(variable=f'product_{i}_latest')
       # row_product_url_latest = user_table.search(variable=f'product_{i}_url')
         
       if row_product_latest:
@@ -120,7 +122,7 @@ class Avatars(AvatarsTemplate):
           # Now, load the avatars associated with that product. There may be 1 avatar only, or there are 3. The cells might be empty!
           # Load the avatars associated with that product
           for j in range(1, 4):
-              row_avatar_product_latest = user_table.get(variable=f'avatar_{j}_product_{i}_latest')
+              row_avatar_product_latest = self.user_table.get(variable=f'avatar_{j}_product_{i}_latest')
               avatar_product_latest = row_avatar_product_latest['variable_value']
               avatar_product_latest_name = row_avatar_product_latest['variable_title']
       
@@ -142,11 +144,11 @@ class Avatars(AvatarsTemplate):
 
     # Check if any of the final avatars are empty
     final_avatar_rows = [
-        user_table.search(variable='avatar1')[0],
-        user_table.search(variable='avatar2')[0],
-        user_table.search(variable='avatar3')[0],
-        user_table.search(variable='avatar4')[0],
-        user_table.search(variable='avatar5')[0]]
+        self.user_table.search(variable='avatar1')[0],
+        self.user_table.search(variable='avatar2')[0],
+        self.user_table.search(variable='avatar3')[0],
+        self.user_table.search(variable='avatar4')[0],
+        self.user_table.search(variable='avatar5')[0]]
     
     # Check if any of the avatar descriptions are empty
     if any(not row['variable_value'] for row in final_avatar_rows if row and 'variable_value' in row):
@@ -156,6 +158,53 @@ class Avatars(AvatarsTemplate):
         # If all avatar descriptions are saved, enable the button
         self.nav_button_avatars_to_brand_tone.enabled = True
 
+  ########----------------- USER MANAGEMENT
+
+  def initialize_default_workspace(self):
+    global active_workspace
+    active_workspace = 'workspace_1'
+    self.active_workspace = 'workspace_1'
+
+  def button_workspace_1_click(self, **event_args):
+    global active_workspace
+    active_workspace = 'workspace_1'
+    self.reload_home_form()
+
+  def button_workspace_2_click(self, **event_args):
+    global active_workspace
+    active_workspace = 'workspace_2'
+    self.reload_home_form()
+
+  def button_workspace_3_click(self, **event_args):
+    global active_workspace
+    active_workspace = 'workspace_3'
+    self.reload_home_form()
+
+  def get_user_table(self):
+    current_user = anvil.users.get_user()
+    global active_workspace
+    workspace_id = self.get_active_workspace()
+    user_table_name = current_user[workspace_id]
+    return getattr(app_tables, user_table_name)
+
+  def set_active_workspace(self, workspace_id):
+    """Set the active workspace for the current session."""
+    anvil.server.session['active_workspace'] = workspace_id
+
+  def get_active_workspace(self):
+    global active_workspace
+    return active_workspace
+
+  def load_active_workspace(self):
+    global active_workspace
+    # Get the active workspace from the user's table
+    current_user = anvil.users.get_user()
+    active_workspace = current_user['active_workspace']
+    # Update the global variable
+    self.active_workspace = active_workspace
+
+########----------------- 
+  
 # ADDING PRODUCTS / AVATAR PANELS
 
 # Base Panel
@@ -235,22 +284,22 @@ class Avatars(AvatarsTemplate):
       # Start the progress bar with a small value
       self.indeterminate_10.visible = True
          
-      current_user = anvil.users.get_user()
-      user_table_name = current_user['user_id']
-      # Get the table for the current user
-      user_table = getattr(app_tables, user_table_name)
+      # current_user = anvil.users.get_user()
+      # user_table_name = current_user['user_id']
+      # # Get the table for the current user
+      # user_table = getattr(app_tables, user_table_name)
       
       # COMPANY PROFILE
       # Retrieve the row with 'variable' column containing 'company_profile'
-      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile_row = self.user_table.search(variable='company_profile')[0]
       company_profile = company_profile_row['variable_value']
             
       # PRODUCT NAME 
-      product_1_name_row = user_table.search(variable='product_1')[0]
+      product_1_name_row = self.user_table.search(variable='product_1')[0]
       product_1_name = product_1_name_row['variable_title']
       
       # PRODUCT DESCRIPTION
-      product_1_profile_row = user_table.search(variable='product_1')[0]
+      product_1_profile_row = self.user_table.search(variable='product_1')[0]
       product_1_profile = product_1_profile_row['variable_title']
 
        # START THE LOOPS
@@ -267,7 +316,7 @@ class Avatars(AvatarsTemplate):
 
             # Update rows in the database
             for variable_name in [f'avatar_{i}_product_1_preview', f'avatar_{i}_product_1_latest']:
-                rows = user_table.search(variable=variable_name)
+                rows = self.user_table.search(variable=variable_name)
                 if rows:
                     row = rows[0]
                     row['variable_value'] = avatar_input_text
@@ -288,10 +337,10 @@ class Avatars(AvatarsTemplate):
     with anvil.server.no_loading_indicator:
         all_tasks_complete = True  
         tasks_to_remove = []
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
       
         for task_id, avatar_num in self.task_info:
             status = anvil.server.call('get_task_status', task_id)
@@ -309,7 +358,7 @@ class Avatars(AvatarsTemplate):
                     self.indeterminate_10.visible = False
 
                     # Update the latest as well
-                    avatar_latest_row = user_table.search(variable=f'avatar_{avatar_num}_product_1_latest')[0]
+                    avatar_latest_row = self.user_table.search(variable=f'avatar_{avatar_num}_product_1_latest')[0]
                     avatar_latest_row['variable_value'] = avatar_generation
                     avatar_latest_row['variable_title'] = getattr(self, f'avatar_{avatar_num}_product_1_name').text
                     avatar_latest_row.update()
@@ -318,7 +367,7 @@ class Avatars(AvatarsTemplate):
                     self.indeterminate_10.visible = False
 
                     # Update the latest as well
-                    avatar_latest_row = user_table.search(variable=f'avatar_{avatar_num}_product_1_latest')[0]
+                    avatar_latest_row = self.user_table.search(variable=f'avatar_{avatar_num}_product_1_latest')[0]
                     avatar_latest_row['variable_value'] = avatar_generation
                     avatar_latest_row['variable_title'] = getattr(self, f'avatar_{avatar_num}_product_1_name').text
                     avatar_latest_row.update()
@@ -327,7 +376,7 @@ class Avatars(AvatarsTemplate):
                     self.indeterminate_10.visible = False
 
                     # Update the latest as well
-                    avatar_latest_row = user_table.search(variable=f'avatar_{avatar_num}_product_1_latest')[0]
+                    avatar_latest_row = self.user_table.search(variable=f'avatar_{avatar_num}_product_1_latest')[0]
                     avatar_latest_row['variable_value'] = avatar_generation
                     avatar_latest_row['variable_title'] = getattr(self, f'avatar_{avatar_num}_product_1_name').text
                     avatar_latest_row.update()
@@ -362,32 +411,32 @@ class Avatars(AvatarsTemplate):
       # Start the progress bar with a small value
       self.indeterminate_10.visible = True
           
-      current_user = anvil.users.get_user()
-      user_table_name = current_user['user_id']
-      # Get the table for the current user
-      user_table = getattr(app_tables, user_table_name)
-      self.user_table = user_table
+      # current_user = anvil.users.get_user()
+      # user_table_name = current_user['user_id']
+      # # Get the table for the current user
+      # user_table = getattr(app_tables, user_table_name)
+      # self.user_table = user_table
       
       # COMPANY PROFILE
       # Retrieve the row with 'variable' column containing 'company_profile'
-      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile_row = self.user_table.search(variable='company_profile')[0]
       company_profile = company_profile_row['variable_value']
             
       # PRODUCT NAME 
-      product_1_name_row = user_table.search(variable='product_1')[0]
+      product_1_name_row = self.user_table.search(variable='product_1')[0]
       product_1_name = product_1_name_row['variable_title']
       
       # PRODUCT DESCRIPTION
-      product_1_profile_row = user_table.search(variable='product_1')[0]
+      product_1_profile_row = self.user_table.search(variable='product_1')[0]
       product_1_profile = product_1_profile_row['variable_title']
 
       # Delete whatever is in latest, so we can check it as the status update.
-      avatar_1_product_1_latest_row = user_table.get(variable='avatar_1_product_1_latest')
+      avatar_1_product_1_latest_row = self.user_table.get(variable='avatar_1_product_1_latest')
       avatar_1_product_1_latest_row['variable_value'] = None
       avatar_1_product_1_latest_row.update()
 
       #Update the avatar preview
-      avatar_1_product_1_preview_row = user_table.get(variable='avatar_1_product_1_preview')
+      avatar_1_product_1_preview_row = self.user_table.get(variable='avatar_1_product_1_preview')
       avatar_1_product_1_preview_row['variable_value'] = self.avatar_1_product_1_input.text # Avatar preview description
       avatar_1_product_1_preview_row['variable_title'] = self.avatar_1_product_1_name.text # Avatar name description
       avatar_1_product_1_preview_row.update()
@@ -404,11 +453,11 @@ class Avatars(AvatarsTemplate):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='avatar_1_product_1_latest')
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
+        row = self.user_table.get(variable='avatar_1_product_1_latest')
      
       
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -431,32 +480,32 @@ class Avatars(AvatarsTemplate):
       # Start the progress bar with a small value
       self.indeterminate_10.visible = True
           
-      current_user = anvil.users.get_user()
-      user_table_name = current_user['user_id']
-      # Get the table for the current user
-      user_table = getattr(app_tables, user_table_name)
-      self.user_table = user_table
+      # current_user = anvil.users.get_user()
+      # user_table_name = current_user['user_id']
+      # # Get the table for the current user
+      # user_table = getattr(app_tables, user_table_name)
+      # self.user_table = user_table
       
       # COMPANY PROFILE
       # Retrieve the row with 'variable' column containing 'company_profile'
-      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile_row = self.user_table.search(variable='company_profile')[0]
       company_profile = company_profile_row['variable_value']
             
       # PRODUCT NAME 
-      product_1_name_row = user_table.search(variable='product_1')[0]
+      product_1_name_row = self.user_table.search(variable='product_1')[0]
       product_1_name = product_1_name_row['variable_title']
       
       # PRODUCT DESCRIPTION
-      product_1_profile_row = user_table.search(variable='product_1')[0]
+      product_1_profile_row = self.user_table.search(variable='product_1')[0]
       product_1_profile = product_1_profile_row['variable_title']
 
       # Delete whatever is in latest, so we can check it as the status update.
-      avatar_2_product_1_latest_row = user_table.get(variable='avatar_1_product_1_latest')
+      avatar_2_product_1_latest_row = self.user_table.get(variable='avatar_1_product_1_latest')
       avatar_2_product_1_latest_row['variable_value'] = None
       avatar_2_product_1_latest_row.update()
 
       #Update the avatar preview
-      avatar_2_product_1_preview_row = user_table.get(variable='avatar_2_product_1_preview')
+      avatar_2_product_1_preview_row = self.user_table.get(variable='avatar_2_product_1_preview')
       avatar_2_product_1_preview_row['variable_value'] = self.avatar_2_product_1_input.text # Avatar preview description
       avatar_2_product_1_preview_row['variable_title'] = self.avatar_2_product_1_name.text # Avatar name description
       avatar_2_product_1_preview_row.update()
@@ -473,11 +522,11 @@ class Avatars(AvatarsTemplate):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='avatar_2_product_1_latest')
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
+        row = self.user_table.get(variable='avatar_2_product_1_latest')
      
       
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -500,32 +549,32 @@ class Avatars(AvatarsTemplate):
       # Start the progress bar with a small value
       self.indeterminate_10.visible = True
           
-      current_user = anvil.users.get_user()
-      user_table_name = current_user['user_id']
-      # Get the table for the current user
-      user_table = getattr(app_tables, user_table_name)
-      self.user_table = user_table
+      # current_user = anvil.users.get_user()
+      # user_table_name = current_user['user_id']
+      # # Get the table for the current user
+      # user_table = getattr(app_tables, user_table_name)
+      # self.user_table = user_table
       
       # COMPANY PROFILE
       # Retrieve the row with 'variable' column containing 'company_profile'
-      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile_row = self.user_table.search(variable='company_profile')[0]
       company_profile = company_profile_row['variable_value']
             
       # PRODUCT NAME 
-      product_1_name_row = user_table.search(variable='product_1')[0]
+      product_1_name_row = self.user_table.search(variable='product_1')[0]
       product_1_name = product_1_name_row['variable_title']
       
       # PRODUCT DESCRIPTION
-      product_1_profile_row = user_table.search(variable='product_1')[0]
+      product_1_profile_row = self.user_table.search(variable='product_1')[0]
       product_1_profile = product_1_profile_row['variable_title']
 
       # Delete whatever is in latest, so we can check it as the status update.
-      avatar_3_product_1_latest_row = user_table.get(variable='avatar_3_product_1_latest')
+      avatar_3_product_1_latest_row = self.user_table.get(variable='avatar_3_product_1_latest')
       avatar_3_product_1_latest_row['variable_value'] = None
       avatar_3_product_1_latest_row.update()
 
       #Update the avatar preview
-      avatar_3_product_1_preview_row = user_table.get(variable='avatar_3_product_1_preview')
+      avatar_3_product_1_preview_row = self.user_table.get(variable='avatar_3_product_1_preview')
       avatar_3_product_1_preview_row['variable_value'] = self.avatar_3_product_1_input.text # Avatar preview description
       avatar_3_product_1_preview_row['variable_title'] = self.avatar_3_product_1_name.text # Avatar name description
       avatar_3_product_1_preview_row.update()
@@ -542,11 +591,11 @@ class Avatars(AvatarsTemplate):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='avatar_3_product_1_latest')
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
+        row = self.user_table.get(variable='avatar_3_product_1_latest')
      
       
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -569,22 +618,22 @@ class Avatars(AvatarsTemplate):
       # Start the progress bar with a small value
       self.indeterminate_20.visible = True
           
-      current_user = anvil.users.get_user()
-      user_table_name = current_user['user_id']
-      # Get the table for the current user
-      user_table = getattr(app_tables, user_table_name)
+      # current_user = anvil.users.get_user()
+      # user_table_name = current_user['user_id']
+      # # Get the table for the current user
+      # user_table = getattr(app_tables, user_table_name)
       
       # COMPANY PROFILE
       # Retrieve the row with 'variable' column containing 'company_profile'
-      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile_row = self.user_table.search(variable='company_profile')[0]
       company_profile = company_profile_row['variable_value']
             
       # PRODUCT NAME 
-      product_2_name_row = user_table.search(variable='product_2')[0]
+      product_2_name_row = self.user_table.search(variable='product_2')[0]
       product_2_name = product_2_name_row['variable_title']
       
       # PRODUCT DESCRIPTION
-      product_2_profile_row = user_table.search(variable='product_2')[0]
+      product_2_profile_row = self.user_table.search(variable='product_2')[0]
       product_2_profile = product_2_profile_row['variable_title']
   
         # START THE LOOPS
@@ -601,7 +650,7 @@ class Avatars(AvatarsTemplate):
   
             # Update rows in the database
             for variable_name in [f'avatar_{i}_product_2_preview', f'avatar_{i}_product_2_latest']:
-                rows = user_table.search(variable=variable_name)
+                rows = self.user_table.search(variable=variable_name)
                 if rows:
                     row = rows[0]
                     row['variable_value'] = avatar_input_text
@@ -622,10 +671,10 @@ class Avatars(AvatarsTemplate):
     with anvil.server.no_loading_indicator:
         all_tasks_complete = True  
         tasks_to_remove = []
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
       
         for task_id, avatar_num in self.task_info:
             status = anvil.server.call('get_task_status', task_id)
@@ -643,7 +692,7 @@ class Avatars(AvatarsTemplate):
                     self.indeterminate_20.visible = False
 
                     # Update the latest as well
-                    avatar_latest_row = user_table.search(variable=f'avatar_{avatar_num}_product_2_latest')[0]
+                    avatar_latest_row = self.user_table.search(variable=f'avatar_{avatar_num}_product_2_latest')[0]
                     avatar_latest_row['variable_value'] = avatar_generation
                     avatar_latest_row['variable_title'] = getattr(self, f'avatar_{avatar_num}_product_2_name').text
                     avatar_latest_row.update()
@@ -652,7 +701,7 @@ class Avatars(AvatarsTemplate):
                     self.indeterminate_20.visible = False
 
                     # Update the latest as well
-                    avatar_latest_row = user_table.search(variable=f'avatar_{avatar_num}_product_2_latest')[0]
+                    avatar_latest_row = self.user_table.search(variable=f'avatar_{avatar_num}_product_2_latest')[0]
                     avatar_latest_row['variable_value'] = avatar_generation
                     avatar_latest_row['variable_title'] = getattr(self, f'avatar_{avatar_num}_product_2_name').text
                     avatar_latest_row.update()
@@ -661,7 +710,7 @@ class Avatars(AvatarsTemplate):
                     self.indeterminate_20.visible = False
 
                     # Update the latest as well
-                    avatar_latest_row = user_table.search(variable=f'avatar_{avatar_num}_product_2_latest')[0]
+                    avatar_latest_row = self.user_table.search(variable=f'avatar_{avatar_num}_product_2_latest')[0]
                     avatar_latest_row['variable_value'] = avatar_generation
                     avatar_latest_row['variable_title'] = getattr(self, f'avatar_{avatar_num}_product_2_name').text
                     avatar_latest_row.update()
@@ -697,32 +746,32 @@ class Avatars(AvatarsTemplate):
       # Start the progress bar with a small value
       self.indeterminate_10.visible = True
           
-      current_user = anvil.users.get_user()
-      user_table_name = current_user['user_id']
-      # Get the table for the current user
-      user_table = getattr(app_tables, user_table_name)
-      self.user_table = user_table
+      # current_user = anvil.users.get_user()
+      # user_table_name = current_user['user_id']
+      # # Get the table for the current user
+      # user_table = getattr(app_tables, user_table_name)
+      # self.user_table = user_table
       
       # COMPANY PROFILE
       # Retrieve the row with 'variable' column containing 'company_profile'
-      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile_row = self.user_table.search(variable='company_profile')[0]
       company_profile = company_profile_row['variable_value']
             
       # PRODUCT NAME 
-      product_2_name_row = user_table.search(variable='product_2')[0]
+      product_2_name_row = self.user_table.search(variable='product_2')[0]
       product_2_name = product_2_name_row['variable_title']
       
       # PRODUCT DESCRIPTION
-      product_2_profile_row = user_table.search(variable='product_2')[0]
+      product_2_profile_row = self.user_table.search(variable='product_2')[0]
       product_2_profile = product_2_profile_row['variable_title']
 
       # Delete whatever is in latest, so we can check it as the status update.
-      avatar_1_product_2_latest_row = user_table.get(variable='avatar_1_product_2_latest')
+      avatar_1_product_2_latest_row = self.user_table.get(variable='avatar_1_product_2_latest')
       avatar_1_product_2_latest_row['variable_value'] = None
       avatar_1_product_2_latest_row.update()
 
       #Update the avatar preview
-      avatar_1_product_2_preview_row = user_table.get(variable='avatar_1_product_2_preview')
+      avatar_1_product_2_preview_row = self.user_table.get(variable='avatar_1_product_2_preview')
       avatar_1_product_2_preview_row['variable_value'] = self.avatar_1_product_2_input.text # Avatar preview description
       avatar_1_product_2_preview_row['variable_title'] = self.avatar_1_product_2_name.text # Avatar name description
       avatar_1_product_2_preview_row.update()
@@ -739,11 +788,11 @@ class Avatars(AvatarsTemplate):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='avatar_1_product_2_latest')
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
+        row = self.user_table.get(variable='avatar_1_product_2_latest')
      
       
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -766,32 +815,32 @@ class Avatars(AvatarsTemplate):
       # Start the progress bar with a small value
       self.indeterminate_20.visible = True
           
-      current_user = anvil.users.get_user()
-      user_table_name = current_user['user_id']
-      # Get the table for the current user
-      user_table = getattr(app_tables, user_table_name)
-      self.user_table = user_table
+      # current_user = anvil.users.get_user()
+      # user_table_name = current_user['user_id']
+      # # Get the table for the current user
+      # user_table = getattr(app_tables, user_table_name)
+      # self.user_table = user_table
       
       # COMPANY PROFILE
       # Retrieve the row with 'variable' column containing 'company_profile'
-      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile_row = self.user_table.search(variable='company_profile')[0]
       company_profile = company_profile_row['variable_value']
             
       # PRODUCT NAME 
-      product_2_name_row = user_table.search(variable='product_2')[0]
+      product_2_name_row = self.user_table.search(variable='product_2')[0]
       product_2_name = product_2_name_row['variable_title']
       
       # PRODUCT DESCRIPTION
-      product_2_profile_row = user_table.search(variable='product_2')[0]
+      product_2_profile_row = self.user_table.search(variable='product_2')[0]
       product_2_profile = product_2_profile_row['variable_title']
 
       # Delete whatever is in latest, so we can check it as the status update.
-      avatar_2_product_2_latest_row = user_table.get(variable='avatar_2_product_2_latest')
+      avatar_2_product_2_latest_row = self.user_table.get(variable='avatar_2_product_2_latest')
       avatar_2_product_2_latest_row['variable_value'] = None
       avatar_2_product_2_latest_row.update()
 
       #Update the avatar preview
-      avatar_2_product_2_preview_row = user_table.get(variable='avatar_2_product_2_preview')
+      avatar_2_product_2_preview_row = self.user_table.get(variable='avatar_2_product_2_preview')
       avatar_2_product_2_preview_row['variable_value'] = self.avatar_2_product_2_input.text # Avatar preview description
       avatar_2_product_2_preview_row['variable_title'] = self.avatar_2_product_2_name.text # Avatar name description
       avatar_2_product_2_preview_row.update()
@@ -808,11 +857,11 @@ class Avatars(AvatarsTemplate):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='avatar_2_product_2_latest')
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
+        row = self.user_table.get(variable='avatar_2_product_2_latest')
      
       
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -835,32 +884,32 @@ class Avatars(AvatarsTemplate):
       # Start the progress bar with a small value
       self.indeterminate_10.visible = True
           
-      current_user = anvil.users.get_user()
-      user_table_name = current_user['user_id']
-      # Get the table for the current user
-      user_table = getattr(app_tables, user_table_name)
-      self.user_table = user_table
+      # current_user = anvil.users.get_user()
+      # user_table_name = current_user['user_id']
+      # # Get the table for the current user
+      # user_table = getattr(app_tables, user_table_name)
+      # self.user_table = user_table
       
       # COMPANY PROFILE
       # Retrieve the row with 'variable' column containing 'company_profile'
-      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile_row = self.user_table.search(variable='company_profile')[0]
       company_profile = company_profile_row['variable_value']
             
       # PRODUCT NAME 
-      product_2_name_row = user_table.search(variable='product_2')[0]
+      product_2_name_row = self.user_table.search(variable='product_2')[0]
       product_2_name = product_2_name_row['variable_title']
       
       # PRODUCT DESCRIPTION
-      product_2_profile_row = user_table.search(variable='product_2')[0]
+      product_2_profile_row = self.user_table.search(variable='product_2')[0]
       product_2_profile = product_2_profile_row['variable_title']
 
       # Delete whatever is in latest, so we can check it as the status update.
-      avatar_3_product_2_latest_row = user_table.get(variable='avatar_3_product_2_latest')
+      avatar_3_product_2_latest_row = self.user_table.get(variable='avatar_3_product_2_latest')
       avatar_3_product_2_latest_row['variable_value'] = None
       avatar_3_product_2_latest_row.update()
 
       #Update the avatar preview
-      avatar_3_product_2_preview_row = user_table.get(variable='avatar_3_product_2_preview')
+      avatar_3_product_2_preview_row = self.user_table.get(variable='avatar_3_product_2_preview')
       avatar_3_product_2_preview_row['variable_value'] = self.avatar_3_product_2_input.text # Avatar preview description
       avatar_3_product_2_preview_row['variable_title'] = self.avatar_3_product_2_name.text # Avatar name description
       avatar_3_product_2_preview_row.update()
@@ -877,11 +926,11 @@ class Avatars(AvatarsTemplate):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='avatar_3_product_2_latest')
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
+        row = self.user_table.get(variable='avatar_3_product_2_latest')
       
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on Avatar 3 Product 2 Regeneration!")
@@ -904,22 +953,22 @@ class Avatars(AvatarsTemplate):
       # Start the progress bar with a small value
       self.indeterminate_30.visible = True
          
-      current_user = anvil.users.get_user()
-      user_table_name = current_user['user_id']
-      # Get the table for the current user
-      user_table = getattr(app_tables, user_table_name)
+      # current_user = anvil.users.get_user()
+      # user_table_name = current_user['user_id']
+      # # Get the table for the current user
+      # user_table = getattr(app_tables, user_table_name)
       
       # COMPANY PROFILE
       # Retrieve the row with 'variable' column containing 'company_profile'
-      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile_row = self.user_table.search(variable='company_profile')[0]
       company_profile = company_profile_row['variable_value']
             
       # PRODUCT NAME 
-      product_3_name_row = user_table.search(variable='product_3')[0]
+      product_3_name_row = self.user_table.search(variable='product_3')[0]
       product_3_name = product_3_name_row['variable_title']
       
       # PRODUCT DESCRIPTION
-      product_3_profile_row = user_table.search(variable='product_3')[0]
+      product_3_profile_row = self.user_table.search(variable='product_3')[0]
       product_3_profile = product_3_profile_row['variable_title']
 
        # START THE LOOPS
@@ -936,7 +985,7 @@ class Avatars(AvatarsTemplate):
 
             # Update rows in the database
             for variable_name in [f'avatar_{i}_product_3_preview', f'avatar_{i}_product_3_latest']:
-                rows = user_table.search(variable=variable_name)
+                rows = self.user_table.search(variable=variable_name)
                 if rows:
                     row = rows[0]
                     row['variable_value'] = avatar_input_text
@@ -957,10 +1006,10 @@ class Avatars(AvatarsTemplate):
     with anvil.server.no_loading_indicator:
         all_tasks_complete = True  
         tasks_to_remove = []
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
       
         for task_id, avatar_num in self.task_info:
             status = anvil.server.call('get_task_status', task_id)
@@ -978,7 +1027,7 @@ class Avatars(AvatarsTemplate):
                     self.indeterminate_30.visible = False
 
                     # Update the latest as well
-                    avatar_latest_row = user_table.search(variable=f'avatar_{avatar_num}_product_3_latest')[0]
+                    avatar_latest_row = self.user_table.search(variable=f'avatar_{avatar_num}_product_3_latest')[0]
                     avatar_latest_row['variable_value'] = avatar_generation
                     avatar_latest_row['variable_title'] = getattr(self, f'avatar_{avatar_num}_product_3_name').text
                     avatar_latest_row.update()
@@ -987,7 +1036,7 @@ class Avatars(AvatarsTemplate):
                     self.indeterminate_30.visible = False
 
                     # Update the latest as well
-                    avatar_latest_row = user_table.search(variable=f'avatar_{avatar_num}_product_3_latest')[0]
+                    avatar_latest_row = self.user_table.search(variable=f'avatar_{avatar_num}_product_3_latest')[0]
                     avatar_latest_row['variable_value'] = avatar_generation
                     avatar_latest_row['variable_title'] = getattr(self, f'avatar_{avatar_num}_product_3_name').text
                     avatar_latest_row.update()
@@ -996,7 +1045,7 @@ class Avatars(AvatarsTemplate):
                     self.indeterminate_10.visible = False
 
                     # Update the latest as well
-                    avatar_latest_row = user_table.search(variable=f'avatar_{avatar_num}_product_3_latest')[0]
+                    avatar_latest_row = self.user_table.search(variable=f'avatar_{avatar_num}_product_3_latest')[0]
                     avatar_latest_row['variable_value'] = avatar_generation
                     avatar_latest_row['variable_title'] = getattr(self, f'avatar_{avatar_num}_product_3_name').text
                     avatar_latest_row.update()
@@ -1032,32 +1081,32 @@ class Avatars(AvatarsTemplate):
       # Start the progress bar with a small value
       self.indeterminate_10.visible = True
           
-      current_user = anvil.users.get_user()
-      user_table_name = current_user['user_id']
-      # Get the table for the current user
-      user_table = getattr(app_tables, user_table_name)
-      self.user_table = user_table
+      # current_user = anvil.users.get_user()
+      # user_table_name = current_user['user_id']
+      # # Get the table for the current user
+      # user_table = getattr(app_tables, user_table_name)
+      # self.user_table = user_table
       
       # COMPANY PROFILE
       # Retrieve the row with 'variable' column containing 'company_profile'
-      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile_row = self.user_table.search(variable='company_profile')[0]
       company_profile = company_profile_row['variable_value']
             
       # PRODUCT NAME 
-      product_3_name_row = user_table.search(variable='product_3')[0]
+      product_3_name_row = self.user_table.search(variable='product_3')[0]
       product_3_name = product_3_name_row['variable_title']
       
       # PRODUCT DESCRIPTION
-      product_3_profile_row = user_table.search(variable='product_3')[0]
+      product_3_profile_row = self.user_table.search(variable='product_3')[0]
       product_3_profile = product_3_profile_row['variable_title']
 
       # Delete whatever is in latest, so we can check it as the status update.
-      avatar_1_product_3_latest_row = user_table.get(variable='avatar_1_product_3_latest')
+      avatar_1_product_3_latest_row = self.user_table.get(variable='avatar_1_product_3_latest')
       avatar_1_product_3_latest_row['variable_value'] = None
       avatar_1_product_3_latest_row.update()
 
       #Update the avatar preview
-      avatar_1_product_3_preview_row = user_table.get(variable='avatar_1_product_3_preview')
+      avatar_1_product_3_preview_row = self.user_table.get(variable='avatar_1_product_3_preview')
       avatar_1_product_3_preview_row['variable_value'] = self.avatar_1_product_3_input.text # Avatar preview description
       avatar_1_product_3_preview_row['variable_title'] = self.avatar_1_product_3_name.text # Avatar name description
       avatar_1_product_3_preview_row.update()
@@ -1074,11 +1123,11 @@ class Avatars(AvatarsTemplate):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='avatar_1_product_3_latest')
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
+        row = self.user_table.get(variable='avatar_1_product_3_latest')
      
       
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -1101,32 +1150,32 @@ class Avatars(AvatarsTemplate):
       # Start the progress bar with a small value
       self.indeterminate_30.visible = True
           
-      current_user = anvil.users.get_user()
-      user_table_name = current_user['user_id']
-      # Get the table for the current user
-      user_table = getattr(app_tables, user_table_name)
-      self.user_table = user_table
+      # current_user = anvil.users.get_user()
+      # user_table_name = current_user['user_id']
+      # # Get the table for the current user
+      # user_table = getattr(app_tables, user_table_name)
+      # self.user_table = user_table
       
       # COMPANY PROFILE
       # Retrieve the row with 'variable' column containing 'company_profile'
-      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile_row = self.user_table.search(variable='company_profile')[0]
       company_profile = company_profile_row['variable_value']
             
       # PRODUCT NAME 
-      product_3_name_row = user_table.search(variable='product_3')[0]
+      product_3_name_row = self.user_table.search(variable='product_3')[0]
       product_3_name = product_3_name_row['variable_title']
       
       # PRODUCT DESCRIPTION
-      product_3_profile_row = user_table.search(variable='product_3')[0]
+      product_3_profile_row = self.user_table.search(variable='product_3')[0]
       product_3_profile = product_3_profile_row['variable_title']
 
       # Delete whatever is in latest, so we can check it as the status update.
-      avatar_2_product_3_latest_row = user_table.get(variable='avatar_2_product_3_latest')
+      avatar_2_product_3_latest_row = self.user_table.get(variable='avatar_2_product_3_latest')
       avatar_2_product_3_latest_row['variable_value'] = None
       avatar_2_product_3_latest_row.update()
 
       #Update the avatar preview
-      avatar_2_product_3_preview_row = user_table.get(variable='avatar_2_product_3_preview')
+      avatar_2_product_3_preview_row = self.user_table.get(variable='avatar_2_product_3_preview')
       avatar_2_product_3_preview_row['variable_value'] = self.avatar_2_product_3_input.text # Avatar preview description
       avatar_2_product_3_preview_row['variable_title'] = self.avatar_2_product_3_name.text # Avatar name description
       avatar_2_product_3_preview_row.update()
@@ -1143,11 +1192,11 @@ class Avatars(AvatarsTemplate):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='avatar_2_product_3_latest')
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
+        row = self.user_table.get(variable='avatar_2_product_3_latest')
      
       
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -1170,32 +1219,32 @@ class Avatars(AvatarsTemplate):
       # Start the progress bar with a small value
       self.indeterminate_10.visible = True
           
-      current_user = anvil.users.get_user()
-      user_table_name = current_user['user_id']
-      # Get the table for the current user
-      user_table = getattr(app_tables, user_table_name)
-      self.user_table = user_table
+      # current_user = anvil.users.get_user()
+      # user_table_name = current_user['user_id']
+      # # Get the table for the current user
+      # user_table = getattr(app_tables, user_table_name)
+      # self.user_table = user_table
       
       # COMPANY PROFILE
       # Retrieve the row with 'variable' column containing 'company_profile'
-      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile_row = self.user_table.search(variable='company_profile')[0]
       company_profile = company_profile_row['variable_value']
             
       # PRODUCT NAME 
-      product_3_name_row = user_table.search(variable='product_3')[0]
+      product_3_name_row = self.user_table.search(variable='product_3')[0]
       product_3_name = product_3_name_row['variable_title']
       
       # PRODUCT DESCRIPTION
-      product_3_profile_row = user_table.search(variable='product_3')[0]
+      product_3_profile_row = self.user_table.search(variable='product_3')[0]
       product_3_profile = product_3_profile_row['variable_title']
 
       # Delete whatever is in latest, so we can check it as the status update.
-      avatar_3_product_3_latest_row = user_table.get(variable='avatar_3_product_3_latest')
+      avatar_3_product_3_latest_row = self.user_table.get(variable='avatar_3_product_3_latest')
       avatar_3_product_3_latest_row['variable_value'] = None
       avatar_3_product_3_latest_row.update()
 
       #Update the avatar preview
-      avatar_3_product_3_preview_row = user_table.get(variable='avatar_3_product_3_preview')
+      avatar_3_product_3_preview_row = self.user_table.get(variable='avatar_3_product_3_preview')
       avatar_3_product_3_preview_row['variable_value'] = self.avatar_3_product_3_input.text # Avatar preview description
       avatar_3_product_3_preview_row['variable_title'] = self.avatar_3_product_3_name.text # Avatar name description
       avatar_3_product_3_preview_row.update()
@@ -1212,11 +1261,11 @@ class Avatars(AvatarsTemplate):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='avatar_3_product_3_latest')
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
+        row = self.user_table.get(variable='avatar_3_product_3_latest')
      
       
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -1240,22 +1289,22 @@ class Avatars(AvatarsTemplate):
       # Start the progress bar with a small value
       self.indeterminate_40.visible = True
          
-      current_user = anvil.users.get_user()
-      user_table_name = current_user['user_id']
-      # Get the table for the current user
-      user_table = getattr(app_tables, user_table_name)
+      # current_user = anvil.users.get_user()
+      # user_table_name = current_user['user_id']
+      # # Get the table for the current user
+      # user_table = getattr(app_tables, user_table_name)
       
       # COMPANY PROFILE
       # Retrieve the row with 'variable' column containing 'company_profile'
-      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile_row = self.user_table.search(variable='company_profile')[0]
       company_profile = company_profile_row['variable_value']
             
       # PRODUCT NAME 
-      product_4_name_row = user_table.search(variable='product_4')[0]
+      product_4_name_row = self.user_table.search(variable='product_4')[0]
       product_4_name = product_4_name_row['variable_title']
       
       # PRODUCT DESCRIPTION
-      product_4_profile_row = user_table.search(variable='product_4')[0]
+      product_4_profile_row = self.user_table.search(variable='product_4')[0]
       product_4_profile = product_4_profile_row['variable_title']
 
        # START THE LOOPS
@@ -1272,7 +1321,7 @@ class Avatars(AvatarsTemplate):
 
             # Update rows in the database
             for variable_name in [f'avatar_{i}_product_4_preview', f'avatar_{i}_product_4_latest']:
-                rows = user_table.search(variable=variable_name)
+                rows = self.user_table.search(variable=variable_name)
                 if rows:
                     row = rows[0]
                     row['variable_value'] = avatar_input_text
@@ -1293,10 +1342,10 @@ class Avatars(AvatarsTemplate):
     with anvil.server.no_loading_indicator:
         all_tasks_complete = True  
         tasks_to_remove = []
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
       
         for task_id, avatar_num in self.task_info:
             status = anvil.server.call('get_task_status', task_id)
@@ -1314,7 +1363,7 @@ class Avatars(AvatarsTemplate):
                     self.indeterminate_40.visible = False
 
                     # Update the latest as well
-                    avatar_latest_row = user_table.search(variable=f'avatar_{avatar_num}_product_4_latest')[0]
+                    avatar_latest_row = self.user_table.search(variable=f'avatar_{avatar_num}_product_4_latest')[0]
                     avatar_latest_row['variable_value'] = avatar_generation
                     avatar_latest_row['variable_title'] = getattr(self, f'avatar_{avatar_num}_product_4_name').text
                     avatar_latest_row.update()
@@ -1323,7 +1372,7 @@ class Avatars(AvatarsTemplate):
                     self.indeterminate_40.visible = False
 
                     # Update the latest as well
-                    avatar_latest_row = user_table.search(variable=f'avatar_{avatar_num}_product_4_latest')[0]
+                    avatar_latest_row = self.user_table.search(variable=f'avatar_{avatar_num}_product_4_latest')[0]
                     avatar_latest_row['variable_value'] = avatar_generation
                     avatar_latest_row['variable_title'] = getattr(self, f'avatar_{avatar_num}_product_4_name').text
                     avatar_latest_row.update()
@@ -1332,7 +1381,7 @@ class Avatars(AvatarsTemplate):
                     self.indeterminate_40.visible = False
 
                     # Update the latest as well
-                    avatar_latest_row = user_table.search(variable=f'avatar_{avatar_num}_product_4_latest')[0]
+                    avatar_latest_row = self.user_table.search(variable=f'avatar_{avatar_num}_product_4_latest')[0]
                     avatar_latest_row['variable_value'] = avatar_generation
                     avatar_latest_row['variable_title'] = getattr(self, f'avatar_{avatar_num}_product_4_name').text
                     avatar_latest_row.update()
@@ -1368,32 +1417,32 @@ class Avatars(AvatarsTemplate):
       # Start the progress bar with a small value
       self.indeterminate_40.visible = True
           
-      current_user = anvil.users.get_user()
-      user_table_name = current_user['user_id']
-      # Get the table for the current user
-      user_table = getattr(app_tables, user_table_name)
-      self.user_table = user_table
+      # current_user = anvil.users.get_user()
+      # user_table_name = current_user['user_id']
+      # # Get the table for the current user
+      # user_table = getattr(app_tables, user_table_name)
+      # self.user_table = user_table
       
       # COMPANY PROFILE
       # Retrieve the row with 'variable' column containing 'company_profile'
-      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile_row = self.user_table.search(variable='company_profile')[0]
       company_profile = company_profile_row['variable_value']
             
       # PRODUCT NAME 
-      product_4_name_row = user_table.search(variable='product_4')[0]
+      product_4_name_row = self.user_table.search(variable='product_4')[0]
       product_4_name = product_4_name_row['variable_title']
       
       # PRODUCT DESCRIPTION
-      product_4_profile_row = user_table.search(variable='product_4')[0]
+      product_4_profile_row = self.user_table.search(variable='product_4')[0]
       product_4_profile = product_4_profile_row['variable_title']
 
       # Delete whatever is in latest, so we can check it as the status update.
-      avatar_1_product_4_latest_row = user_table.get(variable='avatar_1_product_4_latest')
+      avatar_1_product_4_latest_row = self.user_table.get(variable='avatar_1_product_4_latest')
       avatar_1_product_4_latest_row['variable_value'] = None
       avatar_1_product_4_latest_row.update()
 
       #Update the avatar preview
-      avatar_1_product_4_preview_row = user_table.get(variable='avatar_1_product_4_preview')
+      avatar_1_product_4_preview_row = self.user_table.get(variable='avatar_1_product_4_preview')
       avatar_1_product_4_preview_row['variable_value'] = self.avatar_1_product_4_input.text # Avatar preview description
       avatar_1_product_4_preview_row['variable_title'] = self.avatar_1_product_4_name.text # Avatar name description
       avatar_1_product_4_preview_row.update()
@@ -1410,11 +1459,11 @@ class Avatars(AvatarsTemplate):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='avatar_1_product_4_latest')
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
+        row = self.user_table.get(variable='avatar_1_product_4_latest')
      
       
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -1437,32 +1486,32 @@ class Avatars(AvatarsTemplate):
       # Start the progress bar with a small value
       self.indeterminate_40.visible = True
           
-      current_user = anvil.users.get_user()
-      user_table_name = current_user['user_id']
-      # Get the table for the current user
-      user_table = getattr(app_tables, user_table_name)
-      self.user_table = user_table
+      # current_user = anvil.users.get_user()
+      # user_table_name = current_user['user_id']
+      # # Get the table for the current user
+      # user_table = getattr(app_tables, user_table_name)
+      # self.user_table = user_table
       
       # COMPANY PROFILE
       # Retrieve the row with 'variable' column containing 'company_profile'
-      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile_row = self.user_table.search(variable='company_profile')[0]
       company_profile = company_profile_row['variable_value']
             
       # PRODUCT NAME 
-      product_4_name_row = user_table.search(variable='product_4')[0]
+      product_4_name_row = self.user_table.search(variable='product_4')[0]
       product_4_name = product_4_name_row['variable_title']
       
       # PRODUCT DESCRIPTION
-      product_4_profile_row = user_table.search(variable='product_4')[0]
+      product_4_profile_row = self.user_table.search(variable='product_4')[0]
       product_4_profile = product_4_profile_row['variable_title']
 
       # Delete whatever is in latest, so we can check it as the status update.
-      avatar_2_product_4_latest_row = user_table.get(variable='avatar_2_product_4_latest')
+      avatar_2_product_4_latest_row = self.user_table.get(variable='avatar_2_product_4_latest')
       avatar_2_product_4_latest_row['variable_value'] = None
       avatar_2_product_4_latest_row.update()
 
       #Update the avatar preview
-      avatar_2_product_4_preview_row = user_table.get(variable='avatar_2_product_4_preview')
+      avatar_2_product_4_preview_row = self.user_table.get(variable='avatar_2_product_4_preview')
       avatar_2_product_4_preview_row['variable_value'] = self.avatar_2_product_4_input.text # Avatar preview description
       avatar_2_product_4_preview_row['variable_title'] = self.avatar_2_product_4_name.text # Avatar name description
       avatar_2_product_4_preview_row.update()
@@ -1479,10 +1528,10 @@ class Avatars(AvatarsTemplate):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
         row = user_table.get(variable='avatar_2_product_4_latest')
      
       
@@ -1506,32 +1555,32 @@ class Avatars(AvatarsTemplate):
       # Start the progress bar with a small value
       self.indeterminate_10.visible = True
           
-      current_user = anvil.users.get_user()
-      user_table_name = current_user['user_id']
-      # Get the table for the current user
-      user_table = getattr(app_tables, user_table_name)
-      self.user_table = user_table
+      # current_user = anvil.users.get_user()
+      # user_table_name = current_user['user_id']
+      # # Get the table for the current user
+      # user_table = getattr(app_tables, user_table_name)
+      # self.user_table = user_table
       
       # COMPANY PROFILE
       # Retrieve the row with 'variable' column containing 'company_profile'
-      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile_row = self.user_table.search(variable='company_profile')[0]
       company_profile = company_profile_row['variable_value']
             
       # PRODUCT NAME 
-      product_4_name_row = user_table.search(variable='product_4')[0]
+      product_4_name_row = self.user_table.search(variable='product_4')[0]
       product_4_name = product_4_name_row['variable_title']
       
       # PRODUCT DESCRIPTION
-      product_4_profile_row = user_table.search(variable='product_4')[0]
+      product_4_profile_row = self.user_table.search(variable='product_4')[0]
       product_4_profile = product_4_profile_row['variable_title']
 
       # Delete whatever is in latest, so we can check it as the status update.
-      avatar_3_product_4_latest_row = user_table.get(variable='avatar_3_product_4_latest')
+      avatar_3_product_4_latest_row = self.user_table.get(variable='avatar_3_product_4_latest')
       avatar_3_product_4_latest_row['variable_value'] = None
       avatar_3_product_4_latest_row.update()
 
       #Update the avatar preview
-      avatar_3_product_4_preview_row = user_table.get(variable='avatar_3_product_4_preview')
+      avatar_3_product_4_preview_row = self.user_table.get(variable='avatar_3_product_4_preview')
       avatar_3_product_4_preview_row['variable_value'] = self.avatar_3_product_4_input.text # Avatar preview description
       avatar_3_product_4_preview_row['variable_title'] = self.avatar_3_product_4_name.text # Avatar name description
       avatar_3_product_4_preview_row.update()
@@ -1548,11 +1597,11 @@ class Avatars(AvatarsTemplate):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='avatar_3_product_4_latest')
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
+        row = self.user_table.get(variable='avatar_3_product_4_latest')
       
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on Avatar 3 Product 4 Regeneration!")
@@ -1575,22 +1624,22 @@ class Avatars(AvatarsTemplate):
       # Start the progress bar with a small value
       self.indeterminate_50.visible = True
          
-      current_user = anvil.users.get_user()
-      user_table_name = current_user['user_id']
-      # Get the table for the current user
-      user_table = getattr(app_tables, user_table_name)
+      # current_user = anvil.users.get_user()
+      # user_table_name = current_user['user_id']
+      # # Get the table for the current user
+      # user_table = getattr(app_tables, user_table_name)
       
       # COMPANY PROFILE
       # Retrieve the row with 'variable' column containing 'company_profile'
-      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile_row = self.user_table.search(variable='company_profile')[0]
       company_profile = company_profile_row['variable_value']
             
       # PRODUCT NAME 
-      product_5_name_row = user_table.search(variable='product_5')[0]
+      product_5_name_row = self.user_table.search(variable='product_5')[0]
       product_5_name = product_5_name_row['variable_title']
       
       # PRODUCT DESCRIPTION
-      product_5_profile_row = user_table.search(variable='product_5')[0]
+      product_5_profile_row = self.user_table.search(variable='product_5')[0]
       product_5_profile = product_5_profile_row['variable_title']
 
        # START THE LOOPS
@@ -1607,7 +1656,7 @@ class Avatars(AvatarsTemplate):
 
             # Update rows in the database
             for variable_name in [f'avatar_{i}_product_5_preview', f'avatar_{i}_product_5_latest']:
-                rows = user_table.search(variable=variable_name)
+                rows = self.user_table.search(variable=variable_name)
                 if rows:
                     row = rows[0]
                     row['variable_value'] = avatar_input_text
@@ -1628,10 +1677,10 @@ class Avatars(AvatarsTemplate):
     with anvil.server.no_loading_indicator:
         all_tasks_complete = True  
         tasks_to_remove = []
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
       
         for task_id, avatar_num in self.task_info:
             status = anvil.server.call('get_task_status', task_id)
@@ -1649,7 +1698,7 @@ class Avatars(AvatarsTemplate):
                     self.indeterminate_50.visible = False
 
                     # Update the latest as well
-                    avatar_latest_row = user_table.search(variable=f'avatar_{avatar_num}_product_5_latest')[0]
+                    avatar_latest_row = self.user_table.search(variable=f'avatar_{avatar_num}_product_5_latest')[0]
                     avatar_latest_row['variable_value'] = avatar_generation
                     avatar_latest_row['variable_title'] = getattr(self, f'avatar_{avatar_num}_product_5_name').text
                     avatar_latest_row.update()
@@ -1658,7 +1707,7 @@ class Avatars(AvatarsTemplate):
                     self.indeterminate_50.visible = False
 
                     # Update the latest as well
-                    avatar_latest_row = user_table.search(variable=f'avatar_{avatar_num}_product_5_latest')[0]
+                    avatar_latest_row = self.user_table.search(variable=f'avatar_{avatar_num}_product_5_latest')[0]
                     avatar_latest_row['variable_value'] = avatar_generation
                     avatar_latest_row['variable_title'] = getattr(self, f'avatar_{avatar_num}_product_5_name').text
                     avatar_latest_row.update()
@@ -1667,7 +1716,7 @@ class Avatars(AvatarsTemplate):
                     self.indeterminate_50.visible = False
 
                     # Update the latest as well
-                    avatar_latest_row = user_table.search(variable=f'avatar_{avatar_num}_product_5_latest')[0]
+                    avatar_latest_row = self.user_table.search(variable=f'avatar_{avatar_num}_product_5_latest')[0]
                     avatar_latest_row['variable_value'] = avatar_generation
                     avatar_latest_row['variable_title'] = getattr(self, f'avatar_{avatar_num}_product_5_name').text
                     avatar_latest_row.update()
@@ -1703,32 +1752,32 @@ class Avatars(AvatarsTemplate):
       # Start the progress bar with a small value
       self.indeterminate_50.visible = True
           
-      current_user = anvil.users.get_user()
-      user_table_name = current_user['user_id']
-      # Get the table for the current user
-      user_table = getattr(app_tables, user_table_name)
-      self.user_table = user_table
+      # current_user = anvil.users.get_user()
+      # user_table_name = current_user['user_id']
+      # # Get the table for the current user
+      # user_table = getattr(app_tables, user_table_name)
+      # self.user_table = user_table
       
       # COMPANY PROFILE
       # Retrieve the row with 'variable' column containing 'company_profile'
-      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile_row = self.user_table.search(variable='company_profile')[0]
       company_profile = company_profile_row['variable_value']
             
       # PRODUCT NAME 
-      product_5_name_row = user_table.search(variable='product_5')[0]
+      product_5_name_row = self.user_table.search(variable='product_5')[0]
       product_5_name = product_5_name_row['variable_title']
       
       # PRODUCT DESCRIPTION
-      product_5_profile_row = user_table.search(variable='product_5')[0]
+      product_5_profile_row = self.user_table.search(variable='product_5')[0]
       product_5_profile = product_5_profile_row['variable_title']
 
       # Delete whatever is in latest, so we can check it as the status update.
-      avatar_1_product_5_latest_row = user_table.get(variable='avatar_1_product_5_latest')
+      avatar_1_product_5_latest_row = self.user_table.get(variable='avatar_1_product_5_latest')
       avatar_1_product_5_latest_row['variable_value'] = None
       avatar_1_product_5_latest_row.update()
 
       #Update the avatar preview
-      avatar_1_product_5_preview_row = user_table.get(variable='avatar_1_product_5_preview')
+      avatar_1_product_5_preview_row = self.user_table.get(variable='avatar_1_product_5_preview')
       avatar_1_product_5_preview_row['variable_value'] = self.avatar_1_product_5_input.text # Avatar preview description
       avatar_1_product_5_preview_row['variable_title'] = self.avatar_1_product_5_name.text # Avatar name description
       avatar_1_product_5_preview_row.update()
@@ -1745,11 +1794,11 @@ class Avatars(AvatarsTemplate):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='avatar_1_product_5_latest')
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
+        row = self.user_table.get(variable='avatar_1_product_5_latest')
      
       
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -1772,32 +1821,32 @@ class Avatars(AvatarsTemplate):
       # Start the progress bar with a small value
       self.indeterminate_50.visible = True
           
-      current_user = anvil.users.get_user()
-      user_table_name = current_user['user_id']
-      # Get the table for the current user
-      user_table = getattr(app_tables, user_table_name)
-      self.user_table = user_table
+      # current_user = anvil.users.get_user()
+      # user_table_name = current_user['user_id']
+      # # Get the table for the current user
+      # user_table = getattr(app_tables, user_table_name)
+      # self.user_table = user_table
       
       # COMPANY PROFILE
       # Retrieve the row with 'variable' column containing 'company_profile'
-      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile_row = self.user_table.search(variable='company_profile')[0]
       company_profile = company_profile_row['variable_value']
             
       # PRODUCT NAME 
-      product_5_name_row = user_table.search(variable='product_5')[0]
+      product_5_name_row = self.user_table.search(variable='product_5')[0]
       product_5_name = product_5_name_row['variable_title']
       
       # PRODUCT DESCRIPTION
-      product_5_profile_row = user_table.search(variable='product_5')[0]
+      product_5_profile_row = self.user_table.search(variable='product_5')[0]
       product_5_profile = product_5_profile_row['variable_title']
 
       # Delete whatever is in latest, so we can check it as the status update.
-      avatar_2_product_5_latest_row = user_table.get(variable='avatar_2_product_5_latest')
+      avatar_2_product_5_latest_row = self.user_table.get(variable='avatar_2_product_5_latest')
       avatar_2_product_5_latest_row['variable_value'] = None
       avatar_2_product_5_latest_row.update()
 
       #Update the avatar preview
-      avatar_2_product_5_preview_row = user_table.get(variable='avatar_2_product_5_preview')
+      avatar_2_product_5_preview_row = self.user_table.get(variable='avatar_2_product_5_preview')
       avatar_2_product_5_preview_row['variable_value'] = self.avatar_2_product_5_input.text # Avatar preview description
       avatar_2_product_5_preview_row['variable_title'] = self.avatar_2_product_5_name.text # Avatar name description
       avatar_2_product_5_preview_row.update()
@@ -1814,11 +1863,11 @@ class Avatars(AvatarsTemplate):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='avatar_2_product_5_latest')
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
+        row = self.user_table.get(variable='avatar_2_product_5_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on Avatar 2 Product 5 Regeneration!")
@@ -1840,32 +1889,32 @@ class Avatars(AvatarsTemplate):
       # Start the progress bar with a small value
       self.indeterminate_10.visible = True
           
-      current_user = anvil.users.get_user()
-      user_table_name = current_user['user_id']
-      # Get the table for the current user
-      user_table = getattr(app_tables, user_table_name)
-      self.user_table = user_table
+      # current_user = anvil.users.get_user()
+      # user_table_name = current_user['user_id']
+      # # Get the table for the current user
+      # user_table = getattr(app_tables, user_table_name)
+      # self.user_table = user_table
       
       # COMPANY PROFILE
       # Retrieve the row with 'variable' column containing 'company_profile'
-      company_profile_row = user_table.search(variable='company_profile')[0]
+      company_profile_row = self.user_table.search(variable='company_profile')[0]
       company_profile = company_profile_row['variable_value']
             
       # PRODUCT NAME 
-      product_5_name_row = user_table.search(variable='product_5')[0]
+      product_5_name_row = self.user_table.search(variable='product_5')[0]
       product_5_name = product_5_name_row['variable_title']
       
       # PRODUCT DESCRIPTION
-      product_5_profile_row = user_table.search(variable='product_5')[0]
+      product_5_profile_row = self.user_table.search(variable='product_5')[0]
       product_5_profile = product_5_profile_row['variable_title']
 
       # Delete whatever is in latest, so we can check it as the status update.
-      avatar_3_product_5_latest_row = user_table.get(variable='avatar_3_product_5_latest')
+      avatar_3_product_5_latest_row = self.user_table.get(variable='avatar_3_product_5_latest')
       avatar_3_product_5_latest_row['variable_value'] = None
       avatar_3_product_5_latest_row.update()
 
       #Update the avatar preview
-      avatar_3_product_5_preview_row = user_table.get(variable='avatar_3_product_5_preview')
+      avatar_3_product_5_preview_row = self.user_table.get(variable='avatar_3_product_5_preview')
       avatar_3_product_5_preview_row['variable_value'] = self.avatar_3_product_5_input.text # Avatar preview description
       avatar_3_product_5_preview_row['variable_title'] = self.avatar_3_product_5_name.text # Avatar name description
       avatar_3_product_5_preview_row.update()
@@ -1882,11 +1931,11 @@ class Avatars(AvatarsTemplate):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='avatar_3_product_5_latest')
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
+        row = self.user_table.get(variable='avatar_3_product_5_latest')
      
       
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -1905,9 +1954,9 @@ class Avatars(AvatarsTemplate):
 #-- SAVE / LOAD EACH AVATAR ------------#######################################################################
   def save_product_1_avatars_button_click(self, **event_args):
     print("SAVE BUTTON PRODUCT 1 CLICKED")
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # user_table = getattr(app_tables, user_table_name)
 
     all_empty = True
   
@@ -1923,7 +1972,7 @@ class Avatars(AvatarsTemplate):
         #     anvil.js.window.alert("Please name Avatar 1, and ensure there's an avatar description.")
         #     break
       
-        avatar_description_row = user_table.get(variable=f'avatar_{j}_product_1_latest')
+        avatar_description_row = self.user_table.get(variable=f'avatar_{j}_product_1_latest')
         avatar_description_row['variable_value'] = avatar_description
         avatar_description_row['variable_title'] = avatar_name
         avatar_description_row.update()
@@ -1938,9 +1987,9 @@ class Avatars(AvatarsTemplate):
 
   def save_product_2_avatars_button_click(self, **event_args):
     print("SAVE BUTTON PRODUCT 2 CLICKED")
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # user_table = getattr(app_tables, user_table_name)
 
     all_empty = True
   
@@ -1956,7 +2005,7 @@ class Avatars(AvatarsTemplate):
         #     anvil.js.window.alert("Please name Avatar 2 and provide a description.")
         #     break
       
-        avatar_description_row = user_table.get(variable=f'avatar_{j}_product_2_latest')
+        avatar_description_row = self.user_table.get(variable=f'avatar_{j}_product_2_latest')
         avatar_description_row['variable_value'] = avatar_description
         avatar_description_row['variable_title'] = avatar_name
         avatar_description_row.update()
@@ -1971,9 +2020,9 @@ class Avatars(AvatarsTemplate):
 
   def save_product_3_avatars_button_click(self, **event_args):
       print("SAVE BUTTON PRODUCT 3 CLICKED")
-      current_user = anvil.users.get_user()
-      user_table_name = current_user['user_id']
-      user_table = getattr(app_tables, user_table_name)
+      # current_user = anvil.users.get_user()
+      # user_table_name = current_user['user_id']
+      # user_table = getattr(app_tables, user_table_name)
   
       all_empty = True
     
@@ -1989,7 +2038,7 @@ class Avatars(AvatarsTemplate):
           #     anvil.js.window.alert("Please name Avatar 3, and ensure description is not empty.")
           #     break
         
-          avatar_description_row = user_table.get(variable=f'avatar_{j}_product_3_latest')
+          avatar_description_row = self.user_table.get(variable=f'avatar_{j}_product_3_latest')
           avatar_description_row['variable_value'] = avatar_description
           avatar_description_row['variable_title'] = avatar_name
           avatar_description_row.update()
@@ -2004,9 +2053,9 @@ class Avatars(AvatarsTemplate):
 
   def save_product_4_avatars_button_click(self, **event_args):
       print("SAVE BUTTON PRODUCT 4 CLICKED")
-      current_user = anvil.users.get_user()
-      user_table_name = current_user['user_id']
-      user_table = getattr(app_tables, user_table_name)
+      # current_user = anvil.users.get_user()
+      # user_table_name = current_user['user_id']
+      # user_table = getattr(app_tables, user_table_name)
   
       all_empty = True
     
@@ -2022,7 +2071,7 @@ class Avatars(AvatarsTemplate):
           #     anvil.js.window.alert("Please name Avatar 4, and ensure description is not empty.")
           #     break
         
-          avatar_description_row = user_table.get(variable=f'avatar_{j}_product_4_latest')
+          avatar_description_row = self.user_table.get(variable=f'avatar_{j}_product_4_latest')
           avatar_description_row['variable_value'] = avatar_description
           avatar_description_row['variable_title'] = avatar_name
           avatar_description_row.update()
@@ -2037,9 +2086,9 @@ class Avatars(AvatarsTemplate):
 
   def save_product_5_avatars_button_click(self, **event_args):
       print("SAVE BUTTON PRODUCT 5 CLICKED")
-      current_user = anvil.users.get_user()
-      user_table_name = current_user['user_id']
-      user_table = getattr(app_tables, user_table_name)
+      # current_user = anvil.users.get_user()
+      # user_table_name = current_user['user_id']
+      # user_table = getattr(app_tables, user_table_name)
   
       all_empty = True
     
@@ -2055,7 +2104,7 @@ class Avatars(AvatarsTemplate):
           #     anvil.js.window.alert("Please name Avatar 5, and ensure description is not empty.")
           #     break
         
-          avatar_description_row = user_table.get(variable=f'avatar_{j}_product_5_latest')
+          avatar_description_row = self.user_table.get(variable=f'avatar_{j}_product_5_latest')
           avatar_description_row['variable_value'] = avatar_description
           avatar_description_row['variable_title'] = avatar_name
           avatar_description_row.update()

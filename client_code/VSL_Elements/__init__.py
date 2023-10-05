@@ -38,24 +38,25 @@ class VSL_Elements(VSL_ElementsTemplate):
     # Initialize task_id attribute
     self.task_id = None
 
-    # Load stuff
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # WORKSPACE MANAGEMENT
+    # Load the active workspace:
+    self.load_active_workspace()
+    # Get the User Table
+    self.user_table = self.get_user_table()
+    print(f"CURRENT USER TABLE IS: {self.user_table}")  
 
     # COMPANY NAME
     # Retrieve the row with 'variable' column containing 'company_name'
-    company_name_row = user_table.search(variable='company_name')[0]
+    company_name_row = self.user_table.search(variable='company_name')[0]
     self.company_name_input.text = company_name_row['variable_value']
 
     # PRODUCT NAME
     product_name_rows = [
-    user_table.search(variable='product_1_latest')[0],
-    user_table.search(variable='product_2_latest')[0],
-    user_table.search(variable='product_3_latest')[0],
-    user_table.search(variable='product_4_latest')[0],
-    user_table.search(variable='product_5_latest')[0]
+    self.user_table.search(variable='product_1_latest')[0],
+    self.user_table.search(variable='product_2_latest')[0],
+    self.user_table.search(variable='product_3_latest')[0],
+    self.user_table.search(variable='product_4_latest')[0],
+    self.user_table.search(variable='product_5_latest')[0]
     ]
     # Filter out rows where 'variable_value' (product profile) is not empty
     non_empty_rows = [row for row in product_name_rows if row['variable_value']]
@@ -66,21 +67,21 @@ class VSL_Elements(VSL_ElementsTemplate):
    
     # AVATARS
     avatar_rows_custom = [
-    user_table.search(variable='avatar_1_product_1_latest')[0],
-    user_table.search(variable='avatar_2_product_1_latest')[0],
-    user_table.search(variable='avatar_3_product_1_latest')[0],
-    user_table.search(variable='avatar_1_product_2_latest')[0],
-    user_table.search(variable='avatar_2_product_2_latest')[0],
-    user_table.search(variable='avatar_3_product_2_latest')[0],
-    user_table.search(variable='avatar_1_product_3_latest')[0],
-    user_table.search(variable='avatar_2_product_3_latest')[0],
-    user_table.search(variable='avatar_3_product_3_latest')[0],
-    user_table.search(variable='avatar_1_product_4_latest')[0],
-    user_table.search(variable='avatar_2_product_4_latest')[0],
-    user_table.search(variable='avatar_3_product_4_latest')[0],
-    user_table.search(variable='avatar_1_product_5_latest')[0],
-    user_table.search(variable='avatar_2_product_5_latest')[0],
-    user_table.search(variable='avatar_3_product_5_latest')[0],
+    self.user_table.search(variable='avatar_1_product_1_latest')[0],
+    self.user_table.search(variable='avatar_2_product_1_latest')[0],
+    self.user_table.search(variable='avatar_3_product_1_latest')[0],
+    self.user_table.search(variable='avatar_1_product_2_latest')[0],
+    self.user_table.search(variable='avatar_2_product_2_latest')[0],
+    self.user_table.search(variable='avatar_3_product_2_latest')[0],
+    self.user_table.search(variable='avatar_1_product_3_latest')[0],
+    self.user_table.search(variable='avatar_2_product_3_latest')[0],
+    self.user_table.search(variable='avatar_3_product_3_latest')[0],
+    self.user_table.search(variable='avatar_1_product_4_latest')[0],
+    self.user_table.search(variable='avatar_2_product_4_latest')[0],
+    self.user_table.search(variable='avatar_3_product_4_latest')[0],
+    self.user_table.search(variable='avatar_1_product_5_latest')[0],
+    self.user_table.search(variable='avatar_2_product_5_latest')[0],
+    self.user_table.search(variable='avatar_3_product_5_latest')[0],
     ]
     # CHANGE ALL THE 'VARIABLE_TITLE' to VARIABLE_VALUE
     # Filter out rows where 'variable_value' (avatar) is not empty
@@ -93,7 +94,7 @@ class VSL_Elements(VSL_ElementsTemplate):
     self.avatar_dropdown.items = avatar_dropdown_items
 
     # BRAND TONE
-    brand_tone_urls = user_table.search(variable='brand_tone')
+    brand_tone_urls = self.user_table.search(variable='brand_tone')
     brand_tone_extracted = [row['variable_title'] for row in brand_tone_urls]
     brand_tone_stock = [row['tone'] for row in app_tables.stock_tones.search() if row['tone']]
 
@@ -105,6 +106,52 @@ class VSL_Elements(VSL_ElementsTemplate):
    # SCRIPT FORMAT
     self.script_format_dropdown.items = ['Who, What, Where, How', 'Star, Story, Solution', 'The Perfect Webinar']
 
+  ########----------------- USER MANAGEMENT
+
+  def initialize_default_workspace(self):
+    global active_workspace
+    active_workspace = 'workspace_1'
+    self.active_workspace = 'workspace_1'
+
+  def button_workspace_1_click(self, **event_args):
+    global active_workspace
+    active_workspace = 'workspace_1'
+    self.reload_home_form()
+
+  def button_workspace_2_click(self, **event_args):
+    global active_workspace
+    active_workspace = 'workspace_2'
+    self.reload_home_form()
+
+  def button_workspace_3_click(self, **event_args):
+    global active_workspace
+    active_workspace = 'workspace_3'
+    self.reload_home_form()
+
+  def get_user_table(self):
+    current_user = anvil.users.get_user()
+    global active_workspace
+    workspace_id = self.get_active_workspace()
+    user_table_name = current_user[workspace_id]
+    return getattr(app_tables, user_table_name)
+
+  def set_active_workspace(self, workspace_id):
+    """Set the active workspace for the current session."""
+    anvil.server.session['active_workspace'] = workspace_id
+
+  def get_active_workspace(self):
+    global active_workspace
+    return active_workspace
+
+  def load_active_workspace(self):
+    global active_workspace
+    # Get the active workspace from the user's table
+    current_user = anvil.users.get_user()
+    active_workspace = current_user['active_workspace']
+    # Update the global variable
+    self.active_workspace = active_workspace
+
+########----------------- 
 # LOCK IT ALL IN
   def save_funnel_settings_component_click(self, **event_args):
      # Call the submit_button_click method to perform the validation and action
@@ -115,28 +162,28 @@ class VSL_Elements(VSL_ElementsTemplate):
     self.save_funnel_settings_component.visible = False
     
     # Get the current user
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
 
     # COMPANY NAME
-    row_company_name = user_table.search(variable='company_name')
+    row_company_name = self.user_table.search(variable='company_name')
     company_name = row_company_name[0]['variable_value']
     self.chosen_company_name = company_name
     print('chosen_company_name:', self.chosen_company_name)
 
-    row_chosen_company_name = user_table.search(variable='chosen_company_name')
+    row_chosen_company_name = self.user_table.search(variable='chosen_company_name')
     row_chosen_company_name[0]['variable_value'] = self.chosen_company_name
     row_chosen_company_name[0].update()
 
    # COMPANY PROFILE
-    row_company_profile = user_table.search(variable='company_profile')
+    row_company_profile = self.user_table.search(variable='company_profile')
     company_profile = row_company_profile[0]['variable_value']
     self.chosen_company_profile = company_profile
     print('chosen_company_profile:', self.chosen_company_profile)
     # Save it to the table
-    row_chosen_company_profile = user_table.search(variable='chosen_company_profile')
+    row_chosen_company_profile = self.user_table.search(variable='chosen_company_profile')
     row_chosen_company_profile[0]['variable_value'] = self.chosen_company_profile
     row_chosen_company_profile[0].update()
 
@@ -144,27 +191,27 @@ class VSL_Elements(VSL_ElementsTemplate):
     self.chosen_product_name = self.product_name_dropdown.selected_value
     print('chosen_product_name:', self.chosen_product_name)
     # Save it to the table
-    row_chosen_product_name = user_table.search(variable='chosen_product_name')
+    row_chosen_product_name = self.user_table.search(variable='chosen_product_name')
     row_chosen_product_name[0]['variable_value'] = self.chosen_product_name
     row_chosen_product_name[0].update()
 
     # PRODUCT RESEARCH
     selected_product_research_name = self.product_name_dropdown.selected_value
-    selected_product_research_name_row = user_table.search(variable_title=selected_product_research_name)
+    selected_product_research_name_row = self.user_table.search(variable_title=selected_product_research_name)
     self.chosen_product_research = selected_product_research_name_row[0]['variable_value']
     print('chosen_product_research:', self.chosen_product_research)
     # Save it to the table
-    row_chosen_product_research = user_table.search(variable='chosen_product_research')
+    row_chosen_product_research = self.user_table.search(variable='chosen_product_research')
     row_chosen_product_research[0]['variable_value'] = self.chosen_product_research
     row_chosen_product_research[0].update()
 
     # AVATARS
     selected_avatar_value = self.avatar_dropdown.selected_value
     # Check if the selected avatar value is from the stock avatars table
-    self.chosen_avatar = anvil.server.call('get_chosen_variable_avatar', user_table, selected_avatar_value)
+    self.chosen_avatar = anvil.server.call('get_chosen_variable_avatar', self.user_table, selected_avatar_value)
     print('Avatar:', self.chosen_avatar)
 
-    row_chosen_avatar = user_table.search(variable='chosen_avatar')
+    row_chosen_avatar = self.user_table.search(variable='chosen_avatar')
     row_chosen_avatar[0]['variable_value'] = self.chosen_avatar
     row_chosen_avatar[0].update()
 
@@ -178,10 +225,10 @@ class VSL_Elements(VSL_ElementsTemplate):
     else:
       print('No Stock Tone Found')
       # Check if the selected avatar value is from the custom avatars table
-      self.chosen_tone = anvil.server.call('get_chosen_variable_value', user_table, selected_tone_value)
+      self.chosen_tone = anvil.server.call('get_chosen_variable_value', self.user_table, selected_tone_value)
       print('Custom Tone:', self.chosen_tone)
 
-    row_chosen_tone = user_table.search(variable='chosen_tone')
+    row_chosen_tone = self.user_table.search(variable='chosen_tone')
     row_chosen_tone[0]['variable_value'] = self.chosen_tone
     row_chosen_tone[0].update()
 
@@ -199,7 +246,7 @@ class VSL_Elements(VSL_ElementsTemplate):
       print("No script found with the selected title")
 
     # Save the script contents and title
-    row_chosen_script = user_table.search(variable='chosen_script')
+    row_chosen_script = self.user_table.search(variable='chosen_script')
     row_chosen_script[0]['variable_value'] = self.chosen_script
     row_chosen_script[0]['variable_title'] = selected_script_title
     row_chosen_script[0].update()

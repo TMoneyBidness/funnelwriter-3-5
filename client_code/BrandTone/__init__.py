@@ -24,14 +24,16 @@ class BrandTone(BrandToneTemplate):
      # Set the click event handler for nav_button_tone_to_VSL_elements
     self.nav_button_tone_to_VSL_elements.set_event_handler('click', self.nav_button_tone_to_VSL_elements_click)
 
-    # Get the current user
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    user_table = getattr(app_tables, user_table_name)
+    # WORKSPACE MANAGEMENT
+    # Load the active workspace:
+    self.load_active_workspace()
+    # Get the User Table
+    self.user_table = self.get_user_table()
+    print(f"CURRENT USER TABLE IS: {self.user_table}")   
 
   # Load the latest brand tone
-    brand_tone_url_row = user_table.search(variable='company_url')
-    brand_tone_row = user_table.search(variable='brand_tone')
+    brand_tone_url_row = self.user_table.search(variable='company_url')
+    brand_tone_row = self.user_table.search(variable='brand_tone')
     if brand_tone_url_row:
         brand_tone_url = brand_tone_url_row[0]['variable_value']
         self.brand_tone_url_input.text = brand_tone_url
@@ -58,12 +60,12 @@ class BrandTone(BrandToneTemplate):
       brand_tone_url = self.brand_tone_url_input.text
       
       # Get the current user 
-      current_user = anvil.users.get_user() 
-      user_table_name = current_user['user_id']
-      user_table = getattr(app_tables, user_table_name)
+      # current_user = anvil.users.get_user() 
+      # user_table_name = current_user['user_id']
+      # user_table = getattr(app_tables, user_table_name)
      
       # Save the brand tone URL
-      brand_tone_url_latest_row = list(user_table.search(variable='brand_tone_url'))
+      brand_tone_url_latest_row = list(self.user_table.search(variable='brand_tone_url'))
       
       # Check if the row exists before updating it
       if brand_tone_url_latest_row:
@@ -100,23 +102,70 @@ class BrandTone(BrandToneTemplate):
         # Sleep for 1 second before checking again
         time.sleep(2)
 
+  ########----------------- USER MANAGEMENT
+
+  def initialize_default_workspace(self):
+    global active_workspace
+    active_workspace = 'workspace_1'
+    self.active_workspace = 'workspace_1'
+
+  def button_workspace_1_click(self, **event_args):
+    global active_workspace
+    active_workspace = 'workspace_1'
+    self.reload_home_form()
+
+  def button_workspace_2_click(self, **event_args):
+    global active_workspace
+    active_workspace = 'workspace_2'
+    self.reload_home_form()
+
+  def button_workspace_3_click(self, **event_args):
+    global active_workspace
+    active_workspace = 'workspace_3'
+    self.reload_home_form()
+
+  def get_user_table(self):
+    current_user = anvil.users.get_user()
+    global active_workspace
+    workspace_id = self.get_active_workspace()
+    user_table_name = current_user[workspace_id]
+    return getattr(app_tables, user_table_name)
+
+  def set_active_workspace(self, workspace_id):
+    """Set the active workspace for the current session."""
+    anvil.server.session['active_workspace'] = workspace_id
+
+  def get_active_workspace(self):
+    global active_workspace
+    return active_workspace
+
+  def load_active_workspace(self):
+    global active_workspace
+    # Get the active workspace from the user's table
+    current_user = anvil.users.get_user()
+    active_workspace = current_user['active_workspace']
+    # Update the global variable
+    self.active_workspace = active_workspace
+
+########----------------- 
+  
   def edit_brand_tone_component_click(self, **event_args):
     self.brand_tone_textbox.read_only = False
 
   def save_brand_tone_component_click(self, **event_args):
     variable_title = anvil.js.window.prompt("What would you like to call this Brand Tone?")
     
-    # Get the current user
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
+    # # Get the current user
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
     
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
     
     brand_tone_lookup = "brand_tone"
     brand_tone = self.brand_tone_textbox.text
     
-    brand_tone_row = user_table.get(variable=brand_tone_lookup)
+    brand_tone_row = self.user_table.get(variable=brand_tone_lookup)
     
     if brand_tone_row:
         brand_tone_row['variable_value'] = brand_tone
@@ -131,13 +180,13 @@ class BrandTone(BrandToneTemplate):
   
   def load_brand_tone_component_click(self, **event_args):
     # Get the current user
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
 
-    # Get the profile row from the user_table
-    profile_row = user_table.get(variable='brand_tone')
+    # Get the profile row from the self.user_table
+    profile_row = self.user_table.get(variable='brand_tone')
 
     # Check if the profile row exists
     if profile_row:
@@ -175,13 +224,13 @@ class BrandTone(BrandToneTemplate):
   def nav_button_tone_to_VSL_elements_click(self, **event_args):
 
      # Get the current user
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
     
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
 
-    row_first_run_complete = user_table.get(variable='first_run_complete')
+    row_first_run_complete = self.user_table.get(variable='first_run_complete')
     row_first_run_complete['variable_value'] = 'Yes' 
     row_first_run_complete.update()
     

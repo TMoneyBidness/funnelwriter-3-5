@@ -31,7 +31,6 @@ unique_ids:
   modules: {}
   server_modules:
     FunnelServer: '1688504352980765247325366.6221'
-    ServerModule1: '169646800250495535493427.12663'
   assets:
     Funnelwriter.AI.png: '1689549269812167877955155.23984'
     standard-page.html: M3UXKTFMJEURFSQQID75C54HPDODBFFH

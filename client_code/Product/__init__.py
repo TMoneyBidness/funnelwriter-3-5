@@ -24,6 +24,13 @@ class Product(ProductTemplate):
     anvil.users.login_with_form()
     # Set the initial value of the progress bar to 0
 
+    # WORKSPACE MANAGEMENT
+    # Load the active workspace:
+    self.load_active_workspace()
+    # Get the User Table
+    self.user_table = self.get_user_table()
+    print(f"CURRENT USER TABLE IS: {self.user_table}")   
+    
     self.indeterminate_all_products.visible = False
     self.indeterminate_1.visible = False
     self.indeterminate_2.visible = False
@@ -47,16 +54,16 @@ class Product(ProductTemplate):
         # Stop the timer by setting its interval to None
         component.interval = None
           
-     # Get the current user
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    #  # Get the current user
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
 
     # Load the latest info for products 1 to 5
     for i in range(1, 6):
-        row_product_latest = user_table.search(variable=f'product_{i}_latest')
-        row_product_url = user_table.search(variable=f'product_{i}_url')
+        row_product_latest = self.user_table.search(variable=f'product_{i}_latest')
+        row_product_url = self.user_table.search(variable=f'product_{i}_url')
     
         if row_product_latest:
             product_latest_description = row_product_latest[0]['variable_value']
@@ -74,11 +81,11 @@ class Product(ProductTemplate):
     
         # Check if any of the final company profile is empty
         any_final_product_rows = [
-            user_table.search(variable='product_1')[0],
-            user_table.search(variable='product_2')[0],
-            user_table.search(variable='product_3')[0],
-            user_table.search(variable='product_4')[0],
-            user_table.search(variable='product_5')[0]
+            self.user_table.search(variable='product_1')[0],
+            self.user_table.search(variable='product_2')[0],
+            self.user_table.search(variable='product_3')[0],
+            self.user_table.search(variable='product_4')[0],
+            self.user_table.search(variable='product_5')[0]
         ]
 
 
@@ -90,6 +97,52 @@ class Product(ProductTemplate):
             # If all product descriptions are empty, disable the button
             self.nav_button_products_to_avatars.enabled = False
 
+########----------------- USER MANAGEMENT
+
+  def initialize_default_workspace(self):
+    global active_workspace
+    active_workspace = 'workspace_1'
+    self.active_workspace = 'workspace_1'
+
+  def button_workspace_1_click(self, **event_args):
+    global active_workspace
+    active_workspace = 'workspace_1'
+    self.reload_home_form()
+
+  def button_workspace_2_click(self, **event_args):
+    global active_workspace
+    active_workspace = 'workspace_2'
+    self.reload_home_form()
+
+  def button_workspace_3_click(self, **event_args):
+    global active_workspace
+    active_workspace = 'workspace_3'
+    self.reload_home_form()
+
+  def get_user_table(self):
+    current_user = anvil.users.get_user()
+    global active_workspace
+    workspace_id = self.get_active_workspace()
+    user_table_name = current_user[workspace_id]
+    return getattr(app_tables, user_table_name)
+
+  def set_active_workspace(self, workspace_id):
+    """Set the active workspace for the current session."""
+    anvil.server.session['active_workspace'] = workspace_id
+
+  def get_active_workspace(self):
+    global active_workspace
+    return active_workspace
+
+  def load_active_workspace(self):
+    global active_workspace
+    # Get the active workspace from the user's table
+    current_user = anvil.users.get_user()
+    active_workspace = current_user['active_workspace']
+    # Update the global variable
+    self.active_workspace = active_workspace
+
+########----------------- 
   
 # #-- GENERATE THE 5 PREVIEWS ------------#######################################################################
 
@@ -182,46 +235,46 @@ class Product(ProductTemplate):
       else:
         self.indeterminate_1.visible = True
         # Load stuff        
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
 
         # Reset the Product Latest
-        product_latest_row = user_table.search(variable='product_1_latest')[0]
+        product_latest_row = self.user_table.search(variable='product_1_latest')[0]
         product_latest_row['variable_value'] = ""
         product_latest_row.update()
         
           # COMPANY PROFILE
-        company_name_row = user_table.search(variable='company_name')[0]
+        company_name_row = self.user_table.search(variable='company_name')[0]
         company_name= company_name_row['variable_value']
         
         # COMPANY PROFILE
         # Retrieve the row with 'variable' column containing 'company_profile'
-        company_profile_row = user_table.search(variable='company_profile')[0]
+        company_profile_row = self.user_table.search(variable='company_profile')[0]
         company_profile = company_profile_row['variable_value']
     
         # COMPANY URL
         # Retrieve the row with 'variable' column containing 'company_profile'
-        company_url_row = user_table.search(variable='company_url')[0]
+        company_url_row = self.user_table.search(variable='company_url')[0]
         company_url = company_url_row['variable_value']
     
         # PRODUCT NAME
         product_name = self.product_1_name_input.text
-        product_name_row = user_table.search(variable='product_1_name_latest')[0]
+        product_name_row = self.user_table.search(variable='product_1_name_latest')[0]
         product_name_row['variable_value'] = product_name
         product_name_row.update()
 
         # PRODUCT URL
         product_url = self.product_1_url_input.text
-        product_url_row = user_table.get(variable=f"product_1_url")
+        product_url_row = self.user_table.get(variable=f"product_1_url")
         product_url_row['variable_value'] = product_url
         product_url_row.update()
             
         # PRODUCT EXCERPT / PREVIEW
         product_preview = self.product_profile_1_textbox.text
         # product_1_latest = self.product_profile_1_textbox.text
-        product_preview_row = user_table.search(variable='product_1_preview')[0]
+        product_preview_row = self.user_table.search(variable='product_1_preview')[0]
         product_preview_row['variable_value'] = product_preview
         product_preview_row.update()
         
@@ -229,18 +282,18 @@ class Product(ProductTemplate):
         self.check_status_timer_product_1.enabled = True
         self.check_status_timer_product_1.interval = 3
         
-        self.task_id = anvil.server.call('launch_deepdive_product_1_generator',user_table,company_name,product_name,product_url,product_preview)
+        self.task_id = anvil.server.call('launch_deepdive_product_1_generator',self.user_table,company_name,product_name,product_url,product_preview)
         print("Task ID:", self.task_id)
    
   def check_status_product_1_summary(self, sender=None, **event_args):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='product_1_latest')
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
+        row = self.user_table.get(variable='product_1_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on the Product Summary!")
@@ -268,45 +321,45 @@ class Product(ProductTemplate):
       else:
         self.indeterminate_2.visible = True
         # Load stuff        
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
 
         # Reset the Product Latest
-        product_latest_row = user_table.search(variable='product_2_latest')[0]
+        product_latest_row = self.user_table.search(variable='product_2_latest')[0]
         product_latest_row['variable_value'] = ""
         product_latest_row.update()
         
           # COMPANY PROFILE
-        company_name_row = user_table.search(variable='company_name')[0]
+        company_name_row = self.user_table.search(variable='company_name')[0]
         company_name= company_name_row['variable_value']
         
         # COMPANY PROFILE
         # Retrieve the row with 'variable' column containing 'company_profile'
-        company_profile_row = user_table.search(variable='company_profile')[0]
+        company_profile_row = self.user_table.search(variable='company_profile')[0]
         company_profile = company_profile_row['variable_value']
     
         # COMPANY URL
         # Retrieve the row with 'variable' column containing 'company_profile'
-        company_url_row = user_table.search(variable='company_url')[0]
+        company_url_row = self.user_table.search(variable='company_url')[0]
         company_url = company_url_row['variable_value']
     
         # PRODUCT NAME
         product_name = self.product_2_name_input.text
-        product_name_row = user_table.search(variable='product_2_name_latest')[0]
+        product_name_row = self.user_table.search(variable='product_2_name_latest')[0]
         product_name_row['variable_value'] = product_name
         product_name_row.update()
 
         # PRODUCT URL
         product_url = self.product_2_url_input.text
-        product_url_row = user_table.get(variable=f"product_2_url")
+        product_url_row = self.user_table.get(variable=f"product_2_url")
         product_url_row['variable_value'] = product_url
         product_url_row.update()
             
         # PRODUCT EXCERPT / PREVIEW
         product_preview = self.product_profile_2_textbox.text
-        product_preview_row = user_table.search(variable='product_2_preview')[0]
+        product_preview_row = self.user_table.search(variable='product_2_preview')[0]
         product_preview_row['variable_value'] = product_preview
         product_preview_row.update()
         
@@ -314,18 +367,18 @@ class Product(ProductTemplate):
         self.check_status_timer_product_2.enabled = True
         self.check_status_timer_product_2.interval = 3
         
-        self.task_id = anvil.server.call('launch_deepdive_product_2_generator',user_table,company_name,product_name,product_url,product_preview)
+        self.task_id = anvil.server.call('launch_deepdive_product_2_generator',self.user_table,company_name,product_name,product_url,product_preview)
         print("Task ID:", self.task_id)
    
   def check_status_product_2_summary(self, sender=None, **event_args):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='product_2_latest')
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
+        row = self.user_table.get(variable='product_2_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on the Product Summary!")
@@ -353,45 +406,45 @@ class Product(ProductTemplate):
       else:
         self.indeterminate_3.visible = True
         # Load stuff        
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
 
         # Reset the Product Latest
-        product_latest_row = user_table.search(variable='product_3_latest')[0]
+        product_latest_row = self.user_table.search(variable='product_3_latest')[0]
         product_latest_row['variable_value'] = ""
         product_latest_row.update()
         
           # COMPANY PROFILE
-        company_name_row = user_table.search(variable='company_name')[0]
+        company_name_row = self.user_table.search(variable='company_name')[0]
         company_name= company_name_row['variable_value']
         
         # COMPANY PROFILE
         # Retrieve the row with 'variable' column containing 'company_profile'
-        company_profile_row = user_table.search(variable='company_profile')[0]
+        company_profile_row = self.user_table.search(variable='company_profile')[0]
         company_profile = company_profile_row['variable_value']
     
         # COMPANY URL
         # Retrieve the row with 'variable' column containing 'company_profile'
-        company_url_row = user_table.search(variable='company_url')[0]
+        company_url_row = self.user_table.search(variable='company_url')[0]
         company_url = company_url_row['variable_value']
     
         # PRODUCT NAME
         product_name = self.product_3_name_input.text
-        product_name_row = user_table.search(variable='product_3_name_latest')[0]
+        product_name_row = self.user_table.search(variable='product_3_name_latest')[0]
         product_name_row['variable_value'] = product_name
         product_name_row.update()
 
         # PRODUCT URL
         product_url = self.product_3_url_input.text
-        product_url_row = user_table.get(variable=f"product_3_url")
+        product_url_row = self.user_table.get(variable=f"product_3_url")
         product_url_row['variable_value'] = product_url
         product_url_row.update()
             
         # PRODUCT EXCERPT / PREVIEW
         product_preview = self.product_profile_3_textbox.text
-        product_preview_row = user_table.search(variable='product_3_preview')[0]
+        product_preview_row = self.user_table.search(variable='product_3_preview')[0]
         product_preview_row['variable_value'] = product_preview
         product_preview_row.update()
         
@@ -399,18 +452,18 @@ class Product(ProductTemplate):
         self.check_status_timer_product_3.enabled = True
         self.check_status_timer_product_3.interval = 3
         
-        self.task_id = anvil.server.call('launch_deepdive_product_3_generator',user_table,company_name,product_name,product_url,product_preview)
+        self.task_id = anvil.server.call('launch_deepdive_product_3_generator',self.user_table,company_name,product_name,product_url,product_preview)
         print("Task ID:", self.task_id)
    
   def check_status_product_3_summary(self, sender=None, **event_args):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='product_3_latest')
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
+        row = self.user_table.get(variable='product_3_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on the Product Summary!")
@@ -438,45 +491,45 @@ class Product(ProductTemplate):
       else:
         self.indeterminate_4.visible = True
         # Load stuff        
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
 
         # Reset the Product Latest
-        product_latest_row = user_table.search(variable='product_4_latest')[0]
+        product_latest_row = self.user_table.search(variable='product_4_latest')[0]
         product_latest_row['variable_value'] = ""
         product_latest_row.update()
         
           # COMPANY PROFILE
-        company_name_row = user_table.search(variable='company_name')[0]
+        company_name_row = self.user_table.search(variable='company_name')[0]
         company_name= company_name_row['variable_value']
         
         # COMPANY PROFILE
         # Retrieve the row with 'variable' column containing 'company_profile'
-        company_profile_row = user_table.search(variable='company_profile')[0]
+        company_profile_row = self.user_table.search(variable='company_profile')[0]
         company_profile = company_profile_row['variable_value']
     
         # COMPANY URL 
         # Retrieve the row with 'variable' column containing 'company_profile'
-        company_url_row = user_table.search(variable='company_url')[0]
+        company_url_row = self.user_table.search(variable='company_url')[0]
         company_url = company_url_row['variable_value']
     
         # PRODUCT NAME
         product_name = self.product_4_name_input.text
-        product_name_row = user_table.search(variable='product_4_name_latest')[0]
+        product_name_row = self.user_table.search(variable='product_4_name_latest')[0]
         product_name_row['variable_value'] = product_name
         product_name_row.update()
 
         # PRODUCT URL
         product_url = self.product_4_url_input.text
-        product_url_row = user_table.get(variable=f"product_4_url")
+        product_url_row = self.user_table.get(variable=f"product_4_url")
         product_url_row['variable_value'] = product_url
         product_url_row.update()
             
         # PRODUCT EXCERPT / PREVIEW
         product_preview = self.product_profile_4_textbox.text
-        product_preview_row = user_table.search(variable='product_4_preview')[0]
+        product_preview_row = self.user_table.search(variable='product_4_preview')[0]
         product_preview_row['variable_value'] = product_preview
         product_preview_row.update()
         
@@ -484,18 +537,18 @@ class Product(ProductTemplate):
         self.check_status_timer_product_4.enabled = True
         self.check_status_timer_product_4.interval = 3
         
-        self.task_id = anvil.server.call('launch_deepdive_product_4_generator',user_table,company_name,product_name,product_url,product_preview)
+        self.task_id = anvil.server.call('launch_deepdive_product_4_generator',self.user_table,company_name,product_name,product_url,product_preview)
         print("Task ID:", self.task_id)
    
   def check_status_product_4_summary(self, sender=None, **event_args):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='product_4_latest')
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
+        row = self.user_table.get(variable='product_4_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on the Product Summary!")
@@ -523,45 +576,45 @@ class Product(ProductTemplate):
       else:
         self.indeterminate_5.visible = True
         # Load stuff        
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
 
         # Reset the Product Latest
-        product_latest_row = user_table.search(variable='product_5_latest')[0]
+        product_latest_row = self.user_table.search(variable='product_5_latest')[0]
         product_latest_row['variable_value'] = ""
         product_latest_row.update()
         
           # COMPANY PROFILE
-        company_name_row = user_table.search(variable='company_name')[0]
+        company_name_row = self.user_table.search(variable='company_name')[0]
         company_name= company_name_row['variable_value']
         
         # COMPANY PROFILE
         # Retrieve the row with 'variable' column containing 'company_profile'
-        company_profile_row = user_table.search(variable='company_profile')[0]
+        company_profile_row = self.user_table.search(variable='company_profile')[0]
         company_profile = company_profile_row['variable_value']
     
         # COMPANY URL
         # Retrieve the row with 'variable' column containing 'company_profile'
-        company_url_row = user_table.search(variable='company_url')[0]
+        company_url_row = self.user_table.search(variable='company_url')[0]
         company_url = company_url_row['variable_value']
     
         # PRODUCT NAME
         product_name = self.product_5_name_input.text
-        product_name_row = user_table.search(variable='product_5_name_latest')[0]
+        product_name_row = self.user_table.search(variable='product_5_name_latest')[0]
         product_name_row['variable_value'] = product_name
         product_name_row.update()
 
         # PRODUCT URL
         product_url = self.product_5_url_input.text
-        product_url_row = user_table.get(variable=f"product_5_url")
+        product_url_row = self.user_table.get(variable=f"product_5_url")
         product_url_row['variable_value'] = product_url
         product_url_row.update()
             
         # PRODUCT EXCERPT / PREVIEW
         product_preview = self.product_profile_5_textbox.text
-        product_preview_row = user_table.search(variable='product_5_preview')[0]
+        product_preview_row = self.user_table.search(variable='product_5_preview')[0]
         product_preview_row['variable_value'] = product_preview
         product_preview_row.update()
         
@@ -569,18 +622,18 @@ class Product(ProductTemplate):
         self.check_status_timer_product_5.enabled = True
         self.check_status_timer_product_5.interval = 3
         
-        self.task_id = anvil.server.call('launch_deepdive_product_5_generator',user_table,company_name,product_name,product_url,product_preview)
+        self.task_id = anvil.server.call('launch_deepdive_product_5_generator',self.user_table,company_name,product_name,product_url,product_preview)
         print("Task ID:", self.task_id)
    
   def check_status_product_5_summary(self, sender=None, **event_args):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        user_table_name = current_user['user_id']
-        # Get the table for the current user
-        user_table = getattr(app_tables, user_table_name)
-        row = user_table.get(variable='product_5_latest')
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
+        row = self.user_table.get(variable='product_5_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
             print("Still working on the Product Summary!")
@@ -607,15 +660,15 @@ class Product(ProductTemplate):
         return
 
     # Get the current user
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
 
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
 
     product_number = "product_1"
     
-    product_row = user_table.get(variable=product_number)
+    product_row = self.user_table.get(variable=product_number)
 
     if product_row:
         product_row['variable_value'] = final_product_description
@@ -623,7 +676,7 @@ class Product(ProductTemplate):
         product_row.update()
 
         # Save it as the latest as well
-        product_1_latest_description_row = user_table.search(variable='product_1_latest')[0]
+        product_1_latest_description_row = self.user_table.search(variable='product_1_latest')[0]
         product_1_latest_description_row['variable_value'] = final_product_description
         product_1_latest_description_row['variable_title'] = final_product_title
         product_1_latest_description_row.update()
@@ -647,13 +700,13 @@ class Product(ProductTemplate):
         return
 
     # Get the current user
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
 
     product_number = "product_2"
-    product_row = user_table.get(variable=product_number)
+    product_row = self.user_table.get(variable=product_number)
 
     if product_row:
         product_row['variable_value'] = final_product_description
@@ -661,7 +714,7 @@ class Product(ProductTemplate):
         product_row.update()
 
         # Save it as the latest as well
-        product_2_latest_description_row = user_table.search(variable='product_2_latest')[0]
+        product_2_latest_description_row = self.user_table.search(variable='product_2_latest')[0]
         product_2_latest_description_row['variable_value'] = final_product_description
         product_2_latest_description_row['variable_title'] = final_product_title
         product_2_latest_description_row.update()
@@ -685,13 +738,13 @@ class Product(ProductTemplate):
         return
 
     # Get the current user
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
 
     product_number = "product_3"
-    product_row = user_table.get(variable=product_number)
+    product_row = self.user_table.get(variable=product_number)
 
     if product_row:
         product_row['variable_value'] = final_product_description
@@ -699,7 +752,7 @@ class Product(ProductTemplate):
         product_row.update()
 
         # Save it as the latest as well
-        product_3_latest_description_row = user_table.search(variable='product_3_latest')[0]
+        product_3_latest_description_row = self.user_table.search(variable='product_3_latest')[0]
         product_3_latest_description_row['variable_value'] = final_product_description
         product_3_latest_description_row['variable_title'] = final_product_title
         product_3_latest_description_row.update()
@@ -723,13 +776,13 @@ class Product(ProductTemplate):
         return
 
     # Get the current user
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
 
     product_number = "product_4"
-    product_row = user_table.get(variable=product_number)
+    product_row = self.user_table.get(variable=product_number)
 
     if product_row:
         product_row['variable_value'] = final_product_description
@@ -737,7 +790,7 @@ class Product(ProductTemplate):
         product_row.update()
 
         # Save it as the latest as well
-        product_4_latest_description_row = user_table.search(variable='product_4_latest')[0]
+        product_4_latest_description_row = self.user_table.search(variable='product_4_latest')[0]
         product_4_latest_description_row['variable_value'] = final_product_description
         product_4_latest_description_row['variable_title'] = final_product_title
         product_4_latest_description_row.update()
@@ -761,13 +814,13 @@ class Product(ProductTemplate):
         return
 
     # Get the current user
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
 
     product_number = "product_5"
-    product_row = user_table.get(variable=product_number)
+    product_row = self.user_table.get(variable=product_number)
 
     if product_row:
         product_row['variable_value'] = final_product_description
@@ -775,7 +828,7 @@ class Product(ProductTemplate):
         product_row.update()
 
         # Save it as the latest as well
-        product_5_latest_description_row = user_table.search(variable='product_5_latest')[0]
+        product_5_latest_description_row = self.user_table.search(variable='product_5_latest')[0]
         product_5_latest_description_row['variable_value'] = final_product_description
         product_5_latest_description_row['variable_title'] = final_product_title
         product_5_latest_description_row.update()
@@ -791,15 +844,15 @@ class Product(ProductTemplate):
 
   def load_product_1_button_click(self, **event_args):
     # Get the current user
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
     
     # Choose our product number
     selected_product_number = "product_1"
     
-    product_row = user_table.get(variable=selected_product_number)
+    product_row = self.user_table.get(variable=selected_product_number)
 
     # Check if 'variable_title' and 'variable_value' columns are not empty
     if product_row and product_row['variable_title'] and product_row['variable_value']:
@@ -813,15 +866,15 @@ class Product(ProductTemplate):
 
   def load_product_2_button_click(self, **event_args):
     # Get the current user
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
     
     # Choose our product number
     selected_product_number = "product_2"
     
-    product_row = user_table.get(variable=selected_product_number)
+    product_row = self.user_table.get(variable=selected_product_number)
 
     # Check if 'variable_title' and 'variable_value' columns are not empty
     if product_row and product_row['variable_title'] and product_row['variable_value']:
@@ -835,15 +888,15 @@ class Product(ProductTemplate):
 
   def load_product_3_button_click(self, **event_args):
     # Get the current user
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
     
     # Choose our product number
     selected_product_number = "product_3"
     
-    product_row = user_table.get(variable=selected_product_number)
+    product_row = self.user_table.get(variable=selected_product_number)
 
     # Check if 'variable_title' and 'variable_value' columns are not empty
     if product_row and product_row['variable_title'] and product_row['variable_value']:
@@ -857,15 +910,15 @@ class Product(ProductTemplate):
 
   def load_product_4_button_click(self, **event_args):
     # Get the current user
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
     
     # Choose our product number
     selected_product_number = "product_4"
     
-    product_row = user_table.get(variable=selected_product_number)
+    product_row = self.user_table.get(variable=selected_product_number)
 
     # Check if 'variable_title' and 'variable_value' columns are not empty
     if product_row and product_row['variable_title'] and product_row['variable_value']:
@@ -879,15 +932,15 @@ class Product(ProductTemplate):
       
   def load_product_5_button_click(self, **event_args):
     # Get the current user
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
     
     # Choose our product number
     selected_product_number = "product_5"
     
-    product_row = user_table.get(variable=selected_product_number)
+    product_row = self.user_table.get(variable=selected_product_number)
 
     # Check if 'variable_title' and 'variable_value' columns are not empty
     if product_row and product_row['variable_title'] and product_row['variable_value']:
