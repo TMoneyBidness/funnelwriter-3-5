@@ -1,4 +1,4 @@
-from ._anvil_designer import Workspace_2Template
+from ._anvil_designer import Workspace_3Template
 from anvil import *
 import plotly.graph_objects as go
 import time
@@ -21,12 +21,12 @@ from ..VideoSalesLetter import VideoSalesLetter
 from ..FinalProduct import FinalProduct
 from ..FinalProduct_Export import FinalProduct_Export
 
-active_workspace = "workspace_2"
+active_workspace = "workspace_3"
 
 ############################################################################################################
 
 ## LOADING
-class Workspace_2(Workspace_2Template):
+class Workspace_3(Workspace_3Template):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)

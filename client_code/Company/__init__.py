@@ -14,6 +14,8 @@ import anvil.js
 
 from ..Product import Product
 
+active_workspace = None
+
 ############################################################################################################
 
 PROMPT_TITLE = "FunnelWriter.AI needs a title to SAVE AS"
@@ -31,19 +33,17 @@ class Company(CompanyTemplate):
     self.free_navigate_label.visible = False
     self.status.text = 'Idle'
 
-
-    # Get the current user
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
-
+    # Load the active workspace:
+    self.load_active_workspace()
+    
+    ### $$ Get the User Table
+    self.user_table = self.get_user_table()
+    print(f"CURRENT USER TABLE IS: {self.user_table}")   
+    
     # Check if all variables are either None or empty strings
-       
-
+    
     # Load the latest company profile
-    row_company_profile_latest = user_table.search(variable='company_profile_latest')
+    row_company_profile_latest = self.user_table.search(variable='company_profile_latest')
     if row_company_profile_latest:
       company_profile_latest = row_company_profile_latest[0]['variable_value']
       self.company_profile_textbox.text = company_profile_latest
@@ -52,19 +52,19 @@ class Company(CompanyTemplate):
       print("No row found for 'company_profile_latest'")
 
     # Load the latest company name
-    row_company_name = user_table.search(variable='company_name')
+    row_company_name = self.user_table.search(variable='company_name')
     if row_company_name:
       company_name = row_company_name[0]['variable_value']
       self.company_name_input.text = company_name
 
     # Load the latest company name
-    row_company_url = user_table.search(variable='company_url')
+    row_company_url = self.user_table.search(variable='company_url')
     if row_company_url:
       company_url = row_company_url[0]['variable_value']
       self.company_url_input.text = company_url
 
     # Check if any of the final company profile is empty
-    row_company_profile = user_table.search(variable='company_profile')
+    row_company_profile = self.user_table.search(variable='company_profile')
     if not row_company_profile:
       # If any of the company profiles are empty, disable the button
       self.nav_button_company_to_products.enabled = False
@@ -78,7 +78,56 @@ class Company(CompanyTemplate):
     self.company_name_input.load_data()
     self.company_url_input.load_data()
 
+########----------------- USER MANAGEMENT
 
+  def initialize_default_workspace(self):
+    global active_workspace
+    active_workspace = 'workspace_1'
+    self.active_workspace = 'workspace_1'
+
+  def button_workspace_1_click(self, **event_args):
+    global active_workspace
+    active_workspace = 'workspace_1'
+    self.reload_home_form()
+
+  def button_workspace_2_click(self, **event_args):
+    global active_workspace
+    active_workspace = 'workspace_2'
+    self.reload_home_form()
+
+  def button_workspace_3_click(self, **event_args):
+    global active_workspace
+    active_workspace = 'workspace_3'
+    self.reload_home_form()
+
+  def get_user_table(self):
+    current_user = anvil.users.get_user()
+    global active_workspace
+    workspace_id = self.get_active_workspace()
+    user_table_name = current_user[workspace_id]
+    return getattr(app_tables, user_table_name)
+
+  def set_active_workspace(self, workspace_id):
+    """Set the active workspace for the current session."""
+    anvil.server.session['active_workspace'] = workspace_id
+
+  def get_active_workspace(self):
+    global active_workspace
+    return active_workspace
+
+  def load_active_workspace(self):
+    global active_workspace
+    
+    # Get the active workspace from the user's table
+    current_user = anvil.users.get_user()
+    active_workspace = current_user['active_workspace']
+    
+    # Update the global variable
+    self.active_workspace = active_workspace
+
+########----------------- 
+
+  
   def company_research_button_click(self, **event_args):
     with anvil.server.no_loading_indicator:
       # This method should handle the UI logic
@@ -88,9 +137,9 @@ class Company(CompanyTemplate):
       # print("Before setting status:", self.status.text)
       # self.status.text = 'Researching'
       # print("After setting status:", self.status.text)
-      current_user = anvil.users.get_user()
-      user_table_name = current_user['user_id']
-      user_table = getattr(app_tables, user_table_name)
+      # current_user = anvil.users.get_user()
+      # user_table_name = current_user['user_id']
+      # user_table = getattr(app_tables, user_table_name)
 
      # Check if either the company name or company URL input is empty
       if not self.company_name_input.text or not self.company_url_input.text:
@@ -101,13 +150,13 @@ class Company(CompanyTemplate):
         self.status.text = 'Researching'
 
         # Save company name
-        company_name_row = user_table.get(variable='company_name')
+        company_name_row = self.user_table.get(variable='company_name')
         company_name_row['variable_value'] = self.company_name_input.text
         company_name_row.update()
         company_name = self.company_name_input.text
 
         # Save company URL
-        company_url_row = user_table.get(variable='company_url')
+        company_url_row = self.user_table.get(variable='company_url')
         company_url_row['variable_value'] = self.company_url_input.text
         company_url_row.update()
         company_url = self.company_url_input.text
@@ -133,7 +182,7 @@ class Company(CompanyTemplate):
             self.company_profile_textbox.text = company_context
 
             # Save this generated version as the latest version
-            row_company_profile_latest = user_table.search(variable='company_profile_latest')
+            row_company_profile_latest = self.user_table.search(variable='company_profile_latest')
             row_company_profile_latest[0]['variable_value'] = company_context
             row_company_profile_latest[0].update()
 
@@ -151,15 +200,15 @@ class Company(CompanyTemplate):
 
   def save_company_profile_component_click(self, **event_args):
     # Get the current user
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
 
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
 
     # Check if the company profile textbox is not empty and doesn't have the placeholder text
     if self.company_profile_textbox.text.strip() and self.company_profile_textbox.text.strip() != "AI agents will populate your company profile here!":
-      company_profile_row = user_table.get(variable='company_profile')
+      company_profile_row = self.user_table.get(variable='company_profile')
       company_profile_row['variable_value'] = self.company_profile_textbox.text
       company_profile_row.update()
       self.nav_button_company_to_products.enabled = True
@@ -168,18 +217,18 @@ class Company(CompanyTemplate):
 
       # Save this generated version as the latest version
       # Save company name
-      company_name_row = user_table.get(variable='company_name')
+      company_name_row = self.user_table.get(variable='company_name')
       company_name_row['variable_value'] = self.company_name_input.text
       company_name_row.update()
       company_name = self.company_name_input.text
 
       # Save company URL
-      company_url_row = user_table.get(variable='company_url')
+      company_url_row = self.user_table.get(variable='company_url')
       company_url_row['variable_value'] = self.company_url_input.text
       company_url_row.update()
       company_url = self.company_url_input.text
 
-      row_company_profile_latest = user_table.search(variable='company_profile_latest')
+      row_company_profile_latest = self.user_table.search(variable='company_profile_latest')
       row_company_profile_latest[0]['variable_value'] = self.company_profile_textbox.text
       row_company_profile_latest[0].update()
       self.nav_button_company_to_products.enabled = True
@@ -192,20 +241,20 @@ class Company(CompanyTemplate):
 
   def load_company_profile_component_click(self, **event_args):
     # Get the current user
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
 
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
 
-    company_profile_row = user_table.get(variable='company_profile')
+    company_profile_row = self.user_table.get(variable='company_profile')
 
     # Load the Company Profile from the profile row
     self.company_profile_textbox.text = company_profile_row['variable_value']
 
     # Load the Company Name and URL from the user_table
-    company_name_row = user_table.get(variable='company_name')
-    company_url_row = user_table.get(variable='company_url')
+    company_name_row = self.user_table.get(variable='company_name')
+    company_url_row = self.user_table.get(variable='company_url')
 
   ### NAVIGATION
   def navigate_to_product(self, **event_args):

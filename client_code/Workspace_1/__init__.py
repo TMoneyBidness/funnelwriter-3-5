@@ -230,8 +230,16 @@ class Workspace_1(Workspace_1Template):
     return getattr(app_tables, user_table_name)
 
   def set_active_workspace(self, workspace_id):
-    """Set the active workspace for the current session."""
-    anvil.server.session['active_workspace'] = workspace_id
+    """Set the active workspace for the current user."""
+    # Get the current user
+    current_user = anvil.users.get_user()
+    # Update the 'active_workspace' column in the user table
+    current_user['active_workspace'] = workspace_id
+    # Update the user table with the changes
+    current_user.update()
+    # Also, update the global variable
+    global active_workspace
+    active_workspace = workspace_id
 
   def get_active_workspace(self):
     global active_workspace
@@ -360,7 +368,7 @@ class Workspace_1(Workspace_1Template):
             self.undertaken_tasks.append('company_profile_latest')
             print(f"Added to undertaken_tasks: company_profile_latest")
 
-            task_id_brand_tone = anvil.server.call('launch_draft_brand_tone_research', self.user_table, company_url,self.user_table)
+            task_id_brand_tone = anvil.server.call('launch_draft_brand_tone_research', self.user_table, company_url)
             print("Brand Tone Launch function called")
             task_ids.append(task_id_brand_tone)
 

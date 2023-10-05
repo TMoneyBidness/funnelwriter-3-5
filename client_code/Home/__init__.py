@@ -14,6 +14,7 @@ import time
 from ..Company import Company
 from ..Workspace_1 import Workspace_1
 from ..Workspace_2 import Workspace_2
+from ..Workspace_3 import Workspace_3
 from ..Product import Product
 from ..BrandTone import BrandTone
 from ..Avatars import Avatars
@@ -219,6 +220,7 @@ class Home(HomeTemplate):
   def button_workspace_1_click(self, **event_args):
       global active_workspace
       active_workspace = 'workspace_1'
+      self.set_active_workspace('workspace_1')  # Reset active workspace to 'workspace_1'
       Workspace_1_form = Workspace_1()
       self.content_panel.clear()  # Clear the content panel
       self.content_panel.add_component(Workspace_1_form)  # Add the new component
@@ -244,6 +246,18 @@ class Home(HomeTemplate):
     user_table_name = current_user[workspace_id]
     return getattr(app_tables, user_table_name)
 
+  def set_active_workspace(self, workspace_id):
+    """Set the active workspace for the current user."""
+    # Get the current user
+    current_user = anvil.users.get_user()
+    # Update the 'active_workspace' column in the user table
+    current_user['active_workspace'] = workspace_id
+    # Update the user table with the changes
+    current_user.update()
+    # Also, update the global variable
+    global active_workspace
+    active_workspace = workspace_id
+    
   def get_active_workspace(self):
     global active_workspace
     return active_workspace
