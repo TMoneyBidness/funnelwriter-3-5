@@ -104,25 +104,25 @@ class BrandTone(BrandToneTemplate):
 
   ########----------------- USER MANAGEMENT
 
-  def initialize_default_workspace(self):
-    global active_workspace
-    active_workspace = 'workspace_1'
-    self.active_workspace = 'workspace_1'
+  # def initialize_default_workspace(self):
+  #   global active_workspace
+  #   active_workspace = 'workspace_1'
+  #   self.active_workspace = 'workspace_1'
 
-  def button_workspace_1_click(self, **event_args):
-    global active_workspace
-    active_workspace = 'workspace_1'
-    self.reload_home_form()
+  # def button_workspace_1_click(self, **event_args):
+  #   global active_workspace
+  #   active_workspace = 'workspace_1'
+  #   self.reload_home_form()
 
-  def button_workspace_2_click(self, **event_args):
-    global active_workspace
-    active_workspace = 'workspace_2'
-    self.reload_home_form()
+  # def button_workspace_2_click(self, **event_args):
+  #   global active_workspace
+  #   active_workspace = 'workspace_2'
+  #   self.reload_home_form()
 
-  def button_workspace_3_click(self, **event_args):
-    global active_workspace
-    active_workspace = 'workspace_3'
-    self.reload_home_form()
+  # def button_workspace_3_click(self, **event_args):
+  #   global active_workspace
+  #   active_workspace = 'workspace_3'
+  #   self.reload_home_form()
 
   def get_user_table(self):
     current_user = anvil.users.get_user()

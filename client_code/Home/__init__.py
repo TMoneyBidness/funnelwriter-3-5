@@ -231,6 +231,7 @@ class Home(HomeTemplate):
   
 ##### USER MANAGEMENT
 
+  
   def initialize_default_workspace(self):
     # Get the current user
     current_user = anvil.users.get_user()
@@ -249,10 +250,13 @@ class Home(HomeTemplate):
         # Load the appropriate workspace form
     if workspace_id == 'workspace_1':
         Workspace_form = Workspace_1()
+        self.workspace_1_button.background = 'gold'
     elif workspace_id == 'workspace_2':
         Workspace_form = Workspace_2()
+        self.workspace_1_button.background = 'gold'
     elif workspace_id == 'workspace_3':
         Workspace_form = Workspace_3()
+        self.workspace_1_button.background = 'gold'
     else:
         raise ValueError(f"Unknown workspace: {workspace_id}")        
 
@@ -260,11 +264,56 @@ class Home(HomeTemplate):
     self.content_panel.clear()
     self.content_panel.add_component(Workspace_form)
 
+  def load_button_names(self):
+    # Get the current user
+    current_user = anvil.users.get_user()
+    
+    # Determine the workspace ID
+    if current_user and 'active_workspace' in current_user and current_user['active_workspace']:
+        workspace_id = current_user['active_workspace']
+    else:
+        # Set default workspace to 'workspace_1'
+        workspace_id = 'workspace_1'
+        if current_user:
+            # Update the 'active_workspace' column in the user table
+            current_user['active_workspace'] = workspace_id
+            # Update the user table with the changes
+            current_user.update()
+
+    # Get the table name from the user record using the workspace ID
+    workspace_table_name = current_user[workspace_id]
+
+    # Fetch the actual table object
+    workspace_table = getattr(app_tables, workspace_table_name)
+
+    # Search for the 'company_name' row
+    company_name_row = workspace_table.search(variable='company_name')[0]
+    if company_name_row:
+        # Set the text of self.workspace_1_button
+        self.workspace_1_button.text = company_name_row['variable_title']
+
+    # Load the appropriate workspace form
+    if workspace_id == 'workspace_1':
+        Workspace_form = Workspace_1()
+        self.workspace_1_button.background = 'gold'
+    elif workspace_id == 'workspace_2':
+        Workspace_form = Workspace_2()
+        self.workspace_1_button.background = 'gold'
+    elif workspace_id == 'workspace_3':
+        Workspace_form = Workspace_3()
+        self.workspace_1_button.background = 'gold'
+    else:
+        raise ValueError(f"Unknown workspace: {workspace_id}")  
+
+  
   def button_workspace_1_click(self, **event_args):
       global active_workspace
       active_workspace = 'workspace_1'
       self.set_active_workspace('workspace_1')  # Reset active workspace to 'workspace_1'
       self.update_company_assets_box_visibility()
+      self.workspace_1_button.background = 'gold'
+      self.workspace_2_button.background = 'white'
+      self.workspace_3_button.background = 'white'
       Workspace_1_form = Workspace_1()
       self.content_panel.clear()  # Clear the content panel
       self.content_panel.add_component(Workspace_1_form)  # Add the new component
@@ -274,6 +323,9 @@ class Home(HomeTemplate):
       active_workspace = 'workspace_2'
       self.set_active_workspace('workspace_2')  # Reset active workspace to 'workspace_2'
       self.update_company_assets_box_visibility()
+      self.workspace_1_button.background = 'white'
+      self.workspace_2_button.background = 'gold'
+      self.workspace_3_button.background = 'white'
       Workspace_2_form = Workspace_2()
       self.content_panel.clear()  # Clear the content panel
       self.content_panel.add_component(Workspace_2_form)  # Add the new component
@@ -283,6 +335,9 @@ class Home(HomeTemplate):
       active_workspace = 'workspace_3'
       self.set_active_workspace('workspace_3')  # Reset active workspace to 'workspace_3'
       self.update_company_assets_box_visibility()
+      self.workspace_1_button.background = 'white'
+      self.workspace_2_button.background = 'white'
+      self.workspace_3_button.background = 'gold'
       Workspace_3_form = Workspace_3()
       self.content_panel.clear()  # Clear the content panel
       self.content_panel.add_component(Workspace_3_form)  # Add the new component
