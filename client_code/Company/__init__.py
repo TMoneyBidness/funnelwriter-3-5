@@ -33,10 +33,10 @@ class Company(CompanyTemplate):
     self.free_navigate_label.visible = False
     self.status.text = 'Idle'
 
+    # WORKSPACE MANAGEMENT
     # Load the active workspace:
     self.load_active_workspace()
-    
-    ### $$ Get the User Table
+    # Get the User Table
     self.user_table = self.get_user_table()
     print(f"CURRENT USER TABLE IS: {self.user_table}")   
     
@@ -117,11 +117,9 @@ class Company(CompanyTemplate):
 
   def load_active_workspace(self):
     global active_workspace
-    
     # Get the active workspace from the user's table
     current_user = anvil.users.get_user()
     active_workspace = current_user['active_workspace']
-    
     # Update the global variable
     self.active_workspace = active_workspace
 

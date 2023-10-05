@@ -67,18 +67,6 @@ components:
   name: sidebar_nav_menu
   layout_properties: {slot: left-nav}
   components:
-  - type: Link
-    properties: {role: null, url: '', align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: MY WORKSPACE, font_size: 16, wrap_on: mobile, font: '',
-      col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '{}',
-      spacing_below: small, italic: false, background: '', bold: true, underline: false,
-      icon: ''}
-    name: my_workspace_asset_link
-    layout_properties:
-      col_widths: {}
-      grid_position: KGKJQM,HNOCIC
-    event_bindings: {click: home_asset_link_click}
-    components: []
   - type: Button
     properties: {role: elevated-button, align: center, tooltip: '', border: '', enabled: true,
       foreground: '', visible: true, text: WORKSPACE 1, font_size: 16, font: '', spacing_above: small,
