@@ -44,12 +44,6 @@ class Home(HomeTemplate):
           # Stop the timer by setting its interval to None
           component.interval = None
 
-    # Load the WORKSPACE 1 - DEFAULT FORM FOR THE FIRST ONE
-    Workspace_1_form = Workspace_1()
-    self.content_panel.clear()  # Clear the content panel
-    self.content_panel.add_component(Workspace_1_form)  # Add the new component
-    
-
     
    # #  # self.indeterminate_1.visible = False
    # #  # self.free_navigate_label.visible = False
@@ -215,7 +209,34 @@ class Home(HomeTemplate):
 ##### USER MANAGEMENT
 
   def initialize_default_workspace(self):
-      self.active_workspace = 'workspace_1'
+    # Get the current user
+    current_user = anvil.users.get_user()
+    
+    # Determine the workspace ID
+    if current_user and 'active_workspace' in current_user and current_user['active_workspace']:
+        workspace_id = current_user['active_workspace']
+    else:
+        # Set default workspace to 'workspace_1'
+        workspace_id = 'workspace_1'
+        if current_user:
+            # Update the 'active_workspace' column in the user table
+            current_user['active_workspace'] = workspace_id
+            # Update the user table with the changes
+            current_user.update()
+            
+    # Load the appropriate workspace form
+    if workspace_id == 'workspace_1':
+        Workspace_form = Workspace_1()
+    elif workspace_id == 'workspace_2':
+        Workspace_form = Workspace_2()
+    elif workspace_id == 'workspace_3':
+        Workspace_form = Workspace_3()
+    else:
+        raise ValueError(f"Unknown workspace: {workspace_id}")
+
+    # Display the workspace form in the content panel
+    self.content_panel.clear()
+    self.content_panel.add_component(Workspace_form)
 
   def button_workspace_1_click(self, **event_args):
       global active_workspace
