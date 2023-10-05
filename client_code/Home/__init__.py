@@ -33,7 +33,8 @@ class Home(HomeTemplate):
     if not anvil.users.get_user():  # Only prompt login if user isn't already logged in
         anvil.users.login_with_form()
 
-      
+    self.update_company_assets_box_visibility()
+    
     # Check if user is logged in
     if anvil.users.get_user():
         self.initialize_default_workspace()
@@ -208,28 +209,31 @@ class Home(HomeTemplate):
 
   def update_company_assets_box_visibility(self):
     user = anvil.users.get_user()
-    if user and 'active_workspace' in user:
-        workspace_id = user['active_workspace']
-        workspace_table = getattr(app_tables, workspace_id)  # Get the table corresponding to the active workspace
 
-        # Assuming 'first_run_complete' is a column in the workspace table.
-        # Retrieve the first (and likely only) row.
-        row = workspace_table.search().first()
+    if user:
+        # Get the column name from the 'active_workspace' value
+        workspace_column_name = user['active_workspace']
         
-        if row and 'first_run_complete' in row:
-            if row['first_run_complete'] == 'yes':
-                self.company_assets_box.visible = True
-            else:
-                self.company_assets_box.visible = False
+        # Use the column name to fetch the actual table name
+        actual_table_name = user[workspace_column_name]
+        workspace_table = getattr(app_tables, actual_table_name)
 
+        # Retrieve the first (and likely only) row.
+        
+        first_run_row = workspace_table.search(variable='first_run_complete')
+        should_display_box = first_run_row[0]['variable_value']
+        if should_display_box == 'Yes':
+            self.company_assets_box.visible = True
+        else:
+            self.company_assets_box.visible = False
+    else:
+        print("User not logged in or active_workspace not in user")  # Check if this gets printed
   
 ##### USER MANAGEMENT
 
   def initialize_default_workspace(self):
     # Get the current user
     current_user = anvil.users.get_user()
-
-    self.update_company_assets_box_visibility()
     
     # Determine the workspace ID
     if current_user and 'active_workspace' in current_user and current_user['active_workspace']:
@@ -260,6 +264,7 @@ class Home(HomeTemplate):
       global active_workspace
       active_workspace = 'workspace_1'
       self.set_active_workspace('workspace_1')  # Reset active workspace to 'workspace_1'
+      self.update_company_assets_box_visibility()
       Workspace_1_form = Workspace_1()
       self.content_panel.clear()  # Clear the content panel
       self.content_panel.add_component(Workspace_1_form)  # Add the new component
@@ -268,6 +273,7 @@ class Home(HomeTemplate):
       global active_workspace
       active_workspace = 'workspace_2'
       self.set_active_workspace('workspace_2')  # Reset active workspace to 'workspace_2'
+      self.update_company_assets_box_visibility()
       Workspace_2_form = Workspace_2()
       self.content_panel.clear()  # Clear the content panel
       self.content_panel.add_component(Workspace_2_form)  # Add the new component
@@ -276,6 +282,7 @@ class Home(HomeTemplate):
       global active_workspace
       active_workspace = 'workspace_3'
       self.set_active_workspace('workspace_3')  # Reset active workspace to 'workspace_3'
+      self.update_company_assets_box_visibility()
       Workspace_3_form = Workspace_3()
       self.content_panel.clear()  # Clear the content panel
       self.content_panel.add_component(Workspace_3_form)  # Add the new component
