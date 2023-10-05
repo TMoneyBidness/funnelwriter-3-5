@@ -39,7 +39,6 @@ class Workspace_1(Workspace_1Template):
      
     self.indeterminate_1.visible = False
     self.free_navigate_label.visible = False
-    # self.status.text = 'Idle'
     self.youtube_intro_video.visible = False
     self.nav_button_home_to_company.visible = False
     self.research_status_bar.visible = False
@@ -57,7 +56,6 @@ class Workspace_1(Workspace_1Template):
     self.user_table = self.get_user_table()
     print(f"CURRENT USER TABLE IS: {self.user_table}")
     
-   
     # HIDE ALL PANELS OFF THE TOP
     # Hide Product 1, Avatars 2 and 3
     
@@ -130,18 +128,18 @@ class Workspace_1(Workspace_1Template):
         print(f"No PRODUCT LATEST row")
 
    # Check if all variables are either None or empty strings
-    # if not company_name or not company_url or not product_latest_name:
-    #   self.company_assets_label.visible = False
-    #   self.company_asset_link_sidebar.visible = False
-    #   self.product_asset_link_sidebar.visible = False
-    #   self.brand_tone_asset_link_sidebar.visible = False
-    #   self.avatars_asset_link_sidebar.visible = False
-    #   self.funnels_label.visible = False
-    #   self.vsl_page_link_sidebar.visible = False
-    #   self.final_product.visible = False
-    #   print(f"SOME CELLS ARE EMPTY")
+    if not company_name or not company_url or not product_latest_name:
+      self.company_assets_label.visible = False
+      self.company_asset_link_sidebar.visible = False
+      self.product_asset_link_sidebar.visible = False
+      self.brand_tone_asset_link_sidebar.visible = False
+      self.avatars_asset_link_sidebar.visible = False
+      self.funnels_label.visible = False
+      self.vsl_page_link_sidebar.visible = False
+      self.final_product.visible = False
+      print(f"SOME CELLS ARE EMPTY")
 
-    #  Check to see if it's done a complete 1 time runthrough
+    # Check to see if it's done a complete 1 time runthrough
     try:
         row_first_run_complete = self.user_table.search(variable='first_run_complete')
         first_run_complete = row_first_run_complete[0]['variable_value']
@@ -165,8 +163,7 @@ class Workspace_1(Workspace_1Template):
     #   self.funnels_label.visible = True
     #   self.vsl_page_link_sidebar.visible = True
     #   self.final_product.visible = True
-   
-    
+       
     ## LOAD THE LATEST
     # Load the latest company name
     if row_company_name:
@@ -206,7 +203,9 @@ class Workspace_1(Workspace_1Template):
 ##### USER MANAGEMENT
 
   def initialize_default_workspace(self):
-      self.active_workspace = 'workspace_2'
+    global active_workspace
+    active_workspace = 'workspace_1'
+    self.active_workspace = 'workspace_1'
 
   def button_workspace_1_click(self, **event_args):
       global active_workspace
@@ -223,12 +222,6 @@ class Workspace_1(Workspace_1Template):
       active_workspace = 'workspace_3'
       self.reload_home_form()
   
-  def reload_home_form(self):
-      home = Home()
-      self.content_panel.clear()
-      self.sidebar_nav_menu.clear()
-      self.content_panel.add_component(home)
-
   def get_user_table(self):
     current_user = anvil.users.get_user()
     global active_workspace
@@ -331,12 +324,11 @@ class Workspace_1(Workspace_1Template):
             self.intro_panel.visible = True
             self.research_status_bar.visible = True
   
-
-            # Load stuff
-            current_user = anvil.users.get_user()
-            self.user_table_name = current_user['user_id']
-            # Get the table for the current user
-            self.user_table = getattr(app_tables, self.user_table_name)
+            # # Load stuff
+            # current_user = anvil.users.get_user()
+            # self.user_table_name = current_user['user_id']
+            # # Get the table for the current user
+            # self.user_table = getattr(app_tables, self.user_table_name)
 
             first_run_complete_row = self.user_table.get(variable='first_run_complete')
             first_run_complete_row['variable_value'] = 'yes'
@@ -361,14 +353,14 @@ class Workspace_1(Workspace_1Template):
           
             # Launch the background tasks concurrently
             # COMPANY SUMMARY // BRAND TONE
-            task_id_company_summary = anvil.server.call('launch_draft_company_summary_scraper', company_name, company_url)
+            task_id_company_summary = anvil.server.call('launch_draft_company_summary_scraper', company_name, company_url,self.user_table)
             print("Company Summary Launch function called")
             self.check_status_timer_company_summary.enabled = True
             self.check_status_timer_company_summary.interval = 3
             self.undertaken_tasks.append('company_profile_latest')
             print(f"Added to undertaken_tasks: company_profile_latest")
 
-            task_id_brand_tone = anvil.server.call('launch_draft_brand_tone_research', self.user_table, company_url)
+            task_id_brand_tone = anvil.server.call('launch_draft_brand_tone_research', self.user_table, company_url,self.user_table)
             print("Brand Tone Launch function called")
             task_ids.append(task_id_brand_tone)
 
@@ -440,10 +432,10 @@ class Workspace_1(Workspace_1Template):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        self.user_table_name = current_user['user_id']
-        # Get the table for the current user
-        self.user_table = getattr(app_tables, self.user_table_name)
+        # current_user = anvil.users.get_user()
+        # self.user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # self.user_table = getattr(app_tables, self.user_table_name)
         row = self.user_table.get(variable='company_profile_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -461,10 +453,10 @@ class Workspace_1(Workspace_1Template):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        self.user_table_name = current_user['user_id']
-        # Get the table for the current user
-        self.user_table = getattr(app_tables, self.user_table_name)
+        # current_user = anvil.users.get_user()
+        # self.user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # self.user_table = getattr(app_tables, self.user_table_name)
         row = self.user_table.get(variable='product_1_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -481,10 +473,10 @@ class Workspace_1(Workspace_1Template):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        self.user_table_name = current_user['user_id']
-        # Get the table for the current user
-        self.user_table = getattr(app_tables, self.user_table_name)
+        # current_user = anvil.users.get_user()
+        # self.user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # self.user_table = getattr(app_tables, self.user_table_name)
         row = self.user_table.get(variable='avatar_1_product_1_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -499,10 +491,10 @@ class Workspace_1(Workspace_1Template):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        self.user_table_name = current_user['user_id']
-        # Get the table for the current user
-        self.user_table = getattr(app_tables, self.user_table_name)
+        # current_user = anvil.users.get_user()
+        # self.user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # self.user_table = getattr(app_tables, self.user_table_name)
         row = self.user_table.get(variable='avatar_2_product_1_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -517,10 +509,10 @@ class Workspace_1(Workspace_1Template):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        self.user_table_name = current_user['user_id']
-        # Get the table for the current user
-        self.user_table = getattr(app_tables, self.user_table_name)
+        # current_user = anvil.users.get_user()
+        # self.user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # self.user_table = getattr(app_tables, self.user_table_name)
         row = self.user_table.get(variable='avatar_3_product_1_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -536,10 +528,10 @@ class Workspace_1(Workspace_1Template):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        self.user_table_name = current_user['user_id']
-        # Get the table for the current user
-        self.user_table = getattr(app_tables, self.user_table_name)
+        # current_user = anvil.users.get_user()
+        # self.user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # self.user_table = getattr(app_tables, self.user_table_name)
         row = self.user_table.get(variable='product_2_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -556,10 +548,10 @@ class Workspace_1(Workspace_1Template):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        self.user_table_name = current_user['user_id']
-        # Get the table for the current user
-        self.user_table = getattr(app_tables, self.user_table_name)
+        # current_user = anvil.users.get_user()
+        # self.user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # self.user_table = getattr(app_tables, self.user_table_name)
         row = self.user_table.get(variable='avatar_1_product_2_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -574,10 +566,10 @@ class Workspace_1(Workspace_1Template):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        self.user_table_name = current_user['user_id']
-        # Get the table for the current user
-        self.user_table = getattr(app_tables, self.user_table_name)
+        # current_user = anvil.users.get_user()
+        # self.user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # self.user_table = getattr(app_tables, self.user_table_name)
         row = self.user_table.get(variable='avatar_2_product_2_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -592,10 +584,10 @@ class Workspace_1(Workspace_1Template):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        self.user_table_name = current_user['user_id']
-        # Get the table for the current user
-        self.user_table = getattr(app_tables, self.user_table_name)
+        # current_user = anvil.users.get_user()
+        # self.user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # self.user_table = getattr(app_tables, self.user_table_name)
         row = self.user_table.get(variable='avatar_3_product_2_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -611,10 +603,10 @@ class Workspace_1(Workspace_1Template):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        self.user_table_name = current_user['user_id']
-        # Get the table for the current user
-        self.user_table = getattr(app_tables, self.user_table_name)
+        # current_user = anvil.users.get_user()
+        # self.user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # self.user_table = getattr(app_tables, self.user_table_name)
         row = self.user_table.get(variable='product_3_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -631,10 +623,10 @@ class Workspace_1(Workspace_1Template):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        self.user_table_name = current_user['user_id']
-        # Get the table for the current user
-        self.user_table = getattr(app_tables, self.user_table_name)
+        # current_user = anvil.users.get_user()
+        # self.user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # self.user_table = getattr(app_tables, self.user_table_name)
         row = self.user_table.get(variable='avatar_1_product_3_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -649,10 +641,10 @@ class Workspace_1(Workspace_1Template):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        self.user_table_name = current_user['user_id']
-        # Get the table for the current user
-        self.user_table = getattr(app_tables, self.user_table_name)
+        # current_user = anvil.users.get_user()
+        # self.user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # self.user_table = getattr(app_tables, self.user_table_name)
         row = self.user_table.get(variable='avatar_2_product_3_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -667,10 +659,10 @@ class Workspace_1(Workspace_1Template):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        self.user_table_name = current_user['user_id']
-        # Get the table for the current user
-        self.user_table = getattr(app_tables, self.user_table_name)
+        # current_user = anvil.users.get_user()
+        # self.user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # self.user_table = getattr(app_tables, self.user_table_name)
         row = self.user_table.get(variable='avatar_3_product_3_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -686,10 +678,10 @@ class Workspace_1(Workspace_1Template):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        self.user_table_name = current_user['user_id']
-        # Get the table for the current user
-        self.user_table = getattr(app_tables, self.user_table_name)
+        # current_user = anvil.users.get_user()
+        # self.user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # self.user_table = getattr(app_tables, self.user_table_name)
         row = self.user_table.get(variable='product_4_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -706,10 +698,10 @@ class Workspace_1(Workspace_1Template):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        self.user_table_name = current_user['user_id']
-        # Get the table for the current user
-        self.user_table = getattr(app_tables, self.user_table_name)
+        # current_user = anvil.users.get_user()
+        # self.user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # self.user_table = getattr(app_tables, self.user_table_name)
         row = self.user_table.get(variable='avatar_1_product_4_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -724,10 +716,10 @@ class Workspace_1(Workspace_1Template):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        self.user_table_name = current_user['user_id']
-        # Get the table for the current user
-        self.user_table = getattr(app_tables, self.user_table_name)
+        # current_user = anvil.users.get_user()
+        # self.user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # self.user_table = getattr(app_tables, self.user_table_name)
         row = self.user_table.get(variable='avatar_2_product_4_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -742,10 +734,10 @@ class Workspace_1(Workspace_1Template):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        self.user_table_name = current_user['user_id']
-        # Get the table for the current user
-        self.user_table = getattr(app_tables, self.user_table_name)
+        # current_user = anvil.users.get_user()
+        # self.user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # self.user_table = getattr(app_tables, self.user_table_name)
         row = self.user_table.get(variable='avatar_3_product_4_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -761,10 +753,10 @@ class Workspace_1(Workspace_1Template):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        self.user_table_name = current_user['user_id']
-        # Get the table for the current user
-        self.user_table = getattr(app_tables, self.user_table_name)
+        # current_user = anvil.users.get_user()
+        # self.user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # self.user_table = getattr(app_tables, self.user_table_name)
         row = self.user_table.get(variable='product_5_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -781,10 +773,10 @@ class Workspace_1(Workspace_1Template):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        self.user_table_name = current_user['user_id']
-        # Get the table for the current user
-        self.user_table = getattr(app_tables, self.user_table_name)
+        # current_user = anvil.users.get_user()
+        # self.user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # self.user_table = getattr(app_tables, self.user_table_name)
         row = self.user_table.get(variable='avatar_1_product_5_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -799,10 +791,10 @@ class Workspace_1(Workspace_1Template):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        self.user_table_name = current_user['user_id']
-        # Get the table for the current user
-        self.user_table = getattr(app_tables, self.user_table_name)
+        # current_user = anvil.users.get_user()
+        # self.user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # self.user_table = getattr(app_tables, self.user_table_name)
         row = self.user_table.get(variable='avatar_2_product_5_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -817,10 +809,10 @@ class Workspace_1(Workspace_1Template):
     with anvil.server.no_loading_indicator:
         # Get the background task by its ID
         
-        current_user = anvil.users.get_user()
-        self.user_table_name = current_user['user_id']
-        # Get the table for the current user
-        self.user_table = getattr(app_tables, self.user_table_name)
+        # current_user = anvil.users.get_user()
+        # self.user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # self.user_table = getattr(app_tables, self.user_table_name)
         row = self.user_table.get(variable='avatar_3_product_5_latest')
      
         if row['variable_value'] is None or row['variable_value'] == '':
@@ -835,12 +827,12 @@ class Workspace_1(Workspace_1Template):
   # ALL TASKS
   def check_all_tasks_status(self, sender=None, **event_args):
     with anvil.server.no_loading_indicator:
-        # Get the background task by its ID
-        current_user = anvil.users.get_user()
-        self.user_table_name = current_user['user_id']
+        # # Get the background task by its ID
+        # current_user = anvil.users.get_user()
+        # self.user_table_name = current_user['user_id']
 
-        # Get the table for the current user
-        self.user_table = getattr(app_tables, self.user_table_name)
+        # # Get the table for the current user
+        # self.user_table = getattr(app_tables, self.user_table_name)
         
         all_tasks_completed = True  # Start with the assumption that all tasks are completed
 

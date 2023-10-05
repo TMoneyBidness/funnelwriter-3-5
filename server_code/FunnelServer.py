@@ -59,34 +59,6 @@ tools = Tool(
 
 ####### -------- USER MANAGEMENT --------###########
 
-# ACTIVE WORKSPACE SESSION
-@anvil.server.callable
-def set_active_workspace(workspace_id):
-    """Set the active workspace for the current session."""
-    anvil.server.session['active_workspace'] = workspace_id
-
-@anvil.server.callable
-def get_active_workspace():
-    """Get the active workspace for the current session."""
-    return anvil.server.session.get('active_workspace', 'workspace_1')
-
-# Unified Table Access Function: 
-@anvil.server.callable
-def get_user_table():
-    current_user = anvil.users.get_user()
-    workspace_id = get_active_workspace()
-    user_table_name = current_user[workspace_id]
-    return getattr(app_tables, user_table_name)
-
-# Workspace Switching Buttons:
-# def button_workspace_1_click(self, **event_args):
-#     set_active_workspace('workspace_1')
-
-# def button_workspace_2_click(self, **event_args):
-#     set_active_workspace('workspace_2')
-
-# def button_workspace_3_click(self, **event_args):
-#     set_active_workspace('workspace_3')
 
 
 ####### -------- PRELIMINARY / FIRST DRAFTS--------###########
@@ -95,12 +67,12 @@ def get_user_table():
 # USE WEBSCRAPER
  
 @anvil.server.callable
-def launch_draft_company_summary_scraper(company_name, company_url):
+def launch_draft_company_summary_scraper(company_name, company_url,user_table):
     # Launch the background task
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
     row = user_table.get(variable='company_profile_latest')
     company_dump_row = user_table.get(variable='company_page_dump')
 
@@ -2374,14 +2346,14 @@ def all_avatars_generator(owner_company_profile):
 
 # AVATAR 1, PRODUCT 1 -----------------------#################
 @anvil.server.callable
-def launch_deepdive_avatar_1_product_1_generator(product_1_name,product_1_profile,avatar_1_product_1_name_preview,avatar_1_product_1_preview):
+def launch_deepdive_avatar_1_product_1_generator(product_1_name,product_1_profile,avatar_1_product_1_name_preview,avatar_1_product_1_preview,user_table):
     print("Launch Deep Dive Avatar function started")  
     # Launch the background task
 
-    current_user = anvil.users.get_user()
-    user_table_name = current_user['user_id']
-    # Get the table for the current user
-    user_table = getattr(app_tables, user_table_name)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
     row = user_table.get(variable='avatar_1_product_1_latest')
 
     task = anvil.server.launch_background_task('deepdive_avatar_1_product_1_generator', product_1_name,product_1_profile,avatar_1_product_1_name_preview,avatar_1_product_1_preview,row)

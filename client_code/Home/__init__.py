@@ -50,20 +50,14 @@ class Home(HomeTemplate):
     
 
     
-   #  # self.indeterminate_1.visible = False
-   #  # self.free_navigate_label.visible = False
-   #  # # self.status.text = 'Idle'
-   #  # self.youtube_intro_video.visible = False
-   #  # self.nav_button_home_to_company.visible = False
-   #  # self.research_status_bar.visible = False
-   #  # self.intro_panel.visible = False
-    
-   
-
-   #  # # # Create an instance of Company_new and add it to content_panel
-   #  # company_form = Company_copy()
-   #  # self.content_panel.clear()  # Clear the content panel
-   #  # self.content_panel.add_component(company_form)  # Add the new component
+   # #  # self.indeterminate_1.visible = False
+   # #  # self.free_navigate_label.visible = False
+   # #  # # self.status.text = 'Idle'
+   # #  # self.youtube_intro_video.visible = False
+   # #  # self.nav_button_home_to_company.visible = False
+   # #  # self.research_status_bar.visible = False
+   # #  # self.intro_panel.visible = False
+       
     
    #  self.undertaken_tasks = []
 
@@ -71,13 +65,7 @@ class Home(HomeTemplate):
    #  self.user_table = self.get_user_table()
    #  user_table = self.user_table
    #  print(f"CURRENT USER TABLE IS: {user_table}")
-    
-   #  # Get the current user
-   #  # current_user = anvil.users.get_user()
-   #  # user_table_name = current_user['user_id']
-   #  # # Get the table for the current user
-   #  # user_table = getattr(app_tables, user_table_name)
-    
+        
    #  # HIDE ALL PANELS OFF THE TOP
    #  # Hide Product 1, Avatars 2 and 3
     
@@ -249,22 +237,12 @@ class Home(HomeTemplate):
       self.content_panel.clear()  # Clear the content panel
       self.content_panel.add_component(Workspace_3_form)  # Add the new component
   
-  def reload_home_form(self):
-      home = Home()
-      self.content_panel.clear()
-      self.sidebar_nav_menu.clear()
-      self.content_panel.add_component(home)
-
   def get_user_table(self):
     current_user = anvil.users.get_user()
     global active_workspace
     workspace_id = self.get_active_workspace()
     user_table_name = current_user[workspace_id]
     return getattr(app_tables, user_table_name)
-
-  def set_active_workspace(self, workspace_id):
-    """Set the active workspace for the current session."""
-    anvil.server.session['active_workspace'] = workspace_id
 
   def get_active_workspace(self):
     global active_workspace
