@@ -33,8 +33,9 @@ class Home(HomeTemplate):
     if not anvil.users.get_user():  # Only prompt login if user isn't already logged in
         anvil.users.login_with_form()
 
+   
     self.update_company_assets_box_visibility()
-    
+      
     # Check if user is logged in
     if anvil.users.get_user():
         self.initialize_default_workspace()
@@ -45,7 +46,8 @@ class Home(HomeTemplate):
           # Stop the timer by setting its interval to None
           component.interval = None
 
-    
+    self.update_workspace_button_text()
+      
    # #  # self.indeterminate_1.visible = False
    # #  # self.free_navigate_label.visible = False
    # #  # # self.status.text = 'Idle'
@@ -228,9 +230,61 @@ class Home(HomeTemplate):
             self.company_assets_box.visible = False
     else:
         print("User not logged in or active_workspace not in user")  # Check if this gets printed
-  
-##### USER MANAGEMENT
 
+  def update_workspace_button_text(self):
+    # Get the current user
+    current_user = anvil.users.get_user()
+    
+    # Get the names of the workspace tables associated with the user
+    workspace_1_table_name = current_user['workspace_1']
+    workspace_2_table_name = current_user['workspace_2']
+    workspace_3_table_name = current_user['workspace_3']
+
+    # Initialize variables to store workspace names
+    workspace_1_name = None
+    workspace_2_name = None
+    workspace_3_name = None
+
+    # Check if workspace tables exist and retrieve their names
+    if workspace_1_table_name:
+        workspace_1_table = getattr(app_tables, workspace_1_table_name)
+        workspace_1_row = workspace_1_table.search(variable='company_name')[0]
+        workspace_1_name = workspace_1_row['variable_value']
+
+    if workspace_2_table_name:
+        workspace_2_table = getattr(app_tables, workspace_2_table_name)
+        workspace_2_row = workspace_2_table.search(variable='company_name')[0]
+        workspace_2_name = workspace_2_row['variable_value']
+
+    if workspace_3_table_name:
+        workspace_3_table = getattr(app_tables, workspace_3_table_name)
+        workspace_3_row = workspace_3_table.search(variable='company_name')[0]
+        workspace_3_name = workspace_3_row['variable_value']
+
+    # Update button text based on workspace names
+    if workspace_1_name:
+        self.workspace_1_button.text = workspace_1_name
+    else:
+        self.workspace_1_button.text = "WORKSPACE 1"
+
+    if workspace_2_name:
+        self.workspace_2_button.text = workspace_2_name
+    else:
+        self.workspace_2_button.text = "WORKSPACE 2"
+
+    if workspace_3_name:
+        self.workspace_3_button.text = workspace_3_name
+    else:
+        self.workspace_3_button.text = "WORKSPACE 3"
+
+
+    
+
+
+
+
+              
+##### USER MANAGEMENT
   
   def initialize_default_workspace(self):
     # Get the current user
@@ -263,34 +317,6 @@ class Home(HomeTemplate):
     # Display the workspace form in the content panel
     self.content_panel.clear()
     self.content_panel.add_component(Workspace_form)
-
-  def load_button_names(self):
-    # Get the current user
-    current_user = anvil.users.get_user()
-    
-    # Determine the workspace ID
-    if current_user and 'active_workspace' in current_user and current_user['active_workspace']:
-        workspace_id = current_user['active_workspace']
-    else:
-        # Set default workspace to 'workspace_1'
-        workspace_id = 'workspace_1'
-        if current_user:
-            # Update the 'active_workspace' column in the user table
-            current_user['active_workspace'] = workspace_id
-            # Update the user table with the changes
-            current_user.update()
-
-    # Get the table name from the user record using the workspace ID
-    workspace_table_name = current_user[workspace_id]
-
-    # Fetch the actual table object
-    workspace_table = getattr(app_tables, workspace_table_name)
-
-    # Search for the 'company_name' row
-    company_name_row = workspace_table.search(variable='company_name')[0]
-    if company_name_row:
-        # Set the text of self.workspace_1_button
-        self.workspace_1_button.text = company_name_row['variable_title']
 
     # Load the appropriate workspace form
     if workspace_id == 'workspace_1':
