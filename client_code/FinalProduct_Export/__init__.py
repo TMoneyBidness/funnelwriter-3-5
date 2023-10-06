@@ -69,30 +69,74 @@ class FinalProduct_Export(FinalProduct_ExportTemplate):
   #   media_object = anvil.server.call('create_VSL_pdf',timeout=30)
   #   anvil.media.download(media_object)
 
+  def generate_product_1_button_click(self, **event_args):
+       
+      # Reset the VSL Media Objectst
+      vsl_script_row = self.user_table.search(variable='vsl_script')[0]
+      vsl_script_row['variable_title'] = ""
+      vsl_script_row.update()
+      
+        # COMPANY PROFILE
+      company_name_row = self.user_table.search(variable='company_name')[0]
+      company_name= company_name_row['variable_value']
+      
+      # COMPANY PROFILE
+      # Retrieve the row with 'variable' column containing 'company_profile'
+      company_profile_row = self.user_table.search(variable='company_profile')[0]
+      company_profile = company_profile_row['variable_value']
+  
+      # COMPANY URL
+      # Retrieve the row with 'variable' column containing 'company_profile'
+      company_url_row = self.user_table.search(variable='company_url')[0]
+      company_url = company_url_row['variable_value']
+  
+      # PRODUCT NAME
+      product_name = self.product_1_name_input.text
+      product_name_row = self.user_table.search(variable='product_1_name_latest')[0]
+      product_name_row['variable_value'] = product_name
+      product_name_row.update()
 
-  # Event handler for the download button
-  def download_VSL_pdf_click(self, **event_args):
-    # Start the background task
-    self.start_background_pdf_task()
-
-    # Function to start the background task
-  def start_background_pdf_task(self):
-    job_id = anvil.server.call('create_VSL_pdf_background_job')
-    
-    # Poll the task status periodically
-    while True:
-        task_status = anvil.server.call('check_task_status', job_id)
-        if task_status == 'completed':
-            media_object = anvil.server.call('get_generated_pdf')
-            anvil.media.download(media_object)
-            break
-        elif task_status == 'failed':
-            # Handle error (you can modify this according to your requirements)
-            print("PDF generation failed!")
-            break
-        else:
-            # Wait for a short duration before checking again
-            time.sleep(5)
+      # PRODUCT URL
+      product_url = self.product_1_url_input.text
+      product_url_row = self.user_table.get(variable=f"product_1_url")
+      product_url_row['variable_value'] = product_url
+      product_url_row.update()
+          
+      # PRODUCT EXCERPT / PREVIEW
+      product_preview = self.product_profile_1_textbox.text
+      # product_1_latest = self.product_profile_1_textbox.text
+      product_preview_row = self.user_table.search(variable='product_1_preview')[0]
+      product_preview_row['variable_value'] = product_preview
+      product_preview_row.update()
+      
+      # Start the Check Status Timers
+      self.check_status_timer_product_1.enabled = True
+      self.check_status_timer_product_1.interval = 3
+      
+      self.task_id = anvil.server.call('launch_deepdive_product_1_generator',self.user_table,company_name,product_name,product_url,product_preview)
+      print("Task ID:", self.task_id)
+   
+  def check_status_product_1_summary(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Get the background task by its ID
+        
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
+        row = self.user_table.get(variable='product_1_latest')
+     
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working on the Product Summary!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Product Summary Generated!")
+            self.check_status_timer_product_1.enabled = False
+            self.check_status_timer_product_1.interval = 0
+                          
+            # Update the box
+            self.product_profile_1_textbox.text = row['variable_value']
+            self.indeterminate_1.visible = False
+  
 
 
  
