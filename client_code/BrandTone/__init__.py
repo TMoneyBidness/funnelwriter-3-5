@@ -51,7 +51,7 @@ class BrandTone(BrandToneTemplate):
         self.nav_button_tone_to_VSL_elements.enabled = False
 #$
   def set_home_form_reference(self, home_form):
-        self.home_form = home_form
+    self.home_form = home_form
   #$
   
   def form_show(self, **event_args):
@@ -160,15 +160,15 @@ class BrandTone(BrandToneTemplate):
     self.brand_tone_textbox.read_only = False
 
   def save_brand_tone_component_click(self, **event_args):
-    variable_title = anvil.js.window.prompt("What would you like to call this Brand Tone?")
+    brand_tone_title = anvil.js.window.prompt("What would you like to call this Brand Tone?")
 
     brand_tone = self.brand_tone_textbox.text
     
     brand_tone_lookup = "brand_tone"
     brand_tone_row = self.user_table.get(variable=brand_tone_lookup)
     
-    company_name_row = self.user_table.get(variable='company_name')
-    brand_tone_title = company_name_row['variable_value'] 
+    # company_name_row = self.user_table.get(variable='company_name') # - THis saves it as the company name
+    # brand_tone_title = company_name_row['variable_value'] 
     
     if brand_tone_row:
         brand_tone_row['variable_value'] = brand_tone
@@ -248,6 +248,7 @@ class BrandTone(BrandToneTemplate):
         self.home_form.company_assets_box.visible = True
     else:
         print("Home form reference is missing.")
+
 
     
   # def update_company_assets_box_visibility(self):

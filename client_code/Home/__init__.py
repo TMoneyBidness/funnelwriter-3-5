@@ -406,12 +406,10 @@ class Home(HomeTemplate):
     self.content_panel.add_component(product)
 
   def brand_tone_asset_link_click(self, **event_args):
-    brandtone=BrandTone()
+    brand_tone_form = BrandTone()
+    brand_tone_form.set_home_form_reference(self)
     self.content_panel.clear()
-    self.content_panel.add_component(brandtone)
-
-
-
+    self.content_panel.add_component(brand_tone_form)
   
   def avatars_asset_link_click(self, **event_args):
     avatars=Avatars()

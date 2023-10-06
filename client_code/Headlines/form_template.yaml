@@ -903,38 +903,14 @@ components:
       - type: Button
         properties: {role: outlined-button, align: center, tooltip: '', border: '',
           enabled: true, foreground: 'theme:On Primary Container', visible: true,
-          text: SAVE MY VIDEO SALES SCRIPT, font_size: 26, font: '', spacing_above: small,
+          text: 'SAVE, THEN SHOW ME THE FINAL PRODUCT', font_size: 26, font: '', spacing_above: small,
           icon_align: right, spacing_below: small, italic: false, background: 'theme:Tertiary
-            Container', bold: true, underline: false, icon: 'fa:briefcase'}
+            Container', bold: true, underline: false, icon: 'fa:book'}
         name: save_my_script_button
         layout_properties:
           col_widths: {}
           grid_position: VFCDCM,HYVIIL
-        event_bindings: {click: save_my_the_script_click}
-      - type: DropDown
-        properties:
-          role: null
-          align: full
-          tooltip: ''
-          placeholder: SAVE AS
-          border: ''
-          enabled: true
-          foreground: theme:On Primary Container
-          items: []
-          visible: true
-          font_size: 26
-          font: ''
-          spacing_above: small
-          spacing_below: small
-          italic: false
-          background: theme:Tertiary Container
-          bold: true
-          underline: false
-          include_placeholder: true
-        name: save_vsl_script_name_dropdown
-        layout_properties:
-          col_widths: {}
-          grid_position: VFCDCM,ZKZLXK
+        event_bindings: {click: save_the_script_click}
 - type: Timer
   properties: {interval: 3}
   name: task_check_timer_headlines

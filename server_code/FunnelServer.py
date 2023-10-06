@@ -22,6 +22,7 @@ from langchain.utilities import SerpAPIWrapper
 import json
 import re
 from collections import OrderedDict
+import anvil.pdf
 
 import requests
 from bs4 import BeautifulSoup
@@ -57,10 +58,35 @@ tools = Tool(
 
 ############################################################################################################################
 
-####### -------- USER MANAGEMENT --------###########
+####### -------- PDF MANAGEMENT --------###########
+
+# @anvil.server.callable
+# def create_VSL_pdf():
+#   media_object = anvil.pdf.render_form('FinalProduct_Export', name='Funnelwriter_VSL_Export',page_size='A1')
+#   return media_object
+# Function to create a background job for PDF generation
+
+@anvil.server.callable
+def create_VSL_pdf_background_job():
+    return anvil.server.launch_background_task('create_VSL_pdf')
+
+# Background task to create a PDF
+@anvil.server.background_task
+def create_VSL_pdf():
+    media_object = anvil.pdf.render_form('FinalProduct_Export', page_size='A1')
+    return 'completed'  # Indicate the task is complete
+
+# Function to retrieve the generated PDF for download
+@anvil.server.callable
+def get_generated_pdf():
+    return anvil.server.background_result()
+
+@anvil.server.callable
+def check_task_status(job_id):
+    return anvil.server.get_task_status(job_id)['status']  # Return the task status
 
 
-
+  
 ####### -------- PRELIMINARY / FIRST DRAFTS--------###########
 # COMPANY 1st DRAFT
 

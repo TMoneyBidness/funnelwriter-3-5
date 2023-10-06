@@ -53,7 +53,14 @@ class Product(ProductTemplate):
       if isinstance(component, anvil.Timer):
         # Stop the timer by setting its interval to None
         component.interval = None
-          
+
+    #Hide Panels of Products 2-5
+    self.product_panel_2.visible = False
+    self.product_panel_3.visible = False
+    self.product_panel_4.visible = False
+    self.product_panel_5.visible = False
+
+            
     #  # Get the current user
     # current_user = anvil.users.get_user()
     # user_table_name = current_user['user_id']
@@ -74,6 +81,9 @@ class Product(ProductTemplate):
             getattr(self, f'product_profile_{i}_textbox').text = product_latest_description
             getattr(self, f'product_{i}_name_input').text = product_latest_title
             getattr(self, f'product_{i}_url_input').text = product_url
+
+            if product_latest_title:
+              getattr(self, f'product_panel_{i}').visible = True
     
         else:
             # Handle case where the row does not exist for the current user
@@ -953,6 +963,30 @@ class Product(ProductTemplate):
         anvil.js.window.alert("No product found")
 
 ###----------NAVIGATION---------------####
+
+  def add_product_2_click(self, **event_args):
+    self.product_panel_2.visible = True
+    self.add_product_2.visible = False
+
+  def add_product_3_click(self, **event_args):
+    self.product_panel_3.visible = True
+    self.add_product_2.visible = False
+    self.add_product_3.visible = False
+
+  def add_product_4_click(self, **event_args):
+    self.product_panel_4.visible = True
+    self.add_product_2.visible = False
+    self.add_product_3.visible = False
+    self.add_product_4.visible = False
+
+  def add_product_5_click(self, **event_args):
+    self.product_panel_5.visible = True
+    self.add_product_2.visible = False
+    self.add_product_3.visible = False
+    self.add_product_4.visible = False
+    self.add_product_5.visible = False
+
+  
   def nav_button_products_to_avatars_click(self, **event_args):
     for component in self.get_components():
       # Check if the component is a Timer

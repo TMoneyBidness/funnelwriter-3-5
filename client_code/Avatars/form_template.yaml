@@ -24,15 +24,6 @@ components:
       background: '', bold: false, underline: false, icon: 'fa:clock-o'}
     name: label_2
     layout_properties: {grid_position: 'UZWHPU,XUVWGG'}
-  - type: Label
-    properties: {role: null, align: center, tooltip: '', border: '', foreground: 'theme:Error',
-      visible: true, text: You must NAME and 'SAVE' your Avatar Names in order to use them in the funnel...,
-      font_size: 18, font: '', spacing_above: small, icon_align: left, spacing_below: small,
-      italic: false, background: '', bold: true, underline: false, icon: ''}
-    name: save_warning_copy
-    layout_properties:
-      col_widths: {}
-      grid_position: EDMTBR,YQYHSE
   - type: ColumnPanel
     properties: {col_widths: '{}'}
     name: whole_panel
@@ -1334,9 +1325,9 @@ components:
       event_bindings: {click: nav_button_avatars_to_brand_tone_click}
     - type: Label
       properties: {role: null, align: center, tooltip: '', border: '', foreground: 'theme:Error',
-        visible: true, text: You must 'SAVE' Avatar Names before proceeding...., font_size: 18,
-        font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-        background: '', bold: true, underline: false, icon: ''}
+        visible: true, text: Be sure to 'SAVE' any changes before proceeding....,
+        font_size: 18, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+        italic: false, background: '', bold: true, underline: false, icon: ''}
       name: save_warning
       layout_properties:
         col_widths: {}

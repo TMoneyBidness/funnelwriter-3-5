@@ -11,6 +11,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 from anvil import tables
+import anvil.media
 
 from ..VideoSalesLetter import VideoSalesLetter
 from ..FinalProduct_Export import FinalProduct_Export
@@ -998,6 +999,8 @@ class Headlines(HeadlinesTemplate):
     final_product_export = FinalProduct_Export()
     self.content_panel.clear()
     self.content_panel.add_component(final_product_export)
+
+
 
 
     

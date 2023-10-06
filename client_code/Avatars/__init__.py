@@ -118,7 +118,6 @@ class Avatars(AvatarsTemplate):
               # getattr(self, f'add_product_{i-1}').visible = False
               # pass
 
-          
           # Now, load the avatars associated with that product. There may be 1 avatar only, or there are 3. The cells might be empty!
           # Load the avatars associated with that product
           for j in range(1, 4):
@@ -2132,10 +2131,9 @@ class Avatars(AvatarsTemplate):
   #   self.content_panel.add_component(brandtone)
 
   def nav_button_avatars_to_brand_tone_click(self, **event_args):
-      brandtone = BrandTone()
+      brandtone = BrandTone(home_form=self)
       self.content_panel.clear()
       self.content_panel.add_component(brandtone)
-    
     
   def navigate_to_brand_tone(self, **event_args):
       brandtone = BrandTone()
@@ -2408,6 +2406,16 @@ class Avatars(AvatarsTemplate):
 
 # Initial Load:
 # self.avatars_dropdown.items = [(row['avatar'], row) for row in app_tables.stock_avatars.search()]
+
+  def add_product_2_panel_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    pass
+
+  def add_product_3_panel_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    pass
+
+
 
 
 
