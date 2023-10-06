@@ -12,7 +12,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 from anvil import tables
 import anvil.media
-import anvil.pdf
+
 
 
 from ..VideoSalesLetter import VideoSalesLetter
