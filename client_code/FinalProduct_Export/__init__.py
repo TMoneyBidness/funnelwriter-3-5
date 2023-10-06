@@ -65,80 +65,41 @@ class FinalProduct_Export(FinalProduct_ExportTemplate):
 
 ########----------------- GENERATE A FINAL PDF
     
-  # def download_VSL_pdf_click(self, **event_args):
-  #   media_object = anvil.server.call('create_VSL_pdf',timeout=30)
-  #   anvil.media.download(media_object)
 
-  def generate_product_1_button_click(self, **event_args):
-       
+  def download_vsl_pdf_click(self, **event_args):      
+      print("download_vsl_pdf_click has been clicked!") 
+    
       # Reset the VSL Media Objectst
       vsl_script_row = self.user_table.search(variable='vsl_script')[0]
       vsl_script_row['variable_title'] = ""
       vsl_script_row.update()
+            
+      self.task_id = anvil.server.call('launch_download_vsl_pdf',self.user_table)
+      print("Server side VSL function launch function called! Task_ID =", self.task_id)
       
-        # COMPANY PROFILE
-      company_name_row = self.user_table.search(variable='company_name')[0]
-      company_name= company_name_row['variable_value']
-      
-      # COMPANY PROFILE
-      # Retrieve the row with 'variable' column containing 'company_profile'
-      company_profile_row = self.user_table.search(variable='company_profile')[0]
-      company_profile = company_profile_row['variable_value']
-  
-      # COMPANY URL
-      # Retrieve the row with 'variable' column containing 'company_profile'
-      company_url_row = self.user_table.search(variable='company_url')[0]
-      company_url = company_url_row['variable_value']
-  
-      # PRODUCT NAME
-      product_name = self.product_1_name_input.text
-      product_name_row = self.user_table.search(variable='product_1_name_latest')[0]
-      product_name_row['variable_value'] = product_name
-      product_name_row.update()
+    # Start the Check Status Timers
+      self.check_status_download_pdf_timer.enabled = True
+      self.check_status_download_pdf_timer.interval = 3
 
-      # PRODUCT URL
-      product_url = self.product_1_url_input.text
-      product_url_row = self.user_table.get(variable=f"product_1_url")
-      product_url_row['variable_value'] = product_url
-      product_url_row.update()
-          
-      # PRODUCT EXCERPT / PREVIEW
-      product_preview = self.product_profile_1_textbox.text
-      # product_1_latest = self.product_profile_1_textbox.text
-      product_preview_row = self.user_table.search(variable='product_1_preview')[0]
-      product_preview_row['variable_value'] = product_preview
-      product_preview_row.update()
-      
-      # Start the Check Status Timers
-      self.check_status_timer_product_1.enabled = True
-      self.check_status_timer_product_1.interval = 3
-      
-      self.task_id = anvil.server.call('launch_deepdive_product_1_generator',self.user_table,company_name,product_name,product_url,product_preview)
-      print("Task ID:", self.task_id)
    
-  def check_status_product_1_summary(self, sender=None, **event_args):
+  def check_status_download_pdf(self, sender=None, **event_args):
     with anvil.server.no_loading_indicator:
-        # Get the background task by its ID
-        
-        # current_user = anvil.users.get_user()
-        # user_table_name = current_user['user_id']
-        # # Get the table for the current user
-        # user_table = getattr(app_tables, user_table_name)
-        row = self.user_table.get(variable='product_1_latest')
+        row = self.user_table.get(variable='vsl_script')
      
-        if row['variable_value'] is None or row['variable_value'] == '':
-            print("Still working on the Product Summary!")
-        elif row['variable_value'] is not None and row['variable_value'] != '':
-            print("Product Summary Generated!")
-            self.check_status_timer_product_1.enabled = False
-            self.check_status_timer_product_1.interval = 0
+        if row['variable_title'] is None or row['variable_title'] == '':
+            print("Still working on Generating the PDF!")
+        elif row['variable_title'] is not None and row['variable_title'] != '':
+            print("PDF VSL Format Generated!")
+            self.check_status_download_pdf_timer.enabled = False
+            self.check_status_download_pdf_timer.interval = 0
                           
-            # Update the box
-            self.product_profile_1_textbox.text = row['variable_value']
-            self.indeterminate_1.visible = False
-  
-
-
+            # Launch the downloader
+            self.download_VSL_pdf()
+      
+  def download_VSL_pdf(self, **event_args):
+    row = self.user_table.get(variable='vsl_script')
+    media_object = row['variable_title']
+    anvil.media.download(media_object)
  
 
     

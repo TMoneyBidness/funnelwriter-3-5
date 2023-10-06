@@ -1,0 +1,124 @@
+container:
+  type: ColumnPanel
+  properties: {col_widths: '{}'}
+components:
+- type: ColumnPanel
+  properties: {col_widths: '{}'}
+  name: content_panel
+  layout_properties: {grid_position: 'JGPTPY,TXHNPI'}
+  components:
+  - type: ColumnPanel
+    properties: {col_widths: '{}'}
+    name: final_vsl_outline_box
+    layout_properties:
+      col_widths: {}
+      grid_position: OAAZOG,SVYPNR
+    components:
+    - type: ColumnPanel
+      properties: {role: elevated-card, tooltip: '', border: '', foreground: '', visible: true,
+        wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{"CVCFIE":25,"DXKYRO":20,"ZYEJJB":20,"QZVFZQ":16}',
+        spacing_below: small, background: 'theme:On Primary'}
+      name: column_panel_3_copy
+      layout_properties:
+        col_widths: {}
+        grid_position: VFNFSA,WZTMBL
+      components:
+      - type: Label
+        properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+          visible: true, text: FINAL VIDEO SALES LETTER, font_size: 42, font: '',
+          spacing_above: small, icon_align: left, spacing_below: small, italic: true,
+          background: '', bold: true, underline: false, icon: ''}
+        name: label_1_copy_4
+        layout_properties:
+          col_widths: {}
+          grid_position: FMIFCA,LVCCUK
+      - type: Spacer
+        properties: {height: 32}
+        name: spacer_1
+        layout_properties: {grid_position: 'KRAAKC,BAAXJX'}
+      - type: TextArea
+        properties: {role: null, align: center, height: '', tooltip: '', placeholder: 1ST HEADLINE - Your Attention Getting Headline Loads Here,
+          border: '', enabled: true, foreground: '', visible: true, text: '', font_size: 24,
+          auto_expand: true, font: '', spacing_above: small, spacing_below: small,
+          italic: false, background: '', bold: true, underline: false}
+        name: main_headline_textbox
+        layout_properties: {grid_position: 'OUCXNB,ZQLXFW'}
+        event_bindings: {change: main_headline_group_change}
+      - type: TextArea
+        properties: {role: null, align: center, height: '', tooltip: '', placeholder: 'Next,
+            here''s your subheadline to increase credibility and build interest ',
+          border: '', enabled: true, foreground: '', visible: true, text: '', font_size: 20,
+          auto_expand: true, font: '', spacing_above: small, spacing_below: small,
+          italic: false, background: '', bold: true, underline: false}
+        name: subheadline_textbox
+        layout_properties: {grid_position: 'TSJQSD,HGLANS'}
+      - type: TextArea
+        properties: {role: null, align: left, height: 355, tooltip: '', placeholder: VIDEO SALES SCRIPT IS HERE (Next Step...),
+          border: '', enabled: true, foreground: '', visible: true, text: '', font_size: 16,
+          auto_expand: true, font: '', spacing_above: small, spacing_below: small,
+          italic: false, background: '', bold: false, underline: false}
+        name: video_sales_script_textbox
+        layout_properties: {grid_position: 'LZWTET,KOGWGA'}
+      - type: TextArea
+        properties: {role: null, align: center, height: '', tooltip: '', placeholder: 2ND HEADLINE HERE - This entices the reader to continue reading...,
+          border: '', enabled: true, foreground: '', visible: true, text: '', font_size: 20,
+          auto_expand: true, font: '', spacing_above: small, spacing_below: small,
+          italic: false, background: '', bold: true, underline: false}
+        name: secondary_headline_textbox
+        layout_properties:
+          col_widths: {}
+          grid_position: ASGQQX,GQBVPQ
+      - type: TextArea
+        properties: {role: null, align: left, height: '', tooltip: '', placeholder: '',
+          border: '', enabled: true, foreground: '', visible: true, text: EXCERPT 1 - Compelling Reason,
+          font_size: null, auto_expand: true, font: '', spacing_above: small, spacing_below: small,
+          italic: true, background: '', bold: false, underline: false}
+        name: excerpt_textbox_1
+        layout_properties: {grid_position: 'WYJUOA,CVCFIE'}
+      - type: TextArea
+        properties: {role: null, align: left, height: '', tooltip: '', placeholder: '',
+          border: '', enabled: true, foreground: '', visible: true, text: EXCERPT 2 - Revealing Secret,
+          font_size: null, auto_expand: true, font: '', spacing_above: small, spacing_below: small,
+          italic: true, background: '', bold: false, underline: false}
+        name: excerpt_textbox_2
+        layout_properties:
+          col_widths: {}
+          grid_position: WYJUOA,DXKYRO
+      - type: TextArea
+        properties: {role: null, align: left, height: '', tooltip: '', placeholder: '',
+          border: '', enabled: true, foreground: '', visible: true, text: EXCERPT 3 - Another Revealing Secret,
+          font_size: null, auto_expand: true, font: '', spacing_above: small, spacing_below: small,
+          italic: true, background: '', bold: false, underline: false}
+        name: excerpt_textbox_3
+        layout_properties:
+          col_widths: {}
+          grid_position: WREWNY,ZYEJJB
+      - type: TextArea
+        properties: {role: null, align: left, height: '', tooltip: '', placeholder: '',
+          border: '', enabled: true, foreground: '', visible: true, text: EXCERPT 4 - Expected Results,
+          font_size: null, auto_expand: true, font: '', spacing_above: small, spacing_below: small,
+          italic: true, background: '', bold: false, underline: false}
+        name: excerpt_textbox_4
+        layout_properties:
+          col_widths: {}
+          grid_position: WREWNY,QZVFZQ
+      - type: Spacer
+        properties: {height: 32}
+        name: spacer_2
+        layout_properties: {grid_position: 'ZXGNXD,KHSWSB'}
+      - type: Button
+        properties: {role: elevated-button, align: center, tooltip: '', border: '',
+          enabled: true, foreground: 'theme:On Primary Container', visible: true,
+          text: DOWNLOAD AS PDF, font_size: 26, font: '', spacing_above: small, icon_align: right,
+          spacing_below: small, italic: false, background: 'theme:Tertiary Container',
+          bold: true, underline: false, icon: 'fa:download'}
+        name: save_my_script_button
+        layout_properties:
+          col_widths: {}
+          grid_position: YTHSCS,HRUHKT
+        event_bindings: {click: download_vsl_pdf_click}
+- type: Timer
+  properties: {interval: 2}
+  name: check_status_download_pdf_timer
+  event_bindings: {tick: check_status_download_pdf}
+is_package: true

@@ -23,6 +23,7 @@ import json
 import re
 from collections import OrderedDict
 import anvil.pdf
+from anvil.pdf import PDFRenderer
 
 import requests
 from bs4 import BeautifulSoup
@@ -54,37 +55,32 @@ tools = Tool(
 #     func=search.run,
 # )
 
-
-
 ############################################################################################################################
 
 ####### -------- PDF MANAGEMENT --------###########
 
-# @anvil.server.callable
-# def create_VSL_pdf():
-#   media_object = anvil.pdf.render_form('FinalProduct_Export', name='Funnelwriter_VSL_Export',page_size='A1')
-#   return media_object
-# Function to create a background job for PDF generation
-
 @anvil.server.callable
-def create_VSL_pdf_background_job():
-    return anvil.server.launch_background_task('create_VSL_pdf')
-
-# Background task to create a PDF
+def launch_download_vsl_pdf(user_table):
+    # Launch the background task
+    print("Download VSL launch function called")  
+    task_id = anvil.server.launch_background_task('generate_pdf_to_download',user_table)
+    # Return the task ID
+    return task_id.get_id()
+  
 @anvil.server.background_task
-def create_VSL_pdf():
-    media_object = anvil.pdf.render_form('FinalProduct_Export', page_size='A1')
-    return 'completed'  # Indicate the task is complete
+def generate_pdf_to_download(user_table):
+  print("Generate PDF background task started")
+  pdf = PDFRenderer(page_size='A4').render_form('FinalProduct_Export_test')
+  # media_object = anvil.pdf.render_form('FinalProduct_Export_test')
 
-# Function to retrieve the generated PDF for download
-@anvil.server.callable
-def get_generated_pdf():
-    return anvil.server.background_result()
-
-@anvil.server.callable
-def check_task_status(job_id):
-    return anvil.server.get_task_status(job_id)['status']  # Return the task status
-
+    # Save it in the table:
+  row = user_table.get(variable='vsl_script')
+  # row['variable_title'] = media_object 
+  row['variable_title'] = pdf
+  row.update()
+  
+  return pdf
+  # return media_object
 
   
 ####### -------- PRELIMINARY / FIRST DRAFTS--------###########
