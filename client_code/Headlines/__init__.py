@@ -139,18 +139,21 @@ class Headlines(HeadlinesTemplate):
       
     self.task_ids = []  # List to store all task IDs
 
-    # LOAD THE VSL SCRIPT TITLES
-    vsl_script_rows = [
-        self.user_table.search(variable='saved_vsl_script_1')[0],
-        self.user_table.search(variable='saved_vsl_script_2')[0],
-        self.user_table.search(variable='saved_vsl_script_3')[0]
-    ]
+   # LOAD THE VSL SCRIPT TITLES
+    vsl_script_variables = ['saved_vsl_script_1', 'saved_vsl_script_2', 'saved_vsl_script_3']
+    saved_vsl_script_names = []
     
-    # Extract the values from the non-empty rows and replace 'None' with 'FREE SLOT'
-    saved_vsl_script_names = [row['variable_title'] if row['variable_title'] else 'FREE SLOT' for row in vsl_script_rows]
+    for variable in vsl_script_variables:
+        rows = self.user_table.search(variable=variable)
+        
+        if len(rows) > 0:
+            saved_vsl_script_names.append(rows[0]['variable_title'])
+        else:
+            saved_vsl_script_names.append('FREE SLOT')  # If no rows are found for the variable, add 'FREE SLOT'
     
     # Assign the values to the company_profile_dropdown
     self.save_vsl_script_name_dropdown.items = saved_vsl_script_names
+
 
 
   ########----------------- USER MANAGEMENT
@@ -1001,28 +1004,16 @@ class Headlines(HeadlinesTemplate):
   def save_the_script_click(self, **event_args):
 
     # Fetch the current selected dropdown item
-    selected_item_index = self.save_vsl_script_name_dropdown.selected_value
-    selected_variable = f'saved_vsl_script_{selected_item_index[0] + 1}'
-    
-    # Display an alert to get the new title from the user
-    new_title = anvil.js.window.prompt("Enter the new title or this VSL Product:")
-    
-    if new_title:  # If the user provided a title
-        # Update the appropriate slot in the user_table
-        self.user_table.update_rows(variable=selected_variable, variable_title=new_title)
-    
-        # Fetch updated VSL script rows
-        vsl_script_rows = [
-            self.user_table.search(variable='saved_vsl_script_1')[0],
-            self.user_table.search(variable='saved_vsl_script_2')[0],
-            self.user_table.search(variable='saved_vsl_script_3')[0]
-        ]
-    
-        # Extract the values from the non-empty rows
-        saved_vsl_script_names = [row['variable_title'] for row in vsl_script_rows]
+    selected_item_title = self.save_vsl_script_name_dropdown.selected_value
         
-        # Update the dropdown items
-        self.save_vsl_script_name_dropdown.items = saved_vsl_script_names
+    # Display an alert to get the new title from the user
+    new_vsl_title = anvil.js.window.prompt("Enter the new title or this VSL Product:")
+    
+    if new_vsl_title:  # If the user provided a title
+         # Fetch and update the VSL script row
+        vsl_script_row = self.user_table.search(variable=selected_item_title)[0]
+        vsl_script_row['variable_title'] = new_vsl_title
+        vsl_script_row.update()
       
     else:
       anvil.js.window.alert("Please select a new name...")
@@ -1039,16 +1030,17 @@ class Headlines(HeadlinesTemplate):
         'theme_excerpt_4': self.excerpt_textbox_4.text
     }
 
-    self.save_vsl_as_json(selected_variable, chosen_data)
+    self.save_vsl_as_json(new_vsl_title, chosen_data)
       
-
-  def save_vsl_as_json(self, selected_variable, chosen_data):
+  def save_vsl_as_json(self, new_vsl_title, chosen_data):
     # Convert the data to a JSON string
     json_data = json.dumps(chosen_data)
 
     # Save the JSON string to the appropriate slot in the user_table
-    self.user_table.update_rows(variable=selected_variable, variable_value=json_data)
-
+    new_vsl_script_row = self.user_table.search(variable=new_vsl_title)[0]
+    vsl_script_row['variable_value'] = json_data
+    vsl_script_row.update()
+    
 
     final_product_export = FinalProduct_Export()
     self.content_panel.clear()
