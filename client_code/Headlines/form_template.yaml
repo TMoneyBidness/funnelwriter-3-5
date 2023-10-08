@@ -911,6 +911,10 @@ components:
           col_widths: {}
           grid_position: VFCDCM,HYVIIL
         event_bindings: {click: save_the_script_click}
+      - type: DropDown
+        properties: {}
+        name: save_vsl_script_name_dropdown
+        layout_properties: {grid_position: 'VFCDCM,QUPDYC'}
 - type: Timer
   properties: {interval: 3}
   name: task_check_timer_headlines

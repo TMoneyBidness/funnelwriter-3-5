@@ -2,6 +2,7 @@ from ._anvil_designer import HeadlinesTemplate
 from anvil import *
 import time
 import json
+import anvil.js
 import anvil.server
 import anvil.facebook.auth
 import anvil.google.auth, anvil.google.drive
@@ -41,7 +42,7 @@ class Headlines(HeadlinesTemplate):
     # Hide the main boxes
     self.subheadlines_chooser_panel.visible = False
     self.main_secondary_headline_box.visible = False
-    self.final_vsl_outline_box.visible = False
+    self.final_vsl_outline_box.visible = True
     
     self.generate_headlines_vsl_button.enabled = True
     self.generate_vsl_themes_button.visible = False
@@ -140,18 +141,17 @@ class Headlines(HeadlinesTemplate):
 
     # LOAD THE VSL SCRIPT TITLES
     vsl_script_rows = [
-    self.user_table.search(variable='saved_vsl_script_1')[0],
-    self.user_table.search(variable='saved_vsl_script_2')[0],
-    self.user_table.search(variable='saved_vsl_script_3')[0]
+        self.user_table.search(variable='saved_vsl_script_1')[0],
+        self.user_table.search(variable='saved_vsl_script_2')[0],
+        self.user_table.search(variable='saved_vsl_script_3')[0]
     ]
-     # Extract the values from the non-empty rows
-    saved_vsl_script_names = [row['variable_title'] for row in vsl_script_rows]
-
-    # Ensure all values in the list are strings
-    saved_vsl_script_names = [str(name) for name in saved_vsl_script_names] #<-- NEW LINE HERE
-
+    
+    # Extract the values from the non-empty rows and replace 'None' with 'FREE SLOT'
+    saved_vsl_script_names = [row['variable_title'] if row['variable_title'] else 'FREE SLOT' for row in vsl_script_rows]
+    
     # Assign the values to the company_profile_dropdown
     self.save_vsl_script_name_dropdown.items = saved_vsl_script_names
+
 
   ########----------------- USER MANAGEMENT
 
@@ -908,8 +908,6 @@ class Headlines(HeadlinesTemplate):
     self.main_secondary_headline_box.visible = False
     self.subheadlines_chooser_panel.visible = True
     
-    
-
 
   def save_all_headlines_to_vsl_click(self, **event_args):
     if not self.subheadline_textbox_2.text or not self.main_headline_textbox_3.text or not self.secondary_headline_textbox_3.text:
@@ -926,15 +924,85 @@ class Headlines(HeadlinesTemplate):
     self.subheadlines_chooser_panel.visible = False
     self.final_vsl_outline_box.visible = True
 
+  # def save_the_script_click(self, **event_args):
+  #   # current_user = anvil.users.get_user()
+  #   # user_table_name = current_user['user_id']
+  #   # # Get the table for the current user
+  #   # user_table = getattr(app_tables, user_table_name)
+
+  #   # Fetch the current selected dropdown item
+  #   selected_item_index = self.save_vsl_script_name_dropdown.selected_value
+  #   selected_variable = f'saved_vsl_script_{selected_item_index + 1}'
+    
+  #   # Display an alert to get the new title from the user
+  #   new_title = anvil.js.window.prompt("Enter the new title or this VSL Product:")
+    
+  #   if new_title:  # If the user provided a title
+  #       # Update the appropriate slot in the user_table
+  #       self.user_table.update_rows(variable=selected_variable, variable_title=new_title)
+    
+  #       # Fetch updated VSL script rows
+  #       vsl_script_rows = [
+  #           self.user_table.search(variable='saved_vsl_script_1')[0],
+  #           self.user_table.search(variable='saved_vsl_script_2')[0],
+  #           self.user_table.search(variable='saved_vsl_script_3')[0]
+  #       ]
+    
+  #       # Extract the values from the non-empty rows
+  #       saved_vsl_script_names = [row['variable_title'] for row in vsl_script_rows]
+        
+  #       # Update the dropdown items
+  #       self.save_vsl_script_name_dropdown.items = saved_vsl_script_names
+      
+  #   else:
+  #     anvil.js.window.alert("Please select a new name...")
+      
+  #   ##  
+  #   chosen_final_headline = self.main_headline_textbox.text
+  #   chosen_final_subheadline = self.subheadline_textbox.text
+  #   chosen_final_secondary_headline = self.secondary_headline_textbox.text
+  #   chosen_final_video_sales_script = self.video_sales_script_textbox.text
+  #   chosen_theme_excerpt_1 = self.excerpt_textbox_1.text 
+  #   chosen_theme_excerpt_2 = self.excerpt_textbox_2.text 
+  #   chosen_theme_excerpt_3 = self.excerpt_textbox_3.text 
+  #   chosen_theme_excerpt_4 = self.excerpt_textbox_4.text 
+    
+  #   chosen_final_headline_row = self.user_table.search(variable='chosen_final_headline')[0]
+  #   chosen_final_subheadline_row = self.user_table.search(variable='chosen_final_subheadline')[0]
+  #   chosen_final_secondary_headline_row = self.user_table.search(variable='chosen_final_secondary_headline')[0]
+  #   chosen_final_video_sales_script_row = self.user_table.search(variable='vsl_script')[0]
+  #   chosen_theme_excerpt_1_row = self.user_table.search(variable='vsl_theme_1')[0]
+  #   chosen_theme_excerpt_2_row = self.user_table.search(variable='vsl_theme_2')[0]
+  #   chosen_theme_excerpt_3_row = self.user_table.search(variable='vsl_theme_3')[0]
+  #   chosen_theme_excerpt_4_row = self.user_table.search(variable='vsl_theme_4')[0]
+    
+  #   chosen_final_headline_row['variable_value'] = chosen_final_headline
+  #   chosen_final_subheadline_row['variable_value'] = chosen_final_subheadline
+  #   chosen_final_secondary_headline_row['variable_value'] = chosen_final_secondary_headline
+  #   chosen_final_video_sales_script_row['variable_value'] = chosen_final_video_sales_script
+  #   chosen_theme_excerpt_1_row['variable_value'] = chosen_theme_excerpt_1
+  #   chosen_theme_excerpt_2_row['variable_value'] = chosen_theme_excerpt_2
+  #   chosen_theme_excerpt_3_row['variable_value'] = chosen_theme_excerpt_3
+  #   chosen_theme_excerpt_4_row['variable_value'] = chosen_theme_excerpt_4
+    
+  #   chosen_final_headline_row.update()
+  #   chosen_final_subheadline_row.update()
+  #   chosen_final_secondary_headline_row.update()
+  #   chosen_final_video_sales_script_row.update()
+  #   chosen_theme_excerpt_1_row.update()
+  #   chosen_theme_excerpt_2_row.update()
+  #   chosen_theme_excerpt_3_row.update()
+  #   chosen_theme_excerpt_4_row.update()
+
+  #   final_product_export = FinalProduct_Export()
+  #   self.content_panel.clear()
+  #   self.content_panel.add_component(final_product_export)
+
   def save_the_script_click(self, **event_args):
-    # current_user = anvil.users.get_user()
-    # user_table_name = current_user['user_id']
-    # # Get the table for the current user
-    # user_table = getattr(app_tables, user_table_name)
 
     # Fetch the current selected dropdown item
     selected_item_index = self.save_vsl_script_name_dropdown.selected_value
-    selected_variable = f'saved_vsl_script_{selected_item_index + 1}'
+    selected_variable = f'saved_vsl_script_{selected_item_index[0] + 1}'
     
     # Display an alert to get the new title from the user
     new_title = anvil.js.window.prompt("Enter the new title or this VSL Product:")
@@ -958,48 +1026,33 @@ class Headlines(HeadlinesTemplate):
       
     else:
       anvil.js.window.alert("Please select a new name...")
+
+    # Fetch the chosen details
+    chosen_data = {
+        'final_headline': self.main_headline_textbox.text,
+        'final_subheadline': self.subheadline_textbox.text,
+        'final_secondary_headline': self.secondary_headline_textbox.text,
+        'final_video_sales_script': self.video_sales_script_textbox.text,
+        'theme_excerpt_1': self.excerpt_textbox_1.text,
+        'theme_excerpt_2': self.excerpt_textbox_2.text,
+        'theme_excerpt_3': self.excerpt_textbox_3.text,
+        'theme_excerpt_4': self.excerpt_textbox_4.text
+    }
+
+    self.save_vsl_as_json(selected_variable, chosen_data)
       
-    ##  
-    chosen_final_headline = self.main_headline_textbox.text
-    chosen_final_subheadline = self.subheadline_textbox.text
-    chosen_final_secondary_headline = self.secondary_headline_textbox.text
-    chosen_final_video_sales_script = self.video_sales_script_textbox.text
-    chosen_theme_excerpt_1 = self.excerpt_textbox_1.text 
-    chosen_theme_excerpt_2 = self.excerpt_textbox_2.text 
-    chosen_theme_excerpt_3 = self.excerpt_textbox_3.text 
-    chosen_theme_excerpt_4 = self.excerpt_textbox_4.text 
-    
-    chosen_final_headline_row = self.user_table.search(variable='chosen_final_headline')[0]
-    chosen_final_subheadline_row = self.user_table.search(variable='chosen_final_subheadline')[0]
-    chosen_final_secondary_headline_row = self.user_table.search(variable='chosen_final_secondary_headline')[0]
-    chosen_final_video_sales_script_row = self.user_table.search(variable='vsl_script')[0]
-    chosen_theme_excerpt_1_row = self.user_table.search(variable='vsl_theme_1')[0]
-    chosen_theme_excerpt_2_row = self.user_table.search(variable='vsl_theme_2')[0]
-    chosen_theme_excerpt_3_row = self.user_table.search(variable='vsl_theme_3')[0]
-    chosen_theme_excerpt_4_row = self.user_table.search(variable='vsl_theme_4')[0]
-    
-    chosen_final_headline_row['variable_value'] = chosen_final_headline
-    chosen_final_subheadline_row['variable_value'] = chosen_final_subheadline
-    chosen_final_secondary_headline_row['variable_value'] = chosen_final_secondary_headline
-    chosen_final_video_sales_script_row['variable_value'] = chosen_final_video_sales_script
-    chosen_theme_excerpt_1_row['variable_value'] = chosen_theme_excerpt_1
-    chosen_theme_excerpt_2_row['variable_value'] = chosen_theme_excerpt_2
-    chosen_theme_excerpt_3_row['variable_value'] = chosen_theme_excerpt_3
-    chosen_theme_excerpt_4_row['variable_value'] = chosen_theme_excerpt_4
-    
-    chosen_final_headline_row.update()
-    chosen_final_subheadline_row.update()
-    chosen_final_secondary_headline_row.update()
-    chosen_final_video_sales_script_row.update()
-    chosen_theme_excerpt_1_row.update()
-    chosen_theme_excerpt_2_row.update()
-    chosen_theme_excerpt_3_row.update()
-    chosen_theme_excerpt_4_row.update()
+
+  def save_vsl_as_json(self, selected_variable, chosen_data):
+    # Convert the data to a JSON string
+    json_data = json.dumps(chosen_data)
+
+    # Save the JSON string to the appropriate slot in the user_table
+    self.user_table.update_rows(variable=selected_variable, variable_value=json_data)
+
 
     final_product_export = FinalProduct_Export()
     self.content_panel.clear()
     self.content_panel.add_component(final_product_export)
-
 
 
 
