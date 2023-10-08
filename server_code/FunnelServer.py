@@ -70,7 +70,7 @@ def launch_download_vsl_pdf(user_table):
 @anvil.server.background_task
 def generate_pdf_to_download(user_table):
   print("Generate PDF background task started")
-  pdf = PDFRenderer(page_size='A4').render_form('FinalProduct_Export_test')
+  pdf = PDFRenderer(page_size='A4').render_form('FinalProduct_Export_test.PDFTemplate')
   # media_object = anvil.pdf.render_form('FinalProduct_Export_test')
 
     # Save it in the table:
