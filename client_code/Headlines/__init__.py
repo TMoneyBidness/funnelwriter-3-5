@@ -144,16 +144,11 @@ class Headlines(HeadlinesTemplate):
     saved_vsl_script_names = []
     
     for variable in vsl_script_variables:
-        rows = self.user_table.search(variable=variable)
-        
-        if len(rows) > 0:
-            saved_vsl_script_names.append(rows[0]['variable_title'])
-        else:
-            saved_vsl_script_names.append('FREE SLOT')  # If no rows are found for the variable, add 'FREE SLOT'
-    
+        row = self.user_table.search(variable=variable)[0]
+        saved_vsl_script_names.append(row['variable_title'])
+          
     # Assign the values to the company_profile_dropdown
     self.save_vsl_script_name_dropdown.items = saved_vsl_script_names
-
 
 
   ########----------------- USER MANAGEMENT
@@ -1002,7 +997,6 @@ class Headlines(HeadlinesTemplate):
   #   self.content_panel.add_component(final_product_export)
 
   def save_the_script_click(self, **event_args):
-
     # Fetch the current selected dropdown item
     selected_item_title = self.save_vsl_script_name_dropdown.selected_value
         
