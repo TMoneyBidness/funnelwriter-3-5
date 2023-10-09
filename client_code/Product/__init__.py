@@ -12,6 +12,7 @@ from anvil.tables import app_tables
 import json
 from ..Avatars import Avatars
 
+
 ############################################################################################################
 # LOADING
 class Product(ProductTemplate):

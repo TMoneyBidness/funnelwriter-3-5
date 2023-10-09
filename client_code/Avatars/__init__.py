@@ -11,6 +11,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
 
+
 from ..BrandTone import BrandTone
 ############################################################################################################
 # LOADING

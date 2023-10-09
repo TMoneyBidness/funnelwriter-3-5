@@ -12,6 +12,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.js
 
+
 from ..Product import Product
 
 active_workspace = None

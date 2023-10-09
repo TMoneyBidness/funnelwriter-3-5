@@ -12,7 +12,6 @@ from anvil.tables import app_tables
 
 from ..VSL_Elements import VSL_Elements
 
-
 ############################################################################################################
 # LOADING
 class BrandTone(BrandToneTemplate):

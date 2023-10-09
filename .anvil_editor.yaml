@@ -29,8 +29,7 @@ unique_ids:
     Avatars_old: '1692139926176330345644268.8546'
     Headlines_old: '169023978773972549360852.42857'
     Home: '1691346837457927134882310.8479'
-  modules:
-    global_vars: '1696876238828818809538088.249'
+  modules: {}
   server_modules:
     FunnelServer: '1688504352980765247325366.6221'
   assets:

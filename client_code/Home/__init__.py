@@ -29,12 +29,11 @@ active_workspace = None
 
 class Home(HomeTemplate):
   def __init__(self, **properties):
-    # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    # Set Form properties and Data Bindings.
     
     if not anvil.users.get_user():  # Only prompt login if user isn't already logged in
         anvil.users.login_with_form()
-
 
     self.update_company_assets_box_visibility()
       
@@ -302,13 +301,13 @@ class Home(HomeTemplate):
             current_user.update()
         # Load the appropriate workspace form
     if workspace_id == 'workspace_1':
-        Workspace_form = Workspace_1()
+        Workspace_form = Workspace_1(home_form=self)
         self.workspace_1_button.background = 'gold'
     elif workspace_id == 'workspace_2':
-        Workspace_form = Workspace_2()
+        Workspace_form = Workspace_2(home_form=self)
         self.workspace_1_button.background = 'gold'
     elif workspace_id == 'workspace_3':
-        Workspace_form = Workspace_3()
+        Workspace_form = Workspace_3(home_form=self)
         self.workspace_1_button.background = 'gold'
     else:
         raise ValueError(f"Unknown workspace: {workspace_id}")        
@@ -319,13 +318,13 @@ class Home(HomeTemplate):
 
     # Load the appropriate workspace form
     if workspace_id == 'workspace_1':
-        Workspace_form = Workspace_1()
+        Workspace_form = Workspace_1(home_form=self)
         self.workspace_1_button.background = 'gold'
     elif workspace_id == 'workspace_2':
-        Workspace_form = Workspace_2()
+        Workspace_form = Workspace_2(home_form=self)
         self.workspace_1_button.background = 'gold'
     elif workspace_id == 'workspace_3':
-        Workspace_form = Workspace_3()
+        Workspace_form = Workspace_3(home_form=self)
         self.workspace_1_button.background = 'gold'
     else:
         raise ValueError(f"Unknown workspace: {workspace_id}")  
@@ -339,7 +338,7 @@ class Home(HomeTemplate):
       self.workspace_1_button.background = 'gold'
       self.workspace_2_button.background = 'white'
       self.workspace_3_button.background = 'white'
-      Workspace_1_form = Workspace_1()
+      Workspace_1_form = Workspace_1(home_form=self)
       self.content_panel.clear()  # Clear the content panel
       self.content_panel.add_component(Workspace_1_form)  # Add the new component
   
@@ -351,7 +350,7 @@ class Home(HomeTemplate):
       self.workspace_1_button.background = 'white'
       self.workspace_2_button.background = 'gold'
       self.workspace_3_button.background = 'white'
-      Workspace_2_form = Workspace_2()
+      Workspace_2_form = Workspace_2(home_form=self)
       self.content_panel.clear()  # Clear the content panel
       self.content_panel.add_component(Workspace_2_form)  # Add the new component
   
@@ -363,7 +362,7 @@ class Home(HomeTemplate):
       self.workspace_1_button.background = 'white'
       self.workspace_2_button.background = 'white'
       self.workspace_3_button.background = 'gold'
-      Workspace_3_form = Workspace_3()
+      Workspace_3_form = Workspace_3(home_form=self)
       self.content_panel.clear()  # Clear the content panel
       self.content_panel.add_component(Workspace_3_form)  # Add the new component
   
