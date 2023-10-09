@@ -123,17 +123,17 @@ class Workspace_2(Workspace_2Template):
       product_latest_name = None
       print(f"No PRODUCT LATEST row")
 
- # Check if all variables are either None or empty strings
-    if not company_name or not company_url or not product_latest_name:
-      self.company_assets_label.visible = False
-      self.company_asset_link_sidebar.visible = False
-      self.product_asset_link_sidebar.visible = False
-      self.brand_tone_asset_link_sidebar.visible = False
-      self.avatars_asset_link_sidebar.visible = False
-      self.funnels_label.visible = False
-      self.vsl_page_link_sidebar.visible = False
-      self.final_product.visible = False
-      print(f"SOME CELLS ARE EMPTY")
+ # # Check if all variables are either None or empty strings
+ #    if not company_name or not company_url or not product_latest_name:
+ #      self.company_assets_label.visible = False
+ #      self.company_asset_link_sidebar.visible = False
+ #      self.product_asset_link_sidebar.visible = False
+ #      self.brand_tone_asset_link_sidebar.visible = False
+ #      self.avatars_asset_link_sidebar.visible = False
+ #      self.funnels_label.visible = False
+ #      self.vsl_page_link_sidebar.visible = False
+ #      self.final_product.visible = False
+ #      print(f"SOME CELLS ARE EMPTY")
 
     # Check to see if it's done a complete 1 time runthrough
     try:

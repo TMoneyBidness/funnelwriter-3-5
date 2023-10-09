@@ -1325,9 +1325,9 @@ components:
       event_bindings: {click: nav_button_avatars_to_brand_tone_click}
     - type: Label
       properties: {role: null, align: center, tooltip: '', border: '', foreground: 'theme:Error',
-        visible: true, text: Be sure to 'SAVE' any changes before proceeding....,
-        font_size: 18, font: '', spacing_above: small, icon_align: left, spacing_below: small,
-        italic: false, background: '', bold: true, underline: false, icon: ''}
+        visible: true, text: Be sure to 'SAVE' any changes you made., font_size: 18,
+        font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+        background: '', bold: true, underline: false, icon: ''}
       name: save_warning
       layout_properties:
         col_widths: {}

@@ -31,6 +31,16 @@ class FinalProduct_Export(FinalProduct_ExportTemplate):
     # Initialize task_id attribute
     self.task_id = None
     # Initialize counter
+
+    # Hide the Download Button
+    self.save_my_script_button.visible = False
+
+    # Stop the Timers
+    for component in self.get_components():
+    # Check if the component is a Timer
+      if isinstance(component, anvil.Timer):
+        # Stop the timer by setting its interval to None
+        component.interval = None
    
     # WORKSPACE MANAGEMENT
     # Load the active workspace:
@@ -39,29 +49,73 @@ class FinalProduct_Export(FinalProduct_ExportTemplate):
     self.user_table = self.get_user_table()
     print(f"CURRENT USER TABLE IS: {self.user_table}")
 
-    final_headline_rows = self.user_table.search(variable='chosen_final_headline')
-    self.main_headline_textbox.text = final_headline_rows[0]['variable_value']
+    # LOAD THE VSL SCRIPT TITLES
+    vsl_script_variables = ['saved_vsl_script_1', 'saved_vsl_script_2', 'saved_vsl_script_3']
+    saved_vsl_script_names = []
+    
+    for variable in vsl_script_variables:
+        row = self.user_table.search(variable=variable)[0]
+        if row['variable_value'] != 'none':  # Only add the title if variable_value is not 'none'
+            saved_vsl_script_names.append(row['variable_title'])
+    
+    # Assign the values to the load_vsl_script_name_dropdown
+    self.load_vsl_script_name_dropdown.items = saved_vsl_script_names
+    
 
-    final_subheadline_rows = self.user_table.search(variable='chosen_final_subheadline')
-    self.subheadline_textbox.text = final_subheadline_rows[0]['variable_value']
+  def load_vsl_script_name_dropdown_change(self, **event_args):
+    # Get the selected title from the dropdown
+    selected_title = self.load_vsl_script_name_dropdown.selected_value
+    print(f"Selected title: {selected_title}")
+    
+    # Search the user_table for the row with the selected title
+    rows = self.user_table.search(variable_title=selected_title)
+    print(f"Rows fetched: {rows}")
+    
+    # If a matching row is found, assign its 'variable_value' to 'final_json'
+    if rows:
+        final_json = rows[0]['variable_value']
+        if final_json:
+            # Assuming the JSON is stored as a string, let's parse it
+            data = json.loads(final_json)
+            print(f"Parsed data: {data}")
+            
+            # Populate the text boxes with the data from the JSON
+            self.main_headline_textbox.text = data.get('final_headline', '')
+            self.subheadline_textbox.text = data.get('final_subheadline', '')
+            self.secondary_headline_textbox.text = data.get('final_secondary_headline', '')
+            self.video_sales_script_textbox.text = data.get('final_video_sales_script', '')
+            self.excerpt_textbox_1.text = data.get('theme_excerpt_1', '')
+            self.excerpt_textbox_2.text = data.get('theme_excerpt_2', '')
+            self.excerpt_textbox_3.text = data.get('theme_excerpt_3', '')
+            self.excerpt_textbox_4.text = data.get('theme_excerpt_4', '')
+    else:
+        anvil.js.window.alert("No matching data found for the selected title!")
 
-    secondary_headline_rows = self.user_table.search(variable='chosen_final_secondary_headline')
-    self.secondary_headline_textbox.text = secondary_headline_rows[0]['variable_value']
 
-    vsl_script_rows = self.user_table.search(variable='vsl_script')
-    self.video_sales_script_textbox.text = vsl_script_rows[0]['variable_value']
 
-    vsl_theme_1_rows = self.user_table.search(variable='vsl_theme_1')
-    self.excerpt_textbox_1.text = vsl_theme_1_rows[0]['variable_value']
+    # final_headline_rows = self.user_table.search(variable='chosen_final_headline')
+    # self.main_headline_textbox.text = final_headline_rows[0]['variable_value']
 
-    vsl_theme_2_rows = self.user_table.search(variable='vsl_theme_2')
-    self.excerpt_textbox_2.text = vsl_theme_2_rows[0]['variable_value']
+    # final_subheadline_rows = self.user_table.search(variable='chosen_final_subheadline')
+    # self.subheadline_textbox.text = final_subheadline_rows[0]['variable_value']
 
-    vsl_theme_3_rows = self.user_table.search(variable='vsl_theme_3')
-    self.excerpt_textbox_3.text = vsl_theme_3_rows[0]['variable_value']
+    # secondary_headline_rows = self.user_table.search(variable='chosen_final_secondary_headline')
+    # self.secondary_headline_textbox.text = secondary_headline_rows[0]['variable_value']
 
-    vsl_theme_4_rows = self.user_table.search(variable='vsl_theme_4')
-    self.excerpt_textbox_4.text = vsl_theme_4_rows[0]['variable_value']
+    # vsl_script_rows = self.user_table.search(variable='vsl_script')
+    # self.video_sales_script_textbox.text = vsl_script_rows[0]['variable_value']
+
+    # vsl_theme_1_rows = self.user_table.search(variable='vsl_theme_1')
+    # self.excerpt_textbox_1.text = vsl_theme_1_rows[0]['variable_value']
+
+    # vsl_theme_2_rows = self.user_table.search(variable='vsl_theme_2')
+    # self.excerpt_textbox_2.text = vsl_theme_2_rows[0]['variable_value']
+
+    # vsl_theme_3_rows = self.user_table.search(variable='vsl_theme_3')
+    # self.excerpt_textbox_3.text = vsl_theme_3_rows[0]['variable_value']
+
+    # vsl_theme_4_rows = self.user_table.search(variable='vsl_theme_4')
+    # self.excerpt_textbox_4.text = vsl_theme_4_rows[0]['variable_value']
 
 ########----------------- GENERATE A FINAL PDF
     

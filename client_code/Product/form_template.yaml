@@ -551,6 +551,15 @@ components:
       col_widths: {}
       grid_position: AVNJVD,YHHVEL
     event_bindings: {click: nav_button_products_to_avatars_click}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: 'theme:Error',
+      visible: true, text: You must 'SAVE'  your product before proceeding...., font_size: 18,
+      font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: '', bold: true, underline: false, icon: ''}
+    name: save_warning
+    layout_properties:
+      col_widths: {}
+      grid_position: TQDDOR,VXSVTK
 - type: Timer
   properties: {interval: 3}
   name: check_status_timer_product_1

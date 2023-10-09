@@ -42,7 +42,7 @@ class Headlines(HeadlinesTemplate):
     # Hide the main boxes
     self.subheadlines_chooser_panel.visible = False
     self.main_secondary_headline_box.visible = False
-    self.final_vsl_outline_box.visible = True
+    self.final_vsl_outline_box.visible = False
     
     self.generate_headlines_vsl_button.enabled = True
     self.generate_vsl_themes_button.visible = False
@@ -997,22 +997,14 @@ class Headlines(HeadlinesTemplate):
   #   self.content_panel.add_component(final_product_export)
 
   def save_the_script_click(self, **event_args):
-    # Fetch the current selected dropdown item
+    # 1. Fetch the title currently selected in the dropdown
     selected_item_title = self.save_vsl_script_name_dropdown.selected_value
-        
-    # Display an alert to get the new title from the user
-    new_vsl_title = anvil.js.window.prompt("Enter the new title or this VSL Product:")
     
-    if new_vsl_title:  # If the user provided a title
-         # Fetch and update the VSL script row
-        vsl_script_row = self.user_table.search(variable=selected_item_title)[0]
-        vsl_script_row['variable_title'] = new_vsl_title
-        vsl_script_row.update()
-      
-    else:
-      anvil.js.window.alert("Please select a new name...")
+    # 2. Ask the user for a new title
+    new_vsl_title = anvil.js.window.prompt("Enter the new title for this VSL Product:")
 
-    # Fetch the chosen details
+    # Save the chosen data as a .json
+        # Fetch the chosen details
     chosen_data = {
         'final_headline': self.main_headline_textbox.text,
         'final_subheadline': self.subheadline_textbox.text,
@@ -1023,19 +1015,26 @@ class Headlines(HeadlinesTemplate):
         'theme_excerpt_3': self.excerpt_textbox_3.text,
         'theme_excerpt_4': self.excerpt_textbox_4.text
     }
-
-    self.save_vsl_as_json(new_vsl_title, chosen_data)
-      
-  def save_vsl_as_json(self, new_vsl_title, chosen_data):
-    # Convert the data to a JSON string
     json_data = json.dumps(chosen_data)
-
-    # Save the JSON string to the appropriate slot in the user_table
-    new_vsl_script_row = self.user_table.search(variable=new_vsl_title)[0]
-    vsl_script_row['variable_value'] = json_data
-    vsl_script_row.update()
     
-
+    # List of specific script variables (i.e., row names)
+    specific_variables = ['saved_vsl_script_1', 'saved_vsl_script_2', 'saved_vsl_script_3']
+    
+    # Assuming 'script_variable_column' is the column where specific script variables are stored
+    for script_var in specific_variables:
+        rows = self.user_table.search(variable=script_var)
+        for vsl_script_row in rows:
+            if vsl_script_row['variable_title'] == selected_item_title:
+                vsl_script_row['variable_title'] = new_vsl_title
+                vsl_script_row['variable_value'] = json_data
+                vsl_script_row.update()
+                break
+        else:
+            continue
+        break
+    else:
+        anvil.js.window.alert("Title not found in the specified rows!")
+   
     final_product_export = FinalProduct_Export()
     self.content_panel.clear()
     self.content_panel.add_component(final_product_export)

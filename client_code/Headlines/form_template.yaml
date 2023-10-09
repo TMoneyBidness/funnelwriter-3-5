@@ -903,7 +903,7 @@ components:
       - type: Button
         properties: {role: outlined-button, align: center, tooltip: '', border: '',
           enabled: true, foreground: 'theme:On Primary Container', visible: true,
-          text: 'SAVE, THEN SHOW ME THE FINAL PRODUCT', font_size: 26, font: '', spacing_above: small,
+          text: SAVE. Show Final VSL, font_size: 26, font: '', spacing_above: small,
           icon_align: right, spacing_below: small, italic: false, background: 'theme:Tertiary
             Container', bold: true, underline: false, icon: 'fa:book'}
         name: save_my_script_button
