@@ -179,11 +179,6 @@ components:
         col_widths: {}
         grid_position: UWUJHJ,RSMZSO
       event_bindings: {click: final_product_link_click}
-  - type: Button
-    properties: {text: button_1}
-    name: button_1
-    layout_properties: {grid_position: 'KXJJRY,LXBGNK'}
-    event_bindings: {click: company_asset_link_click}
 - type: Label
   properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
     text: FunnelWriter.AI, font_size: null, font: '', spacing_above: small, icon_align: left,
