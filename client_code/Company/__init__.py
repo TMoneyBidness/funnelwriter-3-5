@@ -22,7 +22,7 @@ PROMPT_TITLE = "FunnelWriter.AI needs a title to SAVE AS"
 
 ## LOADING
 class Company(CompanyTemplate):
-  def __init__(self, **properties):
+  def __init__(self, home_form,**properties):
     # Call the parent class's __init__ method
     super().__init__(**properties)
     # Initialize task_id attribute
@@ -32,6 +32,7 @@ class Company(CompanyTemplate):
     self.indeterminate_company_research.visible = False
     self.free_navigate_label.visible = False
     self.status.text = 'Idle'
+    self.home_form = home_form
 
     # WORKSPACE MANAGEMENT
     # Load the active workspace:
@@ -256,7 +257,7 @@ class Company(CompanyTemplate):
 
   ### NAVIGATION
   def navigate_to_product(self, **event_args):
-    product = Product()
+    product = Product(home_form=self.home_form)
     self.content_panel.clear()
     self.content_panel.add_component(product)
     # anvil.open_form('Product')

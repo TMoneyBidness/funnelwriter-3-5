@@ -18,8 +18,9 @@ from ..Headlines import Headlines
 # LOADING
 
 class VSL_Elements(VSL_ElementsTemplate):
-  def __init__(self, **properties):
+  def __init__(self,home_form=None, **properties):
     # Call the parent class's __init__ method
+    self.home_form = home_form
     super().__init__(**properties)
 
     anvil.users.login_with_form()
@@ -34,7 +35,9 @@ class VSL_Elements(VSL_ElementsTemplate):
     self.chosen_final_headline = None
     self.chosen_final_subheadline = None
     self.loading_info.visible = False
-   
+
+    self.update_company_assets_box_visibility()
+    
     # Initialize task_id attribute
     self.task_id = None
 
@@ -299,3 +302,26 @@ class VSL_Elements(VSL_ElementsTemplate):
     headlines = Headlines()
     self.whole_content_panel.clear()
     self.whole_content_panel.add_component(headlines)
+
+  def update_company_assets_box_visibility(self):
+    user = anvil.users.get_user()
+
+    if user:
+        # Get the column name from the 'active_workspace' value
+        workspace_column_name = user['active_workspace']
+        
+        # Use the column name to fetch the actual table name
+        actual_table_name = user[workspace_column_name]
+        workspace_table = getattr(app_tables, actual_table_name)
+
+        # Retrieve the first (and likely only) row.
+        
+        first_run_row = workspace_table.search(variable='first_run_complete')
+        should_display_box = first_run_row[0]['variable_value']
+        if should_display_box == 'Yes':
+            self.home_form.company_assets_box.visible = True
+            self.home_form.company_assets_box.visible = True
+        else:
+            self.home_form.company_assets_box.visible = False
+    else:
+        print("User not logged in or active_workspace not in user")  # Check if this gets printed

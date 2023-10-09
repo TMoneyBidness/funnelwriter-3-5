@@ -11,11 +11,14 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 from ..VSL_Elements import VSL_Elements
+
+
 ############################################################################################################
 # LOADING
 class BrandTone(BrandToneTemplate):
-  def __init__(self, **properties):
+  def __init__(self, home_form=None, **properties):
     # Call the parent class's __init__ method
+    self.home_form = home_form
     super().__init__(**properties)
     # Initialize task_id attribute
     self.task_id = None
@@ -24,9 +27,6 @@ class BrandTone(BrandToneTemplate):
      # Set the click event handler for nav_button_tone_to_VSL_elements
     self.nav_button_tone_to_VSL_elements.set_event_handler('click', self.nav_button_tone_to_VSL_elements_click)
 
-    #$
-    self.home_form = None  # Initialize as None
-    #$
 
     # WORKSPACE MANAGEMENT
     # Load the active workspace:
@@ -49,10 +49,7 @@ class BrandTone(BrandToneTemplate):
         # Handle case where the row does not exist for the current user
         print("No row found for 'brand_tone_url'")
         self.nav_button_tone_to_VSL_elements.enabled = False
-#$
-  def set_home_form_reference(self, home_form):
-    self.home_form = home_form
-  #$
+
   
   def form_show(self, **event_args):
     # Load the brand tone profile on form show
@@ -161,25 +158,21 @@ class BrandTone(BrandToneTemplate):
 
   def save_brand_tone_component_click(self, **event_args):
     brand_tone_title = anvil.js.window.prompt("What would you like to call this Brand Tone?")
-
     brand_tone = self.brand_tone_textbox.text
-    
-    brand_tone_lookup = "brand_tone"
-    brand_tone_row = self.user_table.get(variable=brand_tone_lookup)
+  
+    brand_tone_row = self.user_table.get(variable='brand_tone')
     
     # company_name_row = self.user_table.get(variable='company_name') # - THis saves it as the company name
     # brand_tone_title = company_name_row['variable_value'] 
     
     if brand_tone_row:
         brand_tone_row['variable_value'] = brand_tone
-        if variable_title:
-            brand_tone_row['variable_title'] = brand_tone_title
+        brand_tone_row['variable_title'] = brand_tone_title
         brand_tone_row.update()
         self.nav_button_tone_to_VSL_elements.enabled = True
     else:
         # Handle case where the row does not exist for the current user
         print("No row found for the current user")
-      
   
   def load_brand_tone_component_click(self, **event_args):
     # Get the current user
@@ -238,7 +231,7 @@ class BrandTone(BrandToneTemplate):
     
     self.nav_button_tone_to_VSL_elements.enabled = True
   
-    vsl_elements = VSL_Elements()
+    vsl_elements = VSL_Elements(home_form=self.home_form)
     self.content_panel.clear()
     self.content_panel.add_component(vsl_elements)
 

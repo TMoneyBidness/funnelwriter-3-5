@@ -23,6 +23,7 @@ from ..VideoSalesLetter import VideoSalesLetter
 from ..FinalProduct import FinalProduct
 from ..FinalProduct_Export import FinalProduct_Export
 
+
 active_workspace = None
 ####################
 
@@ -33,7 +34,8 @@ class Home(HomeTemplate):
     
     if not anvil.users.get_user():  # Only prompt login if user isn't already logged in
         anvil.users.login_with_form()
-   
+
+
     self.update_company_assets_box_visibility()
       
     # Check if user is logged in
@@ -396,7 +398,7 @@ class Home(HomeTemplate):
     self.content_panel.add_component(home)
 
   def company_asset_link_click(self, **event_args):
-    company_form = Company()
+    company_form = Company(home_form=self)
     self.content_panel.clear()  # Clear the content panel
     self.content_panel.add_component(company_form)  # Add the new component
 
