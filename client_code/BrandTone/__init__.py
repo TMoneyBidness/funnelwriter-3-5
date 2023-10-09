@@ -19,6 +19,7 @@ class BrandTone(BrandToneTemplate):
   def __init__(self, home_form=None, **properties):
     # Call the parent class's __init__ method
     self.home_form = home_form
+    print("Inside BrandTone, home_form is:", self.home_form)
     super().__init__(**properties)
     # Initialize task_id attribute
     self.task_id = None
@@ -222,7 +223,7 @@ class BrandTone(BrandToneTemplate):
     
   # Define the event handler for nav_button_tone_to_VSL_elements click
   def nav_button_tone_to_VSL_elements_click(self, **event_args):
-
+    print("Before creating VSL_Elements in BrandTone, home_form is:", self.home_form)
     row_first_run_complete = self.user_table.get(variable='first_run_complete')
     row_first_run_complete['variable_value'] = 'Yes' 
     row_first_run_complete.update()

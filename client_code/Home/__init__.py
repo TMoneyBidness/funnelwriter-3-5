@@ -398,7 +398,8 @@ class Home(HomeTemplate):
     self.content_panel.add_component(home)
 
   def company_asset_link_click(self, **event_args):
-    company_form = Company(home_form=self)
+    print("In Home, home_form is:", self.home_form)
+    company_form = Company(home_form=self.home_form)
     self.content_panel.clear()  # Clear the content panel
     self.content_panel.add_component(company_form)  # Add the new component
 
@@ -1380,6 +1381,11 @@ class Home(HomeTemplate):
         #         break
         #     # Sleep for a few seconds before checking again
         #     time.sleep(2)
+
+  def go_get_all_assets_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    pass
+
 
  
 

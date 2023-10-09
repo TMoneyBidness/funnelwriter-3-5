@@ -24,7 +24,6 @@ class Avatars(AvatarsTemplate):
     self.task_ids = []
     self.task_info = []
     task_info = []
-    self.home_form = home_form
     anvil.users.login_with_form()
 
     # WORKSPACE MANAGEMENT
@@ -2133,15 +2132,16 @@ class Avatars(AvatarsTemplate):
   #   self.content_panel.add_component(brandtone)
 
   def nav_button_avatars_to_brand_tone_click(self, **event_args):
-      brandtone = BrandTone(home_form=self.home_form)
-      self.content_panel.clear()
-      self.content_panel.add_component(brandtone)
-    
+    print("In Avatars home_form is:", self.home_form)  
+    brandtone = BrandTone(home_form=self.home_form)
+    self.content_panel.clear()
+    self.content_panel.add_component(brandtone)
+  
   def navigate_to_brand_tone(self, **event_args):
-      brandtone = BrandTone(home_form=self.home_form)
-      self.content_panel.clear()
-      self.content_panel.add_component(brandtone)
-    
+    brandtone = BrandTone(home_form=self.home_form)
+    self.content_panel.clear()
+    self.content_panel.add_component(brandtone)
+  
 
 #-- OLD //////     SAVE / LOAD EACH AVATAR ------------#######################################################################
 

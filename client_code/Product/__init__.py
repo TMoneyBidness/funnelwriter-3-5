@@ -10,20 +10,20 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
-
 from ..Avatars import Avatars
 
 ############################################################################################################
 # LOADING
 class Product(ProductTemplate):
-  def __init__(self,home_form, **properties):
+  def __init__(self,home_form=None, **properties):
+    self.home_form = home_form
     # Call the parent class's __init__ method
     super().__init__(**properties)
     # Initialize task_id attribute
     self.task_id = None
     anvil.users.login_with_form()
     # Set the initial value of the progress bar to 0
-    self.home_form = home_form
+    
     
     # WORKSPACE MANAGEMENT
     # Load the active workspace:
@@ -998,6 +998,7 @@ class Product(ProductTemplate):
 
   
   def navigate_to_avatars(self):
+    print("In Product, home_form is:", self.home_form)
     avatars = Avatars(home_form=self.home_form)
     self.content_panel.clear()
     self.content_panel.add_component(avatars)

@@ -21,6 +21,8 @@ class VSL_Elements(VSL_ElementsTemplate):
   def __init__(self,home_form=None, **properties):
     # Call the parent class's __init__ method
     self.home_form = home_form
+    print("Inside VSL_Elements, home_form is:", self.home_form)
+
     super().__init__(**properties)
 
     anvil.users.login_with_form()
@@ -305,6 +307,7 @@ class VSL_Elements(VSL_ElementsTemplate):
 
   def update_company_assets_box_visibility(self):
     user = anvil.users.get_user()
+    print("Before accessing company_assets_box in VSL_Elements, home_form is:", self.home_form)
 
     if user:
         # Get the column name from the 'active_workspace' value
@@ -320,7 +323,7 @@ class VSL_Elements(VSL_ElementsTemplate):
         should_display_box = first_run_row[0]['variable_value']
         if should_display_box == 'Yes':
             self.home_form.company_assets_box.visible = True
-            self.home_form.company_assets_box.visible = True
+
         else:
             self.home_form.company_assets_box.visible = False
     else:

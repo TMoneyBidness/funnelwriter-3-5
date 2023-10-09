@@ -875,6 +875,7 @@ class Workspace_3(Workspace_3Template):
     self.content_panel.add_component(home)
 
   def company_asset_link_click(self, **event_args):
+    print("In Workspace 3, home_form is:", self.home_form)
     company_form = Company(home_form=self.home_form)
     self.content_panel.clear()  # Clear the content panel
     self.content_panel.add_component(company_form)  # Add the new component
