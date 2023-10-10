@@ -1058,3 +1058,19 @@ div.plot-container.plotly svg.main-svg {
    font-style: italic;
    color: gray !important;
 }
+
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+#loadingSpinner {
+    /* Comment out or remove the following three lines to stop the spinning */
+    /* -webkit-animation:spin 2s linear infinite; */
+    /* -moz-animation:spin 2s linear infinite; */
+    /* animation:spin 2s linear infinite; */
+    width: 200px;
+    height:200px;
+    border-radius: 10;
+    box-shadow: none;/*0px 0px 10px 10px #fcfcfc;*/
+    background-color: transparent;
+    background-image: url(https://i.imgur.com/6KtsgP2.gif) !important; /* 6KtsgP2 or https://imgur.com/gallery/xYABL*/ 
+}

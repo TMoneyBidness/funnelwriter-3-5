@@ -302,13 +302,13 @@ class Home(HomeTemplate):
         # Load the appropriate workspace form
     if workspace_id == 'workspace_1':
         Workspace_form = Workspace_1(home_form=self)
-        self.workspace_1_button.background = 'gold'
+        self.workspace_1_button.background = '#4a90e2'
     elif workspace_id == 'workspace_2':
         Workspace_form = Workspace_2(home_form=self)
-        self.workspace_1_button.background = 'gold'
+        self.workspace_1_button.background = '#4a90e2'
     elif workspace_id == 'workspace_3':
         Workspace_form = Workspace_3(home_form=self)
-        self.workspace_1_button.background = 'gold'
+        self.workspace_1_button.background = '#4a90e2'
     else:
         raise ValueError(f"Unknown workspace: {workspace_id}")        
 
@@ -319,13 +319,13 @@ class Home(HomeTemplate):
     # Load the appropriate workspace form
     if workspace_id == 'workspace_1':
         Workspace_form = Workspace_1(home_form=self)
-        self.workspace_1_button.background = 'gold'
+        self.workspace_1_button.background = '#4a90e2'
     elif workspace_id == 'workspace_2':
         Workspace_form = Workspace_2(home_form=self)
-        self.workspace_1_button.background = 'gold'
+        self.workspace_1_button.background = '#4a90e2'
     elif workspace_id == 'workspace_3':
         Workspace_form = Workspace_3(home_form=self)
-        self.workspace_1_button.background = 'gold'
+        self.workspace_1_button.background = '#4a90e2'
     else:
         raise ValueError(f"Unknown workspace: {workspace_id}")  
 
@@ -335,9 +335,9 @@ class Home(HomeTemplate):
       active_workspace = 'workspace_1'
       self.set_active_workspace('workspace_1')  # Reset active workspace to 'workspace_1'
       self.update_company_assets_box_visibility()
-      self.workspace_1_button.background = 'gold'
-      self.workspace_2_button.background = 'white'
-      self.workspace_3_button.background = 'white'
+      self.workspace_1_button.background = '#4a90e2'
+      self.workspace_2_button.background = ''
+      self.workspace_3_button.background = ''
       Workspace_1_form = Workspace_1(home_form=self)
       self.content_panel.clear()  # Clear the content panel
       self.content_panel.add_component(Workspace_1_form)  # Add the new component
@@ -347,9 +347,9 @@ class Home(HomeTemplate):
       active_workspace = 'workspace_2'
       self.set_active_workspace('workspace_2')  # Reset active workspace to 'workspace_2'
       self.update_company_assets_box_visibility()
-      self.workspace_1_button.background = 'white'
-      self.workspace_2_button.background = 'gold'
-      self.workspace_3_button.background = 'white'
+      self.workspace_1_button.background = ''
+      self.workspace_2_button.background = '#4a90e2'
+      self.workspace_3_button.background = ''
       Workspace_2_form = Workspace_2(home_form=self)
       self.content_panel.clear()  # Clear the content panel
       self.content_panel.add_component(Workspace_2_form)  # Add the new component
@@ -359,9 +359,9 @@ class Home(HomeTemplate):
       active_workspace = 'workspace_3'
       self.set_active_workspace('workspace_3')  # Reset active workspace to 'workspace_3'
       self.update_company_assets_box_visibility()
-      self.workspace_1_button.background = 'white'
-      self.workspace_2_button.background = 'white'
-      self.workspace_3_button.background = 'gold'
+      self.workspace_1_button.background = ''
+      self.workspace_2_button.background = ''
+      self.workspace_3_button.background = '#4a90e2'
       Workspace_3_form = Workspace_3(home_form=self)
       self.content_panel.clear()  # Clear the content panel
       self.content_panel.add_component(Workspace_3_form)  # Add the new component

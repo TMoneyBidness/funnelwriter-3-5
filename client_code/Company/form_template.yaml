@@ -18,10 +18,9 @@ components:
     layout_properties: {grid_position: 'PFSHDG,DYFNVO'}
   - type: Label
     properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: 'AI agents will browse your site, LinkedIn, Wikipedia and
-        more to get all the info we need about your company.', font_size: 18, font: '',
-      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false, icon: ''}
+      visible: true, text: AI agents will browse your site to build your company profile,
+      font_size: 18, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+      italic: false, background: '', bold: false, underline: false, icon: ''}
     name: label_3
     layout_properties: {grid_position: 'ONQIRL,VATXSE'}
   - type: ColumnPanel
@@ -67,7 +66,7 @@ components:
       name: label_2_copy_2
       layout_properties: {grid_position: 'TVDGMC,WBZYIA'}
     - type: TextBox
-      properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: www.apple.com,
+      properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: 'https://www.apple.com/',
         border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
         font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
         background: '', bold: false, underline: false}
