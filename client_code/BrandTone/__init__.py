@@ -64,8 +64,8 @@ class BrandTone(BrandToneTemplate):
       brand_tone_url = self.brand_tone_url_input.text
 
     # Delete the existing brand tone:
-      brand_tone_row = self.user_table.search(variable='brand_tone')
-      brand_tone_row[0]['variable_value'] = None
+      brand_tone_row = self.user_table.search(variable='brand_tone')[0]
+      brand_tone_row['variable_value'] = None
       brand_tone_row.update()
       
      # Start the Check Status Timers
@@ -89,12 +89,13 @@ class BrandTone(BrandToneTemplate):
             print("Still working on the Brand Tone!")
         elif row['variable_value'] is not None and row['variable_value'] != '':
             print("Brand Tone Generated!")
+                                    
+            # Update the box
+            self.brand_tone_textbox.text = row['variable_value']
+            self.indeterminate_brand_tone.visible = False
+
             self.check_status_timer_brand_tone.enabled = False
             self.check_status_timer_brand_tone.interval = 0
-                          
-            # Update the box
-            self.product_profile_1_textbox.text = row['variable_value']
-            self.indeterminate_1.visible = False
     
 
   ########----------------- USER MANAGEMENT
@@ -173,7 +174,7 @@ class BrandTone(BrandToneTemplate):
     # user_table = getattr(app_tables, user_table_name)
 
     # Get the profile row from the self.user_table
-    profile_row = self.user_table.get(variable='brand_tone')
+    profile_row = self.user_table.search(variable='brand_tone')[0]
 
     # Check if the profile row exists
     if profile_row:

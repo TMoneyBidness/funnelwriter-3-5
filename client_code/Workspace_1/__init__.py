@@ -369,7 +369,7 @@ class Workspace_1(Workspace_1Template):
             self.undertaken_tasks.append('company_profile_latest')
             print(f"Added to undertaken_tasks: company_profile_latest")
 
-            task_id_brand_tone = anvil.server.call('launch_draft_brand_tone_research', self.user_table, company_url)
+            task_id_brand_tone = anvil.server.call('launch_brand_tone_research', self.user_table, company_url)
             print("Brand Tone Launch function called")
             task_ids.append(task_id_brand_tone)
 

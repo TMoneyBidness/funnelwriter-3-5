@@ -1596,6 +1596,7 @@ def draft_deepdive_avatar_3_product_5_generator(user_table,company_name,product_
 @anvil.server.callable
 def launch_draft_brand_tone_research(user_table,company_url):
     # Launch the background task
+    # task = anvil.server.launch_background_task('draft_brand_tone_research',user_table,company_url)
     task = anvil.server.launch_background_task('draft_brand_tone_research',user_table,company_url)
     # Return the task ID
     return task.get_id()
@@ -2228,10 +2229,10 @@ def launch_brand_tone_research(user_table, brand_tone_url):
   
     task = anvil.server.launch_background_task('brand_tone_research',user_table,brand_tone_url,brand_webpage_scraped)
     # Return the task ID
-    return task.get_id(
+    return task.get_id()
       
 @anvil.server.background_task
-def brand_tone_research(user_table,brand_tone_url,brand_webpage_scraped)
+def brand_tone_research(user_table,brand_tone_url,brand_webpage_scraped):
   llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-4', openai_api_key=openai_api_key)
 
   template_brand_tone_extraction = """You are CopywriterAI, the best copywriter on the planet. We are looking to generate a description 
