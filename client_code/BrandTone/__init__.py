@@ -62,49 +62,40 @@ class BrandTone(BrandToneTemplate):
       # Start the progress bar
       self.indeterminate_brand_tone.visible = True
       brand_tone_url = self.brand_tone_url_input.text
+
+    # Delete the existing brand tone:
+      brand_tone_row = self.user_table.search(variable='brand_tone')
+      brand_tone_row[0]['variable_value'] = None
+      brand_tone_row.update()
       
-      # Get the current user 
-      # current_user = anvil.users.get_user() 
-      # user_table_name = current_user['user_id']
-      # user_table = getattr(app_tables, user_table_name)
-     
-      # Save the brand tone URL
-      brand_tone_url_latest_row = list(self.user_table.search(variable='brand_tone_url'))
+     # Start the Check Status Timers
+      self.check_status_timer_brand_tone.enabled = True
+      self.check_status_timer_brand_tone.interval = 3
       
-      # Check if the row exists before updating it
-      if brand_tone_url_latest_row:
-          brand_tone_url_latest_row[0]['variable_value'] = brand_tone_url
-          brand_tone_url_latest_row[0].update()
-      
-      self.task_id = anvil.server.call('launch_brand_tone_research', brand_tone_url)
+      self.task_id = anvil.server.call('launch_brand_tone_research', self.user_table,brand_tone_url)
       print("Task ID:", self.task_id)
 
-     # Loop to check the status of the background task
-    while True:
-      with anvil.server.no_loading_indicator:
+  def check_status_brand_tone(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Get the background task by its ID
+        
+        # current_user = anvil.users.get_user()
+        # user_table_name = current_user['user_id']
+        # # Get the table for the current user
+        # user_table = getattr(app_tables, user_table_name)
+        row = self.user_table.search(variable='brand_tone')[0]
      
-        # Check if the background task is complete
-        task_status = anvil.server.call('get_task_status', self.task_id)
-        print("Task status:", task_status)
-  
-        if task_status is not None:
-          if task_status == "completed":
-            # Get the result of the background task
-            brand_tone_research = anvil.server.call('get_task_result', self.task_id)
-            # Update the textbox with the result
-            print("Brand Tone:", brand_tone_research  )
-            self.brand_tone_textbox.text = brand_tone_research 
-            self.indeterminate_brand_tone.visible = False
-            break  # Exit the loop
-          elif task_status == "failed":
-            # Get the error message
-            task_error = anvil.server.call('get_task_result', self.task_id)
-            print("Task error:", task_error)
-            self.indeterminate_brand_tone.visible = False
-            break  # Exit the loop
-  
-        # Sleep for 1 second before checking again
-        time.sleep(2)
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working on the Brand Tone!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Brand Tone Generated!")
+            self.check_status_timer_brand_tone.enabled = False
+            self.check_status_timer_brand_tone.interval = 0
+                          
+            # Update the box
+            self.product_profile_1_textbox.text = row['variable_value']
+            self.indeterminate_1.visible = False
+    
 
   ########----------------- USER MANAGEMENT
 
@@ -160,7 +151,7 @@ class BrandTone(BrandToneTemplate):
     brand_tone_title = anvil.js.window.prompt("What would you like to call this Brand Tone?")
     brand_tone = self.brand_tone_textbox.text
   
-    brand_tone_row = self.user_table.get(variable='brand_tone')
+    brand_tone_row = self.user_table.search(variable='brand_tone')[0]
     
     # company_name_row = self.user_table.get(variable='company_name') # - THis saves it as the company name
     # brand_tone_title = company_name_row['variable_value'] 

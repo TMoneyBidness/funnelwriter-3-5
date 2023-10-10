@@ -126,4 +126,8 @@ components:
       col_widths: {}
       grid_position: FOLIJZ,LCIEIB
     event_bindings: {click: nav_button_tone_to_VSL_elements_click}
+- type: Timer
+  properties: {interval: 2}
+  name: check_status_timer_brand_tone
+  event_bindings: {tick: check_status_brand_tone}
 is_package: true
