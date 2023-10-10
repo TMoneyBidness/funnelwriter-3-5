@@ -27,8 +27,9 @@ active_workspace = "workspace_1"
 
 ## LOADING
 class Workspace_1(Workspace_1Template):
-  def __init__(self, **properties):
+  def __init__(self,home_form=None, **properties):
     # Set Form properties and Data Bindings.
+    self.home_form = home_form
     self.init_components(**properties)
     if not anvil.users.get_user():  # Only prompt login if user isn't already logged in
         anvil.users.login_with_form()
@@ -886,7 +887,7 @@ class Workspace_1(Workspace_1Template):
     self.content_panel.add_component(home)
 
   def company_asset_link_click(self, **event_args):
-    company_form = Company()
+    company_form = Company(home_form=self.home_form)
     self.content_panel.clear()  # Clear the content panel
     self.content_panel.add_component(company_form)  # Add the new component
 
