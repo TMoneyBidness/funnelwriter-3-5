@@ -2214,57 +2214,131 @@ def deepdive_product_5_generator(user_table,company_name,product_name,product_ur
 ####### -------- BRAND TONE --------###################################################
 
 @anvil.server.callable
-def launch_brand_tone_research(brand_tone_url):
-    # Launch the background task
-    task = anvil.server.launch_background_task('brand_tone_research',brand_tone_url)
+def launch_brand_tone_research(user_table, brand_tone_url):
+
+  # START THE WEB SCRAPING
+    headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0"}
+    page_content = requests.get(brand_tone_url, headers=headers).content
+
+    soup = BeautifulSoup(page_content, "html.parser")
+    # Extract all the text from the page
+    bulky_text_content = soup.get_text()
+   # Remove leading and trailing whitespaces, replace newlines and extra spaces
+    brand_webpage_scraped = bulky_text_content.strip().replace('\n', ' ').replace('\r', '').replace('  ', ' ')
+  
+    task = anvil.server.launch_background_task('brand_tone_research',user_table,brand_tone_url,brand_webpage_scraped)
     # Return the task ID
-    return task.get_id()
-
+    return task.get_id(
+      
 @anvil.server.background_task
-def brand_tone_research(brand_tone_url):
-    print("Background task started for extracting brand tone:", brand_tone_url)
+def brand_tone_research(user_table,brand_tone_url,brand_webpage_scraped)
+  llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-4', openai_api_key=openai_api_key)
+
+  template_brand_tone_extraction = """You are CopywriterAI, the best copywriter on the planet. We are looking to generate a description 
+    of the tone that best describes the copywriting style and tone of an existing web page: {brand_tone_url}, and provide your analysis.
+
+    For example, for PROFESSIONAL / ENTERPRISE, it would be described as:
+      - 'Formal and Polished': (sophisticated language and complex sentence structures).
+      - 'Objective and Analytical': (incorporates data and facts, prioritizing logical arguments).
+      - 'Business-like': Efficient, frequently employs industry-specific jargon and business terminology).
+      - 'Trustworthy and Reliable': Underscoring credibility, reliability, and accuracy.
+      - 'Instructional and Informative': (providing clear, direct instructions or information).
+      - 'Respectful and Considerate': (acknowledging the audience's needs and viewpoints while avoiding excessive casualness).
+      - 'Controlled and Consistent': (providing coherence, ensuring careful, consistent writing).
+
+      For Russell Brunson, sales page style, it would be described as:
+      - 'Conversational': (friendly, casual, and approachable).
+      - 'Storytelling': (using compelling stories to illustrate his points).
+      - 'Educational': (being informative, teaching something new).
+      - 'Persuasive': (being compelling and enticing, using ideas of scarcity (limited time offers), social proof (testimonials), and authority (expertise and success).
+      - 'Inspiring': (motivating and inspiring, encouraging the reader to take action).
+      - 'Clear and Direct': (providing clarity and simplicity, avoiding jargon).
+
+      However, it is up to you to review the scraped website text, think about the tone of the existing copy, and return 5-6 descriptors, in the similar format as above. They don't have to be listed above- they can be new!
+      
+      OUTPUT TEMPLATE: AN EXAMPLE OUTPUT SHOULD BE AS BELOW:
+      'The business tone for {brand_tone_url} can be described as': 
+      - 'Conversational': (friendly, casual, and approachable).
+      - 'Storytelling': (using compelling stories to illustrate his points).
+      - 'Educational': (being informative, teaching something new).
+      - 'Persuasive': (being compelling and enticing, using ideas of scarcity (limited time offers), social proof (testimonials), and authority (expertise and success).
+      - 'Inspiring': (motivating and inspiring, encouraging the reader to take action).
+      - 'Clear and Direct': (providing clarity and simplicity, avoiding jargon).Conversational, Storytelling, Educational, Persuasive, Inspiring, Clear and Direct'
+      
+      FINAL RULES: Don't mention the business name, or source. Just say "the business" and refer to it as 'company tone' or 'the business tone'.
+
+      Here is the scraped text for your to analyze: {brand_webpage_scraped}
+                """
+  
+  prompt_brand_tone_extraction = PromptTemplate(
+      input_variables=["brand_tone_url", "brand_webpage_scraped"],
+      template=template_brand_tone_extraction
+  )
+
+  chain_brand_tone_summary = LLMChain(llm=llm_agents, prompt=prompt_brand_tone_extraction)
+  brand_tone_extraction = chain_brand_tone_summary.run(brand_tone_url=brand_tone_url,brand_webpage_scraped=brand_webpage_scraped)  # Pass in the combined context
  
-    llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-4', openai_api_key=openai_api_key)
-    agent_tone_extraction = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
+  print("BRAND TONE:",brand_tone_extraction)
+  
+  # Save it in the table:
+  brand_tone_row = user_table.search(variable='brand_tone')[0]
+  brand_tone_row['variable_value'] = brand_tone_extraction
+  brand_tone_row['variable_title'] = brand_tone_url
+  brand_tone_row.update()
+  print("Brand Tone Research Complete")
+
+# @anvil.server.callable
+# def launch_brand_tone_research(brand_tone_url):
+#     # Launch the background task
+#     task = anvil.server.launch_background_task('brand_tone_research',brand_tone_url)
+#     # Return the task ID
+#     return task.get_id()
+
+# @anvil.server.background_task
+# def brand_tone_research(brand_tone_url):
+#     print("Background task started for extracting brand tone:", brand_tone_url)
  
-    tone_research = agent_tone_extraction({
-      "input":f"""You are CopywriterAI, the best copywriter on the planet. We are looking to generate a description 
-      of the tone that best describes the copywriting style and tone of an existing web page. Go and research this URL 
-      {brand_tone_url}, and provide your analysis.
+#     llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-4', openai_api_key=openai_api_key)
+#     agent_tone_extraction = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True)
+ 
+#     tone_research = agent_tone_extraction({
+#       "input":f"""You are CopywriterAI, the best copywriter on the planet. We are looking to generate a description 
+#       of the tone that best describes the copywriting style and tone of an existing web page. Go and research this URL 
+#       {brand_tone_url}, and provide your analysis.
 
-      For example, for PROFESSIONAL / ENTERPRISE, it would be described as:
-        - 'Formal and Polished': (sophisticated language and complex sentence structures).
-        - 'Objective and Analytical': (incorporates data and facts, prioritizing logical arguments).
-        - 'Business-like': Efficient, frequently employs industry-specific jargon and business terminology).
-        - 'Trustworthy and Reliable': Underscoring credibility, reliability, and accuracy.
-        - 'Instructional and Informative': (providing clear, direct instructions or information).
-        - 'Respectful and Considerate': (acknowledging the audience's needs and viewpoints while avoiding excessive casualness).
-        - 'Controlled and Consistent': (providing coherence, ensuring careful, consistent writing).
+#       For example, for PROFESSIONAL / ENTERPRISE, it would be described as:
+#         - 'Formal and Polished': (sophisticated language and complex sentence structures).
+#         - 'Objective and Analytical': (incorporates data and facts, prioritizing logical arguments).
+#         - 'Business-like': Efficient, frequently employs industry-specific jargon and business terminology).
+#         - 'Trustworthy and Reliable': Underscoring credibility, reliability, and accuracy.
+#         - 'Instructional and Informative': (providing clear, direct instructions or information).
+#         - 'Respectful and Considerate': (acknowledging the audience's needs and viewpoints while avoiding excessive casualness).
+#         - 'Controlled and Consistent': (providing coherence, ensuring careful, consistent writing).
 
-        For Russell Brunson, sales page style, it would be described as:
-        - 'Conversational': (friendly, casual, and approachable).
-        - 'Storytelling': (using compelling stories to illustrate his points).
-        - 'Educational': (being informative, teaching something new).
-        - 'Persuasive': (being compelling and enticing, using ideas of scarcity (limited time offers), social proof (testimonials), and authority (expertise and success).
-        - 'Inspiring': (motivating and inspiring, encouraging the reader to take action).
-        - 'Clear and Direct': (providing clarity and simplicity, avoiding jargon).
+#         For Russell Brunson, sales page style, it would be described as:
+#         - 'Conversational': (friendly, casual, and approachable).
+#         - 'Storytelling': (using compelling stories to illustrate his points).
+#         - 'Educational': (being informative, teaching something new).
+#         - 'Persuasive': (being compelling and enticing, using ideas of scarcity (limited time offers), social proof (testimonials), and authority (expertise and success).
+#         - 'Inspiring': (motivating and inspiring, encouraging the reader to take action).
+#         - 'Clear and Direct': (providing clarity and simplicity, avoiding jargon).
 
-        However, it is up to you to go and review the website, think about the tone of the existing copy, and return 5-6 descriptors, in the similar format as above. They don't have to be listed above- they can be new!
+#         However, it is up to you to go and review the website, think about the tone of the existing copy, and return 5-6 descriptors, in the similar format as above. They don't have to be listed above- they can be new!
         
-        OUTPUT TEMPLATE: AN EXAMPLE OUTPUT SHOULD BE AS BELOW:
-        'The business tone for {brand_tone_url} can be described as': 
-        - 'Conversational': (friendly, casual, and approachable).
-        - 'Storytelling': (using compelling stories to illustrate his points).
-        - 'Educational': (being informative, teaching something new).
-        - 'Persuasive': (being compelling and enticing, using ideas of scarcity (limited time offers), social proof (testimonials), and authority (expertise and success).
-        - 'Inspiring': (motivating and inspiring, encouraging the reader to take action).
-        - 'Clear and Direct': (providing clarity and simplicity, avoiding jargon).Conversational, Storytelling, Educational, Persuasive, Inspiring, Clear and Direct'
+#         OUTPUT TEMPLATE: AN EXAMPLE OUTPUT SHOULD BE AS BELOW:
+#         'The business tone for {brand_tone_url} can be described as': 
+#         - 'Conversational': (friendly, casual, and approachable).
+#         - 'Storytelling': (using compelling stories to illustrate his points).
+#         - 'Educational': (being informative, teaching something new).
+#         - 'Persuasive': (being compelling and enticing, using ideas of scarcity (limited time offers), social proof (testimonials), and authority (expertise and success).
+#         - 'Inspiring': (motivating and inspiring, encouraging the reader to take action).
+#         - 'Clear and Direct': (providing clarity and simplicity, avoiding jargon).Conversational, Storytelling, Educational, Persuasive, Inspiring, Clear and Direct'
         
-        FINAL RULES: Don't mention the business name, or source. Just say "the business" and refer to it as 'company tone' or 'the business tone'
-        """})
+#         FINAL RULES: Don't mention the business name, or source. Just say "the business" and refer to it as 'company tone' or 'the business tone'
+#         """})
 
-    extracted_tone = tone_research['output']
-    anvil.server.task_state['result'] = extracted_tone
+#     extracted_tone = tone_research['output']
+#     anvil.server.task_state['result'] = extracted_tone
 
 # @anvil.server.callable
 # def save_brand_tone_component_click(self, **event_args):
