@@ -126,20 +126,12 @@ class Company(CompanyTemplate):
     self.active_workspace = active_workspace
 
 ########----------------- 
-
   
   def company_research_button_click(self, **event_args):
     with anvil.server.no_loading_indicator:
       # This method should handle the UI logic
       print("Research button clicked")
       # Start the progress bar with a small value
-
-      # print("Before setting status:", self.status.text)
-      # self.status.text = 'Researching'
-      # print("After setting status:", self.status.text)
-      # current_user = anvil.users.get_user()
-      # user_table_name = current_user['user_id']
-      # user_table = getattr(app_tables, user_table_name)
 
      # Check if either the company name or company URL input is empty
       if not self.company_name_input.text or not self.company_url_input.text:
@@ -161,40 +153,38 @@ class Company(CompanyTemplate):
         company_url_row.update()
         company_url = self.company_url_input.text
 
+          # Start the Check Status Timers
+        self.check_status_timer_company_summary.enabled = True
+        self.check_status_timer_company_summary.interval = 3
+
         # Launch the background task and store the task ID
-        self.task_id = anvil.server.call('launch_company_summary', company_name, company_url)
+        self.task_id = anvil.server.call('launch_company_summary_scraper', company_name, company_url,self.user_table)
         print("Task ID:", self.task_id)
 
-        # # Call the function extract_my_brand_tone asynchronously
-        # self.extract_my_brand_tone()
 
-        # Loop to check the status of the background task
-        while True:
-          # Check if the background task is complete
-          task_status = anvil.server.call('get_task_status', self.task_id)
-          print("Task status:", task_status)
-
-          if task_status is not None and task_status == "completed":
-            # Get the result of the background task
-            company_context = anvil.server.call('get_task_result', self.task_id)
-            # Update the textbox with the result
-            print("Company Context:", company_context)
-            self.company_profile_textbox.text = company_context
-
-            # Save this generated version as the latest version
-            row_company_profile_latest = self.user_table.search(variable='company_profile_latest')
-            row_company_profile_latest[0]['variable_value'] = company_context
-            row_company_profile_latest[0].update()
+  def check_status_company_summary(self, sender=None, **event_args):
+    with anvil.server.no_loading_indicator:
+        # Get the background task by its ID
+        
+        row = self.user_table.search(variable='company_profile')[0]
+     
+        if row['variable_value'] is None or row['variable_value'] == '':
+            print("Still working on the Company Summary!")
+        elif row['variable_value'] is not None and row['variable_value'] != '':
+            print("Company Summary Generated!")
+                                    
+            # Update the box
+            self.company_profile_textbox.text = row['variable_value']
+      
+            self.check_status_timer_company_summary.enabled = False
+            self.check_status_timer_company_summary.interval = 0
 
             self.status.text = 'Complete'
             self.indeterminate_company_research.visible = False
-            self.free_navigate_label.visible = False
-            break  # Exit the loop
-
-          # Sleep for 1 second before checking again
-          time.sleep(2)
 
 
+          
+  
   def edit_company_profile_component_click(self, **event_args):
     self.company_profile_textbox.read_only = False
 

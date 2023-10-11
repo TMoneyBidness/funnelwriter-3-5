@@ -1665,29 +1665,51 @@ def get_status_function(task_id):
     return status
   
 ####### -------------------------------- COMPANY ----------------------------------------------------###########
+
 @anvil.server.callable
-def launch_company_summary(company_name, company_url):
+def launch_company_summary_scraper(company_name, company_url,user_table):
     # Launch the background task
-    print("Launch task started for researching company:",company_name,company_url)
-    task = anvil.server.launch_background_task('company_summary', company_name, company_url)
+    # current_user = anvil.users.get_user()
+    # user_table_name = current_user['user_id']
+    # # Get the table for the current user
+    # user_table = getattr(app_tables, user_table_name)
+    row = user_table.get(variable='company_profile')
+    company_dump_row = user_table.get(variable='company_page_dump')
+
+    # START THE WEB SCRAPING
+    headers = {"User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0"}
+    page_content = requests.get(company_url, headers=headers).content
+
+    soup = BeautifulSoup(page_content, "html.parser")
+    # Extract all the text from the page
+    bulky_text_content = soup.get_text()
+   # Remove leading and trailing whitespaces, replace newlines and extra spaces
+    company_context_scraped_bulky = bulky_text_content.strip().replace('\n', ' ').replace('\r', '').replace('  ', ' ')
+
+    # Further remove extra white spaces
+    company_context_scraped = re.sub(r'\s+', ' ', company_context_scraped_bulky.strip())
+  
+    print("Scraped Information:",company_context_scraped)
+
+    print("Launch task started for researching company:",company_url)
+    task = anvil.server.launch_background_task('company_summary_scraper', company_name, company_url,row,company_context_scraped)
     # Return the task ID
     return task.get_id()
   
 @anvil.server.background_task
-def company_summary(company_name, company_url):
-    print("Background task started for researching company:", company_name,company_url)
-    # Here, you should write the code that uses the company_name and company_url
-    # to research the company and generate a context. For example:
-  
+def company_summary_scraper(company_name, company_url,row,company_context_scraped):
+    #Perform the Webscraping
+    print("Background task started for generating the company summary:", company_url)
+   
     llm_agents = ChatOpenAI(temperature=0.2, model_name='gpt-3.5-turbo-16k', openai_api_key=openai_api_key)
-    agent_company_context = initialize_agent([tools], llm_agents, agent="zero-shot-react-description", handle_parsing_errors=True) #max_execution_time=300,max_iterations=300
-    company_research = agent_company_context({"input": f"""As a highly-skilled business research agent, your task is to conduct an exhaustive analysis to build an informational company profile of {company_name}. \
-                    Leverage all necessary resources, primarily the company's website {company_url}, but also news articles, and any other relevant sources.  \
-                    to gather the following details about {company_name}. Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide meaningful research and findings. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
+    template_company_summary = """As a highly-skilled business analyst, your task is to conduct an exhaustive analysis to build an informational company profile of {company_name}. \
+                    Leverage the below provided company research context scraped from the company's website {company_url}, to create a complete company profile.  \
+                    
+                    Lastly, be very specific! This is not an educational excercise. This work will be incorporated into our commercial operation shortly, so provide a meaningful synopsis and findings. Do not provide general terms or vague business ideas: be as particular about the issue as possible. Be confident. Provide numbers, statistics, prices, when possible!
                     \n \
                     Overview: Provide a comprehensive introduction to the company. What are the unique features or value propositions of the company's offerings? What does the company aim to achieve? \n \
                     \n \
-                     Unique Value Proposition: What is the company unique value proposition? What are they uniquely positioned to do? How does their main offer differ from their competitors? \n \
+                    Unique Value Proposition: What is the company unique value proposition? What are they uniquely positioned to do? How does their main offer differ from their competitors? \n \
                     \n \
                     Founding Story: What inspired the founders to start the company? Are there any unique or interesting anecdotes about the early days of the company? How has the company evolved since its founding? \n \
                     \n \
@@ -1696,13 +1718,13 @@ def company_summary(company_name, company_url):
                     Mission & Vision: What is the company's mission statement or core purpose? What are the long-term goals and aspirations of the company? \n \
                     Values: What does the company value? What do they emphasize in their mission? What do they care about or prioritize? \n \
                     \n \
-                  
+
                     NOTES ON FORMAT:
-                    This should be at least 800 words. Be confident, do not say there is incomplete information, or there is not information. If you can't answer elements from the above, ignore it! Speak as if you are the authority of the subject. If you don't know the answer, don't talk about it. Do not say "I was unable to find information on XYZ". 
+                    This should be at least 800 words. Be confident. If there is incomplete information, please state "MORE INFORMATION NEEDED"! Speak as if you are the authority of the subject. 
                     Ensure you keep the headers with the '--': 
                     -- Overview
                     (your overview)
-                   
+                  
                     --Unique Value Proposition
                     (your response)
                     
@@ -1715,16 +1737,28 @@ def company_summary(company_name, company_url):
                     --Mission & Vision
                     (your response)
 
-                   --Values
+                  --Values
                     (your response)
-                    """})
 
-    company_context = company_research['output']
-    # Check if the output indicates insufficient information
-    if "I couldn't find more information" in company_context:
-        company_context = "Insufficient information. Please write the company description yourself."
-    # Store the result in the task's state instead of returning it
-    anvil.server.task_state['result'] = company_context
+                  ** END OF FORMAT
+                  
+                  FINALLY, HERE IS THE COMPANY CONTEXT SCRAPED FROM THEIR WEBSITE: {company_context_scraped}
+                    """
+  
+    prompt_company_summary = PromptTemplate(
+        input_variables=["company_name", "company_url","company_context_scraped"],
+        template=template_company_summary
+    )
+  
+    chain_company_summary = LLMChain(llm=llm_agents, prompt=prompt_company_summary)
+    company_summary = chain_company_summary.run(company_name=company_name,company_url=company_url,company_context_scraped=company_context_scraped)  # Pass in the combined context
+
+  # Save this generated version as the latest version
+    row['variable_value'] = company_summary
+    row.update()
+    print("Company Research Complete")
+  
+
 
 ####### -------- PRODUCT --------###################################################
 

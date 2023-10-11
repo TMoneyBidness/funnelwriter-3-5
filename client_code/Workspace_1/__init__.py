@@ -892,37 +892,37 @@ class Workspace_1(Workspace_1Template):
     self.content_panel.add_component(company_form)  # Add the new component
 
   def product_asset_link_click(self, **event_args):
-    product=Product()
+    product=Product(home_form=self.home_form)
     self.content_panel.clear()
     self.content_panel.add_component(product)
 
   def brand_tone_asset_link_click(self, **event_args):
-    brandtone=BrandTone()
+    brandtone=BrandTone(home_form=self.home_form)
     self.content_panel.clear()
     self.content_panel.add_component(brandtone)
 
   def avatars_asset_link_click(self, **event_args):
-    avatars=Avatars()
+    avatars=Avatars(home_form=self.home_form)
     self.content_panel.clear()
     self.content_panel.add_component(avatars)
 
   def finalproduct_page_link_click(self, **event_args):
-    finalproduct=FinalProduct()
+    finalproduct=FinalProduct(home_form=self.home_form)
     self.content_panel.clear()
     self.content_panel.add_component(finalproduct)
 
   def nav_button_to_company_click(self, **event_args):
-    company = Company()
+    company = Company(home_form=self.home_form)
     self.content_panel.clear()
     self.content_panel.add_component(company)
 
 ## FUNNELS
   def VSL_page_link_click(self, **event_args):
-    vsl_elements = VSL_Elements()
+    vsl_elements = VSL_Elements(home_form=self.home_form)
     self.content_panel.clear()
     self.content_panel.add_component(vsl_elements)
 
   def final_product_link_click(self, **event_args):
-    final_product_export = FinalProduct_Export()
+    final_product_export = FinalProduct_Export(home_form=self.home_form)
     self.content_panel.clear()
     self.content_panel.add_component(final_product_export)
