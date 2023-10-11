@@ -32,7 +32,6 @@ class Company(CompanyTemplate):
     # Initialize counter
     anvil.users.login_with_form()
     self.indeterminate_company_research.visible = False
-    self.free_navigate_label.visible = False
     self.status.text = 'Idle'
 
     # WORKSPACE MANAGEMENT
@@ -133,33 +132,37 @@ class Company(CompanyTemplate):
       print("Research button clicked")
       # Start the progress bar with a small value
 
-     # Check if either the company name or company URL input is empty
-      if not self.company_name_input.text or not self.company_url_input.text:
-        anvil.js.window.alert("Please fill out both the company name and company URL before proceeding")
+   # Check if either the company name or company URL input is empty
+    if not self.company_name_input.text or not self.company_url_input.text:
+      anvil.js.window.alert("Please fill out both the company name and company URL before proceeding")
+    else:
+      # Check if the URL starts with "http" (case-insensitive)
+      company_url = self.company_url_input.text.strip()
+      if not company_url.lower().startswith("http"):
+          anvil.js.window.alert("Company URL must include 'http'. For example, it's 'https://www.apple.com/', not 'www.apple.com' ")
       else:
-        self.indeterminate_company_research.visible = True
-        self.free_navigate_label.visible = True
-        self.status.text = 'Researching'
-
-        # Save company name
-        company_name_row = self.user_table.get(variable='company_name')
-        company_name_row['variable_value'] = self.company_name_input.text
-        company_name_row.update()
-        company_name = self.company_name_input.text
-
-        # Save company URL
-        company_url_row = self.user_table.get(variable='company_url')
-        company_url_row['variable_value'] = self.company_url_input.text
-        company_url_row.update()
-        company_url = self.company_url_input.text
-
-          # Start the Check Status Timers
-        self.check_status_timer_company_summary.enabled = True
-        self.check_status_timer_company_summary.interval = 3
-
-        # Launch the background task and store the task ID
-        self.task_id = anvil.server.call('launch_company_summary_scraper', company_name, company_url,self.user_table)
-        print("Task ID:", self.task_id)
+          self.indeterminate_company_research.visible = True
+          self.status.text = 'Researching'
+  
+          # Save company name
+          company_name_row = self.user_table.get(variable='company_name')
+          company_name_row['variable_value'] = self.company_name_input.text
+          company_name_row.update()
+          company_name = self.company_name_input.text
+  
+          # Save company URL
+          company_url_row = self.user_table.get(variable='company_url')
+          company_url_row['variable_value'] = self.company_url_input.text
+          company_url_row.update()
+          company_url = self.company_url_input.text
+  
+            # Start the Check Status Timers
+          self.check_status_timer_company_summary.enabled = True
+          self.check_status_timer_company_summary.interval = 3
+  
+          # Launch the background task and store the task ID
+          self.task_id = anvil.server.call('launch_company_summary_scraper', company_name, company_url,self.user_table)
+          print("Task ID:", self.task_id)
 
 
   def check_status_company_summary(self, sender=None, **event_args):

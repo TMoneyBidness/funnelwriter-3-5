@@ -299,10 +299,11 @@ components:
           col_widths: {}
           grid_position: MSJVAJ,PCAQVH
       - type: TextBox
-        properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: (Optional)....ie.       www.apple.com/iphone-14/,
-          border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-          font: '', spacing_above: small, type: text, spacing_below: small, italic: true,
-          background: '', bold: false, underline: false}
+        properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '(Required)....
+            https://www.apple.com/iphone-14/', border: '', enabled: true, foreground: '',
+          visible: true, text: '', font_size: null, font: '', spacing_above: small,
+          type: text, spacing_below: small, italic: true, background: '', bold: false,
+          underline: false}
         name: product_2_url_input
         layout_properties:
           col_widths: {}
@@ -434,10 +435,11 @@ components:
           col_widths: {}
           grid_position: MSJVAJ,PCAQVH
       - type: TextBox
-        properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: (Optional)....ie.       www.apple.com/iphone-14/,
-          border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-          font: '', spacing_above: small, type: text, spacing_below: small, italic: true,
-          background: '', bold: false, underline: false}
+        properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '(Required)....
+            https://www.apple.com/iphone-14/', border: '', enabled: true, foreground: '',
+          visible: true, text: '', font_size: null, font: '', spacing_above: small,
+          type: text, spacing_below: small, italic: true, background: '', bold: false,
+          underline: false}
         name: product_3_url_input
         layout_properties:
           col_widths: {}
@@ -571,10 +573,11 @@ components:
           col_widths: {}
           grid_position: MSJVAJ,PCAQVH
       - type: TextBox
-        properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: (Optional)....ie.       www.apple.com/iphone-14/,
-          border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-          font: '', spacing_above: small, type: text, spacing_below: small, italic: true,
-          background: '', bold: false, underline: false}
+        properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '(Required)....
+            https://www.apple.com/iphone-14/', border: '', enabled: true, foreground: '',
+          visible: true, text: '', font_size: null, font: '', spacing_above: small,
+          type: text, spacing_below: small, italic: true, background: '', bold: false,
+          underline: false}
         name: product_4_url_input
         layout_properties:
           col_widths: {}
@@ -706,10 +709,11 @@ components:
           col_widths: {}
           grid_position: MSJVAJ,PCAQVH
       - type: TextBox
-        properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: (Optional)....ie.       www.apple.com/iphone-14/,
-          border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-          font: '', spacing_above: small, type: text, spacing_below: small, italic: true,
-          background: '', bold: false, underline: false}
+        properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: '(Required)....
+            https://www.apple.com/iphone-14/', border: '', enabled: true, foreground: '',
+          visible: true, text: '', font_size: null, font: '', spacing_above: small,
+          type: text, spacing_below: small, italic: true, background: '', bold: false,
+          underline: false}
         name: product_5_url_input
         layout_properties:
           col_widths: {}
