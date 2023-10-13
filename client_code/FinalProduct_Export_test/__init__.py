@@ -1,5 +1,6 @@
 from ._anvil_designer import FinalProduct_Export_testTemplate
 from anvil import *
+import stripe.checkout
 import time
 import json
 import anvil.server

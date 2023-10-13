@@ -1,5 +1,6 @@
 from ._anvil_designer import Avatars_oldTemplate
 from anvil import *
+import stripe.checkout
 import time
 import anvil.server
 import anvil.facebook.auth

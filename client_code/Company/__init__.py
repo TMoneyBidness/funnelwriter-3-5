@@ -1,5 +1,6 @@
 from ._anvil_designer import CompanyTemplate
 from anvil import *
+import stripe.checkout
 import plotly.graph_objects as go
 import time
 import anvil.server

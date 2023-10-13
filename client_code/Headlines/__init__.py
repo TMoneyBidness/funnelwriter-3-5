@@ -1,5 +1,6 @@
 from ._anvil_designer import HeadlinesTemplate
 from anvil import *
+import stripe.checkout
 import time
 import json
 import anvil.js
