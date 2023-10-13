@@ -60,6 +60,7 @@ class FinalProduct_Export(FinalProduct_ExportTemplate):
     
     # Assign the values to the load_vsl_script_name_dropdown
     self.load_vsl_script_name_dropdown.items = saved_vsl_script_names
+    self.load_vsl_script_name_dropdown_change()
     
 
   def load_vsl_script_name_dropdown_change(self, **event_args):
