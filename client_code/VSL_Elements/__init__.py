@@ -44,6 +44,12 @@ class VSL_Elements(VSL_ElementsTemplate):
     # Initialize task_id attribute
     self.task_id = None
 
+    for component in self.get_components():
+      # Check if the component is a Timer
+      if isinstance(component, anvil.Timer):
+          # Stop the timer by setting its interval to None
+          component.interval = None
+          
     # WORKSPACE MANAGEMENT
     # Load the active workspace:
     self.load_active_workspace()

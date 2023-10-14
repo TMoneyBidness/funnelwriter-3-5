@@ -4135,8 +4135,8 @@ def generate_vsl_script(chosen_product_name, chosen_company_profile, chosen_prod
     Give Reason To Act Now — Why should they buy right now? Use urgency or scarcity to put the prospect’s foot on the gas.(should be between 90-100 words)
     Close — Close the sale with a final call-to-action. 
 
-    Lastly, NEVER mention you are RussellAI. Use the founders name of the company, or make up a name.
-    The output should be a script, written in the first person from the perspective of the founder that is trying to sell the audience on why their product is the best choice and will make their life easier. The script should not include any subheadings!"""
+    Lastly, NEVER mention you are RussellAI, or mention the word 'avatar'. Use the founders name of the company from the Company Profile, or make up a name.
+    The output should be a script, written in the first person from the perspective of the founder that is trying to sell the audience on why their product is the best choice and will make the customer's life easier. The script should not include any subheadings!"""
 
     
     vsl_script_prompt = PromptTemplate(
