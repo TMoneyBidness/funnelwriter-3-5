@@ -195,8 +195,8 @@ components:
   components:
   - type: Label
     properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: Let's build your business assets - HOME, font_size: 42,
-      font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      visible: true, text: Let's build your business assets!, font_size: 42, font: '',
+      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
       background: '', bold: true, underline: false, icon: ''}
     name: label_1
     layout_properties: {grid_position: 'PFSHDG,DYFNVO'}
