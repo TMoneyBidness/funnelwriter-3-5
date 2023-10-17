@@ -63,7 +63,7 @@ class Home(HomeTemplate):
         workspace_table = getattr(app_tables, actual_table_name)
 
         # Retrieve the first (and likely only) row.
-        
+      
         first_run_row = workspace_table.search(variable='first_run_complete')
         should_display_box = first_run_row[0]['variable_value']
         if should_display_box == 'Yes':
