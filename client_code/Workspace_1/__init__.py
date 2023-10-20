@@ -362,6 +362,8 @@ class Workspace_1(Workspace_1Template):
               company_url_row = self.user_table.get(variable='company_url')
               company_url_row['variable_value'] = company_url
               company_url_row.update()
+
+            
   
               # LAUNCH THE TASKS
               task_ids = []  # List to store all task IDs
