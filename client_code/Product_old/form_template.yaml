@@ -119,4 +119,8 @@ components:
       include_placeholder: true
     name: product_profile_dropdown
     layout_properties: {grid_position: 'BYBDJM,QVSMGW'}
+- type: FileLoader
+  properties: {}
+  name: file_loader_1
+  layout_properties: {grid_position: 'RGRSYD,MUDSIU'}
 is_package: true
