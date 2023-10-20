@@ -118,7 +118,7 @@ db_schema:
     title: stock_variables
 secrets:
   OPENAI_API_KEY:
-    value: {VKXR2HUVBG47AKJ6: 2j/XPdsDyAsnuIZlmRorjhavc55KyOJ1QEAg7qE03UdhCsMWs90fDxZOR+xW+ivj0x+xZsWEvVL3a4w0whzbL4oJAyAOsfWo3+SrnYeD0pHp/Douir+llynlV/V7CFMGytAX5+xhkbRwLnNdDhOpeBworSAYgS1eov0Jej3S9yqvbc5X+ognu42tGGkZ0y3rGy0=}
+    value: {VKXR2HUVBG47AKJ6: oby/thKQgFq7efvskiywHQAWts4UZnQ8qoGzLTFZSjFmW+uf9z60+cGpUpYqbGrQJLq9Ppvq3+zaudf9K2kX4QQdl8Xx2hlae2diQvbh/1tkonei3zP1pRSc3Fr3voWqkJrTbN+AmsqcwkRbD1eja7+NY2n5PI81dHMskdGgzXdeuGLUueDvbxg0f9MQbaR3ty4=}
     type: secret
   SERPAPI_API_KEY:
     value: {VKXR2HUVBG47AKJ6: BJv8onxP6Ei4IyyE9iWYCPvUJ4zBiqR+qTzlxGrQ/GnpwhrByMSR9qTrRyD4mURaGxmmacLXdmC1kZc1fJutxMa9JmWfGFoKjTgon+mDYCBT2ebch1lV+qfUlLuO4YHucSgQHFTyJgHVTGmO4gepHEuTWB+uNBxFZVy2mAVYv2FrJ0AvARuCDQSfuJd4Tx2Jsxkk2Ce1I5UFriZ2Vnd7}

@@ -350,6 +350,13 @@ class Workspace_2(Workspace_2Template):
               company_url_row = self.user_table.get(variable='company_url')
               company_url_row['variable_value'] = company_url
               company_url_row.update()
+
+               # Brand Tone
+              brand_tone_title = self.company_name_input.text
+              # Save Brand Tone 
+              brand_tone_title_row = self.user_table.get(variable='brand_tone')
+              brand_tone_title_row['variable_title'] = brand_tone_title
+              brand_tone_title_row.update()
   
               # LAUNCH THE TASKS
               task_ids = []  # List to store all task IDs
